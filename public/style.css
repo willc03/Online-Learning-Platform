@@ -1,20 +1,56 @@
+@import url(https://fonts.bunny.net/css?family=figtree:300);
 body {
+  font-family: "Figtree", sans-serif;
+  background-color: #e9e9e9;
   margin: 0;
   padding: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
-
-.wrapper {
+body .wrapper {
   flex: 1;
 }
-.wrapper header {
-  background-color: #b1b1b1;
-  color: #ffffff;
+body .wrapper header {
+  display: flex;
+  align-items: center;
+  background-color: #e9e9e9;
+  box-shadow: 0px 5px 5px #dfdfdf;
+  color: #e9e9e9;
   padding: 20px;
 }
-.wrapper main {
+body .wrapper header div.menu-toggle .child-0, body .wrapper header div.menu-toggle .child-1, body .wrapper header div.menu-toggle .child-2, body .wrapper header div.menu-toggle .child-3, body .wrapper header div.menu-toggle .child-4 {
+  transition: transform 0.3s ease-out;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+body .wrapper header div.menu-toggle .child-3, body .wrapper header div.menu-toggle .child-4 {
+  transform: scale(0);
+}
+body .wrapper header div.menu-toggle.active .child-0, body .wrapper header div.menu-toggle.active .child-1, body .wrapper header div.menu-toggle.active .child-2 {
+  transform: scaleX(0);
+}
+body .wrapper header div.menu-toggle.active .child-3, body .wrapper header div.menu-toggle.active .child-4 {
+  transform: scale(1);
+}
+body .wrapper header div.title {
+  width: 100%;
+  color: #1f1f1f;
+}
+body .wrapper header div.title h2 {
+  font-weight: 900;
+  text-align: center;
+}
+body .wrapper header nav {
+  width: 30%;
+  display: flex;
+  justify-content: space-around;
+}
+body .wrapper header nav a {
+  color: #e9e9e9;
+  text-decoration: none;
+}
+body main {
   padding: 20px;
 }
 
