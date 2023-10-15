@@ -1,4 +1,12 @@
 @import url(https://fonts.bunny.net/css?family=figtree:300);
+.block-transitions * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+
 body {
   font-family: "Figtree", sans-serif;
   background-color: #e9e9e9;

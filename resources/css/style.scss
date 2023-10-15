@@ -8,6 +8,14 @@ $black: #1f1f1f;
 // Styling
 @import url(https://fonts.bunny.net/css?family=figtree:300);
 
+.block-transitions * {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -ms-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+}
+
 body {
     font-family: 'Figtree', sans-serif;
     background-color: $white;
@@ -29,18 +37,23 @@ body {
             padding: 20px;
 
             div.menu-toggle {
+
                 .child-0, .child-1, .child-2, .child-3, .child-4 {
                     transition: transform 0.3s ease-out;
                     transform-box: fill-box;
                     transform-origin: center;
                 }
+
                 .child-3, .child-4 {
                     transform: scale(0);
                 }
+
                 &.active {
+
                     .child-0, .child-1, .child-2 {
                         transform: scaleX(0);
                     }
+
                     .child-3, .child-4 {
                         transform: scale(1);
                     }
