@@ -32,6 +32,17 @@
         </main>
     </div>
     <footer>
-        <h1>Footer placeholder content</h1>
+        <div class="main-box">
+            <div class="description">
+                <p>Ready to start learning?</p>
+                <p>Sign up today</p>
+            </div>
+            <div class="sign-up">
+                <a href="{{ url('signup') }}">Sign Up</a>
+            </div>
+        </div>
+        <div class="links-box">
+
+        </div>
     </footer>
 </x-structure.base>
