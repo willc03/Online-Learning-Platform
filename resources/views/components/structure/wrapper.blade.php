@@ -2,7 +2,7 @@
     <div class="wrapper">
         <header>
             <div id="menu-toggle" class="menu-toggle">
-                <a href="#" onclick="document.getElementById('menu-toggle').classList.toggle('active');">
+                <a href="#" onclick="document.getElementById('menu-toggle').classList.toggle('active'); document.getElementById('navigation').classList.toggle('active');">
                     <svg width="30" height="30" viewBox="0 0 30 30">
                         @for ($i = 0; $i < 3; $i++)
                             <rect class="child-{{ $i }}" y="{{ $i * 13 }}" width="30" height="2" rx="1.5" fill="#1f1f1f" />
@@ -21,8 +21,11 @@
                 </a>
             </div>
         </header>
-        <nav>
+        <nav id="navigation">
             <a href="{{ url('/') }}">Home</a>
+            <a href="{{ url('/about') }}">About</a>
+            <a href="{{ url('/courses') }}">Courses</a>
+            <a href="{{ url('/login') }}">Login</a>
         </nav>
         <main>
             {{ $slot }}
