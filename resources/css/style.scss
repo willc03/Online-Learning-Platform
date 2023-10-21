@@ -154,21 +154,28 @@ body {
                 align-content: space-around;
 
                 width: 25%;
+                height: 100%;
                 color: $white;
 
                 a {
+                    font-size: 1vw;
+                    display: inline-flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
                     transition-duration: 0.3s;
-                    margin: auto 0;
+                    width: 50%;
+                    height: 50%;
+                    margin: auto;
                     background-color: $off-white;
                     border-radius: 10px;
-                    padding: 12.5%;
                     text-decoration: none;
                     color: $black;
 
                     &:hover {
-                        padding: 15%;
+                        height: 65%;
+                        width: 55%;
                         background-color: color.adjust($off-white, $red: -30, $green: -30, $blue: -30);
-                        color: $black;
                     }
                 }
             }
