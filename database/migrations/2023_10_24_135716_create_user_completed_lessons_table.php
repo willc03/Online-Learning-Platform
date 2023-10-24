@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('user_completed_lessons', function (Blueprint $table) {
             $table->uuid('id');
-            $table->foreign('lesson)id')->references('id')->on('lessons');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
+
+            $table->uuid('lesson_id');
+            $table->foreign('lesson_id')->references('id')->on('lessons');
+
+            $table->integer('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

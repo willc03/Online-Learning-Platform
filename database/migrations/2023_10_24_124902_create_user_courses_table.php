@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('user_courses', function (Blueprint $table) {
             $table->id();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('course_id')->references('id')->on('courses');
             $table->timestamps();
+
+            $table->integer('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->uuid('course_id');
+            $table->foreign('course_id')->references('id')->on('courses');
         });
     }
 

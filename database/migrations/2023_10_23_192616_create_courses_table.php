@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->uuid('id');
-            $table->foreign('owner')->references('id')->on('users');
             $table->string('title');
             $table->string('description')->nullable();
             $table->boolean('is_public');
             $table->timestamps();
+
+            $table->integer('owner');
+            $table->foreign('owner')->references('id')->on('users');
         });
     }
 

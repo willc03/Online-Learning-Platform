@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('lesson_items', function (Blueprint $table) {
             $table->uuid('id');
-            $table->foreign('lesson_id')->references('id')->on('lessons');
             $table->integer('position');
             $table->string('item_title');
             $table->string('description')->nullable();
             $table->string('item_type');
             $table->json('item_value');
             $table->timestamps();
+
+            $table->uuid('lesson_id');
+            $table->foreign('lesson_id')->references('id')->on('lessons');
         });
     }
 

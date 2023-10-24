@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('section_items', function (Blueprint $table) {
             $table->uuid('id');
-            $table->foreign('section_id')->references('id')->on('sections');
             $table->integer('position');
             $table->string('title');
             $table->string('description')->nullable();
             $table->string('item_type');
             $table->json('item_value');
             $table->timestamps();
+
+            $table->uuid('section_id');
+            $table->foreign('section_id')->references('id')->on('sections');
         });
     }
 
