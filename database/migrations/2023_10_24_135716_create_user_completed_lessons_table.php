@@ -18,7 +18,7 @@ return new class extends Migration
             $table->uuid('lesson_id');
             $table->foreign('lesson_id')->references('id')->on('lessons');
 
-            $table->integer('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

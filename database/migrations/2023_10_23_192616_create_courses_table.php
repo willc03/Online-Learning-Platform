@@ -18,7 +18,7 @@ return new class extends Migration
             $table->boolean('is_public');
             $table->timestamps();
 
-            $table->integer('owner');
+            $table->unsignedBigInteger('owner');
             $table->foreign('owner')->references('id')->on('users');
         });
     }
