@@ -42,4 +42,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /*
+     * Define a one-to-many relationship between the user and their courses
+     * (one user can take many courses)
+     */
+    public function courses()
+    {
+        return $this->hasMany(UserCourse::class);
+    }
 }
