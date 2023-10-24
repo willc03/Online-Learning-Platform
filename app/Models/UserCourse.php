@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class UserCourse extends Model
 {
     use HasFactory;
+    use HasUuids;
 
     /*
      * Create a many-to-one relationship to connect the course to the model
