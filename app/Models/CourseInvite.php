@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CourseInvite extends Model
 {
     use HasFactory;
+    use HasUuids;
 
     /*
      * Create a many-to-one relationship between the invite and the course
