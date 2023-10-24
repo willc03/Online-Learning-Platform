@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class UserCompletedLesson extends Model
 {
     use HasFactory;
+    use HasUuids;
 
     /*
      * Create a many-to-one link between the completed lessons and the lesson itself
