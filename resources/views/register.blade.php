@@ -2,6 +2,10 @@
     <h1>Register for an account</h1>
     <p>Registering for an account will allow you to begin your learning journey by joining and completing courses made by other users.</p>
 
+    @if (session('validation_error'))
+        <x-messages.error title="Validation Error" description="The information submitted did not match the requirements!" />
+    @endif
+
     <form method="post" action="{{ url('/register') }}">
         @csrf {{-- The CSRF tag blocks CSRF attacks by including a unique code that has to be read by the server --}}
 
