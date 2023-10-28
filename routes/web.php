@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Register and login routes
+Route::get('/register/', [RegistrationController::class, 'showRegistrationForm']);
 Route::get('/', function () {
     return view('welcome');
 });
