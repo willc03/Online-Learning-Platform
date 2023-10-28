@@ -21,6 +21,10 @@
         <label for="password">Password:</label>
         <input type="password" name="password" required>
 
+        {{-- Password confirmation--}}
+        <label for="password_confirmation">Password:</label>
+        <input type="password" name="password_confirmation" required>
+
         {{-- Submit --}}
         <input type="submit">
     </form>
