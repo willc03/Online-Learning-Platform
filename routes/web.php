@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 // Register and login routes
 Route::get('/register/', [RegistrationController::class, 'showRegistrationForm']);
+Route::post('/register/', [RegistrationController::class, 'registerUser']);
+
+// General pages (primarily static content)
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
