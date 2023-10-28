@@ -22,7 +22,7 @@
         <input type="password" name="password" required>
 
         {{-- Password confirmation--}}
-        <label for="password_confirmation">Password:</label>
+        <label for="password_confirmation">Confirm Password:</label>
         <input type="password" name="password_confirmation" required>
 
         {{-- Submit --}}
