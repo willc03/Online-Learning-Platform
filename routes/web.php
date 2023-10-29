@@ -22,6 +22,8 @@ Route::post('/register/', [RegistrationController::class, 'registerUser']);
 Route::get('/login/', [LoginController::class, 'showLoginForm']);
 Route::post('/login/', [LoginController::class, 'login']);
 
+Route::post('/logout/', [LoginController::class, 'logout']);
+
 // General pages (primarily static content)
 Route::get('/', function () {
     return view('welcome');
