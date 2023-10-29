@@ -27,6 +27,7 @@
             <a href="{{ url('/courses') }}">Courses</a>
             @auth
                 <form method="post" action="{{ url('logout') }}" id="logout-form">
+                    @csrf
                     <a class="clickable" onclick="document.getElementById('logout-form').submit();">Logout</a>
                 </form>
             @else
