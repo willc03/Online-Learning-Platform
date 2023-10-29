@@ -51,4 +51,18 @@ class LoginController extends Controller
         // Redirect the user to the home page
         return redirect()->to('/login/');
     }
+
+    /*
+     * Create a function to allow users to log out
+     */
+    public function logout(Request $request)
+    {
+        // Log the user out
+        Auth::logout();
+        // Regenerate session tokens
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        // Redirect the user to the home page
+        return redirect()->route('home');
+    }
 }
