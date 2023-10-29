@@ -25,7 +25,13 @@
             <a href="{{ url('/') }}">Home</a>
             <a href="{{ url('/about') }}">About</a>
             <a href="{{ url('/courses') }}">Courses</a>
-            <a href="{{ url('/login') }}">Login</a>
+            @auth
+                <form method="post" action="{{ url('logout') }}" id="logout-form">
+                    <a class="clickable" onclick="document.getElementById('logout-form').submit();">Logout</a>
+                </form>
+            @else
+                <a href="{{ url('/login') }}">Login</a>
+            @endauth
         </nav>
         <main>
             {{ $slot }}
