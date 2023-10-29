@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 // Register and login routes
 Route::get('/register/', [RegistrationController::class, 'showRegistrationForm']);
 Route::post('/register/', [RegistrationController::class, 'registerUser']);
+
+Route::get('/login/', [LoginController::class, 'showLoginForm']);
+Route::post('/login/', [LoginController::class, 'login']);
 
 // General pages (primarily static content)
 Route::get('/', function () {
