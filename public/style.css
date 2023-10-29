@@ -137,4 +137,8 @@ body footer .main-box .sign-up a:hover {
   background-color: #b7b7b7;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 /*# sourceMappingURL=style.css.map */
