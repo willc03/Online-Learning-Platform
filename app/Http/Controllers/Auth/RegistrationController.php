@@ -27,8 +27,7 @@ class RegistrationController extends Controller
      */
     public function registerUser(Request $request): RedirectResponse
     {
-        try
-        {
+        try {
             // Validate the content contained within the request
             $validated_data = $request->validate([
                 'firstname' => ['required', 'string', 'max:255'],
@@ -36,25 +35,20 @@ class RegistrationController extends Controller
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
                 'password' => ['required', 'confirmed', Password::defaults()]
             ]);
-        } catch (ValidationException)
-        {
+        } catch (ValidationException $exception) {
             // Redirect if unsuccessful
-            return back()->with('validation_error', true);
+            return back()->with(['validation_error' => true])->withErrors($exception->errors());
         }
-
         // Create the new user
         $new_user = User::create([
-            'name' => $request->firstname . ' ' . $request->lastname,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'name' => $validated_data->firstname . ' ' . $validated_data->lastname,
+            'email' => $validated_data->email,
+            'password' => Hash::make($validated_data->password)
         ]);
-
         // Timestamp the new creation as an event
         event(new Registered($new_user));
-
         // Log the new user in
         Auth::login($new_user);
-
         // Redirect the user to the home page
         return redirect()->route('home');
 

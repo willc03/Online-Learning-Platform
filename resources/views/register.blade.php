@@ -1,8 +1,13 @@
 <x-structure.wrapper title="Register">
     @if (session('validation_error'))
-        <x-messages.error title="Validation Error" description="The information submitted did not match the requirements!" />
+        @php $error_array = []; @endphp
+        @foreach ($errors->getMessages() as $error_type)
+            @foreach($error_type as $error_message)
+                @php array_push($error_array, $error_message) @endphp
+            @endforeach
+        @endforeach
+        <x-messages.error title="Validation Error" description="" :passed_errors="$error_array" />
     @endif
-    
     <h1>Register for an account</h1>
     <p>Registering for an account will allow you to begin your learning journey by joining and completing courses made by other users.</p>
 
@@ -28,11 +33,11 @@
 
         {{-- Password --}}
         <label for="password">Password:</label>
-        <input type="password" name="password" required>
+        <input type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" required>
 
         {{-- Password confirmation--}}
         <label for="password_confirmation">Confirm Password:</label>
-        <input type="password" name="password_confirmation" required>
+        <input type="password" name="password_confirmation" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" required>
 
         {{-- Submit --}}
         <input type="submit">
