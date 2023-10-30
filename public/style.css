@@ -160,7 +160,8 @@ form input {
   margin-bottom: 1vh;
   border-radius: 5px;
   transition-duration: 0.5s;
-  transition-property: border-color;
+  transition-property: border-color, padding;
+  vertical-align: center;
 }
 form input[type=submit] {
   width: 50%;
@@ -172,6 +173,7 @@ form input.invalid-element {
 }
 form input:focus {
   outline: none !important;
+  padding: 15px;
 }
 
 #login-form, #register-box, #login-box, #register-form {
