@@ -76,6 +76,7 @@ body main {
   margin: 0 15%;
 }
 body footer {
+  margin-top: 30px;
   height: 100px;
   background-color: #838383;
   color: #e9e9e9;
@@ -172,7 +173,17 @@ form input:focus {
 
 @media (max-width: 640px) {
   body main {
-    margin: 0;
+    margin: 0 !important;
+  }
+  body main div {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  body main .message {
+    padding: 0 !important;
+  }
+  .left-float, .right-float {
+    float: none !important;
   }
 }
 .clickable {

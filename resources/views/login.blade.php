@@ -8,6 +8,11 @@
         <x-messages.error title="Login Error" description="The password entered is incorrect, please try again." />
     @endif
     {{-- Now that error messages have been handled, the rest of the page can be rendered --}}
+    <div class="message right-float clearfix" id="register-box">
+        <h3>Don't have an account?</h3>
+        <p><a href="{{ url('/register/') }}">Sign up</a> here to begin learning</p>
+    </div>
+
     <div class="left-float clearfix" id="login-form">
         <h1>Login</h1>
         <p>Signing in to your account will allow you to continue your learning journey.</p>
@@ -26,11 +31,6 @@
             {{-- Submit --}}
             <input type="submit">
         </form>
-    </div>
-
-    <div class="message right-float" id="register-box">
-        <h3>Don't have an account?</h3>
-        <p><a href="{{ url('/register/') }}">Sign up</a> here to begin learning</p>
     </div>
 
     <x-scripts.form_validation />
