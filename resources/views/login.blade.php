@@ -1,7 +1,16 @@
 <x-structure.wrapper title="Register">
+    {{-- All error messages will be handled first --}}
     @if (session('validation_error'))
         <x-messages.error title="Validation Error" description="The information submitted did not match the requirements!" />
+    @elseif ($errors->get('email'))
+        <x-messages.error title="Login Error" description="The e-mail address entered is not registered with us, please try again." />
+    @elseif ($errors->get('password'))
+        <x-messages.error title="Login Error" description="The password entered is incorrect, please try again." />
     @endif
+    {{-- Now that error messages have been handled, the rest of the page can be rendered --}}
+    <div class="left-float clearfix" id="login-form">
+        <h1>Login</h1>
+        <p>Signing in to your account will allow you to continue your learning journey.</p>
 
     <h1>Login</h1>
     <p>Signing in to your account will allow you to continue your learning journey.</p>
