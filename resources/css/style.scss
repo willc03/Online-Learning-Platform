@@ -181,7 +181,7 @@ body {
 }
 
 // General form-based CSS
-form {
+form:not([id="logout-form"]) {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
