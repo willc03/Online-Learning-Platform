@@ -28,9 +28,10 @@
         </form>
     </div>
 
+    <div class="message right-float" id="register-box">
+        <h3>Don't have an account?</h3>
+        <p><a href="{{ url('/register/') }}">Sign up</a> here to begin learning</p>
+    </div>
 
-        {{-- Submit --}}
-        <input type="submit">
-    </form>
     <x-scripts.form_validation />
 </x-structure.wrapper>
