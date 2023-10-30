@@ -107,6 +107,7 @@ body {
 
     main {
         padding: 20px;
+        margin: 0 15%;
     }
 
     footer {
@@ -193,7 +194,51 @@ body {
         color: #c10000;
     }
 }
+// General form-based CSS
+form {
+    display: flex;
+    flex-direction: column;
 
-.clickable {
+    input {
+        border: 2px $grey solid;
+        padding: 5px;
+        transition-duration: 0.5s;
+        transition-property: border-color;
+
+        &.invalid-element {
+            border-color: #c10000;
+        }
+
+        &:focus { // Disable the coloured box when input elements are selected
+            outline: none!important;
+        }
+    }
+}
+// Login & Register CSS
+#login-form, #register-box {
+    width: 40%;
+    margin: auto;
+}
+// Device optimisations
+@media (max-width: 640px) { // Mobile device optimisations
+    body {
+        main {
+            margin: 0;
+        }
+    }
+}
+// Miscellaneous
+.clickable { // Make the cursor turn into a pointer when it is hovered over
     cursor: pointer;
+}
+.left-float {
+    float: left;
+}
+.right-float {
+    float: right;
+}
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: block;
 }

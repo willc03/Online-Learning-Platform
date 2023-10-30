@@ -73,6 +73,7 @@ body .wrapper nav.active a {
 }
 body main {
   padding: 20px;
+  margin: 0 15%;
 }
 body footer {
   height: 100px;
@@ -146,8 +147,50 @@ body footer .main-box .sign-up a:hover {
   background-color: #ffbdbd;
   color: #c10000;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+form input {
+  border: 2px #838383 solid;
+  padding: 5px;
+  transition-duration: 0.5s;
+  transition-property: border-color;
+}
+form input.invalid-element {
+  border-color: #c10000;
+}
+form input:focus {
+  outline: none !important;
+}
+
+#login-form, #register-box {
+  width: 40%;
+  margin: auto;
+}
+
+@media (max-width: 640px) {
+  body main {
+    margin: 0;
+  }
+}
 .clickable {
   cursor: pointer;
+}
+
+.left-float {
+  float: left;
+}
+
+.right-float {
+  float: right;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: block;
 }
 
 /*# sourceMappingURL=style.css.map */

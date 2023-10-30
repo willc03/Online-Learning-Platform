@@ -12,26 +12,25 @@
         <h1>Login</h1>
         <p>Signing in to your account will allow you to continue your learning journey.</p>
 
-    <h1>Login</h1>
-    <p>Signing in to your account will allow you to continue your learning journey.</p>
+        <form method="post" action="{{ url('/login/') }}">
+            @csrf {{-- The CSRF tag blocks CSRF attacks by including a unique code that has to be read by the server --}}
 
-    <div class="message login-box">
-        <h3>Don't have an account?</h3>
-        <p><a href="{{ url('/register/') }}">Sign up</a> here to begin learning</p>
+            {{-- Email --}}
+            <label for="email">Email:</label>
+            <input type="email" name="email" placeholder="e.g. john.doe@example.com" required>
+
+            {{-- Password --}}
+            <label for="password">Password:</label>
+            <input type="password" name="password" required>
+
+            {{-- Submit --}}
+            <input type="submit">
+        </form>
     </div>
 
-    <form method="post" action="{{ url('/login/') }}">
-        @csrf {{-- The CSRF tag blocks CSRF attacks by including a unique code that has to be read by the server --}}
-
-        {{-- Email --}}
-        <label for="email">Email:</label>
-        <input type="email" name="email" required>
-
-        {{-- Password --}}
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
 
         {{-- Submit --}}
         <input type="submit">
     </form>
+    <x-scripts.form_validation />
 </x-structure.wrapper>
