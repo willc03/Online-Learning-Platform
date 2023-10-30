@@ -29,7 +29,7 @@
             <input type="password" name="password" required>
 
             {{-- Submit --}}
-            <input type="submit">
+            <input type="submit" value="Log in">
         </form>
     </div>
 

@@ -8,38 +8,41 @@
         @endforeach
         <x-messages.error title="Validation Error" description="" :passed_errors="$error_array" />
     @endif
-    <h1>Register for an account</h1>
-    <p>Registering for an account will allow you to begin your learning journey by joining and completing courses made by other users.</p>
 
-    <div class="message login-box">
+    <div class="message login-box right-float clearfix" id="login-box">
         <h3>Already have an account?</h3>
         <p><a href="{{ url('/login/') }}">Log in</a> here to access your courses</p>
     </div>
 
-    <form method="post" action="{{ url('/register') }}">
-        @csrf {{-- The CSRF tag blocks CSRF attacks by including a unique code that has to be read by the server --}}
+    <div class="left-float clearfix" id="register-form">
+        <h1>Register for an account</h1>
+        <p>Registering for an account will allow you to begin your learning journey by joining and completing courses made by other users.</p>
 
-        {{-- First name --}}
-        <label for="firstname">First name:</label>
-        <input type="text" name="firstname" required>
+        <form method="post" action="{{ url('/register') }}">
+            @csrf {{-- The CSRF tag blocks CSRF attacks by including a unique code that has to be read by the server --}}
 
-        {{-- Last name --}}
-        <label for="lastname">Last name:</label>
-        <input type="text" name="lastname" required>
+            {{-- First name --}}
+            <label for="firstname">First name:</label>
+            <input type="text" name="firstname" required>
 
-        {{-- Email --}}
-        <label for="email">Email:</label>
-        <input type="email" name="email" required>
+            {{-- Last name --}}
+            <label for="lastname">Last name:</label>
+            <input type="text" name="lastname" required>
 
-        {{-- Password --}}
-        <label for="password">Password:</label>
-        <input type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" required>
+            {{-- Email --}}
+            <label for="email">Email:</label>
+            <input type="email" name="email" required>
 
-        {{-- Password confirmation--}}
-        <label for="password_confirmation">Confirm Password:</label>
-        <input type="password" name="password_confirmation" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" required>
+            {{-- Password --}}
+            <label for="password">Password:</label>
+            <input type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" required>
 
-        {{-- Submit --}}
-        <input type="submit">
-    </form>
+            {{-- Password confirmation--}}
+            <label for="password_confirmation">Confirm Password:</label>
+            <input type="password" name="password_confirmation" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" required>
+
+            {{-- Submit --}}
+            <input type="submit" value="Sign up">
+        </form>
+    </div>
 </x-structure.wrapper>

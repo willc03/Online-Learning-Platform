@@ -184,12 +184,21 @@ body {
 form {
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
 
     input {
-        border: 2px $grey solid;
+        border: 1px $grey solid;
         padding: 5px;
+        margin-bottom: 1vh;
+        border-radius: 5px;
         transition-duration: 0.5s;
         transition-property: border-color;
+
+        &[type="submit"] {
+            width: 50%;
+            margin: 0 auto;
+            padding: 10px 0;
+        }
 
         &.invalid-element {
             border-color: #c10000;
@@ -202,7 +211,7 @@ form {
 }
 
 // Login & Register CSS
-#login-form, #register-box {
+#login-form, #register-box, #login-box, #register-form {
     width: 40%;
     margin: auto;
 }

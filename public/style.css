@@ -1,4 +1,4 @@
-@import url(https://fonts.bunny.net/css?family=figtree:300);
+@import url("https://fonts.bunny.net/css?family=figtree:300");
 .block-transitions * {
   -webkit-transition: none !important;
   -moz-transition: none !important;
@@ -152,12 +152,20 @@ body footer .main-box .sign-up a:hover {
 form {
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
 }
 form input {
-  border: 2px #838383 solid;
+  border: 1px #838383 solid;
   padding: 5px;
+  margin-bottom: 1vh;
+  border-radius: 5px;
   transition-duration: 0.5s;
   transition-property: border-color;
+}
+form input[type=submit] {
+  width: 50%;
+  margin: 0 auto;
+  padding: 10px 0;
 }
 form input.invalid-element {
   border-color: #c10000;
@@ -166,7 +174,7 @@ form input:focus {
   outline: none !important;
 }
 
-#login-form, #register-box {
+#login-form, #register-box, #login-box, #register-form {
   width: 40%;
   margin: auto;
 }
