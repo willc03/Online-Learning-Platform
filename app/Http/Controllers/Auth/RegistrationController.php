@@ -41,9 +41,9 @@ class RegistrationController extends Controller
         }
         // Create the new user
         $new_user = User::create([
-            'name' => $validated_data->firstname . ' ' . $validated_data->lastname,
-            'email' => $validated_data->email,
-            'password' => Hash::make($validated_data->password)
+            'name' => $validated_data['firstname'] . ' ' . $validated_data['lastname'],
+            'email' => $validated_data['email'],
+            'password' => Hash::make($validated_data['password'])
         ]);
         // Timestamp the new creation as an event
         event(new Registered($new_user));
