@@ -35,14 +35,29 @@
 
             {{-- Password --}}
             <label for="password">Password:</label>
-            <input type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" required>
+            <input type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" id="password" required>
 
             {{-- Password confirmation--}}
             <label for="password_confirmation">Confirm Password:</label>
-            <input type="password" name="password_confirmation" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" required>
+            <input type="password" name="password_confirmation" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" id="password_confirmation" required>
+
+            {{-- Password requirements --}}
+            <div id="password-requirements">
+                <h4>Password requirements</h4>
+                <ul>
+                    <li id="character"><span></span> At least 8 characters</li>
+                    <li id="uppercase"><span></span> At least 1 upper-case character</li>
+                    <li id="lowercase"><span></span> At least 1 lower-case character</li>
+                    <li id="number"><span></span> At least 1 number</li>
+                    <li id="symbol"><span></span> At least 1 special character</li>
+                </ul>
+            </div>
 
             {{-- Submit --}}
             <input type="submit" value="Sign up">
         </form>
     </div>
+
+    <x-scripts.password_criteria />
+    <x-scripts.form_validation />
 </x-structure.wrapper>

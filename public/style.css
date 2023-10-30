@@ -181,6 +181,10 @@ form input:focus {
   margin: auto;
 }
 
+#password-requirements ul {
+  list-style-type: none;
+}
+
 @media (max-width: 640px) {
   body main {
     margin: 0 !important;

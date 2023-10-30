@@ -216,6 +216,9 @@ form {
     width: 40%;
     margin: auto;
 }
+#password-requirements ul {
+    list-style-type: none;
+}
 
 // Device optimizations
 @media (max-width: 640px) {
