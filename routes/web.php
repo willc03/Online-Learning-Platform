@@ -19,10 +19,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/register/', [RegistrationController::class, 'showRegistrationForm']);
 Route::post('/register/', [RegistrationController::class, 'registerUser']);
 
-Route::get('/login/', [LoginController::class, 'showLoginForm']);
-Route::post('/login/', [LoginController::class, 'login']);
+Route::controller(LoginController::class)->group(function () {
+   Route::get('/login/', 'showLoginForm')->name('login');
+   Route::post('/login', 'login');
 
-Route::post('/logout/', [LoginController::class, 'logout']);
+   Route::post('/logout/', 'logout')->middleware('auth');
+});
 
 // General pages (primarily static content)
 Route::get('/', function () {
