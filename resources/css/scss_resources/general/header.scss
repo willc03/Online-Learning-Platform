@@ -1,0 +1,95 @@
+body {
+    font-family: 'Figtree', sans-serif;
+    background-color: $white;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    .wrapper {
+        flex: 1;
+
+        header {
+            display: flex;
+            align-items: center;
+            background-color: $white;
+            box-shadow: 0px 5px 5px $off-white;
+            color: $white;
+            padding: 20px;
+
+            div.menu-toggle {
+                .child-0, .child-1, .child-2, .child-3, .child-4 {
+                    transition: transform 0.3s ease-out;
+                    transform-box: fill-box;
+                    transform-origin: center;
+                }
+
+                .child-3, .child-4 {
+                    transform: scale(0);
+                }
+
+                &.active {
+                    .child-0, .child-1, .child-2 {
+                        transform: scaleX(0);
+                    }
+
+                    .child-3, .child-4 {
+                        transform: scale(1);
+                    }
+                }
+            }
+
+            div.title {
+                width: 100%;
+                color: $black;
+
+                h2 {
+                    font-weight: 900;
+                    text-align: center;
+                }
+            }
+        }
+
+        nav {
+            transition-duration: 0.3s;
+            height: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 5px 5px $off-white;
+
+            a {
+                color: $black;
+                text-decoration: none;
+                vertical-align: middle;
+                font-size: 0;
+                transition: {
+                    duration: 0.3s;
+                    property: font-size;
+                }
+            }
+
+            &.active {
+                height: 50px;
+
+                a {
+                    font-size: medium;
+                }
+            }
+        }
+    }
+}
+
+// Device optimisations for header.scss
+@media (max-width: 640px) {
+    body {
+        nav {
+            display: flex;
+            flex-direction: column;
+            &.active {
+                height: 200px!important;
+            }
+        }
+    }
+}

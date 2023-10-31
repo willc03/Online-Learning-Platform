@@ -1,0 +1,70 @@
+@use 'sass:color';
+
+body {
+    footer {
+        margin-top: 30px;
+        height: 100px;
+        background-color: $grey;
+        color: $white;
+        position: sticky;
+        bottom: 0;
+
+        .main-box {
+            display: flex;
+            background-color: $off-green;
+            border-radius: 10px;
+            width: 75%;
+            margin: calc(-75px/2) 12.5%;
+            height: 75px;
+            overflow: hidden;
+
+            .description {
+                width: 75%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                vertical-align: middle;
+                p {
+                    padding: 5px;
+                    margin: 0;
+                    &:first-of-type {
+                        margin-top: auto;
+                    }
+                    &:last-of-type {
+                        margin-bottom: auto;
+                    }
+                }
+            }
+
+            .sign-up {
+                display: flex;
+                justify-content: center;
+                align-content: space-around;
+                width: 25%;
+                height: 100%;
+                color: $white;
+                a {
+                    font-size: 1vw;
+                    display: inline-flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                    transition-duration: 0.3s;
+                    width: 50%;
+                    height: 50%;
+                    margin: auto;
+                    background-color: $off-white;
+                    border-radius: 10px;
+                    text-decoration: none;
+                    color: $black;
+                    &:hover {
+                        height: 65%;
+                        width: 55%;
+                        background-color: color.adjust($off-white, $red: -30, $green: -30, $blue: -30);
+                    }
+                }
+            }
+        }
+    }
+}

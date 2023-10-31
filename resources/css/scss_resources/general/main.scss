@@ -1,0 +1,19 @@
+body {
+    main {
+        padding: 20px;
+        margin: 0 15%;
+    }
+}
+
+// Device optimisations
+@media (max-width: 640px) {
+    body {
+        main {
+            margin: 0 !important;
+            div {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+        }
+    }
+}

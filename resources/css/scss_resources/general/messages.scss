@@ -1,0 +1,21 @@
+// Error message CSS
+.message {
+    border-radius: 8px;
+    text-align: center;
+    padding: 10px 10%;
+
+    &.error-message {
+        background-color: #ffbdbd;
+        color: #c10000;
+    }
+}
+
+// Device optimisations for messages.scss
+@media (max-width: 640px) {
+    .message{
+        padding: 0!important;
+        &* {
+            text-align: center;
+        }
+    }
+}

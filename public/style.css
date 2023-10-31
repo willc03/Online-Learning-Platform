@@ -1,3 +1,8 @@
+/*
+ * Important note: in CSS the files imported last override those imported first, this
+ * is an important feature and CSS clashes may be resolved by changing the order of
+ * imports.
+ */
 @import url("https://fonts.bunny.net/css?family=figtree:300");
 .block-transitions * {
   -webkit-transition: none !important;
@@ -7,6 +12,44 @@
   transition: none !important;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
+.left-float {
+  float: left;
+}
+
+.right-float {
+  float: right;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .left-float, .right-float {
+    float: none !important;
+  }
+}
+/*
+ * All specific-purpose SCSS files will be imported here
+ */
+#login-form, #register-box, #login-box, #register-form {
+  width: 40%;
+  margin: auto;
+}
+
+#password-requirements ul {
+  list-style-type: none;
+}
+
+/*
+ * All general-purpose SCSS files will be imported here
+ */
 body {
   font-family: "Figtree", sans-serif;
   background-color: #e9e9e9;
@@ -71,9 +114,29 @@ body .wrapper nav.active {
 body .wrapper nav.active a {
   font-size: medium;
 }
+
+@media (max-width: 640px) {
+  body nav {
+    display: flex;
+    flex-direction: column;
+  }
+  body nav.active {
+    height: 200px !important;
+  }
+}
 body main {
   padding: 20px;
   margin: 0 15%;
+}
+
+@media (max-width: 640px) {
+  body main {
+    margin: 0 !important;
+  }
+  body main div {
+    width: 100% !important;
+    margin: 0 !important;
+  }
 }
 body footer {
   margin-top: 30px;
@@ -149,6 +212,14 @@ body footer .main-box .sign-up a:hover {
   color: #c10000;
 }
 
+@media (max-width: 640px) {
+  .message {
+    padding: 0 !important;
+  }
+  .message* {
+    text-align: center;
+  }
+}
 form:not([id=logout-form]) {
   display: flex;
   flex-direction: column;
@@ -173,55 +244,6 @@ form:not([id=logout-form]) input.invalid-element {
 form:not([id=logout-form]) input:focus {
   outline: none !important;
   padding: 15px;
-}
-
-#login-form, #register-box, #login-box, #register-form {
-  width: 40%;
-  margin: auto;
-}
-
-#password-requirements ul {
-  list-style-type: none;
-}
-
-@media (max-width: 640px) {
-  body nav {
-    display: flex;
-    flex-direction: column;
-  }
-  body nav.active {
-    height: 200px !important;
-  }
-  body main {
-    margin: 0 !important;
-  }
-  body main div {
-    width: 100% !important;
-    margin: 0 !important;
-  }
-  body main .message {
-    padding: 0 !important;
-  }
-  .left-float, .right-float {
-    float: none !important;
-  }
-}
-.clickable {
-  cursor: pointer;
-}
-
-.left-float {
-  float: left;
-}
-
-.right-float {
-  float: right;
-}
-
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: block;
 }
 
 /*# sourceMappingURL=style.css.map */

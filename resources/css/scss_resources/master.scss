@@ -1,0 +1,45 @@
+@use 'sass:color';
+
+// Global variables
+$white: #e9e9e9;
+$off-white: color.adjust($white, $red: -20, $green: -20, $blue: -20);
+$bannerColours: #8fbee3;
+$black: #1f1f1f;
+$grey: #838383;
+$off-green: #66936f;
+
+// Stop CSS transitions from playing when the page loads.
+.block-transitions * {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -ms-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+}
+
+// Miscellaneous items
+.clickable {
+    // Make the cursor turn into a pointer when it is hovered over
+    cursor: pointer;
+}
+
+.left-float {
+    float: left;
+}
+
+.right-float {
+    float: right;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: block;
+}
+
+// Device optimisations for master.scss
+@media (max-width: 640px) {
+    .left-float, .right-float {
+        float: none !important;
+    }
+}
