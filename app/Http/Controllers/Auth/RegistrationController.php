@@ -32,16 +32,18 @@ class RegistrationController extends Controller
             $validated_data = $request->validate([
                 'firstname' => ['required', 'string', 'max:255'],
                 'lastname' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-                'password' => ['required', 'confirmed', Password::defaults()]
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class], // Make sure the email hasn't been taken
+                'password' => ['required', 'confirmed', Password::defaults()] // Make sure the password conforms to the defined rules & the confirmation of the password is correct
             ]);
         } catch (ValidationException $exception) {
             // Redirect if unsuccessful
             return back()->with(['validation_error' => true])->withErrors($exception->errors());
         }
+        // Convert the email to lower case
+        $validated_data['email'] = strtolower($validated_data['email']);
         // Create the new user
         $new_user = User::create([
-            'name' => $validated_data['firstname'] . ' ' . $validated_data['lastname'],
+            'name' => $validated_data['firstname'] . ' ' . $validated_data['lastname'], // Concatenate the first and last names
             'email' => $validated_data['email'],
             'password' => Hash::make($validated_data['password'])
         ]);
