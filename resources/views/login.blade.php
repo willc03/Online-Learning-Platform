@@ -22,11 +22,11 @@
 
             {{-- Email --}}
             <label for="email">Email:</label>
-            <input type="email" name="email" placeholder="e.g. john.doe@example.com" required>
+            <input type="email" name="email" placeholder="e.g. john.doe@example.com" autocomplete="username" required>
 
             {{-- Password --}}
             <label for="password">Password:</label>
-            <input type="password" name="password" required>
+            <input type="password" name="password" autocomplete="current-password" required>
 
             {{-- Submit --}}
             <input type="submit" value="Log in">

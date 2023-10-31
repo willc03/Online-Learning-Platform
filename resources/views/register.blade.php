@@ -35,11 +35,11 @@
 
             {{-- Password --}}
             <label for="password">Password:</label>
-            <input type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" id="password" required>
+            <input type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" id="password" autocomplete="new-password" required>
 
             {{-- Password confirmation--}}
             <label for="password_confirmation">Confirm Password:</label>
-            <input type="password" name="password_confirmation" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" id="password_confirmation" required>
+            <input type="password" name="password_confirmation" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" id="password_confirmation" autocomplete="new-password" required>
 
             {{-- Password requirements --}}
             <div id="password-requirements">
