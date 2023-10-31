@@ -224,6 +224,13 @@ form:not([id="logout-form"]) {
 @media (max-width: 640px) {
     // Mobile device optimizations
     body {
+        nav {
+            display: flex;
+            flex-direction: column;
+            &.active {
+                height: 200px!important;
+            }
+        }
         main {
             margin: 0 !important;
             div {

@@ -185,6 +185,13 @@ form:not([id=logout-form]) input:focus {
 }
 
 @media (max-width: 640px) {
+  body nav {
+    display: flex;
+    flex-direction: column;
+  }
+  body nav.active {
+    height: 200px !important;
+  }
   body main {
     margin: 0 !important;
   }
