@@ -12,7 +12,6 @@
         criteria.symbol = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password);
 
         for (const requirement in criteria) {
-            console.log(requirement, criteria[requirement]);
             const listItem = document.getElementById(requirement);
             const span = listItem.querySelector('span');
             if (criteria[requirement]) {
