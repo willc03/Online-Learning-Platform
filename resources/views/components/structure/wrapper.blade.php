@@ -39,17 +39,19 @@
         </main>
     </div>
     <footer>
-        <div class="main-box">
-            <div class="description">
-                <p>Ready to start learning?</p>
-                <p>Sign up today</p>
+        @guest
+            <div class="main-box">
+                <div class="description">
+                    <p>Ready to start learning?</p>
+                    <p>Sign up today</p>
+                </div>
+                <div class="sign-up">
+                    <a href="{{ url('register') }}">Sign Up</a>
+                </div>
             </div>
-            <div class="sign-up">
-                <a href="{{ url('signup') }}">Sign Up</a>
-            </div>
-        </div>
-        <div class="links-box">
+            <div class="links-box">
 
-        </div>
+            </div>
+        @endguest
     </footer>
 </x-structure.base>
