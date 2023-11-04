@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> {{-- This viewport tag allows for mobile optimisation. --}}
-        <title>{{ $title }}</title> {{-- A title can be provided when the component is called --}}
+        <title>{{ $title }} - Online Learning Platform</title> {{-- A title can be provided when the component is called --}}
         <link rel="stylesheet" type="text/css" href="{{ asset('style.css') }}"> {{-- Use a global stylesheet --}}
     </head>
 
