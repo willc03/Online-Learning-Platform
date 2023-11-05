@@ -16,7 +16,7 @@
 </fieldset>
 {{-- Display a submit button if they are allowed to change their answer --}}
 @if(!$oneTimeAnswer)
-    <input type="submit" disabled>
+    <input type="submit" id="submit-question" disabled>
 @endif
 
 
@@ -35,5 +35,10 @@
         selectedObject.classList.add("selected");
         {{-- Set the answer hidden input to the value in the button --}}
         document.getElementById("answer").setAttribute("value", optionValue);
+        {{-- Enable the submit button if it exists --}}
+        const submit = document.getElementById("submit-question");
+        if (submit) {
+            submit.disabled = false
+        }
     }
 </script>
