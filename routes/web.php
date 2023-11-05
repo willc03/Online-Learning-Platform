@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Question;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +26,14 @@ Route::controller(LoginController::class)->group(function () {
    Route::post('/login', 'login');
 
    Route::post('/logout/', 'logout')->middleware('auth');
+});
+
+// Temporary question page holder
+Route::prefix('question')->name('question.')->group(function() {
+    Route::get('/view/', [Question::class, 'index'])->name('view');
+    Route::post('/answer/', function() {
+        abort(404);
+    })->name('answer');
 });
 
 // General pages (primarily static content)
