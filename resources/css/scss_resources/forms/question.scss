@@ -1,0 +1,49 @@
+.question-form {
+
+    fieldset.single-choice-field {
+        // Base properties
+        border: 1px solid black;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    button.option-button {
+        // Transition properties
+        transition-duration: 0.3s;
+        transition-property: background-color, color, border-width;
+        // Base properties
+        border: 1px solid black;
+        border-radius: 8px;
+        background: none;
+        width: 45%;
+        height: 50px;
+        margin-top: 15px;
+        cursor: pointer;
+        // User-defined classes
+        &.selected {
+            background-color: $bannerColours;
+            border-width: 0;
+        }
+        // Pseudo-classes
+        &:hover {
+            background-color: $grey;
+            color: $off-white;
+            border-width: 0;
+        }
+        &:last-of-type {
+            margin-bottom: 15px;
+        }
+    }
+
+    input[type="submit"] {
+        // Base properties
+        margin-top: 15px!important;
+        // Pseudo-classes
+        &:not([disabled]) {
+            cursor: pointer;
+        }
+    }
+
+}

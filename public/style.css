@@ -47,6 +47,43 @@
   list-style-type: none;
 }
 
+.question-form fieldset.single-choice-field {
+  border: 1px solid black;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.question-form button.option-button {
+  transition-duration: 0.3s;
+  transition-property: background-color, color, border-width;
+  border: 1px solid black;
+  border-radius: 8px;
+  background: none;
+  width: 45%;
+  height: 50px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+.question-form button.option-button.selected {
+  background-color: #8fbee3;
+  border-width: 0;
+}
+.question-form button.option-button:hover {
+  background-color: #838383;
+  color: #d5d5d5;
+  border-width: 0;
+}
+.question-form button.option-button:last-of-type {
+  margin-bottom: 15px;
+}
+.question-form input[type=submit] {
+  margin-top: 15px !important;
+}
+.question-form input[type=submit]:not([disabled]) {
+  cursor: pointer;
+}
+
 /*
  * All general-purpose SCSS files will be imported here
  */
