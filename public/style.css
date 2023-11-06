@@ -36,6 +36,43 @@
   }
 }
 /*
+ * Component-based CSS
+ */
+button.three-d {
+  position: relative;
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  cursor: pointer;
+  outline-offset: 10px;
+  box-shadow: 0 5px 4px #c1c1c1;
+}
+button.three-d, button.three-d > * {
+  transition-duration: 300ms;
+}
+button.three-d .foreground {
+  display: flex;
+  border-radius: 12px;
+  width: 100%;
+  height: 100%;
+  transform: translateY(-4px);
+  justify-content: center;
+  align-items: center;
+}
+button.three-d:hover {
+  box-shadow: 0 5px 6px 2px #adadad;
+}
+button.three-d:hover .foreground {
+  transform: translateY(-6px);
+}
+button.three-d:active {
+  box-shadow: 0 2px 4px 0 #adadad;
+}
+button.three-d:active .foreground {
+  transform: translateY(-2px);
+}
+
+/*
  * All specific-purpose SCSS files will be imported here
  */
 #login-form, #register-box, #login-box, #register-form {
@@ -53,29 +90,16 @@
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  padding-top: 30px;
 }
 .question-form button.option-button {
-  transition-duration: 0.3s;
-  transition-property: background-color, color, border-width;
-  border: 1px solid black;
-  border-radius: 8px;
-  background: none;
   width: 45%;
   height: 50px;
-  margin-top: 15px;
-  cursor: pointer;
+  margin-bottom: 21px;
 }
 .question-form button.option-button.selected {
   background-color: #8fbee3;
   border-width: 0;
-}
-.question-form button.option-button:hover {
-  background-color: #838383;
-  color: #d5d5d5;
-  border-width: 0;
-}
-.question-form button.option-button:last-of-type {
-  margin-bottom: 15px;
 }
 .question-form input[type=submit] {
   margin-top: 15px !important;
@@ -84,6 +108,11 @@
   cursor: pointer;
 }
 
+@media (max-width: 640px) {
+  button.option-button {
+    width: 85% !important;
+  }
+}
 /*
  * All general-purpose SCSS files will be imported here
  */
