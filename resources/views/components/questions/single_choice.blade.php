@@ -5,13 +5,7 @@
 <fieldset class="single-choice-field">
     <legend>Click your answer:</legend>
     @foreach($choices as $option) {{-- $value is passed in from the question page --}}
-        <button
-            class="option-button"
-            onclick="onSingleChoiceButtonClick(this, {{ $option }})"
-            @if(!$oneTimeAnswer) type="button" @endif {{-- This line will make it so the form submits on button press only if they can't change their answer --}}
-        >
-            {{ $option }}
-        </button>
+        <x-components.3d_button class="option-button" onclick="onSingleChoiceButtonClick(this, {{ $option }})">{{ $option }}</x-components.3d_button>
     @endforeach
 </fieldset>
 {{-- Display a submit button if they are allowed to change their answer --}}
@@ -23,10 +17,11 @@
 {{-- Write a script to manage the clicking of correct answers --}}
 
 <script>
+    {{-- Get all the buttons --}}
+    const buttons = document.querySelectorAll(".option-button");
+
     function onSingleChoiceButtonClick(selectedObject, optionValue)
     {
-        {{-- Get all the buttons --}}
-        const buttons = document.querySelectorAll(".option-button");
         {{-- Loop through all the buttons and remove the selected attribute --}}
         buttons.forEach(button => {
             button.classList.remove("selected");
@@ -41,4 +36,10 @@
             submit.disabled = false
         }
     }
+
+    @if(!$oneTimeAnswer)
+        buttons.forEach(button => {
+            button.setAttribute("type", "button");
+        })
+    @endif
 </script>
