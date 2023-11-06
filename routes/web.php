@@ -29,7 +29,7 @@ Route::controller(LoginController::class)->group(function () {
 });
 
 // Temporary question page holder
-Route::prefix('question')->name('question.')->group(function() {
+Route::prefix('question')->name('question.')->middleware('auth')->group(function() {
     Route::get('/view/', [Question::class, 'index'])->name('view');
     Route::post('/answer/', function() {
         abort(404);
