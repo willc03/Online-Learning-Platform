@@ -7,14 +7,13 @@ button.three-d {
     }
 
     // Base properties
+    -webkit-tap-highlight-color: transparent;
     border: none;
     border-radius: 12px;
     cursor: pointer;
     outline-offset: 10px;
     padding: 0;
     position: relative;
-
-    // Box shadow
     box-shadow: 0 5px 4px color.adjust($off-white, $red: -20, $green: -20, $blue: -20);
 
     .foreground {
@@ -28,18 +27,25 @@ button.three-d {
         width: 100%;
     }
 
-    // Pseudo-classes
-    &:active {
+    // Selected state properties
+    &.selected {
         box-shadow: 0 2px 4px 0 color.adjust($off-white, $red: -40, $green: -40, $blue: -40);
         .foreground {
-            transform: translateY(-2px);
+            transform: translateY(-2px)!important;
         }
     }
 
+    // Pseudo-classes
     &:hover {
         box-shadow: 0 5px 6px 2px color.adjust($off-white, $red: -40, $green: -40, $blue: -40);
         .foreground {
             transform: translateY(-6px);
+        }
+    }
+    &:active { // This is after otherwise it causes odd effects
+        box-shadow: 0 2px 4px 0 color.adjust($off-white, $red: -40, $green: -40, $blue: -40);
+        .foreground {
+            transform: translateY(-2px);
         }
     }
 }

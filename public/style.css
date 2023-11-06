@@ -39,25 +39,32 @@
  * Component-based CSS
  */
 button.three-d {
-  position: relative;
+  -webkit-tap-highlight-color: transparent;
   border: none;
   border-radius: 12px;
-  padding: 0;
   cursor: pointer;
   outline-offset: 10px;
+  padding: 0;
+  position: relative;
   box-shadow: 0 5px 4px #c1c1c1;
 }
 button.three-d, button.three-d > * {
   transition-duration: 300ms;
 }
 button.three-d .foreground {
-  display: flex;
-  border-radius: 12px;
-  width: 100%;
-  height: 100%;
-  transform: translateY(-4px);
-  justify-content: center;
   align-items: center;
+  border-radius: 12px;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  transform: translateY(-4px);
+  width: 100%;
+}
+button.three-d.selected {
+  box-shadow: 0 2px 4px 0 #adadad;
+}
+button.three-d.selected .foreground {
+  transform: translateY(-2px) !important;
 }
 button.three-d:hover {
   box-shadow: 0 5px 6px 2px #adadad;
@@ -96,10 +103,6 @@ button.three-d:active .foreground {
   width: 45%;
   height: 50px;
   margin-bottom: 21px;
-}
-.question-form button.option-button.selected {
-  background-color: #8fbee3;
-  border-width: 0;
 }
 .question-form input[type=submit] {
   margin-top: 15px !important;

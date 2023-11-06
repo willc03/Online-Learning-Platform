@@ -14,12 +14,6 @@
         width: 45%;
         height: 50px;
         margin-bottom: 21px;
-        // Pseudo-classes
-        // User-defined classes
-        &.selected {
-            background-color: $bannerColours;
-            border-width: 0;
-        }
     }
 
     input[type="submit"] {
