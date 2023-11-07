@@ -4,9 +4,9 @@
     <style>
         .option-button.selected {
             background-color: #0276aa!important;
-            .foreground {
-                background-color: #03a9f4!important;
-            }
+        }
+        .option-button.selected .foreground {
+            background-color: #48b1e1 !important;
         }
     </style>
     @foreach($choices as $option) {{-- $value is passed in from the question page --}}
