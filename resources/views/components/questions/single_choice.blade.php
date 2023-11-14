@@ -15,7 +15,7 @@
 </fieldset>
 
 @if(!$oneTimeAnswer) {{-- Display a submit button if they are allowed to change their answer --}}
-    <input type="submit" id="submit-question" disabled>
+    <x-components.3d_button id="submit-question" type="submit" disabled bg_color="#88A236" fg_color="#B1CA65">Submit</x-components.3d_button>
 @endif
 
 <script> {{-- Write a script to manage the clicking of correct answers --}}

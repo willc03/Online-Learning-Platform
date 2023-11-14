@@ -16,9 +16,11 @@
         margin-bottom: 21px;
     }
 
-    input[type="submit"] {
+    input[type="submit"], button[type="submit"] {
         // Base properties
-        margin-top: 15px!important;
+        width: 50%;
+        margin: 15px auto;
+        height: 30px;
         // Pseudo-classes
         &:not([disabled]) {
             cursor: pointer;

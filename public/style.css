@@ -66,16 +66,22 @@ button.three-d.selected {
 button.three-d.selected .foreground {
   transform: translateY(-2px) !important;
 }
-button.three-d:hover {
+button.three-d[disabled] {
+  filter: saturate(0%);
+}
+button.three-d[disabled] .foreground {
+  filter: saturate(0%);
+}
+button.three-d:not([disabled]):hover {
   box-shadow: 0 5px 6px 2px #adadad;
 }
-button.three-d:hover .foreground {
+button.three-d:not([disabled]):hover .foreground {
   transform: translateY(-6px);
 }
-button.three-d:active {
+button.three-d:not([disabled]):active {
   box-shadow: 0 2px 4px 0 #adadad;
 }
-button.three-d:active .foreground {
+button.three-d:not([disabled]):active .foreground {
   transform: translateY(-2px);
 }
 
@@ -104,10 +110,12 @@ button.three-d:active .foreground {
   height: 50px;
   margin-bottom: 21px;
 }
-.question-form input[type=submit] {
-  margin-top: 15px !important;
+.question-form input[type=submit], .question-form button[type=submit] {
+  width: 50%;
+  margin: 15px auto;
+  height: 30px;
 }
-.question-form input[type=submit]:not([disabled]) {
+.question-form input[type=submit]:not([disabled]), .question-form button[type=submit]:not([disabled]) {
   cursor: pointer;
 }
 

@@ -35,14 +35,22 @@ button.three-d {
         }
     }
 
+    // Disabled
+    &[disabled] {
+        .foreground {
+            filter: saturate(0%);
+        }
+        filter: saturate(0%);
+    }
+
     // Pseudo-classes
-    &:hover {
+    &:not([disabled]):hover {
         box-shadow: 0 5px 6px 2px color.adjust($off-white, $red: -40, $green: -40, $blue: -40);
         .foreground {
             transform: translateY(-6px);
         }
     }
-    &:active { // This is after otherwise it causes odd effects
+    &:not([disabled]):active { // This is after otherwise it causes odd effects
         box-shadow: 0 2px 4px 0 color.adjust($off-white, $red: -40, $green: -40, $blue: -40);
         .foreground {
             transform: translateY(-2px);
