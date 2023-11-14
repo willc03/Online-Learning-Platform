@@ -12,6 +12,8 @@
             @case("single_choice")
                 <x-questions.single_choice :choices="$item_value['question_choices']" :one_time_answer="$item_value['one_time_answer']" />
 
+            @case("multiple_choice")
+                <x-questions.multiple_choice :choices="$item_value['question_choices']" />
 
         @endswitch
     {{-- End the form --}}
