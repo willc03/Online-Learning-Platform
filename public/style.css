@@ -68,6 +68,7 @@ button.three-d.selected .foreground {
 }
 button.three-d[disabled] {
   filter: saturate(0%);
+  cursor: default;
 }
 button.three-d[disabled] .foreground {
   filter: saturate(0%);
