@@ -30,7 +30,7 @@
         {{-- Enable the submit button if it exists --}}
         const submit = document.getElementById("submit-question");
         if (submit) {
-            submit.disabled = false
+            submit.disabled = false;
         }
     }
 
