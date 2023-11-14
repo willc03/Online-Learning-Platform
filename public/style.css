@@ -52,6 +52,7 @@ button.three-d, button.three-d > * {
   transition-duration: 300ms;
 }
 button.three-d .foreground {
+  position: relative;
   align-items: center;
   border-radius: 12px;
   display: flex;
