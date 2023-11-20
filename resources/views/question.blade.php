@@ -1,6 +1,6 @@
 <x-structure.wrapper title="Question">
     {{-- Show the user the question --}}
-    <h3>{{ str_replace("%", "____", $item_title) }}</h3> {{-- Replace any blanks for fill the blanks with four underscores --}}
+    <h3 class="question-title">{!! str_replace("%", '<span class=\'blank\'> </span>', $item_title) !!}</h3> {{-- The exclaimation marks stop the content from being escaped --}}
     {{-- Make the question a submittable form --}}
     <form method="post" action="{{ route('question.answer') }}" class="question-form">
         @csrf

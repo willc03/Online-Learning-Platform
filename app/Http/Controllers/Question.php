@@ -23,7 +23,7 @@ class Question extends Controller
                 "one_time_answer": false
             }')
         ]); */
-        return view('question', [
+        /* MULTI CHOICE return view('question', [
             'id' => 1,
             'position' => 1,
             'item_title' => 'Which of these are prime numbers?',
@@ -33,6 +33,18 @@ class Question extends Controller
                 "question_type":"multiple_choice",
                 "question_choices": [2,3,9,5,17,31,99],
                 "correct_answers": [2,3,5,17,31]
+            }')
+        ]); */
+        return view('question', [
+            'id' => 1,
+            'position' => 1,
+            'item_title' => 'Because % the equipment % is very delicate, it must be handled with %',
+            'description' => null,
+            'item_type' => 'question',
+            'item_value' => Json::decode('{
+                "question_type": "fill_in_blanks",
+                "question_choices": ["care", "carefully", "caring", "careful"],
+                "correct_answers": ["care"]
             }')
         ]);
     }

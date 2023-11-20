@@ -1,19 +1,45 @@
+.question-title {
+    font-size: 20px;
+    line-height: 2;
+
+    span.blank {
+        vertical-align: middle;
+        border: 2px solid black;
+        border-radius: 8px;
+        width: 25%;
+        display: inline-block;
+        height: 30px;
+    }
+}
+
 .question-form {
 
-    fieldset.single-choice-field {
-        // Base properties
-        border: 1px solid black;
-        border-radius: 8px;
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        padding-top: 30px;
+    fieldset {
+        &.single-choice-field, &.fill-blanks-field {
+            // Base properties
+            border: 1px solid black;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding-top: 30px;
+
+        }
     }
 
     button.option-button {
         width: 45%;
         height: 50px;
         margin-bottom: 21px;
+
+        span {
+            border: 1px solid black;
+            border-radius: 8px;
+
+            &:hover {
+                border-color: grey;
+            }
+        }
     }
 
     input[type="submit"], button[type="submit"] {

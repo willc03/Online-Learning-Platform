@@ -99,7 +99,20 @@ button.three-d:not([disabled]):active .foreground {
   list-style-type: none;
 }
 
-.question-form fieldset.single-choice-field {
+.question-title {
+  font-size: 20px;
+  line-height: 2;
+}
+.question-title span.blank {
+  vertical-align: middle;
+  border: 2px solid black;
+  border-radius: 8px;
+  width: 25%;
+  display: inline-block;
+  height: 30px;
+}
+
+.question-form fieldset.single-choice-field, .question-form fieldset.fill-blanks-field {
   border: 1px solid black;
   border-radius: 8px;
   display: flex;
@@ -111,6 +124,13 @@ button.three-d:not([disabled]):active .foreground {
   width: 45%;
   height: 50px;
   margin-bottom: 21px;
+}
+.question-form button.option-button span {
+  border: 1px solid black;
+  border-radius: 8px;
+}
+.question-form button.option-button span:hover {
+  border-color: grey;
 }
 .question-form input[type=submit], .question-form button[type=submit] {
   width: 50%;
