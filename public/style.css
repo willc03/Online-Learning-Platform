@@ -87,6 +87,14 @@ button.three-d:not([disabled]):active .foreground {
   transform: translateY(-2px);
 }
 
+span.blank {
+  transition-property: opacity;
+  transition-duration: 500ms;
+}
+span.blank.filled {
+  opacity: 0;
+}
+
 /*
  * All specific-purpose SCSS files will be imported here
  */
