@@ -4,7 +4,7 @@
  * imports.
  */
 @import url("https://fonts.bunny.net/css?family=figtree:300");
-.block-transitions * {
+.block-transitions {
   -webkit-transition: none !important;
   -moz-transition: none !important;
   -ms-transition: none !important;
@@ -142,8 +142,8 @@ button.three-d:not([disabled]):active .foreground {
 }
 
 @media (max-width: 640px) {
-  button.option-button {
-    width: 85% !important;
+  .question-form button.option-button {
+    width: 80%;
   }
 }
 /*
