@@ -10,6 +10,11 @@ body {
     .wrapper {
         flex: 1;
 
+        .title h2 a {
+            text-decoration: none;
+            color: $black;
+        }
+
         header {
             display: flex;
             align-items: center;

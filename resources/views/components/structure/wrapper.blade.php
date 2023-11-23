@@ -1,7 +1,7 @@
 <x-structure.base :$title> {{-- Use the base structure before the header is made --}}
     <div class="wrapper">
         <header>
-            <div id="menu-toggle" class="menu-toggle">
+            <div id="menu-toggle" class="menu-toggle"> {{-- A custom SVG is implemented for the hamburger menu, this will make it easily animatable --}}
                 <a href="#" onclick="document.getElementById('menu-toggle').classList.toggle('active'); document.getElementById('navigation').classList.toggle('active');">
                     <svg width="30" height="30" viewBox="0 0 30 30">
                         @for ($i = 0; $i < 3; $i++)
@@ -12,21 +12,21 @@
                     </svg>
                 </a>
             </div>
-            <div class="title">
-                <h2>Online Learning Platform</h2>
+            <div class="title"> {{-- Add a clickable hyperlink as the header title to take the user to the home page --}}
+                <h2><a href="{{ route('home') }}">Online Learning Platform</a></h2>
             </div>
-            <div class="user-account">
-                <a href="{{ url("/account") }}">
+            <div class="user-account"> {{-- Add a button to take the user to their account --}}
+                <a href="{{ url("/account") }}"> {{-- An image button is used for interactivity --}}
                     <img width="50" height="50" src="{{ asset('assets/images/user-icon.svg') }}" alt="A button with an outline of a person for account access">
                 </a>
             </div>
         </header>
         <nav id="navigation">
-            <a href="{{ url('/') }}">Home</a>
+            <a href="{{ route('home') }}">Home</a>
             <a href="{{ url('/about') }}">About</a>
             <a href="{{ url('/courses') }}">Courses</a>
             @auth
-                <form method="post" action="{{ url('logout') }}" id="logout-form">
+                <form method="post" action="{{ url('logout') }}" id="logout-form"> {{-- A form is required to send a post request --}}
                     @csrf
                     <a class="clickable" onclick="document.getElementById('logout-form').submit();">Logout</a>
                 </form>
@@ -35,11 +35,11 @@
             @endauth
         </nav>
         <main>
-            {{ $slot }}
+            {{ $slot }} {{-- The calling component can be used as an HTML tag with inner content by using slots --}}
         </main>
     </div>
     <footer>
-        @guest
+        @guest {{-- Display a guest-only box to encourage the user to sign up --}}
             <div class="main-box">
                 <div class="description">
                     <p>Ready to start learning?</p>
