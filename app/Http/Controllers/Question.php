@@ -35,7 +35,7 @@ class Question extends Controller
                 "correct_answers": [2,3,5,17,31]
             }')
         ]); */
-        return view('question', [
+        /* FILL IN THE BLANKS return view('question', [
             'id' => 1,
             'position' => 1,
             'item_title' => 'Because % the equipment % is very delicate, it must be handled with %',
@@ -45,6 +45,18 @@ class Question extends Controller
                 "question_type": "fill_in_blanks",
                 "question_choices": ["care", "carefully", "caring", "careful"],
                 "correct_answers": ["care"]
+            }')
+        ]); */
+        return view('question', [
+            'id' => 1,
+            'position' => 1,
+            'item_title' => 'The year 2000 was a leap year.',
+            'description' => null,
+            'item_type' => 'question',
+            'item_value' => Json::decode('{
+                "question_type": "true_or_false",
+                "one_time_answer": true,
+                "correct_answer": true
             }')
         ]);
     }

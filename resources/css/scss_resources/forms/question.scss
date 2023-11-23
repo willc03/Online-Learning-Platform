@@ -15,7 +15,7 @@
 .question-form {
 
     fieldset {
-        &.single-choice-field, &.fill-blanks-field {
+        &.single-choice-field, &.fill-blanks-field, &.boolean-field {
             // Base properties
             border: 1px solid black;
             border-radius: 8px;

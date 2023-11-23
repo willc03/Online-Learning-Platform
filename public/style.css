@@ -120,7 +120,7 @@ span.blank.filled {
   height: 30px;
 }
 
-.question-form fieldset.single-choice-field, .question-form fieldset.fill-blanks-field {
+.question-form fieldset.single-choice-field, .question-form fieldset.fill-blanks-field, .question-form fieldset.boolean-field {
   border: 1px solid black;
   border-radius: 8px;
   display: flex;

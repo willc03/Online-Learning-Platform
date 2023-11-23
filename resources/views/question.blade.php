@@ -20,6 +20,9 @@
                 <x-questions.fill_in_blanks :choices="$item_value['question_choices']" />
                 @break
 
+            @case("true_or_false")
+                <x-questions.true_false :one-time-answer="$item_value['one_time_answer']" />
+
         @endswitch
     {{-- End the form --}}
     </form>
