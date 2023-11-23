@@ -19,6 +19,7 @@ body {
             padding: 20px;
 
             div.menu-toggle {
+                display: none;
                 .child-0, .child-1, .child-2, .child-3, .child-4 {
                     transition: transform 0.3s ease-out;
                     transform-box: fill-box;
@@ -53,17 +54,17 @@ body {
 
         nav {
             transition-duration: 0.3s;
-            height: 0;
             display: flex;
+            height: 50px;
             justify-content: space-around;
             align-items: center;
             box-shadow: 0 5px 5px $off-white;
 
             a {
+                font-size: medium;
                 color: $black;
                 text-decoration: none;
                 vertical-align: middle;
-                font-size: 0;
                 transition: {
                     duration: 0.3s;
                     property: font-size;
@@ -71,8 +72,6 @@ body {
             }
 
             &.active {
-                height: 50px;
-
                 a {
                     font-size: medium;
                 }
@@ -84,11 +83,23 @@ body {
 // Device optimisations for header.scss
 @media (max-width: 640px) {
     body {
+        header {
+            #menu-toggle {
+                display: block;
+            }
+        }
         nav {
+            a {
+                font-size: 0!important;
+            }
+            height: 0!important;
             display: flex;
             flex-direction: column;
             &.active {
                 height: 200px!important;
+                a {
+                    font-size: medium!important;
+                }
             }
         }
     }
