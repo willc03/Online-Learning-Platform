@@ -4,7 +4,7 @@
  * imports.
  */
 @import url("https://fonts.bunny.net/css?family=figtree:300");
-.block-transitions {
+.block-transitions, .ui-sortable-helper {
   -webkit-transition: none !important;
   -moz-transition: none !important;
   -ms-transition: none !important;
@@ -120,7 +120,7 @@ span.blank.filled {
   height: 30px;
 }
 
-.question-form fieldset.single-choice-field, .question-form fieldset.fill-blanks-field, .question-form fieldset.boolean-field {
+.question-form fieldset.single-choice-field, .question-form fieldset.fill-blanks-field, .question-form fieldset.boolean-field, .question-form fieldset.order-field {
   border: 1px solid black;
   border-radius: 8px;
   display: flex;
@@ -128,16 +128,38 @@ span.blank.filled {
   flex-wrap: wrap;
   padding-top: 30px;
 }
-.question-form button.option-button {
-  width: 45%;
+.question-form fieldset.single-choice-field ul, .question-form fieldset.single-choice-field ol, .question-form fieldset.fill-blanks-field ul, .question-form fieldset.fill-blanks-field ol, .question-form fieldset.boolean-field ul, .question-form fieldset.boolean-field ol, .question-form fieldset.order-field ul, .question-form fieldset.order-field ol {
+  width: 60%;
+  list-style-type: none;
+  padding-left: 0;
+}
+.question-form fieldset.single-choice-field ul button, .question-form fieldset.single-choice-field ol button, .question-form fieldset.fill-blanks-field ul button, .question-form fieldset.fill-blanks-field ol button, .question-form fieldset.boolean-field ul button, .question-form fieldset.boolean-field ol button, .question-form fieldset.order-field ul button, .question-form fieldset.order-field ol button {
   height: 50px;
   margin-bottom: 21px;
 }
-.question-form button.option-button span {
+.question-form fieldset.single-choice-field.vertical > *, .question-form fieldset.fill-blanks-field.vertical > *, .question-form fieldset.boolean-field.vertical > *, .question-form fieldset.order-field.vertical > * {
+  display: flex;
+  flex-direction: column;
+}
+.question-form button.option-button, .question-form button.draggable-choice {
+  height: 50px;
+  margin-bottom: 21px;
+}
+.question-form button.option-button.option-button, .question-form button.draggable-choice.option-button {
+  width: 45%;
+}
+.question-form button.option-button.draggable-choice, .question-form button.draggable-choice.draggable-choice {
+  width: 100%;
+}
+.question-form button.option-button:not(.ui-sortable-helper), .question-form button.draggable-choice:not(.ui-sortable-helper) {
+  margin-left: auto;
+  margin-right: auto;
+}
+.question-form button.option-button span, .question-form button.draggable-choice span {
   border: 1px solid black;
   border-radius: 8px;
 }
-.question-form button.option-button span:hover {
+.question-form button.option-button span:hover, .question-form button.draggable-choice span:hover {
   border-color: grey;
 }
 .question-form input[type=submit], .question-form button[type=submit] {
@@ -148,9 +170,12 @@ span.blank.filled {
 .question-form input[type=submit]:not([disabled]), .question-form button[type=submit]:not([disabled]) {
   cursor: pointer;
 }
+.question-form ul {
+  width: 100%;
+}
 
 @media (max-width: 640px) {
-  .question-form button.option-button {
+  .question-form button.option-button, .question-form button.draggable-choice {
     width: 80%;
   }
 }

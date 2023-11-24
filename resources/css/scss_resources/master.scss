@@ -9,7 +9,7 @@ $grey: #838383;
 $off-green: #66936f;
 
 // Stop CSS transitions from playing when the page loads.
-.block-transitions {
+.block-transitions, .ui-sortable-helper {
     -webkit-transition: none !important;
     -moz-transition: none !important;
     -ms-transition: none !important;

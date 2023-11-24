@@ -15,7 +15,7 @@
 .question-form {
 
     fieldset {
-        &.single-choice-field, &.fill-blanks-field, &.boolean-field {
+        &.single-choice-field, &.fill-blanks-field, &.boolean-field, &.order-field {
             // Base properties
             border: 1px solid black;
             border-radius: 8px;
@@ -23,14 +23,35 @@
             justify-content: space-around;
             flex-wrap: wrap;
             padding-top: 30px;
-
+            ul, ol {
+                width: 60%;
+                list-style-type: none;
+                padding-left: 0;
+                button {
+                    height: 50px;
+                    margin-bottom: 21px;
+                }
+            }
+            &.vertical > * {
+                display: flex;
+                flex-direction: column;
+            }
         }
     }
 
-    button.option-button {
-        width: 45%;
+    button.option-button, button.draggable-choice {
+        &.option-button {
+            width: 45%;
+        }
+        &.draggable-choice {
+            width: 100%;
+        }
         height: 50px;
         margin-bottom: 21px;
+        &:not(.ui-sortable-helper) {
+            margin-left: auto;
+            margin-right: auto;
+        }
 
         span {
             border: 1px solid black;
@@ -53,10 +74,14 @@
         }
     }
 
+    ul {
+        width: 100%;
+    }
+
 }
 
 @media (max-width: 640px) {
-    .question-form button.option-button {
+    .question-form button.option-button, .question-form button.draggable-choice {
         width: 80%;
     }
 }
