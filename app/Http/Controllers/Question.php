@@ -47,7 +47,7 @@ class Question extends Controller
                 "correct_answers": ["care"]
             }')
         ]); */
-        return view('question', [
+        /* TRUE OR FALSE return view('question', [
             'id' => 1,
             'position' => 1,
             'item_title' => 'The year 2000 was a leap year.',
@@ -57,6 +57,19 @@ class Question extends Controller
                 "question_type": "true_or_false",
                 "one_time_answer": true,
                 "correct_answer": true
+            }')
+        ]); */
+        return view('question', [
+            'id' => 1,
+            'position' => 1,
+            'item_title' => 'Drag the below C++ code into the correct order to carry out SELECTION.',
+            'description' => null,
+            'item_type' => 'question',
+            'item_value' => Json::decode('{
+                "question_type": "order",
+                "answer_slots": ["bool isEven = false;", "if (2 % 0 == 0) {", "    isEven = true;", "}"],
+                "correct_answer": ["bool isEven = false;", "if (2 % 0 == 0) {", "    isEven = true;", "}"],
+                "direction": "vertical"
             }')
         ]);
     }
