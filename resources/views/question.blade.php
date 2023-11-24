@@ -22,6 +22,11 @@
 
             @case("true_or_false")
                 <x-questions.true_false :one-time-answer="$item_value['one_time_answer']" />
+                @break
+
+            @case("order")
+                <x-questions.order :choices="$item_value['answer_slots']" :direction="$item_value['direction']" />
+                @break
 
         @endswitch
     {{-- End the form --}}
