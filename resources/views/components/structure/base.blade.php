@@ -8,6 +8,7 @@
         <title>{{ $title }} - Online Learning Platform</title> {{-- A title can be provided when the component is called --}}
         <link rel="stylesheet" type="text/css" href="{{ asset('style.css') }}"> {{-- Use a global stylesheet --}}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     </head>
 
     <body class="block-transitions">
