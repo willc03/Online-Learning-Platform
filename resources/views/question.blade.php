@@ -28,6 +28,9 @@
                 <x-questions.order :choices="$item_value['answer_slots']" :direction="$item_value['direction']" />
                 @break
 
+            @case("match")
+                <x-questions.match :choices="$item_value['items_to_match']" />
+
         @endswitch
     {{-- End the form --}}
     </form>
