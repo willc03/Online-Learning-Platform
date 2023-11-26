@@ -15,7 +15,7 @@
 .question-form {
 
     fieldset {
-        &.single-choice-field, &.fill-blanks-field, &.boolean-field, &.order-field {
+        &.single-choice-field, &.fill-blanks-field, &.boolean-field, &.order-field, &.match-field {
             // Base properties
             border: 1px solid black;
             border-radius: 8px;
@@ -35,6 +35,18 @@
             &.vertical > * {
                 display: flex;
                 flex-direction: column;
+            }
+        }
+
+        .left-box, .right-box {
+            display: flex;
+            flex-direction: column;
+            width: 45%;
+            justify-content: space-around;
+            align-items: center;
+            .three-d {
+                width: 80%;
+                margin-bottom: 21px;
             }
         }
     }
