@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Blade::directive("shuffle", function( $expression ) {
+        Blade::directive("shuffle", function( $expression ) { // This custom blade directive will shuffle an array
             return "<?php shuffle($expression); ?>";
         });
     }
