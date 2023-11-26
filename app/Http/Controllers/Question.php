@@ -59,7 +59,7 @@ class Question extends Controller
                 "correct_answer": true
             }')
         ]); */
-        return view('question', [
+        /* CORRECT ORDER return view('question', [
             'id' => 1,
             'position' => 1,
             'item_title' => 'Drag the below C++ code into the correct order to carry out SELECTION.',
@@ -70,6 +70,24 @@ class Question extends Controller
                 "answer_slots": ["bool isEven = false;", "if (2 % 0 == 0) {", "    isEven = true;", "}"],
                 "correct_answer": ["bool isEven = false;", "if (2 % 0 == 0) {", "    isEven = true;", "}"],
                 "direction": "vertical"
+            }')
+        ]); */
+        return view('question', [
+            'id' => 1,
+            'position' => 1,
+            'item_title' => 'Match the following words and their definitions.',
+            'description' => null,
+            'item_type' => 'question',
+            'item_value' => Json::decode('{
+                "question_type": "match",
+                "items_to_match": [
+                    ["Variable", "A memory location that stores data"],
+                    ["Function", "A block of code used to execute the same process repeatedly"],
+                    ["Object", "An instance of a class"],
+                    ["Class", "A template container for an object"],
+                    ["Integer", "A variable used to store whole numbers"],
+                    ["Float", "A variable used to store numbers with decimal places"]
+                ]
             }')
         ]);
     }
