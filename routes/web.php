@@ -34,6 +34,7 @@ Route::prefix('question')->name('question.')->middleware('auth')->group(function
     Route::post('/answer/', function() {
         abort(404);
     })->name('answer');
+    Route::post('/answer/partial/', [Question::class, 'partial'])->name('partial');
 });
 
 // General pages (primarily static content)
