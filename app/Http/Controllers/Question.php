@@ -91,4 +91,36 @@ class Question extends Controller
             }')
         ]);
     }
+
+    // Create a route to process partial answers using AJAX requests
+    // THIS IS ONLY TEMPORARY AS NOTHING IS YET STORED IN THE DATABASE
+    public function partial(Request $request)
+    {
+        // Set up some required information to process the answer
+        $validated_data = $request->validate([
+            'question_id' => ['required'],
+            'answer' => ['required']
+        ]);
+
+        // Retrieve the question information
+        $question_info = Json::decode('{
+            "question_type": "match",
+            "items_to_match": [
+                ["Variable", "A memory location that stores data"],
+                ["Function", "A block of code used to execute the same process repeatedly"],
+                ["Object", "An instance of a class"],
+                ["Class", "A template container for an object"],
+                ["Integer", "A variable used to store whole numbers"],
+                ["Float", "A variable used to store numbers with decimal places"]
+            ]
+        }');
+
+        // Check if the answer is correct
+        for ($i = 0; $i < count($question_info['items_to_match']); $i++) {
+            if (count( array_intersect($question_info["items_to_match"][$i], $validated_data['answer']) ) == count($validated_data['answer'])) {
+                return 'true';
+            }
+        }
+        return 'false';
+    }
 }

@@ -9,6 +9,23 @@
         .three-d.selected .foreground {
             background-color: #48b1e1 !important;
         }
+
+        .three-d.incorrect {
+            background-color: #CA6565!important;
+        }
+        .three-d.incorrect .foreground {
+            background-color: #A23636!important;
+        }
+
+        .three-d.correct {
+            filter: saturate(100%)!important;
+            background-color: #88A236!important;
+        }
+        .three-d.correct .foreground {
+            filter: saturate(100%)!important;
+            background-color: #B1CA65!important;
+            transform: translateY(-2px)!important;
+        }
     </style>
 
     @shuffle($choices)
@@ -47,9 +64,30 @@
         }
 
         if ($(".left-box .three-d.selected").length && $(".right-box .three-d.selected").length) {
-            let leftElement = $(".left-box .three-d.selected").first().text();
-            let rightElement = $(".right-box .three-d.selected").first().text();
+            let leftElement = $(".left-box .three-d.selected").first();
+            let rightElement = $(".right-box .three-d.selected").first();
             setTimeout(() => $(leftBoxButtons).add(rightBoxButtons).removeClass("selected"), 175);
+
+            $.ajax({
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                method: "POST",
+                url: "{{ route('question.partial') }}",
+                data: {
+                    'question_id': $("#question_id").val(),
+                    'answer': [$(leftElement).text(), $(rightElement).text()]
+                }
+            }).done(function(data) {
+                var elements = $(leftElement).add(rightElement);
+
+                if (data === "true") {
+                    elements.addClass("correct").prop('disabled', true);
+                } else {
+                    elements.addClass("incorrect");
+                    setTimeout(function() {
+                        elements.removeClass("incorrect");
+                    }, 175);
+                }
+            });
         }
     }
 
