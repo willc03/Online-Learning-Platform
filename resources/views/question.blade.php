@@ -4,7 +4,7 @@
     {{-- Make the question a submittable form --}}
     <form method="post" action="{{ route('question.answer') }}" class="question-form">
         @csrf
-        <input type="hidden" name="question_id" value="{{ $id }}">
+        <input type="hidden" id="question_id" name="question_id" value="{{ $id }}">
         {{-- Produce different results based on the question type --}}
         @switch($item_value['question_type'])
 
