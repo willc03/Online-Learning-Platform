@@ -30,10 +30,15 @@
     const leftBoxButtons = $(".left-box .three-d");
     const rightBoxButtons = $(".right-box .three-d");
     {{-- Set all the boxes to be the same size --}}
-    let maxHeight = 0;
-    $(".three-d").each(function() {
-        maxHeight = $(this).height() > maxHeight ? $(this).height() : maxHeight;
-    }).height(maxHeight + 10);
+    function resizeButtons() {
+        let maxHeight = 0;
+        $(".three-d").css("height", "").each(function() {
+            maxHeight = $(this).height() > maxHeight ? $(this).height() : maxHeight;
+        }).height(maxHeight + 10).data("extended", true);
+    }
+    resizeButtons();
+
+    $(window).on("resize", resizeButtons);
     {{-- Manage the matching of items --}}
     function onButtonClick(buttonGroup, currentButton) {
         let selectedButtons = $(buttonGroup).filter(".selected").removeClass("selected");
@@ -47,7 +52,7 @@
             setTimeout(() => $(leftBoxButtons).add(rightBoxButtons).removeClass("selected"), 175);
         }
     }
-    
+
     $(leftBoxButtons).on("click", function() {
         onButtonClick(leftBoxButtons, this);
     });
