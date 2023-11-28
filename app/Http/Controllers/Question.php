@@ -72,7 +72,7 @@ class Question extends Controller
                 "direction": "vertical"
             }')
         ]); */
-        return view('question', [
+        /* MATCH return view('question', [
             'id' => 1,
             'position' => 1,
             'item_title' => 'Match the following words and their definitions.',
@@ -81,6 +81,25 @@ class Question extends Controller
             'item_value' => Json::decode('{
                 "question_type": "match",
                 "items_to_match": [
+                    ["Variable", "A memory location that stores data"],
+                    ["Function", "A block of code used to execute the same process repeatedly"],
+                    ["Object", "An instance of a class"],
+                    ["Class", "A template container for an object"],
+                    ["Integer", "A variable used to store whole numbers"],
+                    ["Float", "A variable used to store numbers with decimal places"]
+                ],
+                "are_sides_random": true
+            }')
+        ]); */
+        return view('question', [
+            'id' => 1,
+            'position' => 1,
+            'item_title' => 'Find the words to get their definitions.',
+            'description' => null,
+            'item_type' => 'question',
+            'item_value' => Json::decode('{
+                "question_type": "wordsearch",
+                "words": [
                     ["Variable", "A memory location that stores data"],
                     ["Function", "A block of code used to execute the same process repeatedly"],
                     ["Object", "An instance of a class"],
