@@ -15,7 +15,7 @@
 .question-form {
 
     fieldset {
-        &.single-choice-field, &.fill-blanks-field, &.boolean-field, &.order-field, &.match-field {
+        &.single-choice-field, &.fill-blanks-field, &.boolean-field, &.order-field, &.match-field, &.wordsearch-field {
             // Base properties
             border: 1px solid black;
             border-radius: 8px;
@@ -47,6 +47,23 @@
             .three-d {
                 width: 80%;
                 margin-bottom: 21px;
+            }
+        }
+
+        .wordsearch {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            .row {
+                width: 100%;
+                display: flex;
+                justify-content: space-evenly;
+                margin: auto!important;
+
+                p {
+                    margin: auto;
+                    text-align: center;
+                }
             }
         }
     }
