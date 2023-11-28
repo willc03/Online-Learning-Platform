@@ -162,10 +162,19 @@ span.blank.filled {
   display: flex;
   justify-content: space-evenly;
   margin: auto !important;
+  user-select: none;
+  -webkit-user-select: none;
 }
-.question-form fieldset .wordsearch .row p {
+.question-form fieldset .wordsearch .row .letter {
+  display: flex;
+  align-items: center;
+  transition-duration: 175ms;
+}
+.question-form fieldset .wordsearch .row .letter:hover {
+  background-color: red;
+}
+.question-form fieldset .wordsearch .row .letter p {
   margin: auto;
-  text-align: center;
 }
 .question-form button.option-button, .question-form button.draggable-choice {
   height: 50px;

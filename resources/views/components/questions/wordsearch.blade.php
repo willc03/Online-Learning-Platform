@@ -4,7 +4,9 @@
         @foreach($puzzle->toArray() as $row)
             <div class="row">
                 @foreach($row as $letter)
-                    <p>{{ $letter }}</p>
+                    <div class="letter">
+                        <p>{{ $letter }}</p>
+                    </div>
                 @endforeach
             </div>
         @endforeach
@@ -19,18 +21,22 @@
 <script>
     $(function() {
         {{-- jQuery groups --}}
-        const wordsearch = $(".wordsearch")
+        const wordsearch = $(".wordsearch");
+        const letters = $(".letter");
 
         {{-- Functions --}}
         function resizeWordsearch() {
             $(wordsearch).height($(wordsearch).width());
+            $(letters).height($(letters).width());
         }
-        resizeWordsearch();
 
         {{-- Events --}}
         $(window).on("resize", resizeWordsearch);
 
         {{-- General scripting --}}
-        $(".wordsearch p").width( ( 100 / $(".row").length ) + "%");
+        $(letters).width( ( 100 / $(".row").length ) + "%");
+
+        {{-- Initial function calls --}}
+        resizeWordsearch();
     });
 </script>

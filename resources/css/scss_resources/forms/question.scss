@@ -58,11 +58,22 @@
                 width: 100%;
                 display: flex;
                 justify-content: space-evenly;
-                margin: auto!important;
+                margin: auto !important;
+                user-select: none;
+                -webkit-user-select: none;
 
-                p {
-                    margin: auto;
-                    text-align: center;
+                .letter {
+                    display: flex;
+                    align-items: center;
+                    transition-duration: 175ms;
+
+                    &:hover {
+                        background-color: red;
+                    }
+
+                    p {
+                        margin: auto;
+                    }
                 }
             }
         }
