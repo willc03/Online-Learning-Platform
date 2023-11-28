@@ -30,6 +30,24 @@
 
             @case("match")
                 <x-questions.match :choices="$item_value['items_to_match']" :is_random="$item_value['are_sides_random']" />
+                @break
+
+            @case("wordsearch")
+                @php
+                    $words = [];
+                    $maxLength = 0;
+                    foreach($item_value['words'] as $wordSet) {
+                        if (!empty($wordSet)) {
+                            $words[] = $wordSet[0]; // Insert the word on the next slot of the array
+                            if (strlen($wordSet[0]) > $maxLength) {
+                                $maxLength = strlen($wordSet[0]);
+                            }
+                        }
+                    }
+                    $wordsearch = WordSearch\Factory::create($words, $maxLength + 5);
+                @endphp
+                <x-questions.wordsearch :puzzle="$wordsearch" />
+                @break
 
         @endswitch
     {{-- End the form --}}
