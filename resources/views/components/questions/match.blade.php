@@ -28,17 +28,19 @@
         }
     </style>
 
+    @php $sideChoices = [0, 1]; @endphp
+    @shuffle($sideChoices)
     @shuffle($choices)
     <div class="left-box">
         @foreach($choices as $choice)
-            <x-components.3d_button type="button" fg_color="#81d4fa" bg_color="#5a94af">{{ $choice[0] }}</x-components.3d_button>
+            <x-components.3d_button type="button" fg_color="#81d4fa" bg_color="#5a94af">{{ $choice[$sideChoices[0]] }}</x-components.3d_button>
         @endforeach
     </div>
 
     @shuffle($choices)
     <div class="right-box">
         @foreach($choices as $choice)
-            <x-components.3d_button type="button" fg_color="#81d4fa" bg_color="#5a94af">{{ $choice[1] }}</x-components.3d_button>
+            <x-components.3d_button type="button" fg_color="#81d4fa" bg_color="#5a94af">{{ $choice[$sideChoices[1]] }}</x-components.3d_button>
         @endforeach
     </div>
 </fieldset>
