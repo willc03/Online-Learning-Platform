@@ -29,7 +29,7 @@
                 @break
 
             @case("match")
-                <x-questions.match :choices="$item_value['items_to_match']" />
+                <x-questions.match :choices="$item_value['items_to_match']" :is_random="$item_value['are_sides_random']" />
 
         @endswitch
     {{-- End the form --}}

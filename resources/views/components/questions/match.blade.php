@@ -29,7 +29,9 @@
     </style>
 
     @php $sideChoices = [0, 1]; @endphp
-    @shuffle($sideChoices)
+    @if ($isRandom)
+        @shuffle($sideChoices)
+    @endif
     @shuffle($choices)
     <div class="left-box">
         @foreach($choices as $choice)

@@ -87,7 +87,8 @@ class Question extends Controller
                     ["Class", "A template container for an object"],
                     ["Integer", "A variable used to store whole numbers"],
                     ["Float", "A variable used to store numbers with decimal places"]
-                ]
+                ],
+                "are_sides_random": true
             }')
         ]);
     }
