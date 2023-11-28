@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ece0ccf2ddede5be38788d00ddbfc5ae",
+    "content-hash": "e57373c5111369877cd9781c2d16cded",
     "packages": [
         {
             "name": "brick/math",
@@ -6017,6 +6017,55 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "xmeltrut/word-search",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xmeltrut/WordSearch.git",
+                "reference": "a6dd7c96b78045a3d172e3c5b97e9909b32a9fba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/xmeltrut/WordSearch/zipball/a6dd7c96b78045a3d172e3c5b97e9909b32a9fba",
+                "reference": "a6dd7c96b78045a3d172e3c5b97e9909b32a9fba",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.8.*",
+                "squizlabs/php_codesniffer": "2.6.*"
+            },
+            "suggest": {
+                "ext-mbstring": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WordSearch\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Worfolk",
+                    "email": "chris@worfolk.co.uk",
+                    "homepage": "http://www.worfolk.co.uk"
+                }
+            ],
+            "description": "Word search generator.",
+            "homepage": "http://github.com/xmeltrut/WordSearch",
+            "support": {
+                "issues": "https://github.com/xmeltrut/WordSearch/issues",
+                "source": "https://github.com/xmeltrut/WordSearch/tree/master"
+            },
+            "time": "2016-08-09T22:05:34+00:00"
         }
     ],
     "packages-dev": [
