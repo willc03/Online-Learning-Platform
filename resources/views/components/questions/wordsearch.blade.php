@@ -21,17 +21,41 @@
 <script>
     $(function() {
         {{-- jQuery groups --}}
+        const field = $(".wordsearch-field");
         const wordsearch = $(".wordsearch");
         const letters = $(".letter");
+
+        {{-- Variables --}}
+        let isMouseDown = false;
+        let highlightedLetters = [];
 
         {{-- Functions --}}
         function resizeWordsearch() {
             $(wordsearch).height($(wordsearch).width());
             $(letters).height($(letters).width());
         }
+        function highlightLetter() {
+            if (isMouseDown && !highlightedLetters.includes($(this))) {
+                highlightedLetters.push($(this));
+                $(this).addClass("wordsearch-selected");
+            }
+        }
 
         {{-- Events --}}
         $(window).on("resize", resizeWordsearch);
+        $(letters)
+            .on("mousedown", function() {
+                isMouseDown = true;
+                highlightedLetters.push($(this));
+                $(this).addClass("wordsearch-selected");
+            })
+            .on("mouseup", function() {
+                isMouseDown = false;
+                $(letters).removeClass("wordsearch-selected");
+                highlightedLetters = [];
+            });
+        $(letters).on("mouseover", highlightLetter);
+        $(letters).on("mousedown", highlightLetter);
 
         {{-- General scripting --}}
         $(letters).width( ( 100 / $(".row").length ) + "%");

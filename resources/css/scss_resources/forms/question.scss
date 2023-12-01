@@ -68,7 +68,11 @@
                     transition-duration: 175ms;
 
                     &:hover {
-                        background-color: red;
+                        background-color: #81d4fa;
+                    }
+
+                    &.wordsearch-selected {
+                        background-color: #5a94af!important;
                     }
 
                     p {

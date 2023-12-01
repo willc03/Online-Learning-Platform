@@ -171,7 +171,10 @@ span.blank.filled {
   transition-duration: 175ms;
 }
 .question-form fieldset .wordsearch .row .letter:hover {
-  background-color: red;
+  background-color: #81d4fa;
+}
+.question-form fieldset .wordsearch .row .letter.wordsearch-selected {
+  background-color: #5a94af !important;
 }
 .question-form fieldset .wordsearch .row .letter p {
   margin: auto;
