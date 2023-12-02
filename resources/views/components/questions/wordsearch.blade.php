@@ -103,6 +103,26 @@
                 startLetter = null;
                 initialDirection = null;
                 $(letters).removeClass("wordsearch-selected");
+
+                let selectedLetters = highlightedLetters;
+
+                {{-- Letter-handling logic --}}
+                let answer = [];
+                $.each($(selectedLetters), function(_, val) {
+                    answer.push($(val).text().trim());
+                })
+
+                $.ajax({
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    method: "POST",
+                    url: "{{ route('question.partial') }}",
+                    data: {
+                        'question_id': $("#question_id").val(),
+                        'answer': answer
+                    }
+                }).done(function(data) {
+                });
+
                 highlightedLetters = [];
             });
         $(letters).on("mouseover", highlightLetter);
