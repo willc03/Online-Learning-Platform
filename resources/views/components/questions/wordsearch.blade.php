@@ -32,7 +32,6 @@
 <script>
     $(function() {
         {{-- jQuery groups --}}
-        const field = $(".wordsearch-field");
         const wordsearch = $(".wordsearch");
         const letters = $(".letter");
 
