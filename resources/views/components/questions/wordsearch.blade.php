@@ -55,9 +55,6 @@
         }
 
         function highlightLetter() {
-            if (isMouseDown && !highlightedLetters.includes($(this))) {
-                highlightedLetters.push($(this));
-                $(this).addClass("wordsearch-selected");
             }
         }
 
@@ -66,8 +63,6 @@
         $(letters)
             .on("mousedown", function() {
                 isMouseDown = true;
-                highlightedLetters.push($(this));
-                $(this).addClass("wordsearch-selected");
             })
             .on("mouseup", function() {
                 isMouseDown = false;
