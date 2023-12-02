@@ -28,6 +28,8 @@
         {{-- Variables --}}
         let isMouseDown = false;
         let highlightedLetters = [];
+        let startLetter = null;
+        let initialDirection = null;
 
         {{-- Functions --}}
         function resizeWordsearch() {
@@ -55,6 +57,25 @@
         }
 
         function highlightLetter() {
+            if (isMouseDown && !highlightedLetters.includes($(this))) { {{-- Only highlight letters while the mouse is down and its not already highlighted --}}
+                if (!startLetter) { {{-- Special logic must be executed if only the starting letter is selected, as the direction is unknown --}}
+                    startLetter = $(this);
+                    highlightedLetters.push($(this));
+                    $(this).addClass("wordsearch-selected");
+                    initialDirection = null; {{-- Resetting the direction  --}}
+                } else {
+                    const direction = getDirection($(this));
+
+                    if (!initialDirection) { {{-- Set the direction of the selection if it is not set --}}
+                        initialDirection = direction;
+                    }
+
+                    {{-- Check if the selected letter is in the same row or column and in the initial direction --}}
+                    if (direction === initialDirection) {
+                        highlightedLetters.push($(this));
+                        $(this).addClass("wordsearch-selected");
+                    }
+                }
             }
         }
 
@@ -63,9 +84,14 @@
         $(letters)
             .on("mousedown", function() {
                 isMouseDown = true;
+                startLetter = null;
+                initialDirection = null;
+                highlightLetter.call($(this)); {{-- This is used to set the value of $(this) --}}
             })
             .on("mouseup", function() {
                 isMouseDown = false;
+                startLetter = null;
+                initialDirection = null;
                 $(letters).removeClass("wordsearch-selected");
                 highlightedLetters = [];
             });
@@ -78,4 +104,5 @@
         {{-- Initial function calls --}}
         resizeWordsearch();
     });
+
 </script>
