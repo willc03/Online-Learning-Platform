@@ -165,7 +165,7 @@ class Question extends Controller
                 }');
 
                 // Check the answer is a word
-                $user_word = implode($validated_data['answer']);
+                $user_word = strtolower(implode($validated_data['answer']));
                 for ($i = 0; $i < count($question_info['words']); $i++) {
                     if ( count( array_intersect($question_info["words"][$i], $user_word) ) == 1 || count( array_intersect($question_info["words"][$i], strrev($user_word)) ) == 1) {
                         return $question_info['words'][$i][1];
