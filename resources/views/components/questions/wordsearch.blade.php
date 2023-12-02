@@ -34,6 +34,26 @@
             $(wordsearch).height($(wordsearch).width());
             $(letters).height($(letters).width());
         }
+
+        function getDirection(currentLetter) { {{-- This function will find out whether the selection is a row or column --}}
+            const currentRow = currentLetter.parent().index();
+            const currentCol = currentLetter.index();
+
+            if (startLetter) {
+                const [startRow, startCol] = [startLetter.parent().index(), startLetter.index()];
+
+                if (currentRow === startRow) {
+                    return "row";
+                } else if (currentCol === startCol) {
+                    return "column";
+                }
+
+                return null;
+            }
+
+            return null;
+        }
+
         function highlightLetter() {
             if (isMouseDown && !highlightedLetters.includes($(this))) {
                 highlightedLetters.push($(this));
