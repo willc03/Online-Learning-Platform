@@ -11,9 +11,12 @@
             </div>
         @endforeach
     </div>
+</fieldset>
+<fieldset class="word-list wordsearch-field" style="width: 50%; margin-top: 10px; align-self: center">
+    <legend>Word list:</legend>
     <div class="word-list">
         @foreach($puzzle->getWordList() as $word)
-            <p>{{ $word->word }}</p>
+            <p id="ws-word-{{ strtolower($word->word) }}">{{ $word->word }}</p>
         @endforeach
     </div>
 </fieldset>
