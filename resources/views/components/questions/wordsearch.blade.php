@@ -21,6 +21,14 @@
     </div>
 </fieldset>
 
+<div id="cover-box" style="display: none">
+    <div class="content">
+        <h3 id="title"></h3>
+        <p id="info"></p>
+        <x-components.3d_button type="button" fg_color="#B1CA65" bg_color="#88A236" onclick="$('#cover-box').css('display', 'none')">Done</x-components.3d_button>
+    </div>
+</div>
+
 <script>
     $(function() {
         {{-- jQuery groups --}}
