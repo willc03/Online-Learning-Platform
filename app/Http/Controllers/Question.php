@@ -149,7 +149,30 @@ class Question extends Controller
                 return 'false';
                 break;
 
+            case "wordsearch":
+                // Get the question info
+                $question_info = Json::decode('{
+                    "question_type": "wordsearch",
+                    "words": [
+                        ["Variable", "A memory location that stores data"],
+                        ["Function", "A block of code used to execute the same process repeatedly"],
+                        ["Object", "An instance of a class"],
+                        ["Class", "A template container for an object"],
+                        ["Integer", "A variable used to store whole numbers"],
+                        ["Float", "A variable used to store numbers with decimal places"]
+                    ],
+                    "are_sides_random": true
+                }');
 
+                // Check the answer is a word
+                $user_word = implode($validated_data['answer']);
+                for ($i = 0; $i < count($question_info['words']); $i++) {
+                    if ( count( array_intersect($question_info["words"][$i], $user_word) ) == 1 || count( array_intersect($question_info["words"][$i], strrev($user_word)) ) == 1) {
+                        return $question_info['words'][$i][1];
+                    }
+                }
+                return 'false';
+                break;
         }
 
         return null;
