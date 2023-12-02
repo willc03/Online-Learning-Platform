@@ -35,7 +35,11 @@
         const wordsearch = $(".wordsearch");
         const letters = $(".letter");
 
+        {{-- Constants --}}
+        const wordsToFind = {{ count($puzzle->getWordList()) }};
+
         {{-- Variables --}}
+        let foundWords = [];
         let isMouseDown = false;
         let highlightedLetters = [];
         let startLetter = null;
@@ -67,7 +71,8 @@
         }
 
         function highlightLetter() {
-            if (isMouseDown && !highlightedLetters.includes($(this))) { {{-- Only highlight letters while the mouse is down and its not already highlighted --}}
+            const isHighlighted = highlightedLetters.some(element => element.is($(this)));
+            if (isMouseDown && !isHighlighted) { {{-- Only highlight letters while the mouse is down and its not already highlighted --}}
                 if (!startLetter) { {{-- Special logic must be executed if only the starting letter is selected, as the direction is unknown --}}
                     startLetter = $(this);
                     highlightedLetters.push($(this));
@@ -121,6 +126,22 @@
                         'answer': answer
                     }
                 }).done(function(data) {
+                    if (!(data === "false") && !foundWords.includes(data[0])) {
+                        foundWords.push(data[0]);
+                        $.each(selectedLetters, function(_, item) {
+                            $(item).css("backgroundColor", "#B1CA65");
+                        });
+
+                        $("#cover-box #title").text(data[0]);
+                        $("#cover-box #info").text(data[1]);
+
+                        $("#cover-box").css('display', 'block');
+                        $("#cover-box .content").css('top', '50%');
+
+                        if (foundWords.length == wordsToFind) {
+                            $(".question-form").submit();
+                        }
+                    }
                 });
 
                 highlightedLetters = [];
