@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LessonItem;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 
