@@ -221,7 +221,7 @@ span.blank.filled {
 }
 .question-form #cover-box .content {
   transition-duration: 300ms;
-  padding: 10%;
+  padding: 2.5%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -231,9 +231,13 @@ span.blank.filled {
   position: fixed;
   top: 200%;
   left: 50%;
-  width: 50%;
-  height: 25%;
   transform: translate(-50%, -50%);
+}
+.question-form #cover-box .content > * {
+  margin: 10px auto;
+}
+.question-form #cover-box .content #title {
+  margin-bottom: 0;
 }
 .question-form #cover-box .content button {
   width: 50%;

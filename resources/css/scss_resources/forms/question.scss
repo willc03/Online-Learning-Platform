@@ -134,7 +134,7 @@
 
         .content {
             transition-duration: 300ms;
-            padding: 10%;
+            padding: 2.5%;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -144,9 +144,15 @@
             position: fixed;
             top: 200%;
             left: 50%;
-            width: 50%;
-            height: 25%;
             transform: translate(-50%, -50%);
+
+            & > * {
+                margin: 10px auto;
+            }
+
+            #title {
+                margin-bottom: 0;
+            }
 
             button {
                 width: 50%;
