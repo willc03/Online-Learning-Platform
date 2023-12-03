@@ -58,6 +58,6 @@
         </form>
     </div>
 
-    <x-scripts.password_criteria />
-    <x-scripts.form_validation />
+    <script src="{{ asset("assets/scripts/forms/password_criteria.js") }}"></script>
+    <script src="{{ asset("assets/scripts/forms/form_validation.js") }}"></script>
 </x-structure.wrapper>

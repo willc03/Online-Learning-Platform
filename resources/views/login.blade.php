@@ -37,5 +37,5 @@
         </form>
     </div>
 
-    <x-scripts.form_validation />
+    <script src="{{ asset("assets/scripts/forms/form_validation.js") }}"></script>
 </x-structure.wrapper>
