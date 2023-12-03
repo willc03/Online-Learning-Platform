@@ -132,6 +132,8 @@
                             $(item).css("backgroundColor", "#B1CA65");
                         });
 
+                        $("#ws-word-"+(data[0].toLowerCase())).css("textDecoration", "line-through");
+
                         $("#cover-box #title").text(data[0]);
                         $("#cover-box #info").text(data[1]);
 
