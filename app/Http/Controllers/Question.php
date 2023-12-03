@@ -30,23 +30,22 @@ class Question extends Controller
     }
 
     // Create a route to process partial answers using AJAX requests
-    // THIS IS ONLY TEMPORARY AS NOTHING IS YET STORED IN THE DATABASE
     public function partial(Request $request)
     {
         // Set up some required information to process the answer
-        $validated_data = $request->validate([
+        $validatedData = $request->validate([
             'question_id' => ['required'],
             'answer' => ['required']
         ]);
 
         // Get the details on the question
-        $question = LessonItem::where('id', $validated_data['question_id'])->firstOrFail();
+        $question = LessonItem::where('id', $validatedData['question_id'])->firstOrFail();
         $question = $this->formatQuestion($question);
 
         switch ($question->item_value['question_type']) {
             case "match":
                 // Retrieve the question information
-                $question_info = Json::decode('{
+                $questionInfo = Json::decode('{
                     "question_type": "match",
                     "items_to_match": [
                         ["Variable", "A memory location that stores data"],
@@ -59,8 +58,8 @@ class Question extends Controller
                 }');
 
                 // Check if the answer is correct
-                for ($i = 0; $i < count($question_info['items_to_match']); $i++) {
-                    if (count( array_intersect($question_info["items_to_match"][$i], $validated_data['answer']) ) == count($validated_data['answer'])) {
+                for ($i = 0; $i < count($questionInfo['items_to_match']); $i++) {
+                    if (count( array_intersect($questionInfo["items_to_match"][$i], $validatedData['answer']) ) == count($validatedData['answer'])) {
                         return 'true';
                     }
                 }
@@ -69,7 +68,7 @@ class Question extends Controller
 
             case "wordsearch":
                 // Get the question info
-                $question_info = Json::decode('{
+                $questionInfo = Json::decode('{
                     "question_type": "wordsearch",
                     "words": [
                         ["Variable", "A memory location that stores data"],
@@ -83,10 +82,10 @@ class Question extends Controller
                 }');
 
                 // Check the answer is a word
-                $user_word = strtolower(implode($validated_data['answer']));
-                for ($i = 0; $i < count($question_info['words']); $i++) {
-                    if ( $user_word == strtolower($question_info["words"][$i][0]) || strrev($user_word) == strtolower($question_info["words"][$i][0]) ) {
-                        return $question_info['words'][$i];
+                $userWord = strtolower(implode($validatedData['answer']));
+                for ($i = 0; $i < count($questionInfo['words']); $i++) {
+                    if ( $userWord == strtolower($questionInfo["words"][$i][0]) || strrev($userWord) == strtolower($questionInfo["words"][$i][0]) ) {
+                        return $questionInfo['words'][$i];
                     }
                 }
                 return 'false';
