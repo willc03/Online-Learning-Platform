@@ -1,6 +1,11 @@
 <x-structure.wrapper title="Question">
     {{-- Show the user the question --}}
     <h3 class="question-title">{!! str_replace("\\n", "<br>", (str_replace("%", '<span class=\'blank\'> </span>', $item_title))) !!}</h3> {{-- The exclaimation marks stop the content from being escaped --}}
+    {{-- Show an error message if the answer is wrong --}}
+    @if(session('error') && session('error') == 'wrong-answer')
+        <x-messages.error title="Incorrect Answer" description="Don't worry, have another go!" />
+        <br>
+    @endif
     {{-- Make the question a submittable form --}}
     <form method="post" action="{{ route('question.answer') }}" class="question-form">
         @csrf
