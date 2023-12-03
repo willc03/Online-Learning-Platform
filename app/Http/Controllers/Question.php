@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 
 class Question extends Controller
 {
+    // Convert the question into the needed format
+    private function formatQuestion($question)
+    {
+        if ($question && $question->item_value) {
+            $question->item_value = Json::decode($question->item_value);
+        }
+
+        return $question;
+    }
+
     // Create a temporary page to display the question
     public function index(string $id)
     {
