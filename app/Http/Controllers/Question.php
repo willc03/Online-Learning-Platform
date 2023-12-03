@@ -33,9 +33,6 @@ class Question extends Controller
     // THIS IS ONLY TEMPORARY AS NOTHING IS YET STORED IN THE DATABASE
     public function partial(Request $request)
     {
-        // Temporary question type variable before this is linked with the database
-        $question_type_temp = "wordsearch";
-
         // Set up some required information to process the answer
         $validated_data = $request->validate([
             'question_id' => ['required'],
