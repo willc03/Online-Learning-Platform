@@ -17,22 +17,7 @@
     <x-components.3d_button id="submit-question" type="submit" disabled bg_color="#88A236" fg_color="#B1CA65">Submit</x-components.3d_button>
 @endif
 
-<script> {{-- Write a script to manage the clicking of correct answers --}}
-    const buttons = $(".option-button");
-    @if(!$oneTimeAnswer)
-        buttons.prop("type", "button");
-
-    $(document).ready(function() {
-        $(".option-button").on("click", function() {
-            $(".option-button").removeClass("selected");
-            $(this).addClass("selected");
-
-            const answerValue = $(this).attr("value");
-            $("#answer").val(answerValue);
-
-            // Enable/disable submit button
-            $("#submit-question").prop("disabled", !answerValue);
-        });
-    });
-    @endif
+<script>
+    one_time_answer = {{ $oneTimeAnswer ? "true" : "false" }};
 </script>
+<script src="{{ asset("assets/scripts/question_scripts/true_false.js") }}"></script>
