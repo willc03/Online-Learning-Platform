@@ -95,4 +95,46 @@ class Question extends Controller
 
         return null;
     }
+
+    // Write a function to process answers
+    public function answer(Request $request)
+    {
+        // Set up some required information to process the answer
+        $validatedData = $request->validate([
+            'question_id' => ['required'],
+            'answer' => ['required']
+        ]);
+
+        // Get the details on the question
+        $question = LessonItem::where('id', $validatedData['question_id'])->firstOrFail();
+        $question = $this->formatQuestion($question);
+
+        // Variables for redirection
+        $isAnswerCorrect = false;
+
+        switch ($question->item_value['question_type']) {
+            case 'single_choice':
+                $correctAnswer = $question->item_value['correct_answer'];
+                $isAnswerCorrect = ($correctAnswer == $validatedData['answer']);
+                break;
+            case 'multiple_choice':
+                $correctAnswers = $question->item_value['correct_answers'];
+                $answersToMatch = count($correctAnswers);
+                $matchedAnswers = 0;
+                $validatedData['answer'] = Json::decode($validatedData['answer']);
+                foreach($validatedData['answer'] as $answer) {
+                    if (in_array($answer, $validatedData['answer'])) {
+                        $matchedAnswers++;
+                    }
+                }
+
+                $isAnswerCorrect = ($matchedAnswers == $answersToMatch);
+        }
+
+        if ($isAnswerCorrect) {
+            return redirect()->to(url("correct")); // This will be replaced with a redirection to the next question in subsequent development stages
+        } else {
+            return back()->with("error", "wrong-answer");
+        }
+    }
 }
