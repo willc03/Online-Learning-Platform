@@ -42,7 +42,11 @@ class Question extends Controller
             'answer' => ['required']
         ]);
 
-        switch ($question_type_temp) {
+        // Get the details on the question
+        $question = LessonItem::where('id', $validated_data['question_id'])->firstOrFail();
+        $question = $this->formatQuestion($question);
+
+        switch ($question->item_value['question_type']) {
             case "match":
                 // Retrieve the question information
                 $question_info = Json::decode('{
