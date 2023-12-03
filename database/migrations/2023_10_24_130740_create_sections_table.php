@@ -16,6 +16,9 @@ return new class extends Migration
             $table->integer('position');
             $table->string('title');
             $table->string('description')->nullable();
+            $table->string('item_type');
+            $table->json('item_value');
+
             $table->timestamps();
 
             $table->uuid('course_id');
