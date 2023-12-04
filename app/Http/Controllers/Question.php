@@ -126,8 +126,18 @@ class Question extends Controller
                         $matchedAnswers++;
                     }
                 }
-
                 $isAnswerCorrect = ($matchedAnswers == $answersToMatch);
+                break;
+            case 'fill_in_blanks':
+                $correctAnswers = $question->item_value['correct_answers'];
+                $isOrderCorrect = true;
+                $validatedData['answer'] = Json::decode($validatedData['answer']);
+                for ($i = 0; $i < count($correctAnswers); $i++) {
+                    if (strtolower($correctAnswers[$i]) != strtolower($validatedData['answer'][$i])) {
+                        $isOrderCorrect = false;
+                    }
+                }
+                $isAnswerCorrect = $isOrderCorrect;
         }
 
         if ($isAnswerCorrect) {
