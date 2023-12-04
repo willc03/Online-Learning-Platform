@@ -164,6 +164,11 @@ class Question extends Controller
                 }
                 $isAnswerCorrect = $isOrderCorrect;
                 break;
+            case 'match':
+            case 'wordsearch':
+                $isAnswerCorrect = true; // These questions are all handled on the client aside from AJAX requests, this is simply
+                                         // to redirect the user to the next question
+                break;
         }
 
         if ($isAnswerCorrect) {

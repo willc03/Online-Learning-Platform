@@ -35,6 +35,12 @@ function onButtonClick(buttonGroup, currentButton) {
 
             if (data === "true") {
                 elements.addClass("correct").prop('disabled', true);
+
+                let areAllButtonsDisabled = $('.match-field .three-d:disabled').length === $('.match-field .three-d').length;
+                if (areAllButtonsDisabled) {
+                    $('#answer').val(true);
+                    $(".question-form").submit();
+                }
             } else {
                 elements.addClass("incorrect");
                 setTimeout(function() {

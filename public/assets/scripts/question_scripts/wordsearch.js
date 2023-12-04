@@ -109,6 +109,7 @@ $(function() {
                     $("#cover-box .content").css('top', '50%');
 
                     if (foundWords.length == wordsToFind) {
+                        $("#answer").val('true');
                         $(".question-form").submit();
                     }
                 }
