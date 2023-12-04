@@ -142,6 +142,28 @@ class Question extends Controller
             case 'true_or_false':
                 $correctAnswer = $question->item_value['correct_answer'];
                 $isAnswerCorrect = ($correctAnswer == filter_var($validatedData['answer'], FILTER_VALIDATE_BOOLEAN));
+                break;
+            case 'order':
+                $correctAnswer = $question->item_value['correct_answer'];
+                $isOrderCorrect = true;
+                $validatedData['answer'] = Json::decode($validatedData['answer']);
+                // Sanitise the validated answer further
+                for ($i = 0; $i < count($correctAnswer); $i++) {
+                    $correctAnswer[$i] = ltrim($correctAnswer[$i]);
+
+                    $temp = $validatedData['answer'][$i];
+                    $temp = str_replace("\n","", $temp);
+                    $temp = ltrim($temp);
+                    $validatedData['answer'][$i] = $temp;
+                }
+                // Loop to check the order
+                for ($i = 0; $i < count($correctAnswer); $i++) {
+                    if (strtolower($correctAnswer[$i]) != strtolower($validatedData['answer'][$i])) {
+                        $isOrderCorrect = false;
+                    }
+                }
+                $isAnswerCorrect = $isOrderCorrect;
+                break;
         }
 
         if ($isAnswerCorrect) {
