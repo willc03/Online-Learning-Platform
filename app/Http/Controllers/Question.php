@@ -138,6 +138,10 @@ class Question extends Controller
                     }
                 }
                 $isAnswerCorrect = $isOrderCorrect;
+                break;
+            case 'true_or_false':
+                $correctAnswer = $question->item_value['correct_answer'];
+                $isAnswerCorrect = ($correctAnswer == filter_var($validatedData['answer'], FILTER_VALIDATE_BOOLEAN));
         }
 
         if ($isAnswerCorrect) {
