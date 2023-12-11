@@ -29,7 +29,8 @@ class LoginController extends Controller
         try {
             $validated_data = $request->validate([
                 'email' => ['required', 'email'],
-                'password' => ['required']
+                'password' => ['required'],
+                'remember' => ['nullable']
             ]);
         } catch (ValidationException) {
             return back()->with('validation_error', true); // Redirect to the original page if validation is unsuccessful
@@ -40,8 +41,13 @@ class LoginController extends Controller
         } catch (ModelNotFoundException) {
             return back()->withErrors(['email' => 'null']); // Redirect if the email isn't in the database
         }
+        // Manage remembering users for long periods using 'remember me' box
+        $remember = array_key_exists('remember', $validated_data);
+        if ($remember) {
+            unset($validated_data['remember']);
+        }
         // Attempt to log in
-        if (Auth::attempt($validated_data)) {
+        if (Auth::attempt($validated_data, $remember)) {
             $request->session()->regenerate(); // Regenerate the session token for security
             return redirect()->route('home');
         }

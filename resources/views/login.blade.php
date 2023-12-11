@@ -32,6 +32,10 @@
             <label for="password">Password:</label>
             <input type="password" name="password" autocomplete="current-password" required>
 
+            {{-- Remember me box --}}
+            <label for="remember">Remember me:</label>
+            <input type="checkbox" name="remember">
+
             {{-- Submit --}}
             <input type="submit" value="Log in">
         </form>
