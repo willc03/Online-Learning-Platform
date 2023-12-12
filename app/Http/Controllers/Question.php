@@ -8,7 +8,14 @@ use Illuminate\Http\Request;
 
 class Question extends Controller
 {
-    // Convert the question into the needed format
+    /**
+     * This private function will be used to convert question
+     * contents into a format that is easier to process using
+     * PHP functions.
+     *
+     * @param $question
+     * @return mixed
+     */
     private function formatQuestion($question)
     {
         if ($question && $question->item_value) {
@@ -18,7 +25,13 @@ class Question extends Controller
         return $question;
     }
 
-    // Create a temporary page to display the question
+    /**
+     * This function will show either the question specified or the home page
+     * if the given question doesn't exist by ID.
+     *
+     * @param string $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|string
+     */
     public function index(string $id)
     {
         if ($id) {
@@ -26,10 +39,18 @@ class Question extends Controller
             $question = $this->formatQuestion($question);
 
             return view('question', $question->toArray());
+        } else {
+            return route('home');
         }
     }
 
-    // Create a route to process partial answers using AJAX requests
+    /**
+     * This route will be used to process partial answers submitted through
+     * AJAX requests.
+     *
+     * @param Request $request
+     * @return mixed|string|null
+     */
     public function partial(Request $request)
     {
         // Set up some required information to process the answer
@@ -95,7 +116,13 @@ class Question extends Controller
         return null;
     }
 
-    // Write a function to process answers
+    /**
+     * This public function will be used to process submitted answers and direct the user to
+     * either the next question or the current one (if the answer is incorrect).
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function answer(Request $request)
     {
         // Set up some required information to process the answer

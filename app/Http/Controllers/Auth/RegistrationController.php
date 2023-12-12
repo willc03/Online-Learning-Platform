@@ -14,16 +14,23 @@ use Illuminate\Validation\ValidationException;
 
 class RegistrationController extends Controller
 {
-    /*
-     * Create a view to allow users to sign up
+    /**
+     * This function will present the user with the registration form.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
      */
     public function showRegistrationForm()
     {
         return view('register');
     }
 
-    /*
-     * Create a function and redirect to create new users
+    /**
+     * This function will validate and process registration requests, add these users to the database,
+     * and log them in if successful. The Laravel validation methods provide detailed errors if the
+     * request is rejected due to validation errors.
+     *
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function registerUser(Request $request): RedirectResponse
     {

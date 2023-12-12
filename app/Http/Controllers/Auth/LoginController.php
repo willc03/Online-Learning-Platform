@@ -12,16 +12,23 @@ use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
-    /*
-     * Create a view to allow users to log in
+    /**
+     * This function will be used to display the login form created as a Blade view.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
      */
     public function showLoginForm()
     {
         return view('login');
     }
 
-    /*
-     * Create a function to log users in and redirect them
+    /**
+     * This function is designed to validate and process login requests via the POST
+     * method. This will ensure the user is properly authenticated against the database
+     * and will provide detailed errors if the login request is not successful.
+     *
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function login(Request $request): RedirectResponse
     {
@@ -55,8 +62,12 @@ class LoginController extends Controller
         return redirect()->to('/login/')->withErrors(['password' => 'invalid']);
     }
 
-    /*
-     * Create a function to allow users to log out
+    /**
+     * This function is designed to process POST requests to allow the user to end their current
+     * authentication session. For security, the session is invalidated and the tokens regenerated.
+     *
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function logout(Request $request)
     {
