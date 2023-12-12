@@ -24,7 +24,7 @@ class Controller extends BaseController
         $course_id = $request->session()->get('course');
 
         if ($course_id && $course = Course::find($course_id)) {
-            return "courses/{$course->id}/";
+            return "courses/{$course->id}";
         }
 
         return null;
