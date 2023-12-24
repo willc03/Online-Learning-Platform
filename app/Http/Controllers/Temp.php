@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\CourseFile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\ValidationException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -33,21 +35,35 @@ class Temp extends Controller
      */
     public function upload_file(Request $request)
     {
-        // Check if there is a course in the
+        // Validate the file upload form
+        try {
+            $validated_data = $request->validate([
+                'name' => ['required', 'string'],
+                'file' => ['required', 'file']
+            ]);
+        } catch (ValidationException $e) {
+            return back()->with('exception', ['validation', $e->getMessage()]);
+        }
+        // Check if there is a course in the session
         if (!$request->session()->has('course')) {
-            return back();
+            return back()->with('no_course', true);
         }
         // Check if the user has permission to edit files
         $course = Course::where('id', session()->get('course'))->firstOrFail();
-        if (! Gate::allows('file-upload', $course)) {
+        if (!Gate::allows('file-upload', $course)) {
             return abort(403);
         }
         // If the user has permission, upload the file
         $file_path = $this->getFileStoragePath($request);
         $file = $request->file('file');
-
         $generated_path = $file->store($file_path);
-
-        return back();
+        // Upload the file details to the database
+        $file = new CourseFile;
+        $file->name = $validated_data['name'];
+        $file->path = $generated_path;
+        $file->course_id = session()->get('course');
+        $file->save();
+        // Redirect the user
+        return back()->with('success', true);
     }
 }
