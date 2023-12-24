@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\Course;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules\Password;
 
 class AuthServiceProvider extends ServiceProvider
@@ -28,6 +31,13 @@ class AuthServiceProvider extends ServiceProvider
         Password::defaults( function() {
             // Consider adding the uncompromised attribute in the future.
             return Password::min(8)->symbols()->letters()->mixedCase()->numbers(); // At least 1 number, symbol, uppercase, lowercase & at least 8 characters long
+        });
+
+        /*
+         * Define a gate for file upload permissions
+         */
+        Gate::define('file-upload', function(User $user, Course $course) {
+            return $user->id === $course->owner;
         });
     }
 }

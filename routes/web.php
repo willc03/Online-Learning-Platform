@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Question;
+use App\Http\Controllers\Temp;
 
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,11 @@ Route::prefix('question')->name('question.')->middleware('auth')->group(function
     Route::get('/view/{id}', [Question::class, 'index'])->name('view');
     Route::post('/answer/', [Question::class, 'answer'])->name('answer');
     Route::post('/answer/partial/', [Question::class, 'partial'])->name('partial');
+});
+
+Route::prefix('temp')->name('temp.')->group(function() {
+    Route::get('filesubmit', [Temp::class, 'file_index']);
+    Route::put('filesubmit', [Temp::class, 'upload_file'])->name('upload');
 });
 
 // General pages (primarily static content)
