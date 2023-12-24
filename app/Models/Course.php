@@ -36,4 +36,13 @@ class Course extends Model
     {
         return $this->hasMany(UserCourse::class);
     }
+
+    /*
+     * Create a one-to-many relationship between a Course and its Files
+     * (one course can have many files)
+     */
+    public function files()
+    {
+        return $this->hasMany(CourseFile::class);
+    }
 }
