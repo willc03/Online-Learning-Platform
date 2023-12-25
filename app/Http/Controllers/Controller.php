@@ -19,11 +19,9 @@ class Controller extends BaseController
      * @param Request $request
      * @return string|null
      */
-    protected function getFileStoragePath(Request $request)
+    protected function getFileStoragePath(string $courseId)
     {
-        $course_id = $request->session()->get('course');
-
-        if ($course_id && $course = Course::find($course_id)) {
+        if ($courseId && $course = Course::find($courseId)) {
             return "courses/{$course->id}";
         }
 
