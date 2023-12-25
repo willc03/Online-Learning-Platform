@@ -3,7 +3,7 @@
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Question;
-use App\Http\Controllers\Temp;
+use App\Http\Controllers\File;
 
 use Illuminate\Support\Facades\Route;
 
@@ -36,9 +36,18 @@ Route::prefix('question')->name('question.')->middleware('auth')->group(function
     Route::post('/answer/partial/', [Question::class, 'partial'])->name('partial');
 });
 
-Route::prefix('temp')->name('temp.')->group(function() {
-    Route::get('filesubmit', [Temp::class, 'file_index']);
-    Route::put('filesubmit', [Temp::class, 'upload_file'])->name('upload');
+// Course pages
+// An ID is required for all course pages, permissions can be configured in controllers using users and courses
+Route::prefix('course/{id}/')->name('course.')->middleware('auth')->group(function() {
+    // Home page
+    // HOLDER
+
+    //
+    //
+
+    // File upload
+    Route::get('upload', [File::class, 'file_index']);
+    Route::post('upload', [File::class, 'upload_file']);
 });
 
 // General pages (primarily static content)

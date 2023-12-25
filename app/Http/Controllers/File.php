@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\CourseFile;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class Temp extends Controller
+class File extends Controller
 {
     /**
      * This function will display a simple non-styled form for testing file submissions
@@ -29,7 +28,7 @@ class Temp extends Controller
      * necessary path to the file.
      *
      * @param Request $request
-     * @return RedirectResponse
+     * @return array
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -39,31 +38,28 @@ class Temp extends Controller
         try {
             $validated_data = $request->validate([
                 'name' => ['required', 'string'],
-                'file' => ['required', 'file']
+                'file' => ['required', 'file'],
+                'id' => ['required', 'string', 'exists:courses']
             ]);
-        } catch (ValidationException $e) {
-            return back()->with('exception', ['validation', $e->getMessage()]);
-        }
-        // Check if there is a course in the session
-        if (!$request->session()->has('course')) {
-            return back()->with('no_course', true);
+        } catch (ValidationException $error) {
+            return [false, $error->getMessage()];
         }
         // Check if the user has permission to edit files
-        $course = Course::where('id', session()->get('course'))->firstOrFail();
+        $course = Course::where('id', $validated_data['id'])->firstOrFail();
         if (!Gate::allows('file-upload', $course)) {
-            return abort(403);
+            return [false, '403'];
         }
         // If the user has permission, upload the file
-        $file_path = $this->getFileStoragePath($request);
+        $file_path = $this->getFileStoragePath($validated_data['id']);
         $file = $request->file('file');
         $generated_path = $file->store($file_path);
         // Upload the file details to the database
         $file = new CourseFile;
         $file->name = $validated_data['name'];
         $file->path = $generated_path;
-        $file->course_id = session()->get('course');
+        $file->course_id = $validated_data['id'];
         $file->save();
         // Redirect the user
-        return back()->with('success', true);
+        return [true];
     }
 }
