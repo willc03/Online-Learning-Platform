@@ -66,18 +66,7 @@ class Question extends Controller
         switch ($question->item_value['question_type']) {
             case "match":
                 // Retrieve the question information
-                $questionInfo = Json::decode('{
-                    "question_type": "match",
-                    "items_to_match": [
-                        ["Variable", "A memory location that stores data"],
-                        ["Function", "A block of code used to execute the same process repeatedly"],
-                        ["Object", "An instance of a class"],
-                        ["Class", "A template container for an object"],
-                        ["Integer", "A variable used to store whole numbers"],
-                        ["Float", "A variable used to store numbers with decimal places"]
-                    ]
-                }');
-
+                $questionInfo = $question->item_value;
                 // Check if the answer is correct
                 for ($i = 0; $i < count($questionInfo['items_to_match']); $i++) {
                     if (count( array_intersect($questionInfo["items_to_match"][$i], $validatedData['answer']) ) == count($validatedData['answer'])) {
@@ -89,19 +78,7 @@ class Question extends Controller
 
             case "wordsearch":
                 // Get the question info
-                $questionInfo = Json::decode('{
-                    "question_type": "wordsearch",
-                    "words": [
-                        ["Variable", "A memory location that stores data"],
-                        ["Function", "A block of code used to execute the same process repeatedly"],
-                        ["Object", "An instance of a class"],
-                        ["Class", "A template container for an object"],
-                        ["Integer", "A variable used to store whole numbers"],
-                        ["Float", "A variable used to store numbers with decimal places"]
-                    ],
-                    "are_sides_random": true
-                }');
-
+                $questionInfo = $question->item_value;
                 // Check the answer is a word
                 $userWord = strtolower(implode($validatedData['answer']));
                 for ($i = 0; $i < count($questionInfo['words']); $i++) {
