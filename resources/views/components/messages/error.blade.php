@@ -1,5 +1,5 @@
 <div class="message error-message">
-    <h3>Error - {{ $title }}</h3>
+    <h3>{{ $title }}</h3>
     <p>{{ $description }}</p>
 
     @if (isset($passedErrors))
