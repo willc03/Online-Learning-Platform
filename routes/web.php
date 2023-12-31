@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Question;
 use App\Http\Controllers\File;
+use App\Http\Controllers\Course;
 
 use Illuminate\Support\Facades\Route;
 
@@ -40,9 +41,7 @@ Route::prefix('question')->name('question.')->middleware('auth')->group(function
 // An ID is required for all course pages, permissions can be configured in controllers using users and courses
 Route::prefix('course/{id}/')->name('course.')->middleware('auth')->group(function() {
     // Home page
-    // HOLDER
-
-    //
+    Route::get('/', [Course::class, 'index']);
     //
 
     // File upload
