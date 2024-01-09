@@ -94,6 +94,9 @@ span.blank {
 span.blank.filled {
   opacity: 0;
 }
+span.italicise {
+  font-style: italic;
+}
 
 /*
  * All specific-purpose SCSS files will be imported here
@@ -462,6 +465,10 @@ form:not([id=logout-form]) input.invalid-element {
 form:not([id=logout-form]) input:focus {
   outline: none !important;
   padding: 15px;
+}
+
+#course-owner {
+  font-weight: lighter;
 }
 
 /*# sourceMappingURL=style.css.map */

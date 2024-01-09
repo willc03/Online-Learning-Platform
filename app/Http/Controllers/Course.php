@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course as CourseModel; // 'as' used due to duplicate definition of key word 'Course'
+use App\Models\User;
 use App\Models\UserCourse;
 use Illuminate\Http\Request;
 
@@ -24,6 +25,9 @@ class Course extends Controller
         // Present the course home page to the user
         return view('courses.home', [
             'course_name' => $course->title,
+            'course_description' => $course->description ?? null,
+            'course_owner' => User::find($course->owner)->name ?? null,
+            'course_sections' => $course->sections,
         ]);
     }
 }
