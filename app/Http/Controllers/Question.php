@@ -9,23 +9,6 @@ use Illuminate\Http\Request;
 class Question extends Controller
 {
     /**
-     * This private function will be used to convert question
-     * contents into a format that is easier to process using
-     * PHP functions.
-     *
-     * @param $question
-     * @return mixed
-     */
-    private function formatQuestion($question)
-    {
-        if ($question && $question->item_value) {
-            $question->item_value = Json::decode($question->item_value);
-        }
-
-        return $question;
-    }
-
-    /**
      * This function will show either the question specified or the home page
      * if the given question doesn't exist by ID.
      *
@@ -36,8 +19,6 @@ class Question extends Controller
     {
         if ($id) {
             $question = LessonItem::where('id', $id)->firstOrFail();
-            $question = $this->formatQuestion($question);
-
             return view('question', $question->toArray());
         } else {
             return route('home');
@@ -61,7 +42,6 @@ class Question extends Controller
 
         // Get the details on the question
         $question = LessonItem::where('id', $validatedData['question_id'])->firstOrFail();
-        $question = $this->formatQuestion($question);
 
         switch ($question->item_value['question_type']) {
             case "match":

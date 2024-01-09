@@ -12,6 +12,13 @@ class LessonItem extends Model
     use HasUuids;
 
     /*
+     * Certain attributes can be casted to certain types to save programming time
+     */
+    protected $casts = [
+        'item_value' => 'array',
+    ];
+
+    /*
      * Create a relationship to link the lesson items and its lesson
      * (many lesson items can belong to a single lesson)
      */
