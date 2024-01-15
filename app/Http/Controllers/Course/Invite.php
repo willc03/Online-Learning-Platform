@@ -15,6 +15,8 @@ class Invite extends Controller
 {
 
     /**
+     * This function accepts a course ID and user ID to deduce whether they are already a member of a course.
+     *
      * @param $courseId
      * @param $userId
      * @return bool
@@ -25,6 +27,8 @@ class Invite extends Controller
     }
 
     /**
+     * This function will validate the invite against a number of database factors.
+     *
      * @param CourseInvite|null $invite
      * @return false|array
      */
@@ -51,6 +55,8 @@ class Invite extends Controller
     //
 
     /**
+     * This function executes logic to present the user with a screen for accepting invites or returning to home based on database results.
+     *
      * @param Request $request
      * @return Application|Factory|View|\Illuminate\Foundation\Application|RedirectResponse
      */
@@ -75,6 +81,8 @@ class Invite extends Controller
     }
 
     /**
+     * This function accepts POST requests such that users can accept invites to join a course.
+     *
      * @param Request $request
      * @return Application|Factory|View|\Illuminate\Foundation\Application|RedirectResponse
      */
