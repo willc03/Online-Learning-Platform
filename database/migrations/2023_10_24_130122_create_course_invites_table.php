@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('invite_id');
             $table->boolean('is_active');
             $table->date('expiry_date');
+            $table->integer('uses')->default(0);
             $table->integer('max_uses')->nullable();
             $table->timestamps();
 
