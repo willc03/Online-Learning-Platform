@@ -74,8 +74,44 @@ class Invite extends Controller
         return $invalid_invite ? view('courses.invite', $invalid_invite) : view('courses.invite', ['success' => true, 'content' => $invite->course]);
     }
 
-    public function accept()
+    /**
+     * @param Request $request
+     * @return Application|Factory|View|\Illuminate\Foundation\Application|RedirectResponse
+     */
+    public function accept(Request $request)
     {
+        // Check there is an ID in the request
+        if (!$invite_id = $request->id) {
+            return back();
+        }
 
+        // Check the invite is valid
+        $invite = CourseInvite::where('invite_id', $invite_id)->first();
+        $invalid_invite = $this->validate_invite($invite);
+
+        // Check the user is not already a course member
+        if (!$invalid_invite && $this->userExistsOnCourse($invite->course_id, $request->user()->id)) {
+            return redirect()->to(route('home'))->withErrors(['COURSE_MEMBER' => 'You cannot join a course you already take!']);
+        }
+
+        // Redirect the user accordingly
+        if ($invalid_invite) {
+            return view('courses.invite', $invalid_invite);
+        } else {
+            // Increase the number of uses
+            $invite->uses++;
+
+            // Add the user to the course
+            UserCourse::insert([
+               'course_id' => $invite->course_id,
+               'user_id' => $request->user()->id
+            ]);
+
+            // Save the record
+            $invite->save();
+
+            // Redirect the user to the course
+            return redirect()->to(url('/course/' . $invite->course_id));
+        }
     }
 }
