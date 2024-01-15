@@ -468,6 +468,7 @@ form:not([id=logout-form]) input:focus {
 }
 
 #invite-box {
+  border: 1px solid #838383;
   display: flex;
   margin: auto;
   width: 50%;
@@ -477,6 +478,8 @@ form:not([id=logout-form]) input:focus {
   align-items: center;
   justify-content: space-around;
   text-align: center;
+  padding-top: 5%;
+  padding-bottom: 5%;
 }
 #invite-box h2, #invite-box h3 {
   margin: 5px;
