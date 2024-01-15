@@ -38,7 +38,10 @@ Route::prefix('question')->name('question.')->middleware('auth')->group(function
 });
 
 // Course pages
-Route::get('join', [Invite::class, 'show'])->name('course.join')->middleware('auth');
+Route::prefix('join/')->name('join.')->middleware('auth')->group(function() {
+    Route::get('/', [Invite::class, 'show'])->name('show');
+    Route::post('/accept', [Invite::class, 'accept'])->name('accept');
+});
 // An ID is required for all course pages, permissions can be configured in controllers using users and courses
 Route::prefix('course/{id}/')->name('course.')->middleware('auth')->group(function() {
     // Home page
