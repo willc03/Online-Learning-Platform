@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Course;
 
-use App\Models\Course as CourseModel; // 'as' used due to duplicate definition of key word 'Course'
+use App\Http\Controllers\Controller;
+use App\Models\Course as CourseModel;
 use App\Models\User;
 use App\Models\UserCourse;
 use Illuminate\Http\Request;
+
+// 'as' used due to duplicate definition of key word 'Course'
 
 class Course extends Controller
 {
@@ -29,5 +32,10 @@ class Course extends Controller
             'course_owner' => User::find($course->owner)->name ?? null,
             'course_sections' => $course->sections,
         ]);
+    }
+
+    public function invite()
+    {
+
     }
 }
