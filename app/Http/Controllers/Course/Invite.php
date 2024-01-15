@@ -4,34 +4,74 @@ namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
 use App\Models\CourseInvite;
+use App\Models\UserCourse;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Date;
 
 class Invite extends Controller
 {
+
+    /**
+     * @param $courseId
+     * @param $userId
+     * @return bool
+     */
+    private function userExistsOnCourse($courseId, $userId)
+    {
+        return UserCourse::where(['course_id' => $courseId, 'user_id' => $userId])->exists();
+    }
+
+    /**
+     * @param CourseInvite|null $invite
+     * @return false|array
+     */
+    private function validate_invite(?CourseInvite $invite)
+    {
+        if (!$invite) {
+            return ['success' => false, 'errorMessage' => 'No record of this invitation could be found. Please try again or ask for another invitation.'];
+        }
+
+        if (!$invite->is_active) {
+            return ['success' => false, 'errorMessage' => 'This invite is inactive. Please try again or ask for another invitation.'];
+        }
+
+        if ($invite->expiry_date < now()) {
+            return ['success' => false, 'errorMessage' => 'This invite has expired. Please ask for another invitation.'];
+        }
+
+        if ($invite->uses >= $invite->max_uses) {
+            return ['success' => false, 'errorMessage' => 'This invite has reached its maximum number of uses. Please ask for another invite.'];
+        }
+
+        return false;
+    }
     //
+
+    /**
+     * @param Request $request
+     * @return Application|Factory|View|\Illuminate\Foundation\Application|RedirectResponse
+     */
     public function show(Request $request)
     {
         // Check there is a valid invite
-        $invite_id = $request->get('id');
-        if (!$invite_id) {
+        if (!$invite_id = $request->id) {
             return redirect()->to(route('home'))->withErrors(['errorMessage' => 'An invitation ID could not be found, please try again or ask for another invitation link.']);
         }
 
         // Check the invite is valid
         $invite = CourseInvite::where('invite_id', $invite_id)->first();
-        if (!$invite) { // Check the invitation records
-            return view('courses.invite', ['success' => false, 'errorMessage' => 'No record of this invitation could be found. Please try again or ask for another invitation.']);
-        } elseif  (!$invite->is_active) {// Check the invite is active
-            return view('courses.invite', ['success' => false, 'errorMessage' => 'This invite is inactive. Please try again or ask for another invitation.']);
-        } elseif ($invite->expiry_date < now()) { // Check the invite is in date
-            return view('courses.invite', ['success' => false, 'errorMessage' => 'This invite has expired. Please ask for another invitation.']);
-        } elseif ($invite->uses >= $invite->max_uses) { // Check max uses
-            return view('courses.invite', ['success' => false, 'errorMessage' => 'This invite has reached it\'s maximum number of uses. Please ask for another invite.']);
+        $invalid_invite = $this->validate_invite($invite);
+
+        // Check the user is not already a course member
+        if (!$invalid_invite && $this->userExistsOnCourse($invite->course_id, $request->user()->id)) {
+            return redirect()->to(route('home'))->withErrors(['COURSE_MEMBER' => 'You cannot join a course you already take!']);
         }
 
-        // Present the page if the invite is valid
-        return view('courses.invite', ['success' => true, 'content' => $invite->course]);
+        // Return the correct view
+        return $invalid_invite ? view('courses.invite', $invalid_invite) : view('courses.invite', ['success' => true, 'content' => $invite->course]);
     }
 
     public function accept()
