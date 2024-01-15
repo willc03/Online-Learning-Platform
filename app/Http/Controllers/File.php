@@ -19,7 +19,7 @@ class File extends Controller
      */
     public function file_index()
     {
-        return view('temp_file');
+        return view('courses.file_upload');
     }
 
     /**
