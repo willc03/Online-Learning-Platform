@@ -467,7 +467,7 @@ form:not([id=logout-form]) input:focus {
   padding: 15px;
 }
 
-#invalid-invite-box {
+#invite-box {
   display: flex;
   margin: auto;
   width: 50%;
@@ -476,16 +476,47 @@ form:not([id=logout-form]) input:focus {
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-}
-#invalid-invite-box h1, #invalid-invite-box h2 {
-  margin: 5px;
   text-align: center;
 }
-#invalid-invite-box #return-home {
+#invite-box h2, #invite-box h3 {
+  margin: 5px;
+}
+#invite-box form {
+  width: 50%;
+}
+#invite-box #return-home {
   margin-top: 10px;
   width: 50%;
   height: 25px;
-  text-align: center;
+}
+#invite-box #accept {
+  width: 100%;
+  height: 25px;
+  margin-top: 10px;
+}
+#invite-box .button-box {
+  width: 75%;
+  display: flex;
+  justify-content: space-around;
+}
+#invite-box .button-box button {
+  margin: 5px;
+}
+@media (max-width: 640px) {
+  #invite-box {
+    width: 85%;
+  }
+  #invite-box .button-box {
+    flex-direction: column;
+  }
+  #invite-box form {
+    width: 100%;
+    margin: 0;
+  }
+  #invite-box button.three-d {
+    width: 100% !important;
+    margin: 0;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

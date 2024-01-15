@@ -1,23 +1,59 @@
-#invalid-invite-box {
+#invite-box {
     display: flex;
     margin: auto;
     width: 50%;
     height: 25%;
     border-radius: 12px;
     flex-direction: column;
-
     align-items: center;
     justify-content: space-around;
+    text-align: center;
 
-    h1, h2 {
+    h2, h3 {
         margin: 5px;
-        text-align: center;
+    }
+
+    form {
+        width: 50%;
     }
 
     #return-home {
         margin-top: 10px;
         width: 50%;
         height: 25px;
-        text-align: center;
+    }
+
+    #accept {
+        width: 100%;
+        height: 25px;
+        margin-top: 10px;
+    }
+
+    .button-box {
+        width: 75%;
+        display: flex;
+        justify-content: space-around;
+
+        button {
+            margin: 5px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        width: 85%;
+
+        .button-box {
+            flex-direction: column;
+        }
+
+        form {
+            width: 100%;
+            margin: 0;
+        }
+
+        button.three-d {
+            width: 100%!important;
+            margin: 0;
+        }
     }
 }
