@@ -467,8 +467,25 @@ form:not([id=logout-form]) input:focus {
   padding: 15px;
 }
 
-#course-owner {
-  font-weight: lighter;
+#invalid-invite-box {
+  display: flex;
+  margin: auto;
+  width: 50%;
+  height: 25%;
+  border-radius: 12px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+#invalid-invite-box h1, #invalid-invite-box h2 {
+  margin: 5px;
+  text-align: center;
+}
+#invalid-invite-box #return-home {
+  margin-top: 10px;
+  width: 50%;
+  height: 25px;
+  text-align: center;
 }
 
 /*# sourceMappingURL=style.css.map */
