@@ -1,7 +1,6 @@
 <x-structure.base title="Invite">
     @if(!$success)
         <div id="invite-box">
-            <h2>404</h2>
             <h3>Invite Unavailable</h3>
             <p>{{ $errorMessage }}</p>
             <x-components.3d_button id="return-home" fg_color="#B1CA65" bg_color="#88A236" onclick="location.href = '{{ url(route('home')) }}'">Return to home</x-components.3d_button>
