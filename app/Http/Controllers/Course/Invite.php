@@ -19,38 +19,22 @@ class Invite extends Controller
         }
 
         // Check the invite is valid
-        $invite = CourseInvite::find($invite_id);
-        if (!$invite)
-        {
+        $invite = CourseInvite::where('invite_id', $invite_id)->first();
+        if (!$invite) { // Check the invitation records
             return view('courses.invite', ['success' => false, 'errorMessage' => 'No record of this invitation could be found. Please try again or ask for another invitation.']);
+        } elseif  (!$invite->is_active) {// Check the invite is active
+            return view('courses.invite', ['success' => false, 'errorMessage' => 'This invite is inactive. Please try again or ask for another invitation.']);
+        } elseif ($invite->expiry_date < now()) { // Check the invite is in date
+            return view('courses.invite', ['success' => false, 'errorMessage' => 'This invite has expired. Please ask for another invitation.']);
+        } elseif ($invite->uses >= $invite->max_uses) { // Check max uses
+            return view('courses.invite', ['success' => false, 'errorMessage' => 'This invite has reached it\'s maximum number of uses. Please ask for another invite.']);
         }
 
-        // Check the invite is active
-        if (!$invite->is_active)
-        {
-            return redirect()->to(route('home'))->withErrors(['errorMessage' => 'This invite is inactive. Please try again or ask for another invitation.']);
-        }
-
-        // Check the invite is in date
-        if ($invite->expiry_date->isPast())
-        {
-            return redirect()->to(route('home'))->withErrors(['errorMessage' => 'This invite has expired. Please ask for another invitation.']);
-        }
-
-        return $invite_id;
+        // Present the page if the invite is valid
+        return view('courses.invite', ['success' => true, 'content' => $invite->course]);
     }
 
-    public function respond()
-    {
-
-    }
-
-    public function create()
-    {
-
-    }
-
-    public function manage()
+    public function accept()
     {
 
     }
