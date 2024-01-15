@@ -17,6 +17,6 @@ class CourseInvite extends Model
      */
     public function course()
     {
-        return $this->hasOne(Course::class);
+        return $this->hasOne(Course::class, 'id', 'course_id');
     }
 }
