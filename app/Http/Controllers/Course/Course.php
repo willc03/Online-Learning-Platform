@@ -26,9 +26,4 @@ class Course extends Controller
             'course_sections' => $course->sections,
         ]);
     }
-
-    public function invite()
-    {
-
-    }
 }
