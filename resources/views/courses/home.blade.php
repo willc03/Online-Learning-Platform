@@ -1,4 +1,8 @@
 <x-structure.wrapper title="{{ $course->title }}">
+    {{-- Toggle owner admin view --}}
+    @if($user_is_owner)
+        <a href="{{ url()->current() }}?editing={{ !request()->has('editing') || request()->input('editing') !== 'true' ? 'true' : 'false' }}">{{ !request()->has('editing') || request()->input('editing') !== 'true' ? 'Enable admin mode' : 'Disable admin mode' }}</a>
+    @endif
     {{-- Course details --}}
     <h1>{{ $course->title }}</h1>
     <p id="course-owner" class="mini-text">By <span class="italicise">{{ $owner->name }}</span></p>
