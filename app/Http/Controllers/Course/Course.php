@@ -21,7 +21,8 @@ class Course extends Controller
         // Present the course home page to the user
         return view('courses.home', [
             'course' => $course,
-            'owner' => User::find($course->owner)
+            'owner' => User::find($course->owner),
+            'user_is_owner' => ($request->user()->id === $course->owner)
         ]);
     }
 }
