@@ -1,10 +1,10 @@
-<x-structure.wrapper title="{{ $course_name }}">
+<x-structure.wrapper title="{{ $course->title }}">
     {{-- Course details --}}
-    <h1>{{ $course_name }}</h1>
-    <p id="course-owner" class="mini-text">By <span class="italicise">{{ $course_owner }}</span></p>
-    @if ($course_description !== null)
+    <h1>{{ $course->title }}</h1>
+    <p id="course-owner" class="mini-text">By <span class="italicise">{{ $owner->name }}</span></p>
+    @if ($course->description !== null)
         <br>
-        <p id="course-description">{{ $course_description }}</p>
+        <p id="course-description">{{ $course->description }}</p>
         <br>
     @endif
 

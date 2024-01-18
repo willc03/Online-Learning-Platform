@@ -20,10 +20,8 @@ class Course extends Controller
         $course = CourseModel::find($url_course_id);
         // Present the course home page to the user
         return view('courses.home', [
-            'course_name' => $course->title,
-            'course_description' => $course->description ?? null,
-            'course_owner' => User::find($course->owner)->name ?? null,
-            'course_sections' => $course->sections,
+            'course' => $course,
+            'owner' => User::find($course->owner)
         ]);
     }
 }
