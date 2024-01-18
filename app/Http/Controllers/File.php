@@ -29,8 +29,6 @@ class File extends Controller
      *
      * @param Request $request
      * @return array
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function upload_file(Request $request)
     {
