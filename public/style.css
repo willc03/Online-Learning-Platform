@@ -522,4 +522,47 @@ form:not([id=logout-form]) input:focus {
   }
 }
 
+#course-sections {
+  width: 100%;
+}
+#course-sections div.section {
+  width: 100%;
+}
+#course-sections div.section button.collapse-button {
+  background-color: #838383;
+  border: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: white;
+  cursor: pointer;
+  margin: 0;
+  padding: 10px;
+  text-align: left;
+  transition: border-radius 1s;
+  width: 100%;
+}
+#course-sections div.section button.collapse-button:after {
+  content: "-";
+  float: right;
+  margin-left: 5px;
+}
+#course-sections div.section button.collapse-button.collapsed {
+  border-radius: 5px;
+  transition-delay: 1s;
+}
+#course-sections div.section button.collapse-button.collapsed:after {
+  content: "+";
+}
+#course-sections div.section div.collapse-section {
+  background-color: lightgray;
+  display: block;
+  overflow: hidden;
+  padding: 10px;
+}
+@media (max-width: 640px) {
+  #course-sections div.section div.collapse-section {
+    width: auto !important;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */
