@@ -39,5 +39,12 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('file-upload', function(User $user, Course $course) {
             return $user->id === $course->owner;
         });
+
+        /*
+         * Define a gate for course editing
+         */
+        Gate::define('course-edit', function(User $user, Course $course) {
+            return $user->id === $course->owner;
+        });
     }
 }
