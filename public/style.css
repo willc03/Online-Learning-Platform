@@ -540,6 +540,7 @@ form:not([id=logout-form]) input:focus {
   text-align: left;
   transition: border-radius 1s;
   width: 100%;
+  font-size: medium;
 }
 #course-sections div.section button.collapse-button:after {
   content: "-";
