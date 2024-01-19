@@ -46,8 +46,8 @@ Route::prefix('join/')->name('join.')->middleware('auth')->group(function() {
 Route::prefix('course/{id}/')->name('course.')->middleware(['auth', 'course'])->group(function() {
     // Home page
     Route::get('/', [Course::class, 'index']);
-    //
-
+    // Admin-only routes
+    Route::post('edit', [Course::class, 'contentEdit'])->name('edit');
     // File upload
     Route::get('upload', [File::class, 'file_index']);
     Route::post('upload', [File::class, 'upload_file']);
