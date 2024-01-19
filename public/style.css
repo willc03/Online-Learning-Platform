@@ -356,7 +356,6 @@ body main {
   }
   body main div {
     width: 100% !important;
-    margin: 0 !important;
   }
 }
 body footer {
@@ -523,16 +522,27 @@ form:not([id=logout-form]) input:focus {
 }
 
 #course-sections {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
+}
+#course-sections .course_section_placeholder {
+  background-color: lightgray;
+  width: 100%;
+  height: calc(1.2em + 20px);
+  border-radius: 5px;
+  margin: 10px 0;
 }
 #course-sections div.section {
   width: 100%;
+  margin: 10px 0;
 }
 #course-sections div.section button.collapse-button {
   background-color: #838383;
   border: none;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   color: white;
   cursor: pointer;
   margin: 0;
@@ -540,7 +550,7 @@ form:not([id=logout-form]) input:focus {
   text-align: left;
   transition: border-radius 1s;
   width: 100%;
-  font-size: medium;
+  font-size: 1.2em;
 }
 #course-sections div.section button.collapse-button:after {
   content: "-";
@@ -548,7 +558,7 @@ form:not([id=logout-form]) input:focus {
   margin-left: 5px;
 }
 #course-sections div.section button.collapse-button.collapsed {
-  border-radius: 5px;
+  border-radius: 8px;
   transition-delay: 1s;
 }
 #course-sections div.section button.collapse-button.collapsed:after {
@@ -564,6 +574,12 @@ form:not([id=logout-form]) input:focus {
   #course-sections div.section div.collapse-section {
     width: auto !important;
   }
+}
+
+#reorder-sections-button {
+  width: 20%;
+  height: 25px;
+  margin-bottom: 10px;
 }
 
 /*# sourceMappingURL=style.css.map */

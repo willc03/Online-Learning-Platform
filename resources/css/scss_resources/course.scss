@@ -62,16 +62,29 @@
 }
 
 #course-sections {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     width: 100%;
+
+    .course_section_placeholder {
+        background-color: lightgray;
+        width: 100%;
+        height: calc(1.2em + 20px);
+        border-radius: 5px;
+        margin: 10px 0;
+    }
 
     div.section {
         width: 100%;
+        margin: 10px 0;
 
         button.collapse-button {
             background-color: $grey;
             border: none;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
             color: white;
             cursor: pointer;
             margin: 0;
@@ -79,7 +92,7 @@
             text-align: left;
             transition: border-radius 1s;
             width: 100%;
-            font-size: medium;
+            font-size: 1.2em;
 
             &:after {
                 content: '-';
@@ -88,7 +101,7 @@
             }
 
             &.collapsed {
-                border-radius: 5px;
+                border-radius: 8px;
                 transition-delay: 1s;
 
                 &:after {
@@ -112,4 +125,10 @@
             }
         }
     }
+}
+
+#reorder-sections-button {
+    width: 20%;
+    height: 25px;
+    margin-bottom: 10px;
 }
