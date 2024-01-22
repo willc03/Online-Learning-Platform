@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course as CourseModel;
+use App\Models\Section;
 use App\Models\User;
 use App\Models\UserCourse;
 use Illuminate\Database\Eloquent\Casts\Json;
@@ -55,6 +56,23 @@ class Course extends Controller
                             $section->save();
                         }
                     }
+                }
+                break;
+            case "new_section":
+                if ( isset($validated_data['data'][0]['name']) && $validated_data['data'][0]['name'] == 'title' ) {
+                    $newSection = new Section;
+                    $newSection->title = $validated_data['data'][0]['value'];
+
+                    if (isset($validated_data['data'][1]['name']) && $validated_data['data'][1]['name'] == 'description') {
+                        $newSection->description = $validated_data['data'][1]['value'] ?? null;
+                    }
+
+                    $newSection->course_id = $course->id;
+                    $newSection->position = $course->sections->count();
+
+                    $newSection->save();
+
+                    return 'SUCCESS';
                 }
                 break;
         }
