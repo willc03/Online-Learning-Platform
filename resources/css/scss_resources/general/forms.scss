@@ -4,7 +4,7 @@ form:not([id="logout-form"]) {
     margin: 0 auto;
 
     input {
-        border: 1px $grey solid;
+        border: 1px nth($blue, 1) solid;
         padding: 5px;
         margin-bottom: 1vh;
         border-radius: 5px;

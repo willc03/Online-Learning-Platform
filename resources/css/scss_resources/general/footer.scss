@@ -4,14 +4,14 @@ body {
     footer {
         margin-top: 42.5px;
         height: 100px;
-        background-color: $grey;
+        background-color: nth($banner, 1);
         color: $white;
         position: sticky;
         bottom: 0;
 
         .main-box {
             display: flex;
-            background-color: $off-green;
+            background-color: nth($banner, 2);
             border-radius: 10px;
             width: 75%;
             margin: calc(-75px/2) 12.5%;

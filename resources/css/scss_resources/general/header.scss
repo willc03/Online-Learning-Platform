@@ -18,10 +18,11 @@ body {
         header {
             display: flex;
             align-items: center;
-            background-color: $white;
-            box-shadow: 0px 5px 5px $off-white;
+            background-color: nth($banner, 1);
+            box-shadow: 0px 5px 5px nth($banner, 2);
             color: $white;
             padding: 20px;
+            border-bottom: 1px solid nth($banner, 2);
 
             div.menu-toggle {
                 display: none;
@@ -63,7 +64,8 @@ body {
             height: 50px;
             justify-content: space-around;
             align-items: center;
-            box-shadow: 0 5px 5px $off-white;
+            box-shadow: 0 5px 5px nth($banner, 2);
+            background-color: nth($banner, 1);
 
             a {
                 font-size: medium;

@@ -46,7 +46,7 @@ button.three-d {
   outline-offset: 10px;
   padding: 0;
   position: relative;
-  box-shadow: 0 5px 4px #c1c1c1;
+  box-shadow: 0 5px 4px #b1b4ae;
 }
 button.three-d, button.three-d > * {
   transition-duration: 300ms;
@@ -62,7 +62,7 @@ button.three-d .foreground {
   width: 100%;
 }
 button.three-d.selected {
-  box-shadow: 0 2px 4px 0 #adadad;
+  box-shadow: 0 2px 4px 0 #9da09a;
 }
 button.three-d.selected .foreground {
   transform: translateY(-2px) !important;
@@ -75,13 +75,13 @@ button.three-d[disabled] .foreground {
   filter: saturate(0%);
 }
 button.three-d:not([disabled]):hover {
-  box-shadow: 0 5px 6px 2px #adadad;
+  box-shadow: 0 5px 6px 2px #9da09a;
 }
 button.three-d:not([disabled]):hover .foreground {
   transform: translateY(-6px);
 }
 button.three-d:not([disabled]):active {
-  box-shadow: 0 2px 4px 0 #adadad;
+  box-shadow: 0 2px 4px 0 #9da09a;
 }
 button.three-d:not([disabled]):active .foreground {
   transform: translateY(-2px);
@@ -228,8 +228,8 @@ span.italicise {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  background-color: #d5d5d5;
-  box-shadow: 0px 5px 5px #c1c1c1;
+  background-color: #c5c8c2;
+  box-shadow: 0px 5px 5px #b1b4ae;
   border-radius: 8px;
   position: fixed;
   top: 200%;
@@ -259,7 +259,7 @@ span.italicise {
  */
 body {
   font-family: "Figtree", sans-serif;
-  background-color: #e9e9e9;
+  background-color: #D9DCD6;
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -276,10 +276,11 @@ body .wrapper .title h2 a {
 body .wrapper header {
   display: flex;
   align-items: center;
-  background-color: #e9e9e9;
-  box-shadow: 0px 5px 5px #d5d5d5;
-  color: #e9e9e9;
+  background-color: #acbdba;
+  box-shadow: 0px 5px 5px #829793;
+  color: #D9DCD6;
   padding: 20px;
+  border-bottom: 1px solid #829793;
 }
 body .wrapper header div.menu-toggle {
   display: none;
@@ -312,7 +313,8 @@ body .wrapper nav {
   height: 50px;
   justify-content: space-around;
   align-items: center;
-  box-shadow: 0 5px 5px #d5d5d5;
+  box-shadow: 0 5px 5px #829793;
+  background-color: #acbdba;
 }
 body .wrapper nav a {
   font-size: medium;
@@ -361,14 +363,14 @@ body main {
 body footer {
   margin-top: 42.5px;
   height: 100px;
-  background-color: #838383;
-  color: #e9e9e9;
+  background-color: #acbdba;
+  color: #D9DCD6;
   position: sticky;
   bottom: 0;
 }
 body footer .main-box {
   display: flex;
-  background-color: #66936f;
+  background-color: #829793;
   border-radius: 10px;
   width: 75%;
   margin: -37.5px 12.5%;
@@ -399,7 +401,7 @@ body footer .main-box .sign-up {
   align-content: space-around;
   width: 25%;
   height: 100%;
-  color: #e9e9e9;
+  color: #D9DCD6;
 }
 body footer .main-box .sign-up a {
   font-size: 1vw;
@@ -411,7 +413,7 @@ body footer .main-box .sign-up a {
   width: 50%;
   height: 50%;
   margin: auto;
-  background-color: #d5d5d5;
+  background-color: #c5c8c2;
   border-radius: 10px;
   text-decoration: none;
   color: #1f1f1f;
@@ -419,7 +421,7 @@ body footer .main-box .sign-up a {
 body footer .main-box .sign-up a:hover {
   height: 65%;
   width: 55%;
-  background-color: #b7b7b7;
+  background-color: #a7aaa4;
 }
 
 .message {
@@ -446,7 +448,7 @@ form:not([id=logout-form]) {
   margin: 0 auto;
 }
 form:not([id=logout-form]) input {
-  border: 1px #838383 solid;
+  border: 1px #638ca7 solid;
   padding: 5px;
   margin-bottom: 1vh;
   border-radius: 5px;
@@ -467,7 +469,7 @@ form:not([id=logout-form]) input:focus {
 }
 
 #invite-box {
-  border: 1px solid #838383;
+  border: 1px solid #638ca7;
   display: flex;
   margin: auto;
   width: 50%;
@@ -539,7 +541,7 @@ form:not([id=logout-form]) input:focus {
   margin: 10px 0;
 }
 #course-sections div.section button.collapse-button {
-  background-color: #838383;
+  background-color: #638ca7;
   border: none;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
@@ -565,7 +567,7 @@ form:not([id=logout-form]) input:focus {
   content: "+";
 }
 #course-sections div.section div.collapse-section {
-  background-color: lightgray;
+  background-color: #91aec1;
   display: block;
   overflow: hidden;
   padding: 10px;
@@ -576,9 +578,11 @@ form:not([id=logout-form]) input:focus {
   }
 }
 
-#reorder-sections-button {
+#reorder-sections-button, #admin-button {
   width: 20%;
   height: 25px;
+}
+#reorder-sections-button:not(:first-of-type), #admin-button:not(:first-of-type) {
   margin-bottom: 10px;
 }
 
