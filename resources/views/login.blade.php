@@ -25,11 +25,11 @@
             @csrf {{-- The CSRF tag blocks CSRF attacks by including a unique code that has to be read by the server --}}
 
             {{-- Email --}}
-            <label for="email">Email:</label>
+            <label for="email" class="required">Email:</label>
             <input type="email" name="email" placeholder="e.g. john.doe@example.com" autocomplete="username" required>
 
             {{-- Password --}}
-            <label for="password">Password:</label>
+            <label class="required" for="password">Password:</label>
             <input type="password" name="password" autocomplete="current-password" required>
 
             {{-- Remember me box --}}

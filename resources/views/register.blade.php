@@ -22,23 +22,23 @@
             @csrf {{-- The CSRF tag blocks CSRF attacks by including a unique code that has to be read by the server --}}
 
             {{-- First name --}}
-            <label for="firstname">First name:</label>
+            <label class="required" for="firstname">First name:</label>
             <input type="text" name="firstname" required>
 
             {{-- Last name --}}
-            <label for="lastname">Last name:</label>
+            <label class="required" for="lastname">Last name:</label>
             <input type="text" name="lastname" required>
 
             {{-- Email --}}
-            <label for="email">Email:</label>
+            <label class="required" for="email">Email:</label>
             <input type="email" name="email" required>
 
             {{-- Password --}}
-            <label for="password">Password:</label>
+            <label class="required" for="password">Password:</label>
             <input type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" id="password" autocomplete="new-password" required>
 
             {{-- Password confirmation--}}
-            <label for="password_confirmation">Confirm Password:</label>
+            <label class="required" for="password_confirmation">Confirm Password:</label>
             <input type="password" name="password_confirmation" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" id="password_confirmation" autocomplete="new-password" required>
 
             {{-- Password requirements --}}

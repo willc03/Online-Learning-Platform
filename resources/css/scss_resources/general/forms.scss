@@ -4,6 +4,11 @@ form:not([id="logout-form"]) {
     margin: 0 auto;
 
     input {
+    label.required:after {
+        content: "*";
+        color: red;
+        padding-left: 2.5px;
+    }
         border: 1px nth($blue, 1) solid;
         padding: 5px;
         margin-bottom: 1vh;
