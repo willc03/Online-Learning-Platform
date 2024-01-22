@@ -40,15 +40,7 @@
         @endforeach
     </div>
 
-    <script>
-        $(".section .collapse-button").on("click", function() {
-            var contentElement = $(this).next();
-            var isCollapsed = contentElement.hasClass("collapsed");
 
-            if ($(contentElement).hasClass("collapsing")) {
-                return;
-            }
-            $(contentElement).addClass("collapsing");
 
     <script src="{{ asset("assets/scripts/courses/admin/section_reorder.js") }}"></script>
 
