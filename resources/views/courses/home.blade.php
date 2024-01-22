@@ -1,7 +1,9 @@
 <x-structure.wrapper title="{{ $course->title }}">
     {{-- Toggle owner admin view --}}
     @if($user_is_owner)
-        <a href="{{ url()->current() }}?editing={{ !request()->has('editing') || request()->input('editing') !== 'true' ? 'true' : 'false' }}">{{ !request()->has('editing') || request()->input('editing') !== 'true' ? 'Enable admin mode' : 'Disable admin mode' }}</a>
+        <form action="{{ url()->current() }}">
+            <x-components.3d_button name="editing" value="{{ !request()->has('editing') || request()->input('editing') !== 'true' ? 'true' : 'false' }}" id="admin-button" fg-color="#9EC5AB" bg-color="#5e9c73">{{ !request()->has('editing') || request()->input('editing') !== 'true' ? 'Enable admin mode' : 'Disable admin mode' }}</x-components.3d_button>
+        </form>
     @endif
     {{-- Course details --}}
     <h1>{{ $course->title }}</h1>
@@ -12,7 +14,7 @@
     {{-- Display all the course content in a downwards fashion --}}
     <h2>Course content</h2>
     @if ($user_is_owner && request()->has('editing') && request()->input('editing') === 'true')
-        <x-components.3d_button id="reorder-sections-button" fg-color="#a491d3" bg-color="#7a5fbf" data-active="false">Re-order sections</x-components.3d_button>
+        <x-components.3d_button id="reorder-sections-button" fg-color="#9EC5AB" bg-color="#5e9c73" data-active="false">Re-order sections</x-components.3d_button>
     @endif
     {{-- Display the course sections --}}
     <div id="course-sections">
