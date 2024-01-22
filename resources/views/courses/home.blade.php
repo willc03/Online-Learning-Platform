@@ -2,7 +2,7 @@
     {{-- Toggle owner admin view --}}
     @if($user_is_owner)
         <form action="{{ url()->current() }}">
-            <x-components.3d_button name="editing" value="{{ !request()->has('editing') || request()->input('editing') !== 'true' ? 'true' : 'false' }}" id="admin-button" fg-color="#9EC5AB" bg-color="#5e9c73">{{ !request()->has('editing') || request()->input('editing') !== 'true' ? 'Enable admin mode' : 'Disable admin mode' }}</x-components.3d_button>
+            <x-components.3d_button class="course-button-mini" name="editing" value="{{ $is_editing ? 'false' : 'true' }}" id="admin-button" fg-color="#9EC5AB" bg-color="#5e9c73">{{ $is_editing ? 'Disable admin mode' : 'Enable admin mode' }}</x-components.3d_button>
         </form>
     @endif
     {{-- Course details --}}
@@ -13,8 +13,8 @@
     @endif
     {{-- Display all the course content in a downwards fashion --}}
     <h2>Course content</h2>
-    @if ($user_is_owner && request()->has('editing') && request()->input('editing') === 'true')
         <x-components.3d_button id="reorder-sections-button" fg-color="#9EC5AB" bg-color="#5e9c73" data-active="false">Re-order sections</x-components.3d_button>
+    @if ($is_editing)
     @endif
     {{-- Display the course sections --}}
     <div id="course-sections">
@@ -44,7 +44,7 @@
 
     <script src="{{ asset("assets/scripts/courses/admin/section_reorder.js") }}"></script>
 
-    @if ($user_is_owner && request()->has('editing') && request()->input('editing') === 'true')
+    @if ($is_editing)
         <script>
             ajaxRoute = '{{ url(route('course.edit', ['id' => $course->id])) }}';
             courseId = '{{ $course->id }}';
