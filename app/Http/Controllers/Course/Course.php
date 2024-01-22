@@ -24,7 +24,8 @@ class Course extends Controller
         return view('courses.home', [
             'course' => $course,
             'owner' => User::find($course->owner),
-            'user_is_owner' => ($request->user()->id === $course->owner)
+            'user_is_owner' => ($request->user()->id === $course->owner),
+            'is_editing' => (($request->user()->id === $course->owner) && $request->has('editing') && $request->input('editing') === 'true')
         ]);
     }
 
