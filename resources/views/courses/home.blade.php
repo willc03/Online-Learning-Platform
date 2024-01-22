@@ -42,7 +42,7 @@
 
 
 
-    <script src="{{ asset("assets/scripts/courses/admin/section_reorder.js") }}"></script>
+    <script src="{{ asset("assets/scripts/courses/collapse_sections.js") }}"></script>
 
     @if ($is_editing)
         <script>
