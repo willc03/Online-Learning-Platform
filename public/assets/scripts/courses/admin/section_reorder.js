@@ -31,8 +31,8 @@ $("#reorder-sections-button").on("click", function () {
         });
     } else {
         // Disable the sorter
-        $("#reorder-sections-button span").text('Re-order sections').animate({backgroundColor: '#a491d3'}, 500);
-        $("#reorder-sections-button").animate({backgroundColor: '#7a5fbf'}, 500);
+        $("#reorder-sections-button span").text('Re-order sections').animate({backgroundColor: $(this).attr("fg-color") || $(this).attr("fg_color") || "#ffffff"}, 500);
+        $("#reorder-sections-button").animate({backgroundColor: $(this).attr("bg-color") || $(this).attr("bg_color") || "#ffffff"}, 500);
         $(sectionSorter).sortable("disable");
         // Un-collapse the sections
         $(collapseSections).each(function () {
