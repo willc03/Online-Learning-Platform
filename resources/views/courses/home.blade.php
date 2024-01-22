@@ -105,8 +105,8 @@
                     $(collapseSections).each(function() {
                         $(this).animate({
                             height: $(this).prop("scrollHeight") + "px",
-                            paddingTop: "0px",
-                            paddingBottom: "0px"
+                            paddingTop: "10px",
+                            paddingBottom: "10px"
                         }, 1000);
                     }).removeClass("collapsing");
                     $(collapseButtons).removeClass("collapsed").css("borderRadius", "");
