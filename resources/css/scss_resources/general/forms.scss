@@ -3,12 +3,16 @@ form:not([id="logout-form"]) {
     flex-direction: column;
     margin: 0 auto;
 
-    input {
     label.required:after {
         content: "*";
         color: red;
         padding-left: 2.5px;
     }
+
+    textarea {
+        resize: none;
+    }
+    input, textarea {
         border: 1px nth($blue, 1) solid;
         padding: 5px;
         margin-bottom: 1vh;
