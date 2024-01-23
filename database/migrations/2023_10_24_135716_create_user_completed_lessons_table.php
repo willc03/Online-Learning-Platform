@@ -12,12 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_completed_lessons', function (Blueprint $table) {
-            $table->uuid('id');
+            // Primary key
+            $table->uuid('id')->primary();
+
+            // Timestamps
             $table->timestamps();
 
+            // Foreign keys and relations
             $table->uuid('lesson_id');
-            $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade');
-
+            $table->foreign('lesson_id')->references('id')->on('lessons')->cascadeOnDelete();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });

@@ -12,12 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('courses', function (Blueprint $table) {
-            $table->uuid('id')->unique();
+            // Primary key
+            $table->uuid('id')->primary();
+
+            // Course detail fields
             $table->string('title');
             $table->string('description')->nullable();
             $table->boolean('is_public');
+
+            // Timestamps
             $table->timestamps();
 
+            // Foreign keys and relations
             $table->unsignedBigInteger('owner');
             $table->foreign('owner')->references('id')->on('users')->cascadeOnDelete();
         });

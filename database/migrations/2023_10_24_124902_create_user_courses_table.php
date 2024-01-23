@@ -12,13 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_courses', function (Blueprint $table) {
+            // Primary key
             $table->id();
+
+            // User course details
+            // All keys details in this section are foreign keys and as such, are in the section for this
+
+            // Timestamps
             $table->timestamps();
 
+            // Foreign keys and relations
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-
             $table->uuid('course_id');
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('course_id')->references('id')->on('courses')->cascadeOnDelete();
         });
     }

@@ -12,12 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sections', function (Blueprint $table) {
-            $table->uuid('id')->unique();
+            // Primary key
+            $table->uuid('id')->primary();
+
+            // Section details
             $table->integer('position');
             $table->string('title');
             $table->string('description')->nullable();
+
+            // Timestamps
             $table->timestamps();
 
+            // Foreign keys and relations
             $table->uuid('course_id');
             $table->foreign('course_id')->references('id')->on('courses')->cascadeOnDelete();
         });
