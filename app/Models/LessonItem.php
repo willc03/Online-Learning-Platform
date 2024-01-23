@@ -24,6 +24,6 @@ class LessonItem extends Model
      */
     public function lesson()
     {
-        return $this->hasOne(Lesson::class);
+        return $this->hasOne(Lesson::class, 'id', 'lesson_id');
     }
 }

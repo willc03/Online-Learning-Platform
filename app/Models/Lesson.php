@@ -16,7 +16,7 @@ class Lesson extends Model
      */
     public function items()
     {
-        return $this->hasMany(LessonItem::class);
+        return $this->hasMany(LessonItem::class, 'lesson_id', 'id');
     }
 
     public function users_completed()

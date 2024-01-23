@@ -23,15 +23,6 @@ class SectionItem extends Model
      */
     public function section()
     {
-        return $this->hasOne(Section::class);
-    }
-
-    /*
-     * Create a one-to-one relationship between the item and a lesson (if any)
-     * One section can have one lesson
-     */
-    public function lesson()
-    {
-        return $this->hasOne(Lesson::class);
+        return $this->hasOne(Section::class, 'id', 'section_id');
     }
 }

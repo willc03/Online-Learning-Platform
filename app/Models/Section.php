@@ -17,7 +17,7 @@ class Section extends Model
      */
     public function course()
     {
-        return $this->hasOne(Course::class);
+        return $this->hasOne(Course::class, 'id', 'course_id');
     }
 
     /*
@@ -26,6 +26,6 @@ class Section extends Model
      */
     public function items()
     {
-        return $this->hasMany(SectionItem::class);
+        return $this->hasMany(SectionItem::class, 'section_id', 'id');
     }
 }
