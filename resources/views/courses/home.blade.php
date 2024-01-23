@@ -38,27 +38,13 @@
                 </div>
             </div>
         @endforeach
-        {{-- If the user is an admin, allow them to add additional sections --}}
-        @if($user_is_owner && $is_editing)
-            <x-components.3d_button class="course-button-mini" id="add-section-button" fg-color="#9EC5AB" bg-color="#5e9c73" onclick="$(addSectionForm).animate({height: $(addSectionForm).data('size')})">Add new section</x-components.3d_button>
-            <form id="course-section-add-form">
-                <fieldset>
-                    <legend>New Section</legend>
-                    <label class="required" for="title">Section title:</label>
-                    <input type="text" name="title" required>
-
-                    <label for="description">Section description:</label>
-                    <textarea name="description" id="new-section-description"></textarea>
-
-                    <div class="submit-buttons">
-                        <x-components.3d_button value="false" fg_color="#CA6565" bg_color="#A23636" onclick="$(addSectionForm).animate({height: '0px'}, 500)">Cancel</x-components.3d_button>
-                        <x-components.3d_button value="true" fg_color="#B1CA65" bg_color="#88A236">Add section</x-components.3d_button>
-                    </div>
-                </fieldset>
-            </form>
-            <script src="{{ asset('assets/scripts/courses/admin/add_section.js') }}"></script>
-        @endif
     </div>
+
+    {{-- If the user is an admin, allow them to add additional sections --}}
+    @if($user_is_owner && $is_editing)
+        <x-courses.add_section />
+        <script src="{{ asset('assets/scripts/courses/admin/add_section.js') }}"></script>
+
 
     <script src="{{ asset("assets/scripts/courses/collapse_sections.js") }}"></script>
 
