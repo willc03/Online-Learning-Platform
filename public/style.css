@@ -487,8 +487,7 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   align-items: center;
   justify-content: space-around;
   text-align: center;
-  padding-top: 5%;
-  padding-bottom: 5%;
+  padding: 5% 0;
 }
 #invite-box h2, #invite-box h3 {
   margin: 5px;
@@ -496,13 +495,8 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
 #invite-box form {
   width: 50%;
 }
-#invite-box #return-home {
-  margin-top: 10px;
+#invite-box #return-home, #invite-box #accept {
   width: 50%;
-  height: 25px;
-}
-#invite-box #accept {
-  width: 100%;
   height: 25px;
   margin-top: 10px;
 }
@@ -521,11 +515,7 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   #invite-box .button-box {
     flex-direction: column;
   }
-  #invite-box form {
-    width: 100%;
-    margin: 0;
-  }
-  #invite-box button.three-d {
+  #invite-box .button-box button.three-d {
     width: 100% !important;
     margin: 0;
   }
@@ -537,16 +527,15 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   justify-content: space-between;
   width: 100%;
 }
-#course-sections .course_section_placeholder {
+#course-sections .course_section_placeholder,
+#course-sections div.section {
   background-color: lightgray;
   width: 100%;
-  height: calc(1.2em + 20px);
   border-radius: 5px;
   margin: 10px 0;
 }
-#course-sections div.section {
-  width: 100%;
-  margin: 10px 0;
+#course-sections .course_section_placeholder {
+  height: calc(1.2em + 20px);
 }
 #course-sections div.section button.collapse-button {
   background-color: #638ca7;
@@ -619,10 +608,7 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   width: 20%;
   height: 25px;
 }
-.course-button-mini:not(:first-of-type) {
-  margin-bottom: 10px;
-}
-.course-button-mini:last-of-type {
+.course-button-mini:not(:first-of-type), .course-button-mini:last-of-type {
   margin-bottom: 10px;
 }
 
