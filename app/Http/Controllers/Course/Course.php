@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course as CourseModel;
+use App\Models\Lesson;
+use App\Models\LessonItem;
 use App\Models\Section;
 use App\Models\User;
 use App\Models\UserCourse;
@@ -73,6 +75,18 @@ class Course extends Controller
                     $newSection->save();
 
                     return 'SUCCESS';
+                }
+                break;
+            case "delete_section":
+                if ( isset($validated_data['data']['section_id']) && Section::where('id', $validated_data['data']['section_id'])->exists() ) {
+                    $section = Section::find($validated_data['data']['section_id']);
+                    foreach ($section->items as $item) { // Lessons must be manually deleted as a direct relationship couldn't be established
+                        if ($item->item_type == "LESSON" && $lesson = Lesson::where('section_item_id', $section->id)) {
+                            $lesson->delete();
+                        }
+                    }
+                    $section->delete();
+                    return "SUCCESS";
                 }
                 break;
         }
