@@ -3,6 +3,7 @@
 button.three-d {
     // Transition properties
     &, &>* {
+        transition-property: transform, box-shadow;
         transition-duration: 300ms;
     }
 
