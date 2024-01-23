@@ -13,7 +13,7 @@
     @endif
     {{-- Display all the course content in a downwards fashion --}}
     <h2>Course content</h2>
-    @if ($is_editing)
+    @if ($is_editing && $course->sections->count() > 1)
         <x-components.3d_button class="course-button-mini" id="reorder-sections-button" fg-color="#9EC5AB" bg-color="#5e9c73" data-active="false">Re-order sections</x-components.3d_button>
     @endif
     {{-- Display the course sections --}}
