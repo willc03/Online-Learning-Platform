@@ -106,44 +106,44 @@
         }
     }
 
-    #course-section-add-form {
-        overflow: hidden;
-        width: 75%;
-        margin: 0 auto;
-
-        fieldset {
-            legend {
-                width: max-content;
-            }
-
-            display: flex;
-            flex-direction: column;
-            border: 1.5px solid nth($blue, 1);
-            border-radius: 8px;
-
-            .submit-buttons {
-                display: flex;
-                justify-content: space-evenly;
-
-                button {
-                    width: 45%;
-                    height: 25px;
-                }
-            }
-
-            #new-section-description {
-                padding-bottom: 150px;
-                margin-bottom: 20px;
-                vertical-align: top;
-                word-wrap: break-word;
-                word-break: break-all;
-            }
-        }
-    }
-
     @media (max-width: 640px) {
         div.section div.collapse-section {
             width: auto !important;
+        }
+    }
+}
+
+#course-section-add-form {
+    overflow: hidden;
+    width: 75%;
+    margin: 0 auto;
+
+    fieldset {
+        legend {
+            width: max-content;
+        }
+
+        display: flex;
+        flex-direction: column;
+        border: 1.5px solid nth($blue, 1);
+        border-radius: 8px;
+
+        .submit-buttons {
+            display: flex;
+            justify-content: space-evenly;
+
+            button {
+                width: 45%;
+                height: 25px;
+            }
+        }
+
+        #new-section-description {
+            padding-bottom: 150px;
+            margin-bottom: 20px;
+            vertical-align: top;
+            word-wrap: break-word;
+            word-break: break-all;
         }
     }
 }

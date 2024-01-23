@@ -49,6 +49,7 @@ button.three-d {
   box-shadow: 0 5px 4px #b1b4ae;
 }
 button.three-d, button.three-d > * {
+  transition-property: transform, box-shadow;
   transition-duration: 300ms;
 }
 button.three-d .foreground {
@@ -569,39 +570,40 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   overflow: hidden;
   padding: 10px;
 }
-#course-sections #course-section-add-form {
+@media (max-width: 640px) {
+  #course-sections div.section div.collapse-section {
+    width: auto !important;
+  }
+}
+
+#course-section-add-form {
   overflow: hidden;
   width: 75%;
   margin: 0 auto;
 }
-#course-sections #course-section-add-form fieldset {
+#course-section-add-form fieldset {
   display: flex;
   flex-direction: column;
   border: 1.5px solid #638ca7;
   border-radius: 8px;
 }
-#course-sections #course-section-add-form fieldset legend {
+#course-section-add-form fieldset legend {
   width: max-content;
 }
-#course-sections #course-section-add-form fieldset .submit-buttons {
+#course-section-add-form fieldset .submit-buttons {
   display: flex;
   justify-content: space-evenly;
 }
-#course-sections #course-section-add-form fieldset .submit-buttons button {
+#course-section-add-form fieldset .submit-buttons button {
   width: 45%;
   height: 25px;
 }
-#course-sections #course-section-add-form fieldset #new-section-description {
+#course-section-add-form fieldset #new-section-description {
   padding-bottom: 150px;
   margin-bottom: 20px;
   vertical-align: top;
   word-wrap: break-word;
   word-break: break-all;
-}
-@media (max-width: 640px) {
-  #course-sections div.section div.collapse-section {
-    width: auto !important;
-  }
 }
 
 .course-button-mini {
