@@ -7,6 +7,7 @@ const sectionSorter = $("#course-sections").sortable({
     placeholder: "course_section_placeholder",
     opacity: 0.5,
     cancel: false,
+    axis: 'y'
 });
 // Disable the sorter by default
 $(sectionSorter).sortable("disable");
