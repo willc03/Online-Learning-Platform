@@ -22,6 +22,11 @@
             <div class="section draggable-choice" id="{{ $course_section->id }}">
                 <button class="collapse-button" id="{{ $course_section->id }}">{{ $course_section->title }}</button>
                 <div class="collapse-section" id="{{ $course_section->id }}">
+                    {{-- Add deletion buttons if the user is a course admin and is editing --}}
+                    @if ($user_is_owner && $is_editing)
+                        <x-components.3d_button class="course-button-mini" id="delete-button" fg_color="#CA6565" bg_color="#A23636">Delete section</x-components.3d_button>
+                    @endif
+                    {{-- Add description --}}
                     @if($course_section->description)
                         <p>{{ $course_section->description }}</p>
                     @endif
@@ -45,6 +50,41 @@
         <x-courses.add_section />
         <script src="{{ asset('assets/scripts/courses/admin/add_section.js') }}"></script>
 
+        <script>
+            $(".three-d.course-button-mini#delete-button").on("click", function() {
+                const button = $(this);
+                const foreground = $(button).children('span')[0];
+
+                if ($(button).data("shouldDelete") === true) {
+                    $.ajax({
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        method: "POST",
+                        url: ajaxRoute,
+                        data: {
+                            'course_id': courseId,
+                            'edit_type': 'delete_section',
+                            'data': JSON.stringify({'section_id': $(button).parent().attr('id')})
+                        },
+                        success: function(data) {
+                            if (data === 'SUCCESS') {
+
+                            }
+                        }
+                    });
+                } else {
+                    $(button).animate({backgroundColor: "#88A236"}, 500);
+                    $(foreground).animate({backgroundColor: "#B1CA65"}, 500).text("Confirm");
+                    $(button).data("shouldDelete", true);
+
+                    setTimeout(function() {
+                        $(button).data("shouldDelete", false);
+                        $(button).animate({backgroundColor: $(button).attr("bg-color") || $(button).attr("bg_color") || "#ffffff"}, 500);
+                        $(foreground).animate({backgroundColor: $(button).attr("fg-color") || $(button).attr("fg_color") || "#ffffff"}, 500).text("Delete section");
+                    }, 7500);
+                }
+            })
+        </script>
+    @endif
 
     <script src="{{ asset("assets/scripts/courses/collapse_sections.js") }}"></script>
 
