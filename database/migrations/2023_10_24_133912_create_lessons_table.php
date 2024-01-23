@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->uuid('section_item_id');
-            $table->foreign('section_item_id')->references('id')->on('section_items');
+            $table->foreign('section_item_id')->references('id')->on('section_items')->cascadeOnDelete();
         });
     }
 
