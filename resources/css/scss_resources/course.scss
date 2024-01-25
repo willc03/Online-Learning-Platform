@@ -109,6 +109,31 @@
     #delete-button {
         margin-top: 5px;
     }
+
+    .lesson {
+        background-color: #628BA7;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-content: space-around;
+        padding: 5%;
+        border-radius: 8px;
+
+        h5, p {
+            color: $white;
+        }
+
+        h5, p, .three-d {
+            margin: 10px auto;
+            text-align: center;
+            width: 50%;
+        }
+
+        .three-d {
+            height: 25px;
+        }
+    }
+
     @media (max-width: 640px) {
         div.section div.collapse-section {
             width: auto !important;
