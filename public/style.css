@@ -357,9 +357,6 @@ body main {
   body main {
     margin: 0 !important;
   }
-  body main div {
-    width: 100% !important;
-  }
 }
 body footer {
   margin-top: 42.5px;
@@ -569,6 +566,9 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   display: block;
   overflow: hidden;
   padding: 10px;
+}
+#course-sections #delete-button {
+  margin-top: 5px;
 }
 @media (max-width: 640px) {
   #course-sections div.section div.collapse-section {
