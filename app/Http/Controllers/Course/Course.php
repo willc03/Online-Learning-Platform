@@ -74,7 +74,7 @@ class Course extends Controller
 
                     $newSection->save();
 
-                    return 'SUCCESS';
+                    return ['SUCCESS', $newSection->id];
                 }
                 break;
             case "delete_section":

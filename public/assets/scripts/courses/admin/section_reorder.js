@@ -47,7 +47,7 @@ $("#reorder-sections-button").on("click", function () {
         $("#reorder-sections-button").attr("data-active", "false");
         // AJAX request for setting the new order
         let order = [];
-        $("div .section.draggable-choice").each(function (index) {
+        $("div .section").each(function (index) {
             order.push([index + 1, $(this).attr("id")])
         });
         let orderJson = JSON.stringify(order);

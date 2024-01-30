@@ -10,11 +10,11 @@ $(".three-d.course-button-mini#delete-button").on("click", function() {
             data: {
                 'course_id': courseId,
                 'edit_type': 'delete_section',
-                'data': JSON.stringify({'section_id': $(button).parent().attr('id')})
+                'data': JSON.stringify({'section_id': $(button).parent().parent().attr('id')})
             },
             success: function(data) {
                 if (data === 'SUCCESS') {
-                    let section = $(button).parent();
+                    let section = $(button).parent().parent();
                     let section_button = $(section).prev();
                     let section_container = $(section).parent()
 

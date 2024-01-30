@@ -14,8 +14,8 @@ $(addSectionForm)
                 'data': JSON.stringify($(this).serializeArray())
             },
             success: function(data) {
-                if (data === 'SUCCESS') {
-                    location.href = location.href;
+                if (data[0] === 'SUCCESS') {
+                    window.location.href = ((location.protocol + '//' + location.host + location.pathname) + '#' + data[1]);
                 }
             }
         });

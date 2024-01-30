@@ -19,7 +19,7 @@
     {{-- Display the course sections --}}
     <div id="course-sections">
         @foreach($course->sections as $course_section)
-            <div class="section draggable-choice" id="{{ $course_section->id }}">
+            <div class="section" id="{{ $course_section->id }}">
                 <button class="collapse-button" id="{{ $course_section->id }}">{{ $course_section->title }}</button>
                 <div class="collapse-section" id="{{ $course_section->id }}">
                     {{-- Add deletion buttons if the user is a course admin and is editing --}}
