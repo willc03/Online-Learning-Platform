@@ -38,7 +38,8 @@ class Course extends Controller
         $validated_data = $request->validate([
             'course_id' => ['string', 'required', 'exists:courses,id'],
             'edit_type' => ['string', 'required'],
-            'data' => ['required', 'json']
+            'data' => ['required', 'json'],
+            'section_id' => ['nullable']
         ]);
         $validated_data['data'] = Json::decode($validated_data['data']);
         // Get course
