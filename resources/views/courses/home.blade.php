@@ -24,8 +24,10 @@
                 <div class="collapse-section" id="{{ $course_section->id }}">
                     {{-- Add deletion buttons if the user is a course admin and is editing --}}
                     @if ($user_is_owner && $is_editing)
-                        <h4>Admin Controls</h4>
-                        <x-components.3d_button class="course-button-mini" id="delete-button" fg_color="#CA6565" bg_color="#A23636">Delete section</x-components.3d_button>
+                        <div class="section-admin-panel">
+                            <h4>Admin Controls</h4>
+                            <x-components.3d_button class="course-button-mini" id="delete-button" fg_color="#CA6565" bg_color="#A23636">Delete section</x-components.3d_button>
+                        </div>
                     @endif
                     {{-- Add description --}}
                     @if($course_section->description)
