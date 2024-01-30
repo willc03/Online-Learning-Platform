@@ -27,6 +27,9 @@
                         <div class="section-admin-panel">
                             <h4>Admin Controls</h4>
                             <x-components.3d_button class="course-button-mini" id="delete-button" fg_color="#CA6565" bg_color="#A23636">Delete section</x-components.3d_button>
+                            @if ($course_section->items->count() > 1)
+                                <x-components.3d_button class="course-button-mini" id="reorder-section-button" fg-color="#9EC5AB" bg-color="#5e9c73" data-active="false">Re-order components</x-components.3d_button>
+                            @endif
                         </div>
                     @endif
                     {{-- Add description --}}
