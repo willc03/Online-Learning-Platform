@@ -13,7 +13,7 @@ button.three-d {
     border-radius: 12px;
     cursor: pointer;
     outline-offset: 10px;
-    padding: 0;
+    padding: 0 10px;
     position: relative;
     box-shadow: 0 5px 4px color.adjust($off-white, $red: -20, $green: -20, $blue: -20);
 
@@ -25,15 +25,16 @@ button.three-d {
         display: flex;
         height: 100%;
         justify-content: center;
-        transform: translateY(-4px);
+        transform: translateY(-4px) translateX(-10px);
         width: 100%;
+        padding: 0 10px;
     }
 
     // Selected state properties
     &.selected {
         box-shadow: 0 2px 4px 0 color.adjust($off-white, $red: -40, $green: -40, $blue: -40);
         .foreground {
-            transform: translateY(-2px)!important;
+            transform: translateY(-2px) translateX(-10px)!important;
         }
     }
 
@@ -50,13 +51,13 @@ button.three-d {
     &:not([disabled]):hover {
         box-shadow: 0 5px 6px 2px color.adjust($off-white, $red: -40, $green: -40, $blue: -40);
         .foreground {
-            transform: translateY(-6px);
+            transform: translateY(-6px) translateX(-10px);
         }
     }
     &:not([disabled]):active { // This is after otherwise it causes odd effects
         box-shadow: 0 2px 4px 0 color.adjust($off-white, $red: -40, $green: -40, $blue: -40);
         .foreground {
-            transform: translateY(-2px);
+            transform: translateY(-2px) translateX(-10px);
         }
     }
 }

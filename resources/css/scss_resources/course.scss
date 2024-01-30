@@ -49,6 +49,10 @@
     }
 }
 
+#admin-button {
+    width: max-content;
+}
+
 #course-sections {
     display: flex;
     flex-direction: column;
@@ -106,14 +110,14 @@
         }
 
         div.section-admin-panel {
+            padding: 5px;
             h4 {
                 margin: 10px 0;
             }
+            .three-d {
+                margin-top: 5px;
+            }
         }
-    }
-
-    #delete-button {
-        margin-top: 5px;
     }
 
     .lesson {
@@ -183,7 +187,6 @@
 }
 
 .course-button-mini {
-    width: 20%;
     height: 25px;
 
     &:not(:first-of-type),

@@ -44,7 +44,7 @@ button.three-d {
   border-radius: 12px;
   cursor: pointer;
   outline-offset: 10px;
-  padding: 0;
+  padding: 0 10px;
   position: relative;
   box-shadow: 0 5px 4px #b1b4ae;
 }
@@ -59,14 +59,15 @@ button.three-d .foreground {
   display: flex;
   height: 100%;
   justify-content: center;
-  transform: translateY(-4px);
+  transform: translateY(-4px) translateX(-10px);
   width: 100%;
+  padding: 0 10px;
 }
 button.three-d.selected {
   box-shadow: 0 2px 4px 0 #9da09a;
 }
 button.three-d.selected .foreground {
-  transform: translateY(-2px) !important;
+  transform: translateY(-2px) translateX(-10px) !important;
 }
 button.three-d[disabled] {
   filter: saturate(0%);
@@ -79,13 +80,13 @@ button.three-d:not([disabled]):hover {
   box-shadow: 0 5px 6px 2px #9da09a;
 }
 button.three-d:not([disabled]):hover .foreground {
-  transform: translateY(-6px);
+  transform: translateY(-6px) translateX(-10px);
 }
 button.three-d:not([disabled]):active {
   box-shadow: 0 2px 4px 0 #9da09a;
 }
 button.three-d:not([disabled]):active .foreground {
-  transform: translateY(-2px);
+  transform: translateY(-2px) translateX(-10px);
 }
 
 span.blank {
@@ -519,6 +520,10 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   }
 }
 
+#admin-button {
+  width: max-content;
+}
+
 #course-sections {
   display: flex;
   flex-direction: column;
@@ -567,10 +572,13 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   overflow: hidden;
   padding: 10px;
 }
+#course-sections div.section div.section-admin-panel {
+  padding: 5px;
+}
 #course-sections div.section div.section-admin-panel h4 {
   margin: 10px 0;
 }
-#course-sections #delete-button {
+#course-sections div.section div.section-admin-panel .three-d {
   margin-top: 5px;
 }
 #course-sections .lesson {
@@ -630,7 +638,6 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
 }
 
 .course-button-mini {
-  width: 20%;
   height: 25px;
 }
 .course-button-mini:not(:first-of-type), .course-button-mini:last-of-type {
