@@ -49,6 +49,6 @@ class User extends Authenticatable
      */
     public function courses()
     {
-        return $this->hasMany(UserCourse::class);
+        return $this->hasMany(UserCourse::class)->orderBy('created_at');
     }
 }

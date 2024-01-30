@@ -26,6 +26,6 @@ class Section extends Model
      */
     public function items()
     {
-        return $this->hasMany(SectionItem::class, 'section_id', 'id');
+        return $this->hasMany(SectionItem::class, 'section_id', 'id')->orderBy('position');
     }
 }

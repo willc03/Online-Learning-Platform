@@ -16,11 +16,11 @@ class Lesson extends Model
      */
     public function items()
     {
-        return $this->hasMany(LessonItem::class, 'lesson_id', 'id');
+        return $this->hasMany(LessonItem::class, 'lesson_id', 'id')->orderBy('position');
     }
 
     public function users_completed()
     {
-        return $this->hasMany(UserCompletedLesson::class);
+        return $this->hasMany(UserCompletedLesson::class)->orderBy('created_at');
     }
 }

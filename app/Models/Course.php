@@ -17,7 +17,7 @@ class Course extends Model
      */
     public function invites()
     {
-        return $this->hasMany(CourseInvite::class);
+        return $this->hasMany(CourseInvite::class)->orderBy('created_at');
     }
 
     /*
@@ -34,7 +34,7 @@ class Course extends Model
      */
     public function users()
     {
-        return $this->hasMany(UserCourse::class);
+        return $this->hasMany(UserCourse::class)->orderBy('created_at');
     }
 
     /*
