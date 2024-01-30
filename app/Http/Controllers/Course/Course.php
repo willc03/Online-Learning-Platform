@@ -39,7 +39,7 @@ class Course extends Controller
             'course_id' => ['string', 'required', 'exists:courses,id'],
             'edit_type' => ['string', 'required'],
             'data' => ['required', 'json'],
-            'section_id' => ['nullable']
+            'section_id' => ['nullable', 'exists:sections,id']
         ]);
         $validated_data['data'] = Json::decode($validated_data['data']);
         // Get course
@@ -51,6 +51,19 @@ class Course extends Controller
         // Make edits based on type
         switch ( $validated_data['edit_type'] ) {
             case "section_order":
+                // Further validation
+                $interior_validation = Validator::make($validated_data, [
+                    'data' => ['required', 'array'],
+                    'data.*' => ['required', 'array'],
+                    'data.*.0' => ['required', 'integer'],
+                    'data.*.1' => ['required', 'string', 'exists:sections,id']
+                ]);
+
+                // Ensure validation is successful
+                if ($interior_validation->fails()) {
+                    return 403;
+                }
+
                 $course_sections = $course->sections;
                 foreach ($course_sections as $section) {
                     foreach ($validated_data['data'] as $data) {
@@ -62,33 +75,51 @@ class Course extends Controller
                 }
                 break;
             case "new_section":
-                if ( isset($validated_data['data'][0]['name']) && $validated_data['data'][0]['name'] == 'title' ) {
-                    $newSection = new Section;
-                    $newSection->title = $validated_data['data'][0]['value'];
+                // Further validation
+                $interior_validation = Validator::make($validated_data, [
+                    'data' => ['required', 'array'],
+                    'data.0' => ['required', 'array'],
+                    'data.0.name' => ['required', 'string', 'in:title'],
+                    'data.0.value' => ['required', 'string'],
+                    'data.1' => ['nullable', 'array'],
+                    'data.1.name' => ['nullable', 'string', 'in:description'],
+                    'data.1.value' => ['nullable', 'string']
+                ]);
 
-                    if (isset($validated_data['data'][1]['name']) && $validated_data['data'][1]['name'] == 'description') {
-                        $newSection->description = $validated_data['data'][1]['value'] ?? null;
-                    }
-
-                    $newSection->course_id = $course->id;
-                    $newSection->position = $course->sections->count();
-
-                    $newSection->save();
-
-                    return ['SUCCESS', $newSection->id];
+                // Ensure validation is successful
+                if ($interior_validation->fails()) {
+                    return 403;
                 }
+
+                $newSection = new Section;
+                $newSection->title = $validated_data['data'][0]['value'];
+
+                if (isset($validated_data['data'][1]['name'])) {
+                    $newSection->description = $validated_data['data'][1]['value'] ?? null;
+                }
+
+                $newSection->course_id = $course->id;
+                $newSection->position = $course->sections->count();
+
+                $newSection->save();
+
+                return ['SUCCESS', $newSection->id];
                 break;
             case "delete_section":
-                if ( isset($validated_data['data']['section_id']) && Section::where('id', $validated_data['data']['section_id'])->exists() ) {
-                    $section = Section::find($validated_data['data']['section_id']);
-                    foreach ($section->items as $item) { // Lessons must be manually deleted as a direct relationship couldn't be established
-                        if ($item->item_type == "LESSON" && $lesson = Lesson::where('section_item_id', $section->id)) {
-                            $lesson->delete();
-                        }
+                // Further validation
+                $interior_validation = Validator::make($validated_data, [
+                    'data.section_id' => ['required', 'string', 'exists:sections,id']
+                ]);
+
+                $section = Section::find($validated_data['data']['section_id']);
+                foreach ($section->items as $item) { // Lessons must be manually deleted as a direct relationship couldn't be established
+                    if ($item->item_type == "LESSON" && $lesson = Lesson::where('section_item_id', $section->id)) {
+                        $lesson->delete();
                     }
-                    $section->delete();
-                    return "SUCCESS";
                 }
+                $section->delete();
+                
+                return "SUCCESS";
                 break;
             case "section_interior_order":
                 // Further validation
