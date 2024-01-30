@@ -90,6 +90,31 @@ class Course extends Controller
                     return "SUCCESS";
                 }
                 break;
+            case "section_interior_order":
+                // Further validation
+                $interior_validation = Validator::make($validated_data, [
+                    'data.*' => ['required', 'array'],
+                    'data.*.0' => ['required', 'numeric'],
+                    'data.*.1' => ['required', 'string', 'exists:section_items,id'],
+                    'section_id' => ['required', 'string', 'exists:sections,id']
+                ]);
+
+                // Ensure validation is successful
+                if ( $interior_validation->fails() ) {
+                    return $interior_validation->errors();
+                }
+
+                // Commence updates
+                foreach ($validated_data['data'] as $item) {
+                    $section_item = SectionItem::where(['section_id' => $validated_data['section_id'], 'id' => $item[1]])->firstOrFail();
+                    echo $section_item->position . '\n';
+                    $section_item->position = $item[0];
+                    $section_item->save();
+                    echo $section_item->position . '\n';
+                }
+
+                return 200;
+                break;
         }
         // Returns
         return 200;
