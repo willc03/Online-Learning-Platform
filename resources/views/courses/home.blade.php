@@ -37,20 +37,25 @@
                         <p>{{ $course_section->description }}</p>
                     @endif
                     {{-- Display all the items in the section --}}
-                    @foreach($course_section->items as $section_item)
-                        {{-- Add the item accordingly with a switch-case --}}
-                        @switch($section_item->item_type)
-                            @case("LESSON")
-                                <div class="lesson">
-                                    <h5>{{ $section_item->title }}</h5>
-                                    @if($section_item->description != null)
-                                        <p>{{ $section_item->description }}</p>
-                                    @endif
-                                    <x-components.3d_button fg-color="#9EC5AB" bg-color="#5e9c73" onclick="location.href = '{{ url()->current() }}'">BEGIN LESSON</x-components.3d_button>
-                                </div>
-                                @break
-                        @endswitch
-                    @endforeach
+                    @if($is_editing) <div class="section-content"> @endif
+                        @foreach($course_section->items as $section_item)
+                            {{-- Add the item accordingly with a switch-case --}}
+                            @switch($section_item->item_type)
+                                @case("LESSON")
+                                    <div class="lesson" id="{{ $section_item->id }}">
+                                        <h5>{{ $section_item->title }}</h5>
+                                        @if($section_item->description != null)
+                                            <p>{{ $section_item->description }}</p>
+                                        @endif
+                                        <x-components.3d_button fg-color="#9EC5AB" bg-color="#5e9c73" onclick="location.href = '{{ url()->current() }}'">BEGIN LESSON</x-components.3d_button>
+                                    </div>
+                                    @break
+                                @case("TEXT")
+                                    <p class="section-text" id="{{ $section_item->id }}">{{ $section_item->title }}</p>
+                                    @break
+                            @endswitch
+                        @endforeach
+                    @if($is_editing) </div> @endif
                 </div>
             </div>
         @endforeach
