@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Course;
 use App\Http\Controllers\Controller;
 use App\Models\Course as CourseModel;
 use App\Models\Lesson;
-use App\Models\LessonItem;
 use App\Models\Section;
+use App\Models\SectionItem;
 use App\Models\User;
-use App\Models\UserCourse;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 
 // 'as' used due to duplicate definition of key word 'Course'
 
