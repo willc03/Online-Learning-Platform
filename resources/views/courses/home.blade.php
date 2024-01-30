@@ -76,5 +76,6 @@
         <script src="{{ asset("assets/scripts/courses/admin/section_reorder.js") }}"></script>
         <script src="{{ asset('assets/scripts/courses/admin/add_section.js') }}"></script>
         <script src="{{ asset('assets/scripts/courses/admin/delete_section.js') }}"></script>
+        <script src="{{ asset('assets/scripts/courses/admin/section_interior_reorder.js') }}"></script>
     @endif
 </x-structure.wrapper>
