@@ -528,8 +528,8 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   }
 }
 
-#admin-button {
-  width: max-content;
+#admin-row form {
+  margin: 0 5px;
 }
 
 #course-sections {

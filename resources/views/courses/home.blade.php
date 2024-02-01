@@ -1,10 +1,13 @@
 <x-structure.wrapper title="{{ $course->title }}">
     {{-- Toggle owner admin view --}}
     @if($user_is_owner)
-        <form action="{{ url()->current() }}">
-            <x-components.3d_button class="course-button-mini" name="editing" value="{{ $is_editing ? 'false' : 'true' }}" id="admin-button" fg-color="#9EC5AB" bg-color="#5e9c73">{{ $is_editing ? 'Disable admin mode' : 'Enable admin mode' }}</x-components.3d_button>
-        </form>
         <div class="flex-row" id="admin-row">
+            <form action="{{ url()->current() }}" method="get">
+                <x-components.3d_button class="course-button-mini max-content" name="editing" value="{{ $is_editing ? 'false' : 'true' }}" id="admin-button" fg-color="#9EC5AB" bg-color="#5e9c73">{{ $is_editing ? 'Disable admin mode' : 'Enable admin mode' }}</x-components.3d_button>
+            </form>
+            <form action="{{ route('course.settings', ['id' => $course->id]) }}" method="get">
+                <x-components.3d_button class="course-button-mini max-content" id="settings-button" fg-color="#9EC5AB" bg-color="#5E9C73">Course settings</x-components.3d_button>
+            </form>
         </div>
     @endif
     {{-- Course details --}}
