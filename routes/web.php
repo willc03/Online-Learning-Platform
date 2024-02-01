@@ -45,8 +45,9 @@ Route::prefix('join/')->name('join.')->middleware('auth')->group(function() {
 // An ID is required for all course pages, permissions can be configured in controllers using users and courses
 Route::prefix('course/{id}/')->name('course.')->middleware(['auth', 'course'])->group(function() {
     // Home page
-    Route::get('/', [Course::class, 'index']);
+    Route::get('/', [Course::class, 'index'])->name('home');
     // Admin-only routes
+    Route::get('/settings', [Course::class, 'settings'])->name('settings');
     Route::post('edit', [Course::class, 'contentEdit'])->name('edit');
     // File upload
     Route::get('upload', [File::class, 'file_index']);
