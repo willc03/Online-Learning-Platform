@@ -3,7 +3,7 @@ const collapseButtons = $(".section .collapse-button");
 const collapseSections = $(collapseButtons).next();
 // Create the sorter
 const sectionSorter = $("#course-sections").sortable({
-    revert: true,
+    revert: 0,
     placeholder: "course_section_placeholder",
     opacity: 0.5,
     cancel: false,
@@ -26,6 +26,7 @@ $("#reorder-sections-button").on("click", function () {
             $(collapseButtons).addClass("collapsed").animate({
                 borderRadius: "8px"
             }, 1000);
+            $(collapseButtons).css('cursor', 'move');
             // Enable the sorter
             $(sectionSorter).sortable("enable");
             $("#reorder-sections-button").attr("data-active", "true")
@@ -44,6 +45,7 @@ $("#reorder-sections-button").on("click", function () {
             }, 1000);
         }).removeClass("collapsing");
         $(collapseButtons).removeClass("collapsed").css("borderRadius", "");
+        $(collapseButtons).css('cursor', 'move');
         $("#reorder-sections-button").attr("data-active", "false");
         // AJAX request for setting the new order
         let order = [];
