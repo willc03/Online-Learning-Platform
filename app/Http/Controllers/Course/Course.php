@@ -20,7 +20,7 @@ class Course extends Controller
     // Create a function for the home page route
     public function index(Request $request)
     {
-        // Check for a valid course
+        // Get the course id (the existence is processed through the custom Course middleware)
         $url_course_id = explode('/', preg_replace( "#^[^:/.]*[:/]+#i", "", url()->current()) )[2];
         $course = CourseModel::find($url_course_id);
         // Present the course home page to the user
@@ -30,6 +30,16 @@ class Course extends Controller
             'user_is_owner' => ($request->user()->id === $course->owner),
             'is_editing' => (($request->user()->id === $course->owner) && $request->has('editing') && $request->input('editing') === 'true')
         ]);
+    }
+
+    // Create a function for the settings page of the course
+    public function settings(Request $request)
+    {
+        // Get the course from the ID
+        $url_course_id = explode('/', preg_replace( "#^[^:/.]*[:/]+#i", "", url()->current()) )[2];
+        $course = CourseModel::find($url_course_id);
+        // Return the view to the user
+        return view('welcome'); // This will be replaced later when the page is defined.
     }
 
     // Add a function to allow AJAX requests to edit
