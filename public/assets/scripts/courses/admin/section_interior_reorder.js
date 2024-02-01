@@ -37,7 +37,7 @@ $("#reorder-section-button").on("click", function () {
 
         // AJAX request for setting the new order
         let order = [];
-        $(section).children().each(function (index, o) {
+        $(section).children().each(function (index) {
             order.push([index + 1, $(this).attr("id")]);
         });
 
