@@ -16,7 +16,7 @@ $("#reorder-section-button").on("click", function () {
             .text('Save new order')
             .animate({ backgroundColor: '#B1CA65' }, 500);
         $(this).animate({ backgroundColor: '#88A236' }, 500);
-
+        $(sectionSorter).sortable("enable");
         $(this).attr("data-active", "true");
     } else {
         // Disable the sorter
