@@ -42,6 +42,40 @@ class Course extends Controller
         return view('welcome'); // This will be replaced later when the page is defined.
     }
 
+    // Add a function to allow AJAX requests to get forms
+    public function formRequest(Request $request)
+    {
+        // Validation
+        $validated_data = $request->validate([
+            'form_type' => ['required', 'string', 'in:text,lesson,file,image']
+        ]);
+        // Get the course
+        $url_course_id = explode('/', preg_replace( "#^[^:/.]*[:/]+#i", "", url()->current()) )[2];
+        $course = CourseModel::find($url_course_id);
+        // Ensure the user has access
+        if (!Gate::allows('course-edit', $course)) {
+            return 403;
+        }
+        // Get the form
+        switch($validated_data['form_type'])
+        {
+            case 'text':
+                return view('components.courses.component_add.text', ['courseId' => $course->id]);
+                break;
+            case 'lesson':
+                return view('components.courses.component_add.lesson', ['courseId' => $course->id]);
+                break;
+            case 'file':
+                return view('components.courses.component_add.file', ['courseId' => $course->id]);
+                break;
+            case 'image':
+                return view('components.courses.component_add.image', ['courseId' => $course->id]);
+                break;
+        }
+
+        return 400;
+    }
+
     // Add a function to allow AJAX requests to edit
     public function contentEdit(Request $request) {
         // Run validation
