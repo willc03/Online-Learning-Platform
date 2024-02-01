@@ -56,7 +56,9 @@
                                     </div>
                                     @break
                                 @case("TEXT")
-                                    <p class="section-text" id="{{ $section_item->id }}">{{ $section_item->title }}</p>
+                                    <div class="text" id="{{ $section_item->id }}">
+                                        <p>{{ $section_item->title }}</p>
+                                    </div>
                                     @break
                             @endswitch
                         @endforeach
