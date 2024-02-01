@@ -47,7 +47,7 @@ Route::prefix('course/{id}/')->name('course.')->middleware(['auth', 'course'])->
     // Home page
     Route::get('/', [Course::class, 'index'])->name('home');
     // Admin-only routes
-    Route::get('/settings', [Course::class, 'settings'])->name('settings');
+    Route::get('settings', [Course::class, 'settings'])->name('settings');
     Route::post('edit', [Course::class, 'contentEdit'])->name('edit');
     Route::get('formrequest', [Course::class, 'formRequest'])->name('getForm');
     // File upload
