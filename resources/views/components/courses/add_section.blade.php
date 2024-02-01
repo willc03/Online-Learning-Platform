@@ -1,6 +1,6 @@
 <x-components.3d_button class="course-button-mini" id="add-section-button" fg-color="#9EC5AB" bg-color="#5e9c73" onclick="$(addSectionForm).animate({height: $(addSectionForm).data('size')})">Add new section</x-components.3d_button>
 <form id="course-section-add-form">
-    <fieldset>
+    <fieldset class="flex-col">
         <legend>New Section</legend>
         <label class="required" for="title">Section title:</label>
         <input type="text" name="title" required>

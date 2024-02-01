@@ -353,6 +353,14 @@ body main {
   padding: 20px;
   margin: 0 15%;
 }
+body .flex-row {
+  display: flex;
+  flex-direction: row;
+}
+body .flex-col {
+  display: flex;
+  flex-direction: column;
+}
 
 @media (max-width: 640px) {
   body main {

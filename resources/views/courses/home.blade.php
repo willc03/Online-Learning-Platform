@@ -4,6 +4,8 @@
         <form action="{{ url()->current() }}">
             <x-components.3d_button class="course-button-mini" name="editing" value="{{ $is_editing ? 'false' : 'true' }}" id="admin-button" fg-color="#9EC5AB" bg-color="#5e9c73">{{ $is_editing ? 'Disable admin mode' : 'Enable admin mode' }}</x-components.3d_button>
         </form>
+        <div class="flex-row" id="admin-row">
+        </div>
     @endif
     {{-- Course details --}}
     <h1>{{ $course->title }}</h1>
@@ -17,7 +19,7 @@
         <x-components.3d_button class="course-button-mini" id="reorder-sections-button" fg-color="#9EC5AB" bg-color="#5e9c73" data-active="false">Re-order sections</x-components.3d_button>
     @endif
     {{-- Display the course sections --}}
-    <div id="course-sections">
+    <div id="course-sections" class="flex-col">
         @foreach($course->sections as $course_section)
             <div class="section" id="{{ $course_section->id }}">
                 <button class="collapse-button" id="{{ $course_section->id }}">{{ $course_section->title }}</button>
@@ -42,7 +44,7 @@
                             {{-- Add the item accordingly with a switch-case --}}
                             @switch($section_item->item_type)
                                 @case("LESSON")
-                                    <div class="lesson" id="{{ $section_item->id }}">
+                                    <div class="lesson flex-col" id="{{ $section_item->id }}">
                                         <h5>{{ $section_item->title }}</h5>
                                         @if($section_item->description != null)
                                             <p>{{ $section_item->description }}</p>
