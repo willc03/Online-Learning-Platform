@@ -13,7 +13,7 @@
                 </a>
             </div>
             <div class="title"> {{-- Add a clickable hyperlink as the header title to take the user to the home page --}}
-                <h2><a href="{{ route('home') }}">Online Learning Platform</a></h2>
+                <h2><a href="{{ route('home') }}">{{ env('APP_NAME') }}</a></h2>
             </div>
             <div class="user-account"> {{-- Add a button to take the user to their account --}}
                 <a href="{{ url("/account") }}"> {{-- An image button is used for interactivity --}}
