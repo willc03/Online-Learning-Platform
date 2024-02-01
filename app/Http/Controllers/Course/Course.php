@@ -111,6 +111,11 @@ class Course extends Controller
                     'data.section_id' => ['required', 'string', 'exists:sections,id']
                 ]);
 
+                // Ensure validation is successful
+                if ($interior_validation->fails()) {
+                    return 403;
+                }
+
                 $section = Section::find($validated_data['data']['section_id']);
                 foreach ($section->items as $item) { // Lessons must be manually deleted as a direct relationship couldn't be established
                     if ($item->item_type == "LESSON" && $lesson = Lesson::where('section_item_id', $section->id)) {
@@ -118,7 +123,7 @@ class Course extends Controller
                     }
                 }
                 $section->delete();
-                
+
                 return "SUCCESS";
                 break;
             case "section_interior_order":
