@@ -13,6 +13,10 @@ body {
         display: flex;
         flex-direction: column;
     }
+
+    .max-content {
+        width: max-content!important;
+    }
 }
 
 // Device optimisations

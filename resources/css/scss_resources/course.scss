@@ -49,8 +49,6 @@
     }
 }
 
-#admin-button {
-    width: max-content;
 #admin-row {
     form {
         margin: 0 5px;
@@ -58,8 +56,6 @@
 }
 
 #course-sections {
-    display: flex;
-    flex-direction: column;
     justify-content: space-between;
     width: 100%;
 
@@ -126,8 +122,6 @@
 
     .lesson {
         background-color: #628BA7;
-        display: flex;
-        flex-direction: column;
         justify-content: space-around;
         align-content: space-around;
         padding: 5%;
@@ -165,8 +159,6 @@
             width: max-content;
         }
 
-        display: flex;
-        flex-direction: column;
         border: 1.5px solid nth($blue, 1);
         border-radius: 8px;
 

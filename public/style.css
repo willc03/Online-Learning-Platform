@@ -361,6 +361,9 @@ body .flex-col {
   display: flex;
   flex-direction: column;
 }
+body .max-content {
+  width: max-content !important;
+}
 
 @media (max-width: 640px) {
   body main {
@@ -533,8 +536,6 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
 }
 
 #course-sections {
-  display: flex;
-  flex-direction: column;
   justify-content: space-between;
   width: 100%;
 }
@@ -591,8 +592,6 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
 }
 #course-sections .lesson {
   background-color: #628BA7;
-  display: flex;
-  flex-direction: column;
   justify-content: space-around;
   align-content: space-around;
   padding: 5%;
@@ -621,8 +620,6 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   margin: 0 auto;
 }
 #course-section-add-form fieldset {
-  display: flex;
-  flex-direction: column;
   border: 1.5px solid #638ca7;
   border-radius: 8px;
 }
