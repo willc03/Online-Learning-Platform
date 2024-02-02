@@ -1,6 +1,6 @@
-<label class="flex-col">
+<label>
     Which type of component would you like to add?
-    <select name="type">
+    <select name="type" style="border:none; background: none;">
         <option value="" disabled selected>Please select a component</option>
         <option value="text">Text</option>
         <option value="lesson">Lesson</option>
@@ -18,7 +18,7 @@
             $("#form_container").empty();
             $.ajax({
                 url: "{{ route("course.getForm", ['id' => $courseId]) }}",
-                data: { form_type: $('select[name="type"]').val() },
+                data: { form_type: $('select[name="type"]').val(), course_id: "{{ $courseId }}", section_id: "{{ $sectionId }}" },
                 success: function(data) {
                     $("#form_container").html(data);
                 }
