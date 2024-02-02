@@ -590,6 +590,11 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
 #course-sections div.section div.section-admin-panel .three-d {
   margin-top: 5px;
 }
+#course-sections div.section div#section-add-component {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #638ca7;
+}
 #course-sections .lesson {
   background-color: #628BA7;
   justify-content: space-around;

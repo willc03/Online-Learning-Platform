@@ -118,6 +118,12 @@
                 margin-top: 5px;
             }
         }
+
+        div#section-add-component {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid nth($blue, 1);
+        }
     }
 
     .lesson {
