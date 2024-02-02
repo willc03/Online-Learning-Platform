@@ -1,11 +1,13 @@
 <form action="{{ route('course.edit', ['id' => $courseId]) }}" id="add-component-form" class="file" method="post">
     @csrf
-    {{-- Fieldsets are then defined for each option --}}
+    <input type="hidden" name="component-type" value="file">
+    <input type="hidden" name="course-id" value="{{ $courseId }}">
+    <input type="hidden" name="section-id" value="{{ $sectionId }}">
     <fieldset>
-        <p>Add a new text object.</p>
+        <p>Don't have a file you need? <a href="{{ route('course.settings', ['id' => $courseId]) }}">Upload a new file</a></p>
         <label class="flex-col">
-            Enter your text in the field below:
-            <textarea name="content"></textarea>
+            Choose a file to display:
+            <input name="content" type="file">
         </label>
     </fieldset>
 </form>
