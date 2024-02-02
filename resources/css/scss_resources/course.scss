@@ -119,10 +119,27 @@
             }
         }
 
-        div#section-add-component {
+        div.section-add-component {
+            overflow: hidden;
             padding: 10px;
-            border-radius: 8px;
-            border: 1px solid nth($blue, 1);
+            border-radius: 4px;
+            border: 1.5px solid nth($blue, 1);
+
+            div#form_container {
+                margin-top: 10px;
+                border: none;
+
+                fieldset {
+                    border: none;
+                }
+            }
+
+            div#submission {
+                justify-content: center;
+                button.three-d {
+                    margin: 0 5px;
+                }
+            }
         }
     }
 
