@@ -1,4 +1,4 @@
-<form action="{{ route('course.edit', ['id' => $courseId]) }}" id="add-component-form" class="lesson" method="post">
+<form action="{{ route('course.edit', ['id' => $courseId]) }}" id="add-component-form" class="new-lesson" method="post">
     @csrf
     <input type="hidden" name="component-type" value="lesson">
     <input type="hidden" name="course-id" value="{{ $courseId }}">
