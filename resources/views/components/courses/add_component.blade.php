@@ -1,6 +1,6 @@
 <label>
     Which type of component would you like to add?
-    <select name="type" style="border:none; background: none;">
+    <select name="type" class="type">
         <option value="" disabled selected>Please select a component</option>
         <option value="text">Text</option>
         <option value="lesson">Lesson</option>
@@ -9,20 +9,9 @@
     </select>
 </label>
 
-<div id="form_container"></div>
+<div id="form_container" style="display: none"></div>
 
-<script>
-    $(function() {
-        // Show the selected fieldset when the dropdown changes
-        $('select[name="type"]').change(function() {
-            $("#form_container").empty();
-            $.ajax({
-                url: "{{ route("course.getForm", ['id' => $courseId]) }}",
-                data: { form_type: $('select[name="type"]').val(), course_id: "{{ $courseId }}", section_id: "{{ $sectionId }}" },
-                success: function(data) {
-                    $("#form_container").html(data);
-                }
-            })
-        });
-    });
-</script>
+<div id="submission" class="flex-row" style="display: none">
+    <x-components.3d_button id="cancel" class="max-content course-button-mini" fg_color="#CA6565" bg_color="#A23636">Cancel</x-components.3d_button>
+    <x-components.3d_button id="submit" class="max-content course-button-mini" fg_color="#B1CA65" bg_color="#88A236">Submit</x-components.3d_button>
+</div>
