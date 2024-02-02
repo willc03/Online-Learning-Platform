@@ -47,7 +47,9 @@ class Course extends Controller
     {
         // Validation
         $validated_data = $request->validate([
-            'form_type' => ['required', 'string', 'in:text,lesson,file,image']
+            'form_type' => ['required', 'string', 'in:text,lesson,file,image'],
+            'section_id' => ['required', 'string', 'exists:sections,id'],
+            'course_id' => ['required', 'string', 'exists:courses,id']
         ]);
         // Get the course
         $url_course_id = explode('/', preg_replace( "#^[^:/.]*[:/]+#i", "", url()->current()) )[2];
@@ -60,16 +62,16 @@ class Course extends Controller
         switch($validated_data['form_type'])
         {
             case 'text':
-                return view('components.courses.component_add.text', ['courseId' => $course->id]);
+                return view('components.courses.component_add.text', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]);
                 break;
             case 'lesson':
-                return view('components.courses.component_add.lesson', ['courseId' => $course->id]);
+                return view('components.courses.component_add.lesson', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]);
                 break;
             case 'file':
-                return view('components.courses.component_add.file', ['courseId' => $course->id]);
+                return view('components.courses.component_add.file', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]);
                 break;
             case 'image':
-                return view('components.courses.component_add.image', ['courseId' => $course->id]);
+                return view('components.courses.component_add.image', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]);
                 break;
         }
 
