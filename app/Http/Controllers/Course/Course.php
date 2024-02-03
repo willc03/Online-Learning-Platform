@@ -59,23 +59,14 @@ class Course extends Controller
             return 403;
         }
         // Get the form
-        switch($validated_data['form_type'])
-        {
-            case 'text':
-                return view('components.courses.component_add.text', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]);
-                break;
-            case 'lesson':
-                return view('components.courses.component_add.lesson', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]);
-                break;
-            case 'file':
-                return view('components.courses.component_add.file', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]);
-                break;
-            case 'image':
-                return view('components.courses.component_add.image', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]);
-                break;
-        }
+        return match ($validated_data['form_type']) {
+            'text' => view('components.courses.component_add.text', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]),
+            'lesson' => view('components.courses.component_add.lesson', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]),
+            'file' => view('components.courses.component_add.file', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]),
+            'image' => view('components.courses.component_add.image', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]),
+            default => 400,
+        };
 
-        return 400;
     }
 
     // Add a function to allow AJAX requests to edit
