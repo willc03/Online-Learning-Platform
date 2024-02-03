@@ -56,7 +56,7 @@ class Course extends Controller
         $course = CourseModel::find($url_course_id);
         // Ensure the user has access
         if (!Gate::allows('course-edit', $course)) {
-            return 403;
+            return response("You don't have permission to edit this course!", 403);
         }
         // Get the form
         return match ($validated_data['form_type']) {
@@ -83,7 +83,7 @@ class Course extends Controller
         $course = CourseModel::find($validated_data['course_id']);
         // Ensure gate permissions met
         if (!Gate::allows('course-edit', $course)) {
-            return [false, '403'];
+            return response("You don't have permission to edit this course!", 403);
         }
         // Make edits based on type
         switch ( $validated_data['edit_type'] ) {
@@ -98,7 +98,7 @@ class Course extends Controller
 
                 // Ensure validation is successful
                 if ($interior_validation->fails()) {
-                    return 403;
+                    return response("Validation failed!", 403);
                 }
 
                 $course_sections = $course->sections;
@@ -125,7 +125,7 @@ class Course extends Controller
 
                 // Ensure validation is successful
                 if ($interior_validation->fails()) {
-                    return 403;
+                    return response('Validation failed', 403);
                 }
 
                 $newSection = new Section;
@@ -140,7 +140,7 @@ class Course extends Controller
 
                 $newSection->save();
 
-                return ['SUCCESS', $newSection->id];
+                return response(['SUCCESS', $newSection->id], 200);
                 break;
             case "delete_section":
                 // Further validation
@@ -150,7 +150,7 @@ class Course extends Controller
 
                 // Ensure validation is successful
                 if ($interior_validation->fails()) {
-                    return 403;
+                    return response("Validation failed!", 403);
                 }
 
                 $section = Section::find($validated_data['data']['section_id']);
@@ -186,7 +186,7 @@ class Course extends Controller
                     echo $section_item->position . '\n';
                 }
 
-                return 200;
+                return response(200, 200);
                 break;
             case "section_item_add":
                 // Re-organise the data field
