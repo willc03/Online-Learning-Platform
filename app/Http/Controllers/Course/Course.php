@@ -188,6 +188,77 @@ class Course extends Controller
 
                 return 200;
                 break;
+            case "section_item_add":
+                // Re-organise the data field
+                $validated_data['data'] = array_column($validated_data['data'], 'value', 'name');
+                // Further validation
+                $interior_validation = Validator::make($validated_data, [
+                    'data' => ['required', 'array'],
+                    'data.component-type' => ['required', 'string', 'in:text,lesson,image,file'],
+                    'data.section-id' => ['required', 'string', 'exists:sections,id']
+                ]);
+                if ($interior_validation->fails()) {
+                    return response('Validation failed', 403);
+                }
+                // Interior case for component addition types
+                switch($validated_data['data']['component-type']) {
+                    case "text":
+                        // Validation for text
+                        $textValidation = Validator::make($validated_data, [
+                            'data.content' => ['required', 'string']
+                        ]);
+                        if ($textValidation->fails()) {
+                            return response('Validation failed', 403);
+                        }
+                        // Create the component if successful
+                        $component = new SectionItem;
+                        $component->title = $validated_data['data']['content'];
+                        $component->item_type = 'TEXT';
+                        $component->item_value = '{}';
+                        $component->position = SectionItem::where('section_id', $validated_data['data']['section-id'])->count();
+                        $component->section_id = $validated_data['data']['section-id'];
+
+                        $component->save();
+                        return response('Text creation successful', 200);
+                        break;
+                    case "lesson":
+                        // Validation for lesson
+                        $lessonValidation = Validator::make($validated_data, [
+                            'data.title' => ['required', 'string'],
+                            'data.description' => ['nullable', 'string']
+                        ]);
+                        if ($lessonValidation->fails()) {
+                            return response('Validation failed', 403);
+                        }
+                        // Create the component if successful
+                            // Create the component
+                        $component = new SectionItem;
+                        $component->title = $validated_data['data']['title'];
+                        if ($validated_data['data']['description'] != null) {
+                            $component->description = $validated_data['data']['description'];
+                        }
+                        $component->item_type = 'LESSON';
+                        $component->item_value = '{}';
+                        $component->position = SectionItem::where('section_id', $validated_data['data']['section-id'])->count();
+                        $component->section_id = $validated_data['data']['section-id'];
+                        $componentSaved = $component->save();
+                        if ($componentSaved) {
+                            // Create a lesson
+                            $lesson = new Lesson;
+                            $lesson->title = $validated_data['data']['title'];
+                            if ($validated_data['data']['description'] != null) {
+                                $lesson->description = $validated_data['data']['description'];
+                            }
+                            $lesson->section_item_id = $component->id;
+                            if ($lesson->save()) {
+                                $component->item_value = Json::encode(['lesson_id' => $lesson->id]);
+                                return response('Lesson creation successful', 200);
+                            } else {
+                                return response('Encountered an error!', 403);
+                            }
+                        }
+                        break;
+                }
         }
         // Returns
         return 200;
