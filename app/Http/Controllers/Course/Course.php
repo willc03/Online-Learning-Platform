@@ -136,7 +136,7 @@ class Course extends Controller
                 }
 
                 $newSection->course_id = $course->id;
-                $newSection->position = $course->sections->count();
+                $newSection->position = $course->sections->max('position') + 1;
 
                 $newSection->save();
 
@@ -215,7 +215,7 @@ class Course extends Controller
                         $component->title = $validated_data['data']['content'];
                         $component->item_type = 'TEXT';
                         $component->item_value = '{}';
-                        $component->position = SectionItem::where('section_id', $validated_data['data']['section-id'])->count();
+                        $component->position = SectionItem::where('section_id', $validated_data['data']['section-id'])->max('position') + 1;
                         $component->section_id = $validated_data['data']['section-id'];
 
                         $component->save();
@@ -239,7 +239,7 @@ class Course extends Controller
                         }
                         $component->item_type = 'LESSON';
                         $component->item_value = '{}';
-                        $component->position = SectionItem::where('section_id', $validated_data['data']['section-id'])->count();
+                        $component->position = SectionItem::where('section_id', $validated_data['data']['section-id'])->max('position') + 1;
                         $component->section_id = $validated_data['data']['section-id'];
                         $componentSaved = $component->save();
                         if ($componentSaved) {
@@ -275,6 +275,33 @@ class Course extends Controller
                 } else {
                     return response("Couldn't delete the section", 500);
                 }
+                break;
+            case "section_item_move":
+                // Further validation
+                $interior_validation = Validator::make($validated_data, [
+                    'data' => ['required', 'array'],
+                    'data.item_id' => ['required', 'string', 'exists:section_items,id'],
+                    'data.direction' => ['required', 'string']
+                ]);
+                if ($interior_validation->fails()) {
+                    return response($interior_validation->errors(), 400);
+                }
+                // Move the item if validation is successful
+                $item = SectionItem::where('id', $validated_data['data']['item_id'])->firstOrFail();
+                $section = Section::where('id', $item->section_id)->firstOrFail();
+                if ($validated_data['data']['direction'] === 'down') {
+                    $newSectionId = Section::where('position', '>', $section->position)->min('position');
+                } else {
+                    $newSectionId = Section::where('position', '<', $section->position)->max('position');
+                }
+                $newSection = Section::where('position', $newSectionId)->firstOrFail();
+                $item->section_id = $newSection->id;
+                $item->position = $newSection->items->max('position') + 1;
+
+                if ($item->save()) {
+                    return response("Move successful", 200);
+                }
+                return response("TESTING", 400);
         }
         // Returns
         return 200;

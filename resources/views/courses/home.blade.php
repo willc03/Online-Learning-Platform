@@ -127,6 +127,27 @@
                     }, 7500);
                 }
             });
+
+            $(".down-button, .up-button").on('click', function() {
+                // Define components
+                let button = $(this);
+                let foreground = $(button).find("span");
+                let item = $(button).closest(".section-item");
+                // Define behaviour
+                $.ajax({
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    method: "POST",
+                    url: ajaxRoute,
+                    data: {
+                        'course_id': courseId,
+                        'edit_type': 'section_item_move',
+                        'data': JSON.stringify({item_id: $(item).attr('id'), direction: $(button).hasClass("down-button") ? "down" : "up"})
+                    },
+                    success: function() {
+                        location.reload();
+                    }
+                });
+            });
         </script>
         <script src="{{ asset("assets/scripts/courses/admin/section_reorder.js") }}"></script>
         <script src="{{ asset('assets/scripts/courses/admin/add_section.js') }}"></script>

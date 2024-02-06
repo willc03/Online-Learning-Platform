@@ -590,6 +590,10 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
 #course-sections div.section div.section-admin-panel .three-d {
   margin-top: 5px;
 }
+#course-sections div.section div.item-settings .three-d {
+  margin-right: 5px;
+  margin-left: 0;
+}
 #course-sections div.section div.section-add-component {
   overflow: hidden;
   padding: 10px;
@@ -614,6 +618,7 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   justify-content: space-around;
   align-content: space-around;
   padding: 5%;
+  margin: 15px 0;
   border-radius: 8px;
 }
 #course-sections .lesson h5, #course-sections .lesson p {
