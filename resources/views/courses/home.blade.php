@@ -52,7 +52,8 @@
                             {{-- Add the item accordingly with a switch-case --}}
                             @switch($section_item->item_type)
                                 @case("LESSON")
-                                    <div class="lesson flex-col" id="{{ $section_item->id }}">
+                                    <div class="section-item lesson flex-col" id="{{ $section_item->id }}">
+                                        @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
                                         <h5>{{ $section_item->title }}</h5>
                                         @if($section_item->description != null)
                                             <p>{{ $section_item->description }}</p>
@@ -61,8 +62,9 @@
                                     </div>
                                     @break
                                 @case("TEXT")
-                                    <div class="text" id="{{ $section_item->id }}">
-                                        <p>{{ $section_item->title }}</p>
+                                    <div class="section-item text" id="{{ $section_item->id }}">
+                                        @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
+                                        <p style="margin-top: 2px;">{{ $section_item->title }}</p>
                                     </div>
                                     @break
                             @endswitch
@@ -84,6 +86,47 @@
             ajaxRoute = '{{ url(route('course.edit', ['id' => $course->id])) }}';
             formRoute = '{{ url(route('course.getForm', ['id' => $course->id])) }}';
             courseId = '{{ $course->id }}';
+        </script>
+        <script>
+            $(".item-settings").closest(".section-item").on('mouseenter', function() {
+                $(this).find(".item-settings").css('opacity', 100);
+            }).on('mouseleave', function() {
+                $(this).find(".item-settings").css('opacity', 0);
+            });
+            $(".trash-button").on('click', function() {
+                // Define components
+                let button = $(this);
+                let foreground = $(button).find("span");
+                let item = $(button).closest(".section-item");
+                // Define behaviour
+                if ($(button).data('is_active') === true) {
+                    $.ajax({
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        method: "POST",
+                        url: ajaxRoute,
+                        data: {
+                            'course_id': courseId,
+                            'edit_type': 'section_item_delete',
+                            'data': JSON.stringify({'item_id': $(item).attr('id')})
+                        },
+                        success: function(data) {
+                            $(item).css("overflow", "hidden").animate({height: 0, padding: 0}, 500, function() {
+                                $(item).remove();
+                            });
+                        }
+                    });
+                } else {
+                    $(button).data('is_active', true);
+                    $(button).animate({backgroundColor: "#88A236"}, 500);
+                    $(foreground).animate({backgroundColor: "#B1CA65"}, 500).text("Confirm");
+
+                    setTimeout(function() {
+                        $(button).data("is_active", false);
+                        $(button).animate({backgroundColor: $(button).attr("bg-color") || $(button).attr("bg_color") || "#ffffff"}, 500);
+                        $(foreground).animate({backgroundColor: $(button).attr("fg-color") || $(button).attr("fg_color") || "#ffffff"}, 500).html('<img width="20px" height="20px" src="{{ asset("assets/images/trash-can.svg") }}">');
+                    }, 7500);
+                }
+            });
         </script>
         <script src="{{ asset("assets/scripts/courses/admin/section_reorder.js") }}"></script>
         <script src="{{ asset('assets/scripts/courses/admin/add_section.js') }}"></script>

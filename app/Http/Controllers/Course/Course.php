@@ -259,6 +259,22 @@ class Course extends Controller
                         }
                         break;
                 }
+            case "section_item_delete":
+                // Further validation
+                $interior_validation = Validator::make($validated_data, [
+                    'data' => ['required', 'array'],
+                    'data.item_id' => ['required', 'string', 'exists:section_items,id']
+                ]);
+                if ($interior_validation->fails()) {
+                    return response($interior_validation->errors(), 403);
+                }
+                // Delete the item if validation is successful
+                $didDelete = SectionItem::where('id', $validated_data['data']['item_id'])->delete();
+                if ($didDelete) {
+                    return response("Section removal successful", 200);
+                } else {
+                    return response("Couldn't delete the section", 500);
+                }
         }
         // Returns
         return 200;
