@@ -53,6 +53,7 @@ Route::prefix('course/{id}/')->name('course.')->middleware(['auth', 'course'])->
     // File upload
     Route::get('upload', [File::class, 'file_index']);
     Route::post('upload', [File::class, 'upload_file']);
+    Route::get('download/{fileId}/', [File::class, 'download'])->name('file.download');
 });
 
 // General pages (primarily static content)

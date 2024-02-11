@@ -67,6 +67,14 @@
                                         <p style="margin-top: 2px;">{{ $section_item->title }}</p>
                                     </div>
                                     @break
+                                @case("FILE")
+                                    <div class="section-item file" id="{{ $section_item->id }}">
+                                        @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
+                                        <div class="flex-row">
+                                            <p style="margin-right: 10px;">{{ $section_item->title }}</p>
+                                            <x-components.3d_button class="download-button course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73" onclick="window.location.href = '{{ route('course.file.download', ['id' => $course->id, 'fileId' => $section_item->item_value['fileId']]) }}'">Download</x-components.3d_button></div>
+                                        </div>
+                                    @break
                             @endswitch
                         @endforeach
                     @if($is_editing) </div> @endif
@@ -80,13 +88,14 @@
         <x-courses.add_section />
     @endif
 
+    <script>
+        courseId = '{{ $course->id }}';
+    </script>
     <script src="{{ asset("assets/scripts/courses/collapse_sections.js") }}"></script>
     @if ($is_editing) {{-- Add the scripts --}}
         <script>
             ajaxRoute = '{{ url(route('course.edit', ['id' => $course->id])) }}';
             formRoute = '{{ url(route('course.getForm', ['id' => $course->id])) }}';
-            courseId = '{{ $course->id }}';
-        </script>
         </script>
         <script src="{{ asset('assets/scripts/courses/admin/item_admin.js') }}"></script>
         <script src="{{ asset("assets/scripts/courses/admin/section_reorder.js") }}"></script>

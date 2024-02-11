@@ -62,8 +62,8 @@ class Course extends Controller
         return match ($validated_data['form_type']) {
             'text' => view('components.courses.component_add.text', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]),
             'lesson' => view('components.courses.component_add.lesson', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]),
-            'file' => view('components.courses.component_add.file', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]),
-            'image' => view('components.courses.component_add.image', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]),
+            'file' => view('components.courses.component_add.file', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id'], 'course' => $course]),
+            'image' => view('components.courses.component_add.image', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id'], 'course' => $course]),
             default => 400,
         };
 
@@ -256,6 +256,30 @@ class Course extends Controller
                             } else {
                                 return response('Encountered an error!', 403);
                             }
+                        }
+                        break;
+                    case "file":
+                        // Validation for file
+                        $fileValidation = Validator::make($validated_data, [
+                            'data' => ['required', 'array'],
+                            'data.file' => ['required', 'string', 'exists:course_files,id'],
+                            'data.title' => ['required', 'string']
+                        ]);
+                        if ($fileValidation->fails()) {
+                            return response($fileValidation->errors(), 400);
+                        }
+                        // Create the new component
+                        $component = new SectionItem;
+                        $component->title = $validated_data['data']['title'];
+                        $component->item_type = "FILE";
+                        $component->item_value = ['fileId' => $validated_data['data']['file']];
+                        $component->position = SectionItem::where('section_id', $validated_data['data']['section-id'])->max('position') + 1;
+                        $component->section_id = $validated_data['data']['section-id'];
+
+                        if ($component->save()) {
+                            return response("File component saved", 200);
+                        } else {
+                            return response("Couldn't make file component", 500);
                         }
                         break;
                 }
