@@ -99,6 +99,9 @@ span.blank.filled {
 span.italicise {
   font-style: italic;
 }
+span.small-text {
+  font-size: small;
+}
 
 /*
  * All specific-purpose SCSS files will be imported here

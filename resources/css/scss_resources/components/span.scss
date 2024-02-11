@@ -10,4 +10,8 @@ span {
     &.italicise {
         font-style: italic;
     }
+
+    &.small-text {
+        font-size: smaller;
+    }
 }
