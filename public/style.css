@@ -356,6 +356,7 @@ body main {
 body .flex-row {
   display: flex;
   flex-direction: row;
+  align-items: baseline;
 }
 body .flex-col {
   display: flex;
