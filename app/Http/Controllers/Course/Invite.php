@@ -21,7 +21,7 @@ class Invite extends Controller
      * @param $userId
      * @return bool
      */
-    private function userExistsOnCourse($courseId, $userId)
+    private function userTakesCourse($courseId, $userId)
     {
         return UserCourse::where(['course_id' => $courseId, 'user_id' => $userId])->exists();
     }
@@ -32,7 +32,7 @@ class Invite extends Controller
      * @param CourseInvite|null $invite
      * @return false|array
      */
-    private function validate_invite(?CourseInvite $invite)
+    private function checkInviteValidity(?CourseInvite $invite)
     {
         if (!$invite) {
             return ['success' => false, 'errorMessage' => 'No record of this invitation could be found. Please try again or ask for another invitation.'];
@@ -69,10 +69,10 @@ class Invite extends Controller
 
         // Check the invite is valid
         $invite = CourseInvite::where('invite_id', $invite_id)->first();
-        $invalid_invite = $this->validate_invite($invite);
+        $invalid_invite = $this->checkInviteValidity($invite);
 
         // Check the user is not already a course member
-        if (!$invalid_invite && $this->userExistsOnCourse($invite->course_id, $request->user()->id)) {
+        if (!$invalid_invite && $this->userTakesCourse($invite->course_id, $request->user()->id)) {
             return redirect()->to(route('home'))->withErrors(['COURSE_MEMBER' => 'You cannot join a course you already take!']);
         }
 
@@ -95,10 +95,10 @@ class Invite extends Controller
 
         // Check the invite is valid
         $invite = CourseInvite::where('invite_id', $invite_id)->first();
-        $invalid_invite = $this->validate_invite($invite);
+        $invalid_invite = $this->checkInviteValidity($invite);
 
         // Check the user is not already a course member
-        if (!$invalid_invite && $this->userExistsOnCourse($invite->course_id, $request->user()->id)) {
+        if (!$invalid_invite && $this->userTakesCourse($invite->course_id, $request->user()->id)) {
             return redirect()->to(route('home'))->withErrors(['COURSE_MEMBER' => 'You cannot join a course you already take!']);
         }
 

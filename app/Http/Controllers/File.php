@@ -32,14 +32,14 @@ class File extends Controller
      * @param Request $request
      * @return array
      */
-    public function upload_file(Request $request)
+    public function upload_file(Request $request, $id)
     {
         // Validate the file upload form
         try {
             $validated_data = $request->validate([
                 'name' => ['required', 'string'],
                 'file' => ['required', 'file'],
-                'id' => ['required', 'string', 'exists:courses']
+                'id' => ['required', 'string', 'exists:courses', 'in:'.$id]
             ]);
         } catch (ValidationException $error) {
             return [false, $error->getMessage()];

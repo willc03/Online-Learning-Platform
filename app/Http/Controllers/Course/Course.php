@@ -18,11 +18,10 @@ use Illuminate\Support\Facades\Validator;
 class Course extends Controller
 {
     // Create a function for the home page route
-    public function index(Request $request)
+    public function index(Request $request, $id)
     {
         // Get the course id (the existence is processed through the custom Course middleware)
-        $url_course_id = explode('/', preg_replace( "#^[^:/.]*[:/]+#i", "", url()->current()) )[2];
-        $course = CourseModel::find($url_course_id);
+        $course = CourseModel::find($id);
         // Present the course home page to the user
         return view('courses.home', [
             'course' => $course,
@@ -33,17 +32,16 @@ class Course extends Controller
     }
 
     // Create a function for the settings page of the course
-    public function settings(Request $request)
+    public function settings(Request $request, $id)
     {
         // Get the course from the ID
-        $url_course_id = explode('/', preg_replace( "#^[^:/.]*[:/]+#i", "", url()->current()) )[2];
-        $course = CourseModel::find($url_course_id);
+        $course = CourseModel::find($id);
         // Return the view to the user
         return view('welcome'); // This will be replaced later when the page is defined.
     }
 
     // Add a function to allow AJAX requests to get forms
-    public function formRequest(Request $request)
+    public function formRequest(Request $request, $id)
     {
         // Validation
         $validated_data = $request->validate([
@@ -52,8 +50,7 @@ class Course extends Controller
             'course_id' => ['required', 'string', 'exists:courses,id']
         ]);
         // Get the course
-        $url_course_id = explode('/', preg_replace( "#^[^:/.]*[:/]+#i", "", url()->current()) )[2];
-        $course = CourseModel::find($url_course_id);
+        $course = CourseModel::find($id);
         // Ensure the user has access
         if (!Gate::allows('course-edit', $course)) {
             return response("You don't have permission to edit this course!", 403);
@@ -70,10 +67,10 @@ class Course extends Controller
     }
 
     // Add a function to allow AJAX requests to edit
-    public function contentEdit(Request $request) {
+    public function contentEdit(Request $request, $id) {
         // Run validation
         $validated_data = $request->validate([
-            'course_id' => ['string', 'required', 'exists:courses,id'],
+            'course_id' => ['string', 'required', 'exists:courses,id', 'in:'.$id],
             'edit_type' => ['string', 'required'],
             'data' => ['required', 'json'],
             'section_id' => ['nullable', 'exists:sections,id']
