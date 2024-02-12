@@ -1,4 +1,6 @@
 <x-structure.wrapper title="{{ $course->title }}">
+
+
     {{-- Toggle owner admin view --}}
     @if($user_is_owner)
         <div class="flex-row" id="admin-row">
@@ -10,23 +12,33 @@
             </form>
         </div>
     @endif
+
+
     {{-- Course details --}}
     <h1>{{ $course->title }}</h1>
     <p id="course-owner" class="mini-text">By <span class="italicise">{{ $owner->name }}</span></p>
     @if ($course->description !== null)
         <p id="course-description">{{ $course->description }}</p>
     @endif
+
+
     {{-- Display all the course content in a downwards fashion --}}
     <h2>Course content</h2>
     @if ($is_editing && $course->sections->count() > 1)
         <x-components.3d_button class="course-button-mini" id="reorder-sections-button" fg-color="#9EC5AB" bg-color="#5e9c73" data-active="false">Re-order sections</x-components.3d_button>
     @endif
+
+
     {{-- Display the course sections --}}
     <div id="course-sections" class="flex-col">
+
+
         @foreach($course->sections as $course_section)
             <div class="section" id="{{ $course_section->id }}">
                 <button class="collapse-button" id="{{ $course_section->id }}">{{ $course_section->title }}</button>
                 <div class="collapse-section" id="{{ $course_section->id }}">
+
+
                     {{-- Add deletion buttons if the user is a course admin and is editing --}}
                     @if ($user_is_owner && $is_editing)
                         <div class="section-admin-panel">
@@ -42,15 +54,21 @@
                             <x-courses.add_component course_id="{{ $course->id }}" section_id="{{ $course_section->id }}" />
                         </div>
                     @endif
-                    {{-- Add description --}}
+
+
+                    {{-- Add the description for the description (if available) --}}
                     @if($course_section->description)
                         <p>{{ $course_section->description }}</p>
                     @endif
+
+
                     {{-- Display all the items in the section --}}
                     @if($is_editing) <div class="section-content"> @endif
                         @foreach($course_section->items as $section_item)
                             {{-- Add the item accordingly with a switch-case --}}
                             @switch($section_item->item_type)
+
+
                                 @case("LESSON")
                                     <div class="section-item lesson flex-col" id="{{ $section_item->id }}">
                                         @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
@@ -61,12 +79,16 @@
                                         <x-components.3d_button fg-color="#9EC5AB" bg-color="#5e9c73" onclick="location.href = '{{ url()->current() }}'">BEGIN LESSON</x-components.3d_button>
                                     </div>
                                     @break
+
+
                                 @case("TEXT")
                                     <div class="section-item text" id="{{ $section_item->id }}">
                                         @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
                                         <p style="margin-top: 2px;">{{ $section_item->title }}</p>
                                     </div>
                                     @break
+
+
                                 @case("FILE")
                                     <div class="section-item file" id="{{ $section_item->id }}">
                                         @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
@@ -75,12 +97,16 @@
                                             <x-components.3d_button class="download-button course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73" onclick="window.location.href = '{{ route('course.file.download', ['id' => $course->id, 'fileId' => $section_item->item_value['fileId']]) }}'">Download</x-components.3d_button></div>
                                         </div>
                                     @break
+
+
                                 @case("IMAGE")
                                     <div class="section-item image" id="{{ $section_item->id }}">
                                         @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
                                         <img style="width: 100%;" src="{{ route('course.file.serve', ['id' => $course->id, 'fileId' => $section_item->item_value['fileId']]) }}" alt="{{ $section_item->item_value['alt'] == 0 ? "No alt text provided" : $section_item->item_value['alt'] }}">
                                     </div>
                                     @break
+
+
                             @endswitch
                         @endforeach
                     @if($is_editing) </div> @endif
@@ -89,16 +115,19 @@
         @endforeach
     </div>
 
+
     {{-- If the user is an admin, allow them to add additional sections --}}
     @if($user_is_owner && $is_editing)
         <x-courses.add_section />
     @endif
 
+
+    {{-- Manage client-side JavaScript files --}}
     <script>
         courseId = '{{ $course->id }}';
     </script>
     <script src="{{ asset("assets/scripts/courses/collapse_sections.js") }}"></script>
-    @if ($is_editing) {{-- Add the scripts --}}
+    @if ($is_editing) {{-- These scripts are used only for when editing files --}}
         <script>
             ajaxRoute = '{{ url(route('course.edit', ['id' => $course->id])) }}';
             formRoute = '{{ url(route('course.getForm', ['id' => $course->id])) }}';
