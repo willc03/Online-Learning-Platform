@@ -75,6 +75,12 @@
                                             <x-components.3d_button class="download-button course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73" onclick="window.location.href = '{{ route('course.file.download', ['id' => $course->id, 'fileId' => $section_item->item_value['fileId']]) }}'">Download</x-components.3d_button></div>
                                         </div>
                                     @break
+                                @case("IMAGE")
+                                    <div class="section-item image" id="{{ $section_item->id }}">
+                                        @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
+                                        <img style="width: 100%;" src="{{ route('course.file.serve', ['id' => $course->id, 'fileId' => $section_item->item_value['fileId']]) }}" alt="{{ $section_item->item_value['alt'] == 0 ? "No alt text provided" : $section_item->item_value['alt'] }}">
+                                    </div>
+                                    @break
                             @endswitch
                         @endforeach
                     @if($is_editing) </div> @endif
