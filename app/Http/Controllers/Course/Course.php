@@ -254,6 +254,7 @@ class Course extends Controller
                                 return response('Encountered an error!', 403);
                             }
                         }
+                        return response("Unknown server error.", 500);
                         break;
                     case "file":
                         // Validation for file
@@ -277,6 +278,30 @@ class Course extends Controller
                             return response("File component saved", 200);
                         } else {
                             return response("Couldn't make file component", 500);
+                        }
+                        break;
+                    case "image":
+                        // Validation for image
+                        $imageValidation = Validator::make($validated_data, [
+                            'data' => ['required', 'array'],
+                            'data.image' => ['required', 'string', 'exists:course_files,id'],
+                            'data.alt' => ['nullable', 'string']
+                        ]);
+                        if ($imageValidation->fails()) {
+                            return response("Validation for image addition failed.", 403);
+                        }
+                        // Add the image component
+                        $component = new SectionItem;
+                        $component->title = "IMAGE_TITLE_NOT_SHOWN";
+                        $component->item_type = "IMAGE";
+                        $component->item_value = ['fileId' => $validated_data['data']['image'], 'alt' => $validated_data['data']['alt'] ?? 0];
+                        $component->position = SectionItem::where('section_id', $validated_data['data']['section-id'])->max('position') + 1;
+                        $component->section_id = $validated_data['data']['section-id'];
+
+                        if ($component->save()) {
+                            return response("Image course component saved successfully", 200);
+                        } else {
+                            return response("Unable to make image component", 500);
                         }
                         break;
                 }
@@ -325,6 +350,6 @@ class Course extends Controller
                 return response("TESTING", 400);
         }
         // Returns
-        return 200;
+        return response("Generic content edit success.", 200);
     }
 }
