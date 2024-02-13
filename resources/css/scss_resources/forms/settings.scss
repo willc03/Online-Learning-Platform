@@ -1,0 +1,20 @@
+#course-details form {
+    width: 100%;
+
+    label {
+        position: relative;
+        vertical-align: top;
+        width: 30%;
+        height: 75px;
+    }
+
+    textarea, input, select {
+        position: absolute;
+        left: 100%;
+        width: 300%;
+    }
+
+    button.three-d#details-submit {
+        margin: 10px auto;
+    }
+}

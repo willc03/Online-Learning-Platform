@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 // 'as' used due to duplicate definition of key word 'Course'
 
@@ -35,9 +36,35 @@ class Course extends Controller
     public function settings(Request $request, $id)
     {
         // Get the course from the ID
-        $course = CourseModel::find($id);
+        $course = CourseModel::findOrFail($id);
         // Return the view to the user
-        return view('welcome'); // This will be replaced later when the page is defined.
+        return view('courses.settings', ['course' => $course]); // This will be replaced later when the page is defined.
+    }
+
+    // Create a function for changing the course settings
+    public function coreEdit(Request $request, $id)
+    {
+        // Request validation
+        $request->validate([
+            'title' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
+            'publicity' => ['nullable', 'boolean']
+        ]);
+        // User validation
+        $course = CourseModel::find($id);
+        if (!Gate::allows('course-edit', $course)) {
+            return back(403);
+        }
+        // Make edits
+        $course->title = $request->title;
+        $course->description = $request->description ?? null;
+        $course->is_public = $request->publicity ?? 0;
+        // Save
+        if ($course->save()) {
+            return $this->settings($request, $id);
+        } else {
+            return back(500);
+        }
     }
 
     // Add a function to allow AJAX requests to get forms

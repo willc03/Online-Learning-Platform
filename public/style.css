@@ -100,7 +100,7 @@ span.italicise {
   font-style: italic;
 }
 span.small-text {
-  font-size: small;
+  font-size: smaller;
 }
 
 /*
@@ -113,6 +113,24 @@ span.small-text {
 
 #password-requirements ul {
   list-style-type: none;
+}
+
+#course-details form {
+  width: 100%;
+}
+#course-details form label {
+  position: relative;
+  vertical-align: top;
+  width: 30%;
+  height: 75px;
+}
+#course-details form textarea, #course-details form input, #course-details form select {
+  position: absolute;
+  left: 100%;
+  width: 300%;
+}
+#course-details form button.three-d#details-submit {
+  margin: 10px auto;
 }
 
 .question-title {
@@ -450,7 +468,7 @@ body footer .main-box .sign-up a:hover {
 
 @media (max-width: 640px) {
   .message {
-    padding: 0 !important;
+    padding: 10px 0 !important;
   }
   .message* {
     text-align: center;
