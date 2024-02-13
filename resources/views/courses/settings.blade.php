@@ -4,18 +4,18 @@
     {{-- The user will be able to change basic details about the course here --}}
     <h2>COURSE DETAILS</h2>
     <div id="course-details" class="flex-col">
-        <form style="width: 100%" method="post" action="{{ route('course.settings.set', ['id' => $course->id]) }}">
+        <form method="post" action="{{ route('course.settings.set', ['id' => $course->id]) }}">
             @csrf
             <label class="flex-row">
-                Course Title:
+                <span>Course Title:</span>
                 <input name="title" type="text" value="{{ $course->title }}" required>
             </label>
             <label class="flex-row">
-                Course Description:
+                <span>Course Description:</span>
                 <textarea name="description" style="resize: none">{{ $course->description }}</textarea>
             </label>
             <label class="flex-row">
-                Course Privacy:
+                <span>Course Privacy:</span>
                 <select name="publicity" required>
                     <option selected value="{{ $course->is_public }}">{{ $course->is_public ? "Public" : "Private" }}</option>
                     <option value="{{ !$course->is_public }}">{{ !$course->is_public ? "Public" : "Private" }}</option>
