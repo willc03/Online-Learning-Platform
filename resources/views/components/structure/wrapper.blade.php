@@ -35,6 +35,9 @@
             @endauth
         </nav>
         <main>
+            @if($errors->any())
+                <x-messages.error title="Unexpected Error" description="" :passed_errors="$errors->all()" />
+            @endif
             {{ $slot }} {{-- The calling component can be used as an HTML tag with inner content by using slots --}}
         </main>
     </div>

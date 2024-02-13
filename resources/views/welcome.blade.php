@@ -1,7 +1,4 @@
 <x-structure.wrapper title="Home">
-    @if($errors->any())
-        <x-messages.error title="Unexpected Error" description="" :passed_errors="$errors->all()" />
-    @endif
     <h1>Welcome to {{ env('APP_NAME') }}</h1>
     <p>This application is the product of a level 6 dissertation project made by Will Corkill at UCLan.</p>
     <div id="purpose">
