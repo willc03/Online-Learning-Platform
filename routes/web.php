@@ -48,11 +48,15 @@ Route::prefix('course/{id}/')->name('course.')->middleware(['auth', 'course'])->
     // Home page
     Route::get('/', [Course::class, 'index'])->name('home');
     // Admin-only routes
-    Route::get('settings', function() {
-        return view('courses.file_upload');
-    })->name('settings');
-    Route::post('edit', [Course::class, 'contentEdit'])->name('edit');
-    Route::get('formrequest', [Course::class, 'formRequest'])->name('getForm');
+    Route::middleware('course.owner')->group(function() {
+        Route::name('settings.')->group(function() {
+            Route::get('settings', [Course::class, 'settings'])->name('get');
+            Route::post('settings', [Course::class, 'coreEdit'])->name('set');
+        });
+        Route::get('settings', [Course::class, 'settings'])->name('settings');
+        Route::post('edit', [Course::class, 'contentEdit'])->name('edit');
+        Route::get('formrequest', [Course::class, 'formRequest'])->name('getForm');
+    });
     // File upload
     Route::name('file.')->group(function() {
         Route::get('all', [CourseFile::class, 'all'])->name('all');
