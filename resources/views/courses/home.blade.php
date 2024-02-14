@@ -44,12 +44,17 @@
                         <div class="section-admin-panel">
                             <h4>Admin Controls</h4>
                             <x-components.3d_button class="course-button-mini" id="delete-button" fg_color="#CA6565" bg_color="#A23636">Delete section</x-components.3d_button>
+                            <x-components.3d_button class="course-button-mini" id="edit-button" fg-color="#9EC5AB" bg-color="#5e9c73">Edit section details</x-components.3d_button>
                             <x-components.3d_button class="max-content course-button-mini" id="add-component-button" fg-color="#9EC5AB" bg-color="#5e9c73">Add new component</x-components.3d_button>
                             @if ($course_section->items->count() > 1)
                                 <x-components.3d_button class="course-button-mini" id="reorder-section-button" fg-color="#9EC5AB" bg-color="#5e9c73" data-active="false">Re-order components</x-components.3d_button>
                             @endif
                         </div>
-                        {{-- Display the form to add new sections --}}
+                        {{-- Display the form to edit the form details --}}
+                        <div class="flex-col section-edit-component">
+                            <x-courses.edit_component :course="$course" :section="$course_section" />
+                        </div>
+                        {{-- Display the form to add new componenets --}}
                         <div class="flex-col section-add-component">
                             <x-courses.add_component course_id="{{ $course->id }}" section_id="{{ $course_section->id }}" />
                         </div>
@@ -132,6 +137,7 @@
             ajaxRoute = '{{ url(route('course.edit', ['id' => $course->id])) }}';
             formRoute = '{{ url(route('course.getForm', ['id' => $course->id])) }}';
         </script>
+        <script src="{{ asset("assets/scripts/courses/admin/edit_section.js") }}"></script>
         <script src="{{ asset('assets/scripts/courses/admin/item_admin.js') }}"></script>
         <script src="{{ asset("assets/scripts/courses/admin/section_reorder.js") }}"></script>
         <script src="{{ asset('assets/scripts/courses/admin/add_section.js') }}"></script>

@@ -115,23 +115,37 @@ span.small-text {
   list-style-type: none;
 }
 
-#course-details form {
+#course-details form, #edit-section-form {
   width: 100%;
 }
-#course-details form .flex-row {
+#course-details form#edit-section-form, #edit-section-form#edit-section-form {
+  border: 1.5px solid #638ca7;
+  padding: 10px;
+  border-radius: 5px;
+  width: calc(100% - 24px);
+  margin-bottom: 10px;
+}
+#course-details form .flex-row, #edit-section-form .flex-row {
   align-items: center;
   justify-content: space-between;
   width: 100%;
   margin-bottom: 10px;
 }
-#course-details form .flex-row span {
+#course-details form .flex-row span, #edit-section-form .flex-row span {
   width: 25%;
 }
-#course-details form .flex-row input, #course-details form .flex-row textarea, #course-details form .flex-row select {
+#course-details form .flex-row input, #course-details form .flex-row textarea, #course-details form .flex-row select, #edit-section-form .flex-row input, #edit-section-form .flex-row textarea, #edit-section-form .flex-row select {
   width: 75%;
 }
-#course-details form button.three-d#details-submit {
+#course-details form button.three-d#details-submit, #edit-section-form button.three-d#details-submit {
   margin: 10px auto;
+}
+
+.section-edit-component {
+  overflow: hidden;
+}
+.section-edit-component button {
+  margin: 0 auto;
 }
 
 @media (max-width: 640px) {

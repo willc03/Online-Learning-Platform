@@ -99,10 +99,12 @@ class Course extends Controller
         $validated_data = $request->validate([
             'course_id' => ['string', 'required', 'exists:courses,id', 'in:'.$id],
             'edit_type' => ['string', 'required'],
-            'data' => ['required', 'json'],
+            'data' => ['nullable', 'json'],
             'section_id' => ['nullable', 'exists:sections,id']
         ]);
-        $validated_data['data'] = Json::decode($validated_data['data']);
+        if (key_exists('data', $validated_data)) {
+            $validated_data['data'] = Json::decode($validated_data['data']);
+        }
         // Get course
         $course = CourseModel::find($validated_data['course_id']);
         // Ensure gate permissions met
@@ -169,6 +171,7 @@ class Course extends Controller
             case "delete_section":
                 // Further validation
                 $interior_validation = Validator::make($validated_data, [
+                    'data' => ['required', 'array'],
                     'data.section_id' => ['required', 'string', 'exists:sections,id']
                 ]);
 
@@ -190,6 +193,7 @@ class Course extends Controller
             case "section_interior_order":
                 // Further validation
                 $interior_validation = Validator::make($validated_data, [
+                    'data' => ['required', 'array'],
                     'data.*' => ['required', 'array'],
                     'data.*.0' => ['required', 'numeric'],
                     'data.*.1' => ['required', 'string', 'exists:section_items,id'],
@@ -375,6 +379,25 @@ class Course extends Controller
                     return response("Move successful", 200);
                 }
                 return response("TESTING", 400);
+            case "section_edit":
+                // Further validation
+                $request->validate([
+                    'title' => ['required', 'string'],
+                    'description' => ['nullable', 'string'],
+                    'section_id' => ['required', 'string', 'exists:sections,id'],
+                    'course_id' => ['required', 'string', 'exists:courses,id']
+                ]);
+                // Get the section
+                $section = Section::where('id', $request->section_id)->firstOrFail();
+                // Make the changes necessary
+                $section->title = $request->title;
+                $section->description = $request->description ?? null;
+                // Save the changes
+                if ($section->save()) {
+                    return redirect()->to(url()->previous() . '#' . $section->id);
+                } else {
+                    return back()->withErrors(['SAVE_FAILED' => 'Could not save the new section details']);
+                }
         }
         // Returns
         return response("Generic content edit success.", 200);

@@ -44,11 +44,19 @@ $('.section .section-admin-panel #add-component-button').each(function () {
     let button = $(this);
     let section = $(this).closest('.section');
     let additionContainer = $(section).find('.section-add-component');
+    let sectionEditContainer = $(section).find('.section-edit-component');
     // Button click behaviour
     $(button).on('click', function () {
         if ($(additionContainer).data('is_open') === true) {
             return;
         }
+        $(sectionEditContainer) // Close the edit container
+            .data('is_open', false)
+            .animate({
+                height: 0,
+                paddingTop: 0,
+                paddingBottom: 0
+            });
         $(additionContainer)
             .data('is_open', true)
             .animate({

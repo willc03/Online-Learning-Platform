@@ -1,5 +1,13 @@
-#course-details form {
+#course-details form, #edit-section-form {
     width: 100%;
+
+    &#edit-section-form {
+        border: 1.5px solid #638ca7;
+        padding: 10px;
+        border-radius: 5px;
+        width: calc(100% - 24px);
+        margin-bottom: 10px;
+    }
 
     .flex-row {
         align-items: center;
@@ -17,6 +25,14 @@
     }
     button.three-d#details-submit {
         margin: 10px auto;
+    }
+}
+
+.section-edit-component {
+    overflow: hidden;
+
+    button {
+        margin: 0 auto;
     }
 }
 
