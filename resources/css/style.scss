@@ -9,6 +9,7 @@
  */
 @import "scss_resources/components/button";
 @import "scss_resources/components/span";
+@import "scss_resources/components/file_table";
 /*
  * All specific-purpose SCSS files will be imported here
  */
@@ -18,6 +19,9 @@
 
 // Question forms
 @import "scss_resources/forms/question";
+
+// Other forms
+@import "scss_resources/forms/file_upload";
 
 /*
  * All general-purpose SCSS files will be imported here

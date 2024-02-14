@@ -220,4 +220,7 @@
     &:last-of-type {
         margin-bottom: 10px;
     }
+    &.no-buffer {
+        margin-bottom: 0!important;
+    }
 }

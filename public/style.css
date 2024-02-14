@@ -103,6 +103,38 @@ span.small-text {
   font-size: smaller;
 }
 
+.file-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  border: 1px solid rgb(128, 128, 128);
+  overflow: hidden;
+  border-radius: 8px;
+}
+.file-table .table-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(200, 200, 200);
+  transition-property: background-color;
+  transition-duration: 500ms;
+}
+.file-table .table-row.table-header {
+  background-color: rgb(150, 150, 150) !important;
+  color: white;
+}
+.file-table .table-row:not(.table-header):hover {
+  background-color: rgb(185, 185, 185);
+}
+.file-table .table-row .table-col {
+  width: 25%;
+  border: 0.5px solid lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /*
  * All specific-purpose SCSS files will be imported here
  */
@@ -297,6 +329,16 @@ span.small-text {
     width: 50% !important;
   }
 }
+#basic-file-upload {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgb(128, 128, 128);
+  border-radius: 8px;
+}
+#basic-file-upload fieldset {
+  border: none;
+}
+
 /*
  * All general-purpose SCSS files will be imported here
  */
@@ -713,6 +755,9 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
 }
 .course-button-mini:not(:first-of-type), .course-button-mini:last-of-type {
   margin-bottom: 10px;
+}
+.course-button-mini.no-buffer {
+  margin-bottom: 0 !important;
 }
 
 /*# sourceMappingURL=style.css.map */
