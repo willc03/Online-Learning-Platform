@@ -62,7 +62,8 @@ Route::prefix('course/{id}/')->name('course.')->middleware(['auth', 'course'])->
         Route::get('all', [CourseFile::class, 'all'])->name('all');
         Route::get('serve/{fileId}', [CourseFile::class, 'serve'])->name('serve');
         Route::get('download/{fileId}', [CourseFile::class, 'download'])->name('download');
-        Route::post('upload', [CourseFile::class, 'upload'])->name('upload');
+        Route::post('upload', [CourseFile::class, 'upload'])->middleware('course.owner')->name('upload');
+        Route::delete('remove/', [CourseFile::class, 'remove'])->middleware('course.owner')->name('remove');
     });
 });
 

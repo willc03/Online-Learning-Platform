@@ -58,7 +58,7 @@
         @if ($course->files->count() === 0)
             <p>This course does not have any files! Files will appear here when available.</p>
         @else
-            <div class="file-table">
+            <div class="file-table" id="file-manager">
                 <div class="table-row table-header">
                     <div class="table-col">
                         <p>Public file name</p>
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 @foreach($course->files as $file)
-                    <div class="table-row">
+                    <div class="table-row" id="{{ $file->id }}">
                         <div class="table-col">
                             <p>{{ $file->name }}</p>
                         </div>
@@ -91,6 +91,48 @@
                 @endforeach
             </div>
         @endif
+        <script>
+            ajaxRoute = "{{ route("course.file.remove", ['id' => $course->id]) }}";
+        </script>
+        <script>
+            $("#file-manager .three-d").on("click", function() {
+                const button = $(this);
+                const foreground = $(button).children('span')[0];
+                let row = $(this).closest('.table-row');
+
+                if ($(button).data("shouldDelete") === true) {
+                    $.ajax({
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        method: "DELETE",
+                        url: ajaxRoute,
+                        data: {
+                            fileId: $(row).attr('id')
+                        },
+                        success: function() {
+                            // Hide the row
+                            $(row).css({
+                                height: $(row).height(),
+                                overflow: 'hidden'
+                            }).animate({
+                                height: 0
+                            }, 500, function() {
+                                $(row).remove();
+                            });
+                        }
+                    });
+                } else {
+                    $(button).animate({backgroundColor: "#88A236"}, 500);
+                    $(foreground).animate({backgroundColor: "#B1CA65"}, 500).text("Confirm Deletion");
+                    $(button).data("shouldDelete", true);
+
+                    setTimeout(function() {
+                        $(button).data("shouldDelete", false);
+                        $(button).animate({backgroundColor: $(button).attr("bg-color") || $(button).attr("bg_color") || "#ffffff"}, 500);
+                        $(foreground).animate({backgroundColor: $(button).attr("fg-color") || $(button).attr("fg_color") || "#ffffff"}, 500).text("Delete");
+                    }, 7500);
+                }
+            });
+        </script>
     </div>
     {{-- Invitations will be managed here, if the course is private --}}
     <h2>COURSE INVITATIONS</h2>

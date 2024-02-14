@@ -93,4 +93,34 @@ class CourseFile extends Controller
         // Redirect the user
         return [true];
     }
+
+    /**
+     * This function will be used to ensure users can remove files from their course's file folder
+     */
+    public function remove(Request $request, $id)
+    {
+        // Validate the uploaded data
+        $request->validate([
+           'fileId' => ['required', 'string', 'exists:course_files,id']
+        ]);
+        // Get the course and check the gate
+        $course = Course::where('id', $id)->firstOrFail();
+        if (!Gate::allows('course-edit', $course)) {
+            return response('You do not have permission to delete course files.', 403);
+        }
+        // Delete the file if the user has permission
+        $file = CourseFileModel::where('id', $request->fileId)->firstOrFail();
+        $disk = Storage::disk('private');
+        if (!$disk->exists($file->path)) {
+            return response("The requested file could not be found.", 404);
+        }
+        if (!$disk->delete($file->path)) {
+            return response("The requested file could not be deleted.", 500);
+        } else {
+            if (!$file->delete()) {
+                return response("The file record could not be removed from the system.", 500);
+            }
+        }
+        return response("The file was successfully deleted.", 200);
+    }
 }
