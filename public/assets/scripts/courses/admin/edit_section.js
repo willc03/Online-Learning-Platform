@@ -16,7 +16,6 @@ $('.section .section-edit-component').each(function () {
     {
         // Get items
         let items = $(editContainer).find("input:not([type='hidden']), textarea, select");
-        console.log(items);
         // Set initial values for button enable/disable
         $(items).each(function () {
             $(this).data("initial-value", $(this).val());
