@@ -134,6 +134,7 @@ span.small-text {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 10px;
 }
 
 .invite-table {
@@ -170,9 +171,22 @@ span.small-text {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  padding: 10px;
 }
 .invite-table .table-row .table-col .three-d {
   font-size: 1vw !important;
+}
+.invite-table .table-row .table-col #max-use-form {
+  width: 100%;
+  align-items: center;
+  overflow: hidden;
+}
+.invite-table .table-row .table-col #max-use-form input[type=number] {
+  width: 50%;
+  border: 1px solid gray;
+  border-radius: 5px;
+  background-color: lightgray;
+  text-align: center;
 }
 
 @media (max-width: 640px) {

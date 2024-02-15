@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\CourseInvite;
 use App\Models\UserCourse;
-use App\Models\Course;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 
 class Invite extends Controller
 {
@@ -144,17 +145,19 @@ class Invite extends Controller
         // Initial validation
         $validatedData = $request->validate([
             'inviteId' => [ 'required', 'string', 'exists:course_invites,invite_id' ],
-            'modificationType' => [ 'required', 'string', 'in:activeState' ]
+            'modificationType' => [ 'required', 'string', 'in:activeState,maxUses' ],
+            'newMax' => [ 'nullable', 'numeric' ]
         ]);
         // Course edit ability check
         $course = Course::where([ 'id' => $id ])->firstOrFail();
         if ( !Gate::allows('course-edit', $course) ) {
             return response("You do not have permission to edit invites for this course!", 403);
         }
+        // Get the invite
+        $invite = CourseInvite::where([ 'invite_id' => $validatedData['inviteId'] ])->firstOrFail();
         // Switch case for execution logic
         switch ( $validatedData['modificationType'] ) {
             case "activeState":
-                $invite = CourseInvite::where([ 'invite_id' => $validatedData['inviteId'] ])->firstOrFail();
                 $invite->is_active = !$invite->is_active;
                 if ( !$invite->save() ) {
                     return response("Could not save database record", 500);
@@ -162,8 +165,26 @@ class Invite extends Controller
                     return response($invite->is_active, 200);
                 }
                 break;
+            case "maxUses":
+                // Validation
+                $maxUseValidation = Validator::make($validatedData, [
+                    'newMax' => [ 'required', 'numeric', 'min:' . $invite->uses ?? 0 ]
+                ]);
+                if ( $maxUseValidation->fails() ) {
+                    echo $maxUseValidation->errors();
+                    return response("Validation failed.", 400);
+                }
+                // Make changes
+                $invite->max_uses = $validatedData['newMax'];
+                if ( !$invite->save() ) {
+                    return response("Could not update the maximum uses.", 500);
+                } else {
+                    return response("Successfully changed max uses to " . $validatedData['newMax'], 200);
+                }
+                break;
             default:
                 return response("Execution took an unexpected path", 500);
+                break;
         }
     }
 }

@@ -24,6 +24,6 @@ class CourseOwner
             return redirect()->to(route('home'))->withErrors(['INVALID_COURSE' => 'The specified course does not exist. Please try again.']);
         }
 
-        return ($courseQuery->firstOrFail()->owner === $request->user()->id) ? $next($request) : redirect()->to(route('home'))->withErrors(['NOT_COURSE_OWNER' => 'You must be the owner of this course to access this page.']);
+        return ($courseQuery->firstOrFail()->owner === $request->user()->id) ? $next($request) : redirect()->to(route('course.home', ['id' => $urlCourseId]))->withErrors(['NOT_COURSE_OWNER' => 'You must be the owner of this course to access this page.']);
     }
 }

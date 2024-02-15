@@ -131,12 +131,20 @@
                         </div>
                         <div class="table-col">
                             <p>{{ $invite->uses }} of {{ $invite->max_uses }}</p>
+                            <x-components.3d_button id="max-use-toggle" fg-color="#9EC5AB" bg-color="#5e9c73">Modify max uses</x-components.3d_button>
+                            <div id="max-use-form" class="flex-col">
+                                <label style="margin-bottom: 10px">
+                                    New Max Uses:
+                                    <input type="number" id="newNumber" data-initial="{{ $invite->max_uses }}" value="{{ $invite->max_uses }}" min="{{ $invite->uses ?? 0 }}">
+                                </label>
+                                <x-components.3d_button id="submit-invite-max-use" class="course-button-mini no-buffer max-content" fg_color="#B1CA65" bg_color="#88A236" disabled>Update</x-components.3d_button>
+                            </div>
                         </div>
                         <div class="table-col">
-                            <p>{{ date("d:m:Y H:i", strtotime($invite->expiry_date)) }}</p>
+                            <p>{{ date("d/m/Y", strtotime($invite->expiry_date)) }}</p>
                         </div>
                         <div class="table-col">
-                            <p>{{ date("d:m:Y H:i", $invite->created_at->getTimestamp()) }}</p>
+                            <p>{{ date("d/m/Y H:i", $invite->created_at->getTimestamp()) }}</p>
                         </div>
                         <div class="table-col">
                             <x-components.3d_button class="course-button-mini" fg_color="#CA6565" bg_color="#A23636">Delete</x-components.3d_button>
@@ -166,4 +174,5 @@
     <script src="{{ asset("assets/scripts/courses/admin/settings/file_upload.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/file_delete.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/invite_active_state.js") }}"></script>
+    <script src="{{ asset("assets/scripts/courses/admin/settings/invite_max_uses.js") }}"></script>
 </x-structure.wrapper>

@@ -5,7 +5,7 @@ $(toggleButtons.on({
         let button = $(this);
         let foreground = $(button).find("span");
         // Hover behaviour
-        $(button).animate({ backgroundColor: $(button).attr('data-active') === "true" ? "#A23636" : "#88A236" }, 500);
+        $(button).animate({ backgroundColor: $(button).attr('data-active') === "true" ? "#A23636" : "#88A236" }, 500).data('hovering', true);
         $(foreground).animate({ backgroundColor: $(button).attr('data-active') === "true" ? "#CA6565" : "#B1CA65" }, 500).text($(button).attr('data-active') === "true" ? "Deactivate" : "Activate");
     },
     mouseleave: function() {
@@ -13,7 +13,7 @@ $(toggleButtons.on({
         let button = $(this);
         let foreground = $(button).find("span");
         // Hover behaviour
-        $(button).animate({ backgroundColor: $(button).attr('data-active') === "false" ? "#A23636" : "#88A236" }, 500);
+        $(button).animate({ backgroundColor: $(button).attr('data-active') === "false" ? "#A23636" : "#88A236" }, 500).data('hovering', false);
         $(foreground).animate({ backgroundColor: $(button).attr('data-active') === "false" ? "#CA6565" : "#B1CA65" }, 500).text($(button).attr('data-active') === "true" ? "Active" : "Inactive");
     },
     click: function() {
@@ -32,8 +32,13 @@ $(toggleButtons.on({
                 modificationType: 'activeState'
             },
             success: function(newState) {
-                $(button).animate({ backgroundColor:  newState ? "#88A236" : "#A23636"}, 500).attr("data-active", newState ? "true" : "false");
-                $(foreground).animate({backgroundColor:  newState ? "#B1CA65" : "#CA6565"}, 500).text(newState ? "Active" : "Inactive");
+                if ($(button).data('hovering')) {
+                    $(button).animate({ backgroundColor:  !newState ? "#88A236" : "#A23636"}, 500).attr("data-active", newState ? "true" : "false");
+                    $(foreground).animate({backgroundColor:  !newState ? "#B1CA65" : "#CA6565"}, 500).text(newState ? "Deactivate" : "Activate");
+                } else {
+                    $(button).animate({ backgroundColor:  newState ? "#88A236" : "#A23636"}, 500).attr("data-active", newState ? "true" : "false");
+                    $(foreground).animate({backgroundColor:  newState ? "#B1CA65" : "#CA6565"}, 500).text(newState ? "Active" : "Inactive");
+                }
             }
         });
     }

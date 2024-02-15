@@ -5,7 +5,6 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Course\Course;
 use App\Http\Controllers\Course\CourseFile;
 use App\Http\Controllers\Course\Invite;
-use App\Http\Controllers\File;
 use App\Http\Controllers\Question;
 use Illuminate\Support\Facades\Route;
 
@@ -58,7 +57,7 @@ Route::prefix('course/{id}/')->name('course.')->middleware([ 'auth', 'course' ])
         Route::post('edit', [ Course::class, 'contentEdit' ])->name('edit');
         Route::get('formrequest', [ Course::class, 'formRequest' ])->name('getForm');
     });
-    // File upload
+    // File management
     Route::name('file.')->group(function () {
         Route::get('all', [ CourseFile::class, 'all' ])->name('all');
         Route::get('serve/{fileId}', [ CourseFile::class, 'serve' ])->name('serve');
