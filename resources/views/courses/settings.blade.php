@@ -48,11 +48,6 @@
 
                 <input type="submit">
             </fieldset>
-
-            <script>
-                upload_url = "{{ route('course.file.upload', ['id' => $course->id]) }}";
-            </script>
-            <script src="{{ asset("assets/scripts/forms/file_upload.js") }}"></script>
         </form>
         <h3>Manage files</h3>
         @if ($course->files->count() === 0)
@@ -101,7 +96,55 @@
             <p>This course currently has no active invitations.</p>
             <x-components.3d_button id="new-invite" class="course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73">Create your first invitation</x-components.3d_button>
         @else
-
+            <div class="invite-table" id="invite-manager">
+                <div class="table-row table-header">
+                    <div class="table-col">
+                        <p>Invite ID</p>
+                    </div>
+                    <div class="table-col">
+                        <p>Active</p>
+                    </div>
+                    <div class="table-col">
+                        <p>Uses</p>
+                    </div>
+                    <div class="table-col">
+                        <p>Expiry Date</p>
+                    </div>
+                    <div class="table-col">
+                        <p>Date Created</p>
+                    </div>
+                    <div class="table-col">
+                        <p>Action(s)</p>
+                    </div>
+                </div>
+                @foreach($course->invites as $invite)
+                    <div class="table-row" id="{{ $invite->invite_id }}">
+                        <div class="table-col">
+                            <p>{{ $invite->invite_id }}</p>
+                        </div>
+                        <div class="table-col">
+                            @if($invite->is_active)
+                                <x-components.3d_button id="toggle-invite-activity" data-active="true" class="course-button-mini no-buffer" fg_color="#B1CA65" bg_color="#88A236">Active</x-components.3d_button>
+                            @else
+                                <x-components.3d_button id="toggle-invite-activity" data-active="false" class="course-button-mini no-buffer" fg_color="#CA6565" bg_color="#A23636">Inactive</x-components.3d_button>
+                            @endif
+                        </div>
+                        <div class="table-col">
+                            <p>{{ $invite->uses }} of {{ $invite->max_uses }}</p>
+                        </div>
+                        <div class="table-col">
+                            <p>{{ date("d:m:Y H:i", strtotime($invite->expiry_date)) }}</p>
+                        </div>
+                        <div class="table-col">
+                            <p>{{ date("d:m:Y H:i", $invite->created_at->getTimestamp()) }}</p>
+                        </div>
+                        <div class="table-col">
+                            <x-components.3d_button class="course-button-mini" fg_color="#CA6565" bg_color="#A23636">Delete</x-components.3d_button>
+                            <x-components.3d_button class="course-button-mini no-buffer" fg-color="#9EC5AB" bg-color="#5e9c73">Copy link to clipboard</x-components.3d_button>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         @endif
     </div>
     <h2>COURSE USERS</h2>
@@ -114,9 +157,13 @@
     </div>
 
     {{-- Scripts --}}
-    <script src="{{ asset("assets/scripts/courses/admin/core_edit.js") }}"></script>
+    <script src="{{ asset("assets/scripts/courses/admin/settings/core_edit.js") }}"></script>
     <script>
-        ajaxRoute = "{{ route("course.file.remove", ['id' => $course->id]) }}";
+        upload_url = "{{ route('course.file.upload', ['id' => $course->id]) }}";
+        fileRemoveRoute = "{{ route("course.file.remove", ['id' => $course->id]) }}";
+        inviteModifyRoute = "{{ route("course.settings.invite", ['id' => $course->id]) }}";
     </script>
-    <script src="{{ asset("assets/scripts/forms/file_delete.js") }}"></script>
+    <script src="{{ asset("assets/scripts/courses/admin/settings/file_upload.js") }}"></script>
+    <script src="{{ asset("assets/scripts/courses/admin/settings/file_delete.js") }}"></script>
+    <script src="{{ asset("assets/scripts/courses/admin/settings/invite_active_state.js") }}"></script>
 </x-structure.wrapper>

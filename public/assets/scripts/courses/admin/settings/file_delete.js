@@ -7,7 +7,7 @@ $("#file-manager .three-d").on("click", function() {
         $.ajax({
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             method: "DELETE",
-            url: ajaxRoute,
+            url: fileRemoveRoute,
             data: {
                 fileId: $(row).attr('id')
             },

@@ -1,4 +1,4 @@
-.file-table {
+.invite-table {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -25,12 +25,40 @@
         }
 
         .table-col {
+            font-size: 1.25vw;
             word-wrap: anywhere;
-            width: 25%;
+            width: 16.66%;
             border: 0.5px solid lightgray;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
+
+            .three-d {
+                font-size: 1vw!important;
+            }
+        }
+    }
+}
+
+@media (max-width: 640px) {
+    .invite-table .table-row .table-col {
+        font-size: 2.5vw!important;
+
+        .three-d {
+            font-size: 2.5vw!important;
+            padding: 0 2px;
+            span {
+                padding: 0 2px;
+                transform: translateY(-4px) translateX(-2px)!important;
+                &:hover {
+                    transform: translateY(-6px) translateX(-2px)!important;
+                }
+            }
+            &:active .foreground {
+                transform: translateY(-2px) translateX(-2px)!important;
+            }
         }
     }
 }
