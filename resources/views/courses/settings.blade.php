@@ -138,8 +138,6 @@
                             </div>
                         </div>
                         <div class="table-col"> {{-- Expiry date --}}
-                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" />
-                            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
                             <p>{{ date("d/m/Y H:i", strtotime($invite->expiry_date)) }} UTC</p>
                             <x-components.3d_button id="expiry-date-toggle" fg-color="#9EC5AB" bg-color="#5e9c73">Modify expiry date</x-components.3d_button>
                             <div id="expiry-date-form" class="flex-col">
@@ -152,7 +150,7 @@
                         </div>
                         <div class="table-col">
                             <x-components.3d_button class="course-button-mini" fg_color="#CA6565" bg_color="#A23636">Delete</x-components.3d_button><br>
-                            <x-components.3d_button class="course-button-mini no-buffer" fg-color="#9EC5AB" bg-color="#5e9c73">Copy link to clipboard</x-components.3d_button>
+                            <x-components.3d_button id="invite-link-copy" class="course-button-mini no-buffer" fg-color="#9EC5AB" bg-color="#5e9c73" data-link="{{ route('join.show', ['id' => $invite->invite_id]) }}">Copy link</x-components.3d_button>
                         </div>
                     </div>
                 @endforeach
@@ -169,15 +167,18 @@
     </div>
 
     {{-- Scripts --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/core_edit.js") }}"></script>
     <script>
-        upload_url = "{{ route('course.file.upload', ['id' => $course->id]) }}";
-        fileRemoveRoute = "{{ route("course.file.remove", ['id' => $course->id]) }}";
-        inviteModifyRoute = "{{ route("course.settings.invite", ['id' => $course->id]) }}";
+		upload_url = "{{ route('course.file.upload', ['id' => $course->id]) }}";
+		fileRemoveRoute = "{{ route("course.file.remove", ['id' => $course->id]) }}";
+		inviteModifyRoute = "{{ route("course.settings.invite", ['id' => $course->id]) }}";
     </script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/file_upload.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/file_delete.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/invite_active_state.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/invite_max_uses.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/invite_expiry.js") }}"></script>
+    <script src="{{ asset("assets/scripts/courses/admin/settings/invite_clipboard.js") }}"></script>
 </x-structure.wrapper>
