@@ -663,9 +663,14 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   width: 50%;
 }
 #invite-box #return-home, #invite-box #accept {
-  width: 50%;
   height: 25px;
   margin-top: 10px;
+}
+#invite-box #return-home {
+  width: 50%;
+}
+#invite-box #accept {
+  width: 100%;
 }
 #invite-box .button-box {
   width: 75%;

@@ -20,9 +20,14 @@
     }
 
     #return-home, #accept {
-        width: 50%;
         height: 25px;
         margin-top: 10px;
+    }
+    #return-home {
+        width: 50%;
+    }
+    #accept {
+        width: 100%;
     }
 
     .button-box {
@@ -41,7 +46,7 @@
         .button-box {
             flex-direction: column;
 
-            button.three-d {
+            button.three-d, form {
                 width: 100% !important;
                 margin: 0;
             }
