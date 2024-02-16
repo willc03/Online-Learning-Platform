@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseInvite;
 use App\Models\UserCourse;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
@@ -150,8 +151,9 @@ class Invite extends Controller
         // Initial validation
         $validatedData = $request->validate([
             'inviteId' => [ 'required', 'string', 'exists:course_invites,invite_id' ],
-            'modificationType' => [ 'required', 'string', 'in:activeState,maxUses' ],
-            'newMax' => [ 'nullable', 'numeric' ]
+            'modificationType' => [ 'required', 'string', 'in:activeState,maxUses,expiryDate' ],
+            'newMax' => [ 'nullable', 'numeric' ],
+            'newDate' => [ 'nullable', 'date_format:d/m/Y H:i' ]
         ]);
         // Course edit ability check
         $course = Course::where([ 'id' => $id ])->firstOrFail();
@@ -176,7 +178,6 @@ class Invite extends Controller
                     'newMax' => [ 'required', 'numeric', 'min:' . $invite->uses ?? 0 ]
                 ]);
                 if ( $maxUseValidation->fails() ) {
-                    echo $maxUseValidation->errors();
                     return response("Validation failed.", 400);
                 }
                 // Make changes
@@ -185,6 +186,24 @@ class Invite extends Controller
                     return response("Could not update the maximum uses.", 500);
                 } else {
                     return response("Successfully changed max uses to " . $validatedData['newMax'], 200);
+                }
+                break;
+            case "expiryDate":
+                // Expiry date validation
+                $expiryDateValidation = Validator::make($validatedData, [
+                    'newDate' => [ 'required', 'date_format:d/m/Y H:i' ]
+                ]);
+                if ( $expiryDateValidation->fails() ) {
+                    return response("Validation failed.", 400);
+                }
+                // Format date
+                $validatedData['newDate'] = Carbon::createFromFormat('d/m/Y H:i', $validatedData['newDate']);
+                // Make changes
+                $invite->expiry_date = $validatedData['newDate'];
+                if ( !$invite->save() ) {
+                    return response("Could not update the expiry date", 500);
+                } else {
+                    return response("Successfully updated the expiry date (new date: " . $validatedData['newDate']->format('d/m/Y H:i'));
                 }
                 break;
             default:

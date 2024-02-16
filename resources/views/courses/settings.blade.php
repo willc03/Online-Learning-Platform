@@ -111,9 +111,6 @@
                         <p>Expiry Date</p>
                     </div>
                     <div class="table-col">
-                        <p>Date Created</p>
-                    </div>
-                    <div class="table-col">
                         <p>Action(s)</p>
                     </div>
                 </div>
@@ -140,14 +137,21 @@
                                 <x-components.3d_button id="submit-invite-max-use" class="course-button-mini no-buffer max-content" fg_color="#B1CA65" bg_color="#88A236" disabled>Update</x-components.3d_button>
                             </div>
                         </div>
-                        <div class="table-col">
-                            <p>{{ date("d/m/Y", strtotime($invite->expiry_date)) }}</p>
+                        <div class="table-col"> {{-- Expiry date --}}
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" />
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+                            <p>{{ date("d/m/Y H:i", strtotime($invite->expiry_date)) }} UTC</p>
+                            <x-components.3d_button id="expiry-date-toggle" fg-color="#9EC5AB" bg-color="#5e9c73">Modify expiry date</x-components.3d_button>
+                            <div id="expiry-date-form" class="flex-col">
+                                <label style="margin-bottom: 10px">
+                                    New Expiry Date:<br>
+                                    <input type="text" id="expiryDateTimePicker" data-initial="{{ date("d/m/Y H:i", strtotime($invite->expiry_date)) }}" value="{{ date("d/m/Y H:i", strtotime($invite->expiry_date)) }}">
+                                </label>
+                                <x-components.3d_button id="submit-expiry-date" class="course-button-mini no-buffer max-content" fg_color="#B1CA65" bg_color="#88A236" disabled>Update</x-components.3d_button>
+                            </div>
                         </div>
                         <div class="table-col">
-                            <p>{{ date("d/m/Y H:i", $invite->created_at->getTimestamp()) }}</p>
-                        </div>
-                        <div class="table-col">
-                            <x-components.3d_button class="course-button-mini" fg_color="#CA6565" bg_color="#A23636">Delete</x-components.3d_button>
+                            <x-components.3d_button class="course-button-mini" fg_color="#CA6565" bg_color="#A23636">Delete</x-components.3d_button><br>
                             <x-components.3d_button class="course-button-mini no-buffer" fg-color="#9EC5AB" bg-color="#5e9c73">Copy link to clipboard</x-components.3d_button>
                         </div>
                     </div>
@@ -175,4 +179,5 @@
     <script src="{{ asset("assets/scripts/courses/admin/settings/file_delete.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/invite_active_state.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/invite_max_uses.js") }}"></script>
+    <script src="{{ asset("assets/scripts/courses/admin/settings/invite_expiry.js") }}"></script>
 </x-structure.wrapper>

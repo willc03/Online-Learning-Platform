@@ -128,6 +128,7 @@ span.small-text {
   background-color: rgb(185, 185, 185);
 }
 .file-table .table-row .table-col {
+  font-size: 1.25vw;
   word-wrap: anywhere;
   width: 25%;
   border: 0.5px solid lightgray;
@@ -164,7 +165,7 @@ span.small-text {
 .invite-table .table-row .table-col {
   font-size: 1.25vw;
   word-wrap: anywhere;
-  width: 16.66%;
+  width: 20%;
   border: 0.5px solid lightgray;
   display: flex;
   flex-direction: column;
@@ -176,13 +177,16 @@ span.small-text {
 .invite-table .table-row .table-col .three-d {
   font-size: 1vw !important;
 }
-.invite-table .table-row .table-col #max-use-form {
+.invite-table .table-row .table-col #max-use-form, .invite-table .table-row .table-col #expiry-date-form {
+  word-wrap: break-word;
   width: 100%;
   align-items: center;
   overflow: hidden;
 }
-.invite-table .table-row .table-col #max-use-form input[type=number] {
-  width: 50%;
+.invite-table .table-row .table-col #max-use-form input, .invite-table .table-row .table-col #expiry-date-form input {
+  font-size: 0.9vw !important;
+  padding: 5px;
+  width: 80%;
   border: 1px solid gray;
   border-radius: 5px;
   background-color: lightgray;
@@ -687,7 +691,7 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   #invite-box .button-box {
     flex-direction: column;
   }
-  #invite-box .button-box button.three-d {
+  #invite-box .button-box button.three-d, #invite-box .button-box form {
     width: 100% !important;
     margin: 0;
   }
