@@ -149,7 +149,7 @@
                             </div>
                         </div>
                         <div class="table-col">
-                            <x-components.3d_button class="course-button-mini" fg_color="#CA6565" bg_color="#A23636">Delete</x-components.3d_button><br>
+                            <x-components.3d_button id="invite-delete" class="course-button-mini" fg_color="#CA6565" bg_color="#A23636">Delete</x-components.3d_button><br>
                             <x-components.3d_button id="invite-link-copy" class="course-button-mini no-buffer" fg-color="#9EC5AB" bg-color="#5e9c73" data-link="{{ route('join.show', ['id' => $invite->invite_id]) }}">Copy link</x-components.3d_button>
                         </div>
                     </div>
@@ -174,6 +174,7 @@
 		upload_url = "{{ route('course.file.upload', ['id' => $course->id]) }}";
 		fileRemoveRoute = "{{ route("course.file.remove", ['id' => $course->id]) }}";
 		inviteModifyRoute = "{{ route("course.settings.invite", ['id' => $course->id]) }}";
+        inviteRemoveRoute = "{{ route("course.settings.invite.delete", [ 'id' => $course->id ]) }}";
     </script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/file_upload.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/file_delete.js") }}"></script>
@@ -181,4 +182,5 @@
     <script src="{{ asset("assets/scripts/courses/admin/settings/invite_max_uses.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/invite_expiry.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/invite_clipboard.js") }}"></script>
+    <script src="{{ asset("assets/scripts/courses/admin/settings/invite_delete.js") }}"></script>
 </x-structure.wrapper>

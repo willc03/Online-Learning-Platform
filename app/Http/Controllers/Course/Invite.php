@@ -211,4 +211,27 @@ class Invite extends Controller
                 break;
         }
     }
+
+    /**
+     * A route to allow users to delete invites.
+     */
+    public function delete(Request $request, $id)
+    {
+        // Validation of uploaded data
+        $validatedData = $request->validate([
+            'inviteId' => [ 'required', 'string', 'exists:course_invites,invite_id' ]
+        ]);
+        // Gate checking
+        $course = Course::where('id', $id)->firstOrFail();
+        if (!Gate::allows('course-edit', $course)) {
+            return response('You do not have permission to delete course files.', 403);
+        }
+        // Delete the invite if the user has permission
+        $invite = CourseInvite::where(['invite_id' => $validatedData['inviteId']])->firstOrFail();
+        if ( $invite->delete() ) {
+            return response("Invite successfully deleted", 200);
+        } else {
+            return response("Could not delete the invite", 500);
+        }
+    }
 }
