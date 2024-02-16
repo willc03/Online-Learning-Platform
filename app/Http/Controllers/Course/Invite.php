@@ -30,7 +30,7 @@ class Invite extends Controller
     {
         // Check there is a valid invite
         if ( !$invite_id = $request->id ) {
-            return redirect()->to(route('home'))->withErrors([ 'errorMessage' => 'An invitation ID could not be found, please try again or ask for another invitation link.' ]);
+            return redirect()->to(route('home'))->withErrors([ 'errorMessage' => 'The invitation link is invalid, please try again or ask for another invitation link.' ]);
         }
 
         // Check the invite is valid
@@ -39,7 +39,12 @@ class Invite extends Controller
 
         // Check the user is not already a course member
         if ( !$invalid_invite && $this->userTakesCourse($invite->course_id, $request->user()->id) ) {
-            return redirect()->to(route('home'))->withErrors([ 'COURSE_MEMBER' => 'You cannot join a course you already take!' ]);
+            return redirect()->to(route('course.home', [ 'id' => $invite->course->id ]))->withErrors([ 'COURSE_MEMBER' => 'You cannot join a course you already take!' ]);
+        }
+
+        // Check the user does not own the course
+        if ( $invite->course->owner == $request->user()->id ) {
+            return redirect()->to(route('course.home', [ 'id' => $invite->course->id ]))->withErrors([ 'COURSE_OWNER' => 'You cannot join a course you own!' ]);
         }
 
         // Return the correct view
