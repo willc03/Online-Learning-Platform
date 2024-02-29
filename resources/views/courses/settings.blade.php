@@ -94,7 +94,6 @@
             <p>Course invitations cannot be configured right now. <span class="italicise">Set the course to private to manage invitations.</span></p>
         @elseif($course->invites->count() == 0)
             <p>This course currently has no active invitations.</p>
-            <x-components.3d_button id="new-invite" class="course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73">Create your first invitation</x-components.3d_button>
         @else
             <div class="invite-table" id="invite-manager">
                 <div class="table-row table-header">
@@ -170,15 +169,10 @@
                         </div>
                     </div>
                 @endforeach
-
-                <script>
-
-                </script>
-
             </div>
-            <x-components.3d_button id="new-invite" class="course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73">Create another invitation</x-components.3d_button>
-            <x-courses.add_invite :course="$course" />
         @endif
+        <x-components.3d_button id="new-invite" class="course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73">Create another invitation</x-components.3d_button>
+        <x-courses.add_invite :course="$course" />
     </div>
     <h2>COURSE USERS</h2>
     <div id="course-users" class="flex-col">
@@ -199,6 +193,7 @@
 		inviteModifyRoute = "{{ route("course.settings.invite", ['id' => $course->id]) }}";
         inviteRemoveRoute = "{{ route("course.settings.invite.delete", [ 'id' => $course->id ]) }}";
     </script>
+    <script src="{{ asset("assets/scripts/courses/admin/settings/invite_add.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/file_upload.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/file_delete.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/invite_active_state.js") }}"></script>

@@ -30,6 +30,10 @@
   display: block;
 }
 
+legend {
+  width: max-content;
+}
+
 @media (max-width: 640px) {
   .left-float, .right-float {
     float: none !important;
@@ -146,6 +150,7 @@ span.small-text {
   border: 1px solid rgb(128, 128, 128);
   overflow: hidden;
   border-radius: 8px;
+  margin-bottom: 15px;
 }
 .invite-table .table-row {
   width: 100%;
@@ -191,6 +196,27 @@ span.small-text {
   border-radius: 5px;
   background-color: lightgray;
   text-align: center;
+}
+
+#new-invite-form fieldset.flex-col {
+  align-items: center;
+}
+#new-invite-form fieldset {
+  padding: 10px;
+  border: 1.5px solid #638ca7;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  width: 80%;
+}
+#new-invite-form fieldset:not(.outer) {
+  width: 80%;
+}
+#new-invite-form fieldset legend {
+  padding: 0 5px;
+}
+#new-invite-form fieldset input {
+  width: max-content;
+  padding: 5px;
 }
 
 @media (max-width: 640px) {

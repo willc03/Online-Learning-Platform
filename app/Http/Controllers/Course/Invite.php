@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class Invite extends Controller
@@ -218,8 +219,13 @@ class Invite extends Controller
 
     /**
      * A route to allow users to delete invites.
+     *
+     * @param Request $request
+     * @param string  $id
+     *
+     * @return Application|ResponseFactory|\Illuminate\Foundation\Application|Response
      */
-    public function delete(Request $request, $id)
+    public function delete(Request $request, string $id)
     {
         // Validation of uploaded data
         $validatedData = $request->validate([
@@ -228,7 +234,7 @@ class Invite extends Controller
         // Gate checking
         $course = Course::where('id', $id)->firstOrFail();
         if (!Gate::allows('course-edit', $course)) {
-            return response('You do not have permission to delete course files.', 403);
+            return response('You do not have permission to delete course invites.', 403);
         }
         // Delete the invite if the user has permission
         $invite = CourseInvite::where(['invite_id' => $validatedData['inviteId']])->firstOrFail();
@@ -236,6 +242,48 @@ class Invite extends Controller
             return response("Invite successfully deleted", 200);
         } else {
             return response("Could not delete the invite", 500);
+        }
+    }
+
+    /**
+     * A route to allow users to create new invites
+     *
+     * @param Request $request
+     * @param string  $id
+     *
+     * @return Application|ResponseFactory|\Illuminate\Foundation\Application|RedirectResponse|Response
+     */
+    public function create(Request $request, string $id)
+    {
+        // Validation of uploaded data
+        $validatedData = $request->validate([
+            'active' => [ 'nullable', 'string', 'in:on' ],
+            'unlimitedUses' => [ 'nullable', 'string', 'in:on' ],
+            'allowedUses' => [ Rule::excludeIf(fn () => $request->unlimitedUses !== null), 'nullable', 'integer', 'min:1', Rule::requiredIf(fn () => $request->unlimitedUses === null) ],
+            'neverExpire' => [ 'nullable', 'string', 'in:on' ],
+            'expiryDate' => [ Rule::excludeIf(fn () => $request->neverExpire !== null), 'nullable', 'date_format:d/m/Y H:i', Rule::requiredIf(fn () => $request->neverExpire === null) ]
+        ]);
+        if (array_key_exists('expiryDate', $validatedData)) {
+            $validatedData['expiryDate'] = Carbon::createFromFormat('d/m/Y H:i', $validatedData['expiryDate']);
+        }
+        // Gate checking
+        $course = Course::where('id', $id)->firstOrFail();
+        if (!Gate::allows('course-edit', $course)) {
+            return response('You do not have permission to create course invites.', 403);
+        }
+        // Create the invite
+        $invite = new CourseInvite;
+        $invite->is_active = array_key_exists('active', $validatedData);
+        $invite->max_uses = array_key_exists('unlimitedUses', $validatedData) ? null : $validatedData['allowedUses'];
+        $invite->expiry_date = array_key_exists('neverExpire', $validatedData) ? null : $validatedData['expiryDate'];
+        $invite->course_id = $id;
+        $invite->invite_id = Str::orderedUuid();
+        $invite->id = CourseInvite::all()->count() + 1;
+        // Save the invite
+        if ($invite->save()) {
+            return redirect()->to(route('course.settings', [ 'id' => $id ]));
+        } else {
+            return back()->withErrors(['SAVE_ERROR' => "Could not save the new invitation."]);
         }
     }
 }

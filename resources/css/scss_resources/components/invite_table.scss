@@ -6,6 +6,7 @@
     border: 1px solid rgb(128, 128, 128);
     overflow: hidden;
     border-radius: 8px;
+    margin-bottom: 15px;
 
     .table-row {
         width: 100%;
@@ -56,6 +57,33 @@
                     text-align: center;
                 }
             }
+        }
+    }
+}
+
+#new-invite-form {
+    fieldset.flex-col {
+        align-items: center;
+    }
+
+    fieldset {
+        padding: 10px;
+        border: 1.5px solid #638ca7;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        width: 80%;
+
+        &:not(.outer) {
+            width: 80%;
+        }
+
+        legend {
+            padding: 0 5px;
+        }
+
+        input {
+            width: max-content;
+            padding: 5px;
         }
     }
 }

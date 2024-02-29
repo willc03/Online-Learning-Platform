@@ -38,6 +38,10 @@ $blue: #638ca7, #91aec1;
     display: block;
 }
 
+legend {
+    width: max-content;
+}
+
 // Device optimisations for master.scss
 @media (max-width: 640px) {
     .left-float, .right-float {

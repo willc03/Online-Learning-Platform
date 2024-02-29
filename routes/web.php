@@ -52,6 +52,7 @@ Route::prefix('course/{id}/')->name('course.')->middleware([ 'auth', 'course' ])
             Route::get('settings', [ Course::class, 'settings' ])->name('get');
             Route::post('settings', [ Course::class, 'coreEdit' ])->name('set');
             Route::post('invite', [ Invite::class, 'modify' ])->name('invite');
+            Route::post('invite/new', [ Invite::class, 'create' ])->name('invite.create');
             Route::delete('invite', [ Invite::class, 'delete' ])->name('invite.delete');
         });
         Route::get('settings', [ Course::class, 'settings' ])->name('settings');
