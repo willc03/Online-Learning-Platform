@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class Invite extends Controller
 {
@@ -153,7 +154,8 @@ class Invite extends Controller
             'inviteId' => [ 'required', 'string', 'exists:course_invites,invite_id' ],
             'modificationType' => [ 'required', 'string', 'in:activeState,maxUses,expiryDate' ],
             'newMax' => [ 'nullable', 'numeric' ],
-            'newDate' => [ 'nullable', 'date_format:d/m/Y H:i' ]
+            'newDate' => [ 'nullable', 'date_format:d/m/Y H:i' ],
+            'remove' => [ 'nullable', 'integer' ]
         ]);
         // Course edit ability check
         $course = Course::where([ 'id' => $id ])->firstOrFail();
@@ -175,13 +177,14 @@ class Invite extends Controller
             case "maxUses":
                 // Validation
                 $maxUseValidation = Validator::make($validatedData, [
-                    'newMax' => [ 'required', 'numeric', 'min:' . $invite->uses ?? 0 ]
+                    'newMax' => [ Rule::requiredIf(!array_key_exists('remove', $validatedData)), Rule::excludeIf(array_key_exists('remove', $validatedData)), 'numeric', 'min:' . $invite->uses ?? 0 ],
+                    'remove' => [ 'nullable', 'integer' ]
                 ]);
                 if ( $maxUseValidation->fails() ) {
-                    return response("Validation failed.", 400);
+                    return response($maxUseValidation->errors(), 400);
                 }
                 // Make changes
-                $invite->max_uses = $validatedData['newMax'];
+                $invite->max_uses = array_key_exists('remove', $validatedData) ? null : $validatedData['newMax'];
                 if ( !$invite->save() ) {
                     return response("Could not update the maximum uses.", 500);
                 } else {
@@ -191,7 +194,8 @@ class Invite extends Controller
             case "expiryDate":
                 // Expiry date validation
                 $expiryDateValidation = Validator::make($validatedData, [
-                    'newDate' => [ 'required', 'date_format:d/m/Y H:i' ]
+                    'newDate' => [ Rule::requiredIf(!array_key_exists('remove', $validatedData)), Rule::excludeIf(array_key_exists('remove', $validatedData)), 'required', 'date_format:d/m/Y H:i' ],
+                    'remove' => [ 'nullable', 'integer' ]
                 ]);
                 if ( $expiryDateValidation->fails() ) {
                     return response("Validation failed.", 400);
@@ -199,7 +203,7 @@ class Invite extends Controller
                 // Format date
                 $validatedData['newDate'] = Carbon::createFromFormat('d/m/Y H:i', $validatedData['newDate']);
                 // Make changes
-                $invite->expiry_date = $validatedData['newDate'];
+                $invite->expiry_date = array_key_exists('remove', $validatedData) ? null : $validatedData['newDate'];
                 if ( !$invite->save() ) {
                     return response("Could not update the expiry date", 500);
                 } else {

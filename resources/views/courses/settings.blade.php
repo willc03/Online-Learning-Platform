@@ -127,34 +127,57 @@
                             @endif
                         </div>
                         <div class="table-col">
-                            <p>{{ $invite->uses }} of {{ $invite->max_uses }}</p>
-                            <x-components.3d_button id="max-use-toggle" fg-color="#9EC5AB" bg-color="#5e9c73">Modify max uses</x-components.3d_button>
-                            <div id="max-use-form" class="flex-col">
+                            @if ($invite->max_uses != null)
+                                <p>{{ $invite->uses }} of {{ $invite->max_uses }}</p>
+                            @else
+                                <p>{{ $invite->uses }} (unlimited uses)</p>
+                            @endif
+                            <x-components.3d_button fg-color="#9EC5AB" bg-color="#5e9c73" class="course-button-mini max-use-toggle">Modify max uses</x-components.3d_button>
+                            <div class="flex-col max-use-form">
                                 <label style="margin-bottom: 10px">
-                                    New Max Uses:
+                                    New Max Uses:<br>
                                     <input type="number" id="newNumber" data-initial="{{ $invite->max_uses }}" value="{{ $invite->max_uses }}" min="{{ $invite->uses ?? 0 }}">
                                 </label>
                                 <x-components.3d_button id="submit-invite-max-use" class="course-button-mini no-buffer max-content" fg_color="#B1CA65" bg_color="#88A236" disabled>Update</x-components.3d_button>
+                                @if($invite->max_uses != null)
+                                    <br>
+                                    <x-components.3d_button id="limit-remove" class="course-button-mini no-buffer" fg_color="#B1CA65" bg_color="#88A236">Remove use limit</x-components.3d_button>
+                                @endif
                             </div>
                         </div>
                         <div class="table-col"> {{-- Expiry date --}}
-                            <p>{{ date("d/m/Y H:i", strtotime($invite->expiry_date)) }} UTC</p>
-                            <x-components.3d_button id="expiry-date-toggle" fg-color="#9EC5AB" bg-color="#5e9c73">Modify expiry date</x-components.3d_button>
-                            <div id="expiry-date-form" class="flex-col">
+                            @if ($invite->expiry_date != null)
+                                <p>{{ date("d/m/Y H:i", strtotime($invite->expiry_date)) }} UTC</p>
+                            @else
+                                <p>No expiry date</p>
+                            @endif
+                            <x-components.3d_button fg-color="#9EC5AB" bg-color="#5e9c73" class="course-button-mini expiry-date-toggle">Modify expiry date</x-components.3d_button>
+                            <div class="flex-col expiry-date-form">
                                 <label style="margin-bottom: 10px">
                                     New Expiry Date:<br>
                                     <input type="text" id="expiryDateTimePicker" data-initial="{{ date("d/m/Y H:i", strtotime($invite->expiry_date)) }}" value="{{ date("d/m/Y H:i", strtotime($invite->expiry_date)) }}">
                                 </label>
                                 <x-components.3d_button id="submit-expiry-date" class="course-button-mini no-buffer max-content" fg_color="#B1CA65" bg_color="#88A236" disabled>Update</x-components.3d_button>
+                                @if($invite->expiry_date != null)
+                                    <br>
+                                    <x-components.3d_button id="date-remove" class="course-button-mini no-buffer" fg_color="#B1CA65" bg_color="#88A236">Remove expiration date</x-components.3d_button>
+                                @endif
                             </div>
                         </div>
                         <div class="table-col">
                             <x-components.3d_button id="invite-delete" class="course-button-mini" fg_color="#CA6565" bg_color="#A23636">Delete</x-components.3d_button><br>
-                            <x-components.3d_button id="invite-link-copy" class="course-button-mini no-buffer" fg-color="#9EC5AB" bg-color="#5e9c73" data-link="{{ route('join.show', ['id' => $invite->invite_id]) }}">Copy link</x-components.3d_button>
+                            <x-components.3d_button class="course-button-mini no-buffer invite-link-copy" fg-color="#9EC5AB" bg-color="#5e9c73" data-link="{{ route('join.show', ['id' => $invite->invite_id]) }}">Copy link</x-components.3d_button>
                         </div>
                     </div>
                 @endforeach
+
+                <script>
+
+                </script>
+
             </div>
+            <x-components.3d_button id="new-invite" class="course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73">Create another invitation</x-components.3d_button>
+            <x-courses.add_invite :course="$course" />
         @endif
     </div>
     <h2>COURSE USERS</h2>

@@ -1,5 +1,5 @@
-let expiryToggleButtons = $('#expiry-date-toggle');
-let expirySectionToggles = $('#expiry-date-form');
+let expiryToggleButtons = $('.expiry-date-toggle');
+let expirySectionToggles = $('.expiry-date-form');
 // Initial settings
 $(expirySectionToggles).each(function () {
     $(this)
@@ -10,7 +10,7 @@ $(expirySectionToggles).each(function () {
 $(expiryToggleButtons).on('click', function () {
     let button = $(this);
     let box = $(button).closest('.table-col');
-    let form = $(box).find("#expiry-date-form");
+    let form = $(box).find(".expiry-date-form");
     //
     $(button).animate({ height: 0 }, 500, function () {
         $(this).css('overflow', 'hidden');
@@ -21,6 +21,7 @@ $(expiryToggleButtons).on('click', function () {
 $(expirySectionToggles).each(function () {
     let input = $(this).find("input");
     let button = $(this).find("#submit-expiry-date");
+    let remDateBtn = $(this).find("#date-remove");
     let row = $(this).closest(".table-row");
     let inviteId = $(row).attr('id');
     $(button).on("click", function () {
@@ -37,7 +38,24 @@ $(expirySectionToggles).each(function () {
                 location.reload();
             }
         });
-    })
+    });
+
+    $(remDateBtn).on("click", function() {
+        $.ajax({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            method: "POST",
+            url: inviteModifyRoute,
+            data: {
+                inviteId: inviteId,
+                modificationType: 'expiryDate',
+                newDate: "01/01/1970 23:59",
+                remove: 1,
+            },
+            success: function () {
+                location.reload();
+            }
+        });
+    });
 
     let currentDate = new Date();
     $(input).datetimepicker({

@@ -177,13 +177,13 @@ span.small-text {
 .invite-table .table-row .table-col .three-d {
   font-size: 1vw !important;
 }
-.invite-table .table-row .table-col #max-use-form, .invite-table .table-row .table-col #expiry-date-form {
+.invite-table .table-row .table-col .max-use-form, .invite-table .table-row .table-col .expiry-date-form {
   word-wrap: break-word;
   width: 100%;
   align-items: center;
   overflow: hidden;
 }
-.invite-table .table-row .table-col #max-use-form input, .invite-table .table-row .table-col #expiry-date-form input {
+.invite-table .table-row .table-col .max-use-form input, .invite-table .table-row .table-col .expiry-date-form input {
   font-size: 0.9vw !important;
   padding: 5px;
   width: 80%;

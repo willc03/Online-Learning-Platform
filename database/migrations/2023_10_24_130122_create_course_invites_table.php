@@ -18,7 +18,7 @@ return new class extends Migration
             // Course invite details
             $table->uuid('invite_id');
             $table->boolean('is_active')->default(true);
-            $table->timestamp('expiry_date');
+            $table->timestamp('expiry_date')->nullable();
             $table->integer('uses')->default(0);
             $table->integer('max_uses')->nullable();
 

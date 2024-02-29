@@ -1,11 +1,10 @@
-$("#invite-link-copy").on('click', function () {
-    console.log($(this).attr("data-link"));
-    navigator.clipboard.writeText($(this).attr("data-link"))
+$(".invite-link-copy").on('click', function () {
+    let item = $(this);
+    navigator.clipboard.writeText($(item).attr("data-link"))
         .then(() => {
-            let preText = $(this).find("span").text();
-            $(this).find("span").text("Copied link to clipboard")
+            $(item).find("span").text("Copied link to clipboard");
             setTimeout(function () {
-                $(this).find("span").text(preText);
+                $(item).find("span").text("Copy link");
             }, 2000);
         })
         .catch(err => {
