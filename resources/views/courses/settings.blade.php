@@ -121,9 +121,9 @@
                         </div>
                         <div class="table-col">
                             @if($invite->is_active)
-                                <x-components.3d_button id="toggle-invite-activity" data-active="true" class="course-button-mini no-buffer" fg_color="#B1CA65" bg_color="#88A236">Active</x-components.3d_button>
+                                <x-components.3d_button data-active="true" class="toggle-invite-activity course-button-mini no-buffer" fg_color="#B1CA65" bg_color="#88A236">Active</x-components.3d_button>
                             @else
-                                <x-components.3d_button id="toggle-invite-activity" data-active="false" class="course-button-mini no-buffer" fg_color="#CA6565" bg_color="#A23636">Inactive</x-components.3d_button>
+                                <x-components.3d_button data-active="false" class="toggle-invite-activity course-button-mini no-buffer" fg_color="#CA6565" bg_color="#A23636">Inactive</x-components.3d_button>
                             @endif
                         </div>
                         <div class="table-col">

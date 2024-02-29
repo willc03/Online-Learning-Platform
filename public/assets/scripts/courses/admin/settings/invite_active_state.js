@@ -1,4 +1,4 @@
-let toggleButtons = $("#toggle-invite-activity");
+let toggleButtons = $(".toggle-invite-activity");
 $(toggleButtons.on({
     mouseenter: function() {
         // Get components
