@@ -24,7 +24,7 @@
         .three-d.correct .foreground {
             filter: saturate(100%)!important;
             background-color: #B1CA65!important;
-            transform: translateY(-2px)!important;
+            transform: translateY(-2px) translateX(-10px)!important;
         }
     </style>
 
