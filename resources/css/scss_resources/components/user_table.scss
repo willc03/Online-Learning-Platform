@@ -1,0 +1,39 @@
+.user-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    border: 1px solid rgb(128, 128, 128);
+    overflow: hidden;
+    border-radius: 8px;
+
+    .table-row {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        background-color: rgb(200, 200, 200);
+        transition-property: background-color;
+        transition-duration: 500ms;
+
+        &.table-header {
+            background-color: rgb(150, 150, 150)!important;
+            color: white;
+        }
+
+        &:not(.table-header):hover {
+            background-color: rgb(185, 185, 185);
+        }
+
+        .table-col {
+            font-size: 1.25vw;
+            word-wrap: anywhere;
+            width: 33.333%;
+            border: 0.5px solid lightgray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            flex-direction: column;
+        }
+    }
+}

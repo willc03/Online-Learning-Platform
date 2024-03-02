@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
 
             // User course details
-            // All keys details in this section are foreign keys and as such, are in the section for this
+            $table->boolean('blocked')->default(false);
 
             // Timestamps
             $table->timestamps();

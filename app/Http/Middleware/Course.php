@@ -26,8 +26,13 @@ class Course
             return redirect()->to(route('home'))->withErrors(['INVALID_COURSE' => 'The specified course does not exist. Please try again.']);
         }
 
-        $userTakesCourse = UserCourse::where(['course_id' => $urlCourseId, 'user_id' => $request->user()->id])->exists();
+        $userCourseQuery = UserCourse::where(['course_id' => $urlCourseId, 'user_id' => $request->user()->id]);
+        $userTakesCourse = $userCourseQuery->exists();
         $userOwnsCourse = $courseQuery->firstOrFail()->owner === $request->user()->id;
+
+        if ($userTakesCourse && $userCourseQuery->firstOrFail()->blocked) {
+            return redirect()->to(route('home'))->withErrors(['BLOCKED' => 'You are blocked from viewing the contents of this course']);
+        }
 
         return ($userTakesCourse || $userOwnsCourse) ? $next($request) : redirect()->to(route('home'))->withErrors(['NOT_COURSE_MEMBER' => 'Please join this course to access its pages.']);
     }

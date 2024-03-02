@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserCourse extends Model
 {
-    use HasFactory;
     use HasUuids;
 
     /*
@@ -17,7 +16,7 @@ class UserCourse extends Model
      */
     public function course()
     {
-        return $this->hasOne(Course::class);
+        return $this->hasOne(Course::class, 'id', 'course_id');
     }
 
     /*
@@ -26,6 +25,6 @@ class UserCourse extends Model
      */
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }

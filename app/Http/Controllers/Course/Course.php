@@ -42,7 +42,7 @@ class Course extends Controller
     }
 
     // Create a function for changing the course settings
-    public function coreEdit(Request $request, $id)
+    public function modify(Request $request, $id)
     {
         // Request validation
         $request->validate([

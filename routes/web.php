@@ -64,6 +64,8 @@ Route::prefix('course/{id}')
                     Route::post('invite', [Invite::class, 'modify'])->name('invite');
                     Route::post('invite/new', [Invite::class, 'create'])->name('invite.create');
                     Route::delete('invite', [Invite::class, 'delete'])->name('invite.delete');
+                    Route::delete('user/delete', [User::class, 'remove'])->name('user.delete');
+                    Route::post('user/block', [User::class, 'block'])->name('user.block');
                 });
 
             Route::post('edit', [Course::class, 'contentEdit'])->name('edit');

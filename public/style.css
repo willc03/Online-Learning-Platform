@@ -238,6 +238,42 @@ span.small-text {
     transform: translateY(-2px) translateX(-2px) !important;
   }
 }
+.user-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  border: 1px solid rgb(128, 128, 128);
+  overflow: hidden;
+  border-radius: 8px;
+}
+.user-table .table-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(200, 200, 200);
+  transition-property: background-color;
+  transition-duration: 500ms;
+}
+.user-table .table-row.table-header {
+  background-color: rgb(150, 150, 150) !important;
+  color: white;
+}
+.user-table .table-row:not(.table-header):hover {
+  background-color: rgb(185, 185, 185);
+}
+.user-table .table-row .table-col {
+  font-size: 1.25vw;
+  word-wrap: anywhere;
+  width: 33.333%;
+  border: 0.5px solid lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  flex-direction: column;
+}
+
 /*
  * All specific-purpose SCSS files will be imported here
  */

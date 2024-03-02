@@ -94,6 +94,8 @@
             <p>Course invitations cannot be configured right now. <span class="italicise">Set the course to private to manage invitations.</span></p>
         @elseif($course->invites->count() == 0)
             <p>This course currently has no active invitations.</p>
+            <x-components.3d_button id="new-invite" class="course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73">Create your first invitation</x-components.3d_button>
+            <x-courses.add_invite :course="$course" />
         @else
             <div class="invite-table" id="invite-manager">
                 <div class="table-row table-header">
@@ -170,16 +172,42 @@
                     </div>
                 @endforeach
             </div>
+            <x-components.3d_button id="new-invite" class="course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73">Create another invitation</x-components.3d_button>
+            <x-courses.add_invite :course="$course" />
         @endif
-        <x-components.3d_button id="new-invite" class="course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73">Create another invitation</x-components.3d_button>
-        <x-courses.add_invite :course="$course" />
     </div>
     <h2>COURSE USERS</h2>
     <div id="course-users" class="flex-col">
         @if($course->users->count() === 0)
             <p>Your course doesn't have any users! Users will appear here when they join the course.</p>
         @else
-
+            <div class="user-table" id="user-manager">
+                <div class="table-row table-header">
+                    <div class="table-col">
+                        <p>Name</p>
+                    </div>
+                    <div class="table-col">
+                        <p>Date Joined</p>
+                    </div>
+                    <div class="table-col">
+                        <p>Action(s)</p>
+                    </div>
+                </div>
+                @foreach($course->users as $courseUser)
+                    <div class="table-row" id="{{ $courseUser->id }}">
+                        <div class="table-col">
+                            <p>{{ $courseUser->user->name }}</p>
+                        </div>
+                        <div class="table-col">
+                            <p>{{ $courseUser->created_at }}</p>
+                        </div>
+                        <div class="table-col">
+                            <x-components.3d_button id="user-delete" class="course-button-mini max-content" fg_color="#CA6565" bg_color="#A23636">Remove user</x-components.3d_button><br>
+                            <x-components.3d_button id="user-block" class="course-button-mini max-content no-buffer" fg_color="#CA6565" bg_color="#A23636" data-active="{{ var_export($courseUser->blocked, true) }}">{{ var_export($courseUser->blocked, true) ? "Unblock from course" : "Block from course" }}</x-components.3d_button>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         @endif
     </div>
 
@@ -192,6 +220,8 @@
 		fileRemoveRoute = "{{ route("course.file.remove", ['id' => $course->id]) }}";
 		inviteModifyRoute = "{{ route("course.settings.invite", ['id' => $course->id]) }}";
         inviteRemoveRoute = "{{ route("course.settings.invite.delete", [ 'id' => $course->id ]) }}";
+        userRemoveRoute = "{{ route('course.settings.user.delete', [ 'id' => $course->id ]) }}";
+        userBlockRoute = "{{ route('course.settings.user.block', [ 'id' => $course->id ]) }}";
     </script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/invite_add.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/file_upload.js") }}"></script>
@@ -201,4 +231,5 @@
     <script src="{{ asset("assets/scripts/courses/admin/settings/invite_expiry.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/invite_clipboard.js") }}"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/invite_delete.js") }}"></script>
+    <script src="{{ asset("assets/scripts/courses/admin/settings/user_manage.js") }}"></script>
 </x-structure.wrapper>

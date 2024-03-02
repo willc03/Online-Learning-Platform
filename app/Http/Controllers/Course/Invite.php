@@ -127,10 +127,11 @@ class Invite extends Controller
             $invite->uses++;
 
             // Add the user to the course
-            UserCourse::insert([
-                'course_id' => $invite->course_id,
-                'user_id' => $request->user()->id
-            ]);
+            $userCourseRecord = new UserCourse;
+            $userCourseRecord->course_id = $invite->course_id;
+            $userCourseRecord->user_id = $request->user()->id;
+            $userCourseRecord->id = UserCourse::all()->count() + 1;
+            $userCourseRecord->save();
 
             // Save the record
             $invite->save();
