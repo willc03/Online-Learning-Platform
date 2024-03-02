@@ -71,11 +71,11 @@ class Invite extends Controller
             return [ 'success' => false, 'errorMessage' => 'This invite is inactive. Please try again or ask for another invitation.' ];
         }
 
-        if ( $invite->expiry_date < now() ) {
+        if ( $invite->expiry_date < now() && $invite->expiry_date != null ) {
             return [ 'success' => false, 'errorMessage' => 'This invite has expired. Please ask for another invitation.' ];
         }
 
-        if ( $invite->uses >= $invite->max_uses ) {
+        if ( $invite->uses >= $invite->max_uses && $invite->max_uses != null ) {
             return [ 'success' => false, 'errorMessage' => 'This invite has reached its maximum number of uses. Please ask for another invite.' ];
         }
 
