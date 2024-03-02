@@ -281,7 +281,7 @@ class Invite extends Controller
         $invite->id = CourseInvite::all()->count() + 1;
         // Save the invite
         if ($invite->save()) {
-            return redirect()->to(route('course.settings', [ 'id' => $id ]));
+            return redirect()->to(route('course.settings.get', [ 'id' => $id ]));
         } else {
             return back()->withErrors(['SAVE_ERROR' => "Could not save the new invitation."]);
         }
