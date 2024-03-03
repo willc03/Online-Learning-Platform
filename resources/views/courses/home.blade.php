@@ -74,8 +74,8 @@
                             @switch($section_item->item_type)
 
 
-                                @case("LESSON")
-                                    @if ($section_item->lessonExists)
+                                @case("LESSON") {{-- Add the content for lessons --}}
+                                    @if ($section_item->lessonExists) {{-- Change what is displayed depending on whether the lesson exists --}}
                                         <div class="section-item lesson flex-col" id="{{ $section_item->id }}">
                                             @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
                                             <h5>{{ $section_item->title }}</h5>
@@ -84,7 +84,7 @@
                                             @endif
                                             <x-components.3d_button fg-color="#9EC5AB" bg-color="#5e9c73" onclick="location.href = '{{ route('course.lesson.start', [ 'id' => $course->id, 'lessonId' => $section_item->item_value['lesson_id']] ) }}'">BEGIN LESSON</x-components.3d_button>
                                         </div>
-                                    @else
+                                    @else {{-- Display the soft error message if the lesson can't be found. --}}
                                         <div class="section-item lesson flex-col" id="{{ $section_item->id }}">
                                             @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
                                             <h5>Lesson Unavailable</h5>
@@ -94,7 +94,7 @@
                                     @break
 
 
-                                @case("TEXT")
+                                @case("TEXT") {{-- Display the content for text items --}}
                                     <div class="section-item text" id="{{ $section_item->id }}">
                                         @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
                                         <p style="margin-top: 2px;">{{ $section_item->title }}</p>
@@ -102,7 +102,7 @@
                                     @break
 
 
-                                @case("FILE")
+                                @case("FILE") {{-- Display the content for downloadable files. --}}
                                     <div class="section-item file" id="{{ $section_item->id }}">
                                         @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
                                         <div class="flex-row">
@@ -112,7 +112,7 @@
                                     @break
 
 
-                                @case("IMAGE")
+                                @case("IMAGE") {{-- Display the content for images. --}}
                                     <div class="section-item image" id="{{ $section_item->id }}">
                                         @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
                                         <img style="width: 100%;" src="{{ route('course.file.serve', ['id' => $course->id, 'fileId' => $section_item->item_value['fileId']]) }}" alt="{{ $section_item->item_value['alt'] == 0 ? "No alt text provided" : $section_item->item_value['alt'] }}">
@@ -136,12 +136,10 @@
 
 
     {{-- Manage client-side JavaScript files --}}
-    <script>
-        courseId = '{{ $course->id }}';
-    </script>
     <script src="{{ asset("assets/scripts/courses/collapse_sections.js") }}"></script>
-    @if ($is_editing) {{-- These scripts are used only for when editing files --}}
+    @if ($is_editing) {{-- These scripts are used only for when editing course content --}}
         <script>
+            courseId = '{{ $course->id }}';
             ajaxRoute = '{{ url(route('course.edit', ['id' => $course->id])) }}';
             formRoute = '{{ url(route('course.getForm', ['id' => $course->id])) }}';
         </script>
