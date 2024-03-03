@@ -26,12 +26,12 @@
             <a href="{{ url('/about') }}">About</a>
             <a href="{{ url('/courses') }}">Courses</a>
             @auth
-                <form method="post" action="{{ url('logout') }}" id="logout-form"> {{-- A form is required to send a post request --}}
+                <form method="post" action="{{ route('logout') }}" id="logout-form"> {{-- A form is required to send a post request --}}
                     @csrf
                     <a class="clickable" onclick="document.getElementById('logout-form').submit();">Logout</a>
                 </form>
             @else
-                <a href="{{ url('/login') }}">Login</a>
+                <a href="{{ route('login') }}">Login</a>
             @endauth
         </nav>
         <main>

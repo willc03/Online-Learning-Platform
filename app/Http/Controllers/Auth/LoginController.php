@@ -17,7 +17,7 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
      */
-    public function showLoginForm()
+    public function display()
     {
         return view('login');
     }

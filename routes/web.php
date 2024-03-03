@@ -21,13 +21,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Register and login routes
-Route::get('/register', [RegistrationController::class, 'showRegistrationForm']);
-Route::post('/register', [RegistrationController::class, 'registerUser']);
+Route::get('/register', [RegistrationController::class, 'display']);
+Route::post('/register', [RegistrationController::class, 'create']);
 
 Route::group([], function() {
-    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::get('/login', [LoginController::class, 'display'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
-    Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 });
 
 // Temporary question page holder

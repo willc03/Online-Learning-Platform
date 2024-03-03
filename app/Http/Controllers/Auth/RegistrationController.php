@@ -19,7 +19,7 @@ class RegistrationController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
      */
-    public function showRegistrationForm()
+    public function display()
     {
         return view('register');
     }
@@ -32,7 +32,7 @@ class RegistrationController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function registerUser(Request $request): RedirectResponse
+    public function create(Request $request): RedirectResponse
     {
         try {
             // Validate the content contained within the request
