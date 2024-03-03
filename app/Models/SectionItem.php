@@ -25,4 +25,14 @@ class SectionItem extends Model
     {
         return $this->hasOne(Section::class, 'id', 'section_id');
     }
+
+    /*
+     * A function to check if the lesson is valid before displaying it.
+     * The name of the function is specified such that it can be used as
+     * an accessor in views.
+     */
+    public function getLessonExistsAttribute()
+    {
+        return Lesson::where(['id' => $this->item_value['lesson_id']])->exists();
+    }
 }

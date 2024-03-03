@@ -75,14 +75,22 @@
 
 
                                 @case("LESSON")
-                                    <div class="section-item lesson flex-col" id="{{ $section_item->id }}">
-                                        @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
-                                        <h5>{{ $section_item->title }}</h5>
-                                        @if($section_item->description != null)
-                                            <p>{{ $section_item->description }}</p>
-                                        @endif
-                                        <x-components.3d_button fg-color="#9EC5AB" bg-color="#5e9c73" onclick="location.href = '{{ url()->current() }}'">BEGIN LESSON</x-components.3d_button>
-                                    </div>
+                                    @if ($section_item->lessonExists)
+                                        <div class="section-item lesson flex-col" id="{{ $section_item->id }}">
+                                            @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
+                                            <h5>{{ $section_item->title }}</h5>
+                                            @if($section_item->description != null)
+                                                <p>{{ $section_item->description }}</p>
+                                            @endif
+                                            <x-components.3d_button fg-color="#9EC5AB" bg-color="#5e9c73" onclick="location.href = '{{ route('course.lesson.start', [ 'id' => $course->id, 'lessonId' => $section_item->item_value['lesson_id']] ) }}'">BEGIN LESSON</x-components.3d_button>
+                                        </div>
+                                    @else
+                                        <div class="section-item lesson flex-col" id="{{ $section_item->id }}">
+                                            @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
+                                            <h5>Lesson Unavailable</h5>
+                                            <p>The lesson cannot be displayed as the content cannot be found.</p>
+                                        </div>
+                                    @endif
                                     @break
 
 
