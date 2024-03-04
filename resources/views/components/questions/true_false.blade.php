@@ -9,8 +9,8 @@
             background-color: #48b1e1 !important;
         }
     </style>
-    <x-components.3d_button class="option-button" value="true" fg_color="#B1CA65" bg_color="#88A236">True</x-components.3d_button>
-    <x-components.3d_button class="option-button" value="false" fg_color="#CA6565" bg_color="#A23636">False</x-components.3d_button>
+    <x-components.3d_button class="option-button" fg_color="#B1CA65" bg_color="#88A236" value="true">True</x-components.3d_button>
+    <x-components.3d_button class="option-button" fg_color="#CA6565" bg_color="#A23636" value="false">False</x-components.3d_button>
 </fieldset>
 
 @if(!$oneTimeAnswer) {{-- Display a submit button if they are allowed to change their answer --}}

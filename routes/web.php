@@ -6,6 +6,7 @@ use App\Http\Controllers\Course\Course;
 use App\Http\Controllers\Course\CourseFile;
 use App\Http\Controllers\Course\Invite;
 use App\Http\Controllers\Course\User;
+use App\Http\Controllers\Course\Lesson;
 use App\Http\Controllers\Question;
 use Illuminate\Support\Facades\Route;
 
@@ -29,16 +30,6 @@ Route::group([], function() {
     Route::post('/login', [LoginController::class, 'login']);
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 });
-
-// Temporary question page holder
-Route::prefix('question')
-    ->name('question.')
-    ->middleware('auth')
-    ->group(function () {
-        Route::get('/view/{id}', [Question::class, 'index'])->name('view');
-        Route::post('/answer', [Question::class, 'answer'])->name('answer');
-        Route::post('/answer/partial', [Question::class, 'partial'])->name('partial');
-    });
 
 // Course pages
 Route::prefix('join')
@@ -71,6 +62,15 @@ Route::prefix('course/{id}')
             Route::post('edit', [Course::class, 'contentEdit'])->name('edit');
             Route::get('formRequest', [Course::class, 'formRequest'])->name('getForm');
         });
+
+        Route::prefix('lesson/{lessonId}')
+            ->name('lesson.')
+            ->group(function () {
+                Route::get('', [ Lesson::class, 'display' ])->name('main');
+                Route::get('/start', [ Lesson::class, 'start' ])->name('start');
+                Route::post('/answer', [ Lesson::class, 'answer' ])->name('answer');
+                Route::post('/partial', [ Lesson::class, 'partial' ])->name('partial');
+            });
 
         Route::prefix('filestore')
             ->name('file.')

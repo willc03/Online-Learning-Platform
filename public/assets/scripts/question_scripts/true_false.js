@@ -14,4 +14,21 @@ if (!one_time_answer) {
             $("#submit-question").prop("disabled", !answerValue);
         });
     });
+} else {
+    let pressed = false;
+    $("form").on('submit', function(e) {
+        if (!pressed) {
+            e.preventDefault();
+        }
+    });
+
+    $(".option-button").on("click", function () {
+        const answerValue = $(this).attr("value");
+        $("#answer").attr('value', answerValue);
+        console.log($(this).attr('value'));
+        pressed = true;
+        setTimeout(function() {
+            $("form").submit();
+        }, 100); // Adjust the delay time as needed
+    });
 }

@@ -48,6 +48,6 @@
 </fieldset>
 
 <script>
-    ajaxRoute = "{{ route("question.partial") }}";
+    ajaxRoute = "{{ route("course.lesson.partial", [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}";
 </script>
 <script src="{{ asset("assets/scripts/question_scripts/match.js") }}"></script>

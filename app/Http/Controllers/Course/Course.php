@@ -23,6 +23,8 @@ class Course extends Controller
     {
         // Get the course id (the existence is processed through the custom Course middleware)
         $course = CourseModel::find($id);
+        // Cancel any lesson if the user returns home
+        session()->pull('lesson');
         // Present the course home page to the user
         return view('courses.home', [
             'course' => $course,
