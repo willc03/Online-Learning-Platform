@@ -5,10 +5,10 @@
     @if($user_is_owner)
         <div class="flex-row" id="admin-row">
             <form action="{{ url()->current() }}" method="get">
-                <x-components.3d_button class="course-button-mini max-content" name="editing" value="{{ $is_editing ? 'false' : 'true' }}" id="admin-button" fg-color="#9EC5AB" bg-color="#5e9c73">{{ $is_editing ? 'Disable admin mode' : 'Enable admin mode' }}</x-components.3d_button>
+                <x-components.3d_button class="course-button-mini max-content" name="editing" value="{{ $is_editing ? 'false' : 'true' }}" id="admin-button" fg-color="#43AA8B" bg-color="#245B4A">{{ $is_editing ? 'Disable admin mode' : 'Enable admin mode' }}</x-components.3d_button>
             </form>
             <form action="{{ route('course.settings.get', ['id' => $course->id]) }}" method="get">
-                <x-components.3d_button class="course-button-mini max-content" id="settings-button" fg-color="#9EC5AB" bg-color="#5E9C73">Course settings</x-components.3d_button>
+                <x-components.3d_button class="course-button-mini max-content" id="settings-button" fg-color="#43AA8B" bg-color="#245B4A">Course settings</x-components.3d_button>
             </form>
         </div>
     @endif
@@ -25,7 +25,7 @@
     {{-- Display all the course content in a downwards fashion --}}
     <h2>Course content</h2>
     @if ($is_editing && $course->sections->count() > 1)
-        <x-components.3d_button class="course-button-mini" id="reorder-sections-button" fg-color="#9EC5AB" bg-color="#5e9c73" data-active="false">Re-order sections</x-components.3d_button>
+        <x-components.3d_button class="course-button-mini" id="reorder-sections-button" fg-color="#43AA8B" bg-color="#245B4A" data-active="false">Re-order sections</x-components.3d_button>
     @endif
 
 
@@ -44,10 +44,10 @@
                         <div class="section-admin-panel">
                             <h4>Admin Controls</h4>
                             <x-components.3d_button class="course-button-mini" id="delete-button" fg_color="#CA6565" bg_color="#A23636">Delete section</x-components.3d_button>
-                            <x-components.3d_button class="course-button-mini" id="edit-button" fg-color="#9EC5AB" bg-color="#5e9c73">Edit section details</x-components.3d_button>
-                            <x-components.3d_button class="max-content course-button-mini" id="add-component-button" fg-color="#9EC5AB" bg-color="#5e9c73">Add new component</x-components.3d_button>
+                            <x-components.3d_button class="course-button-mini" id="edit-button" fg-color="#43AA8B" bg-color="#245B4A">Edit section details</x-components.3d_button>
+                            <x-components.3d_button class="max-content course-button-mini" id="add-component-button" fg-color="#43AA8B" bg-color="#245B4A">Add new component</x-components.3d_button>
                             @if ($course_section->items->count() > 1)
-                                <x-components.3d_button class="course-button-mini" id="reorder-section-button" fg-color="#9EC5AB" bg-color="#5e9c73" data-active="false">Re-order components</x-components.3d_button>
+                                <x-components.3d_button class="course-button-mini" id="reorder-section-button" fg-color="#43AA8B" bg-color="#245B4A" data-active="false">Re-order components</x-components.3d_button>
                             @endif
                         </div>
                         {{-- Display the form to edit the form details --}}
@@ -82,7 +82,7 @@
                                             @if($section_item->description != null)
                                                 <p>{{ $section_item->description }}</p>
                                             @endif
-                                            <x-components.3d_button fg-color="#9EC5AB" bg-color="#5e9c73" onclick="location.href = '{{ route('course.lesson.start', [ 'id' => $course->id, 'lessonId' => $section_item->item_value['lesson_id']] ) }}'">BEGIN LESSON</x-components.3d_button>
+                                            <x-components.3d_button fg-color="#43AA8B" bg-color="#245B4A" onclick="location.href = '{{ route('course.lesson.start', [ 'id' => $course->id, 'lessonId' => $section_item->item_value['lesson_id']] ) }}'">BEGIN LESSON</x-components.3d_button>
                                         </div>
                                     @else {{-- Display the soft error message if the lesson can't be found. --}}
                                         <div class="section-item lesson flex-col" id="{{ $section_item->id }}">
@@ -107,7 +107,7 @@
                                         @if ($is_editing) <x-courses.component_settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" /> @endif
                                         <div class="flex-row">
                                             <p style="margin-right: 10px;">{{ $section_item->title }}</p>
-                                            <x-components.3d_button class="download-button course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73" onclick="window.location.href = '{{ route('course.file.download', ['id' => $course->id, 'fileId' => $section_item->item_value['fileId']]) }}'">Download</x-components.3d_button></div>
+                                            <x-components.3d_button class="download-button course-button-mini max-content" fg-color="#43AA8B" bg-color="#245B4A" onclick="window.location.href = '{{ route('course.file.download', ['id' => $course->id, 'fileId' => $section_item->item_value['fileId']]) }}'">Download</x-components.3d_button></div>
                                         </div>
                                     @break
 
@@ -131,6 +131,7 @@
 
     {{-- If the user is an admin, allow them to add additional sections --}}
     @if($user_is_owner && $is_editing)
+        <br>
         <x-courses.add_section />
     @endif
 

@@ -1,5 +1,5 @@
 <x-structure.wrapper title="Settings">
-    <x-components.3d_button class="course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73" onclick="location.href = '{{ route('course.home', ['id' => $course->id]) }}'">Return to course home</x-components.3d_button>
+    <x-components.3d_button class="course-button-mini max-content" fg-color="#43AA8B" bg-color="#245B4A" onclick="location.href = '{{ route('course.home', ['id' => $course->id]) }}'">Return to course home</x-components.3d_button>
     <h1>COURSE SETTINGS</h1>
     {{-- The user will be able to change basic details about the course here --}}
     <h2>COURSE DETAILS</h2>
@@ -21,7 +21,7 @@
                     <option value="{{ !$course->is_public }}">{{ !$course->is_public ? "Public" : "Private" }}</option>
                 </select>
             </label>
-            <x-components.3d_button id="details-submit" class="course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73" disabled>Set new details</x-components.3d_button>
+            <x-components.3d_button id="details-submit" class="course-button-mini max-content" fg-color="#43AA8B" bg-color="#245B4A" disabled>Set new details</x-components.3d_button>
         </form>
     </div>
     {{-- The file management section for the course will be displayed here, allowing users to upload or remove files as necessary --}}
@@ -94,7 +94,7 @@
             <p>Course invitations cannot be configured right now. <span class="italicise">Set the course to private to manage invitations.</span></p>
         @elseif($course->invites->count() == 0)
             <p>This course currently has no active invitations.</p>
-            <x-components.3d_button id="new-invite" class="course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73">Create your first invitation</x-components.3d_button>
+            <x-components.3d_button id="new-invite" class="course-button-mini max-content" fg-color="#43AA8B" bg-color="#245B4A">Create your first invitation</x-components.3d_button>
             <x-courses.add_invite :course="$course" />
         @else
             <div class="invite-table" id="invite-manager">
@@ -133,7 +133,7 @@
                             @else
                                 <p>{{ $invite->uses }} (unlimited uses)</p>
                             @endif
-                            <x-components.3d_button fg-color="#9EC5AB" bg-color="#5e9c73" class="course-button-mini max-use-toggle">Modify max uses</x-components.3d_button>
+                            <x-components.3d_button fg-color="#43AA8B" bg-color="#245B4A" class="course-button-mini max-use-toggle">Modify max uses</x-components.3d_button>
                             <div class="flex-col max-use-form">
                                 <label style="margin-bottom: 10px">
                                     New Max Uses:<br>
@@ -152,7 +152,7 @@
                             @else
                                 <p>No expiry date</p>
                             @endif
-                            <x-components.3d_button fg-color="#9EC5AB" bg-color="#5e9c73" class="course-button-mini expiry-date-toggle">Modify expiry date</x-components.3d_button>
+                            <x-components.3d_button fg-color="#43AA8B" bg-color="#245B4A" class="course-button-mini expiry-date-toggle">Modify expiry date</x-components.3d_button>
                             <div class="flex-col expiry-date-form">
                                 <label style="margin-bottom: 10px">
                                     New Expiry Date:<br>
@@ -167,12 +167,12 @@
                         </div>
                         <div class="table-col">
                             <x-components.3d_button id="invite-delete" class="course-button-mini" fg_color="#CA6565" bg_color="#A23636">Delete</x-components.3d_button><br>
-                            <x-components.3d_button class="course-button-mini no-buffer invite-link-copy" fg-color="#9EC5AB" bg-color="#5e9c73" data-link="{{ route('join.show', ['id' => $invite->invite_id]) }}">Copy link</x-components.3d_button>
+                            <x-components.3d_button class="course-button-mini no-buffer invite-link-copy" fg-color="#43AA8B" bg-color="#245B4A" data-link="{{ route('join.show', ['id' => $invite->invite_id]) }}">Copy link</x-components.3d_button>
                         </div>
                     </div>
                 @endforeach
             </div>
-            <x-components.3d_button id="new-invite" class="course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73">Create another invitation</x-components.3d_button>
+            <x-components.3d_button id="new-invite" class="course-button-mini max-content" fg-color="#43AA8B" bg-color="#245B4A">Create another invitation</x-components.3d_button>
             <x-courses.add_invite :course="$course" />
         @endif
     </div>

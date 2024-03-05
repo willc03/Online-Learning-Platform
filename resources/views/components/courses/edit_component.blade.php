@@ -11,5 +11,5 @@
         <span>Section Description:</span>
         <textarea name="description" style="resize: none">{{ $section->description ?? "" }}</textarea>
     </label>
-    <x-components.3d_button id="section-details-submit" class="course-button-mini max-content" fg-color="#9EC5AB" bg-color="#5e9c73" disabled>Set new details</x-components.3d_button>
+    <x-components.3d_button id="section-details-submit" class="course-button-mini max-content" fg-color="#43AA8B" bg-color="#245B4A" disabled>Set new details</x-components.3d_button>
 </form>

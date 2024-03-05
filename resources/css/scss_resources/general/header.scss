@@ -50,9 +50,11 @@ body {
             div.title {
                 width: 100%;
                 color: $black;
+                font-family: 'Cabin Sketch', sans-serif;
 
                 h2 {
-                    font-weight: 900;
+                    margin: 0;
+                    font-size: 2.5rem;
                     text-align: center;
                 }
             }
@@ -64,8 +66,8 @@ body {
             height: 50px;
             justify-content: space-around;
             align-items: center;
-            box-shadow: 0 5px 5px nth($banner, 2);
-            background-color: nth($banner, 1);
+            box-shadow: 0 5px 5px nth($nav, 2);
+            background-color: nth($nav, 1);
 
             a {
                 font-size: medium;

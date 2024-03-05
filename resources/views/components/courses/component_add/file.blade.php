@@ -10,7 +10,7 @@
         </label>
         <br>
         <label>
-            Select a file from those in your course's file store.<br><span class="small-text italicise">Don't see a file you need?</em> <a href="{{ route('course.settings', ['id' => $courseId]) }}">Upload a new file</a></span>
+            Select a file from those in your course's file store.<br><span class="small-text italicise">Don't see a file you need?</em> <a href="{{ route('course.settings.get', ['id' => $courseId]) }}">Upload a new file</a></span>
             <br><br>
             <select name="file" style="width: 75%; margin: 0 12.5%;" required>
                 @foreach($course->files as $entry)

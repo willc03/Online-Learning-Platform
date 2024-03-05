@@ -1,3 +1,5 @@
+@use "sass:color";
+
 #invite-box {
     border: 1px solid nth($blue, 1);
     display: flex;
@@ -77,11 +79,11 @@
     }
 
     div.section {
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+
         button.collapse-button {
             background-color: nth($blue, 1);
             border: none;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
             color: white;
             cursor: pointer;
             margin: 0;
@@ -156,7 +158,7 @@
     }
 
     .lesson {
-        background-color: #628BA7;
+        background-color: color.adjust(nth($blue, 1), $red: +15, $green: +15, $blue: +15);
         justify-content: space-around;
         align-content: space-around;
         padding: 5%;
@@ -164,7 +166,7 @@
         border-radius: 8px;
 
         h5, p {
-            color: $white;
+            color: $black;
         }
 
         h5, p, .three-d {

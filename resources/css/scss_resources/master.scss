@@ -6,8 +6,9 @@ $off-white: color.adjust($white, $red: -20, $green: -20, $blue: -20);
 $black: #1f1f1f;
 $off-green: #66936f;
 
-$banner: #acbdba, #829793;
-$blue: #638ca7, #91aec1;
+$nav: #CBD1D9, #A3B7D1;
+$banner: #566899, #343F5C;
+$blue: #6a7eb3, #CBD1D9;
 
 // Stop CSS transitions from playing when the page loads.
 .block-transitions, .ui-sortable-helper {

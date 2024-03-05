@@ -4,6 +4,7 @@
  * imports.
  */
 @import url("https://fonts.bunny.net/css?family=figtree:300");
+@import url("https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&display=swap");
 .block-transitions, .ui-sortable-helper {
   -webkit-transition: none !important;
   -moz-transition: none !important;
@@ -147,7 +148,7 @@ span.small-text {
   flex-direction: column;
   width: 100%;
   text-align: center;
-  border: 1px solid rgb(128, 128, 128);
+  border: 1px solid #6a7eb3;
   overflow: hidden;
   border-radius: 8px;
   margin-bottom: 15px;
@@ -156,22 +157,22 @@ span.small-text {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  background-color: rgb(200, 200, 200);
+  background-color: #CBD1D9;
   transition-property: background-color;
   transition-duration: 500ms;
 }
 .invite-table .table-row.table-header {
-  background-color: rgb(150, 150, 150) !important;
+  background-color: #6a7eb3 !important;
   color: white;
 }
 .invite-table .table-row:not(.table-header):hover {
-  background-color: rgb(185, 185, 185);
+  background-color: #b2b8c0;
 }
 .invite-table .table-row .table-col {
   font-size: 1.25vw;
   word-wrap: anywhere;
   width: 20%;
-  border: 0.5px solid lightgray;
+  border: 0.5px solid #CBD1D9;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -203,7 +204,7 @@ span.small-text {
 }
 #new-invite-form fieldset {
   padding: 10px;
-  border: 1.5px solid #638ca7;
+  border: 1.5px solid #6a7eb3;
   border-radius: 8px;
   margin-bottom: 10px;
   width: 80%;
@@ -500,11 +501,11 @@ body .wrapper .title h2 a {
 body .wrapper header {
   display: flex;
   align-items: center;
-  background-color: #acbdba;
-  box-shadow: 0px 5px 5px #829793;
+  background-color: #566899;
+  box-shadow: 0px 5px 5px #343F5C;
   color: #D9DCD6;
   padding: 20px;
-  border-bottom: 1px solid #829793;
+  border-bottom: 1px solid #343F5C;
 }
 body .wrapper header div.menu-toggle {
   display: none;
@@ -526,9 +527,11 @@ body .wrapper header div.menu-toggle.active .child-3, body .wrapper header div.m
 body .wrapper header div.title {
   width: 100%;
   color: #1f1f1f;
+  font-family: "Cabin Sketch", sans-serif;
 }
 body .wrapper header div.title h2 {
-  font-weight: 900;
+  margin: 0;
+  font-size: 2.5rem;
   text-align: center;
 }
 body .wrapper nav {
@@ -537,8 +540,8 @@ body .wrapper nav {
   height: 50px;
   justify-content: space-around;
   align-items: center;
-  box-shadow: 0 5px 5px #829793;
-  background-color: #acbdba;
+  box-shadow: 0 5px 5px #A3B7D1;
+  background-color: #CBD1D9;
 }
 body .wrapper nav a {
   font-size: medium;
@@ -596,14 +599,14 @@ body .max-content {
 body footer {
   margin-top: 42.5px;
   height: 100px;
-  background-color: #acbdba;
+  background-color: #566899;
   color: #D9DCD6;
   position: sticky;
   bottom: 0;
 }
 body footer .main-box {
   display: flex;
-  background-color: #829793;
+  background-color: #343F5C;
   border-radius: 10px;
   width: 75%;
   margin: -37.5px 12.5%;
@@ -689,7 +692,7 @@ form:not([id=logout-form]) textarea {
   resize: none;
 }
 form:not([id=logout-form]) input, form:not([id=logout-form]) textarea {
-  border: 1px #638ca7 solid;
+  border: 1px #6a7eb3 solid;
   padding: 5px 15px;
   margin-bottom: 1vh;
   border-radius: 5px;
@@ -710,7 +713,7 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
 }
 
 #invite-box {
-  border: 1px solid #638ca7;
+  border: 1px solid #6a7eb3;
   display: flex;
   margin: auto;
   width: 50%;
@@ -777,11 +780,12 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
 #course-sections .course_section_placeholder {
   height: calc(1.2em + 20px);
 }
+#course-sections div.section {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+}
 #course-sections div.section button.collapse-button {
-  background-color: #638ca7;
+  background-color: #6a7eb3;
   border: none;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
   color: white;
   cursor: pointer;
   margin: 0;
@@ -804,7 +808,7 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   content: "+";
 }
 #course-sections div.section div.collapse-section {
-  background-color: #91aec1;
+  background-color: #CBD1D9;
   display: block;
   overflow: hidden;
   padding: 10px;
@@ -826,7 +830,7 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   overflow: hidden;
   padding: 10px;
   border-radius: 4px;
-  border: 1.5px solid #638ca7;
+  border: 1.5px solid #6a7eb3;
 }
 #course-sections div.section div.section-add-component div#form_container {
   margin-top: 10px;
@@ -842,7 +846,7 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   margin: 0 5px;
 }
 #course-sections .lesson {
-  background-color: #628BA7;
+  background-color: #798dc2;
   justify-content: space-around;
   align-content: space-around;
   padding: 5%;
@@ -850,7 +854,7 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   border-radius: 8px;
 }
 #course-sections .lesson h5, #course-sections .lesson p {
-  color: #D9DCD6;
+  color: #1f1f1f;
 }
 #course-sections .lesson h5, #course-sections .lesson p, #course-sections .lesson .three-d {
   margin: 10px auto;
@@ -872,7 +876,7 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   margin: 0 auto;
 }
 #course-section-add-form fieldset {
-  border: 1.5px solid #638ca7;
+  border: 1.5px solid #6a7eb3;
   border-radius: 8px;
 }
 #course-section-add-form fieldset legend {
