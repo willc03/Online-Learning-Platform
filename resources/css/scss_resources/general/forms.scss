@@ -3,6 +3,10 @@ form:not([id="logout-form"]) {
     flex-direction: column;
     margin: 0 auto;
 
+    label.flex-row {
+        align-items: center;
+    }
+
     label.required:after {
         content: "*";
         color: red;
@@ -35,4 +39,58 @@ form:not([id="logout-form"]) {
             padding: 15px;
         }
     }
+
+    .custom-toggle {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+
+        .toggle-input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            &:checked + .toggle-label {
+                background-color: nth($blue, 2);
+                border: 1px solid nth($blue, 1);
+                &::before {
+                    background-color: nth($blue, 1);
+                    transform: translateX(24px);
+                }
+            }
+        }
+
+        .toggle-label {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: nth($blue, 1);
+            border-radius: 34px;
+            transition: background-color 0.4s;
+
+            &::before {
+                cursor: pointer;
+                content: "";
+                font-size: 0.8em;
+                vertical-align: center;
+                position: absolute;
+                height: calc(100% - 8px);
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: nth($blue, 2);
+                border-radius: 50%;
+                transition: transform 0.4s;
+            }
+
+            &:focus {
+                box-shadow: 0 0 1px nth($blue, 1);
+            }
+        }
+    }
+
+
 }

@@ -46,6 +46,31 @@ class Course extends Controller
         ]);
     }
 
+    // Create a function to create a course
+    public function create(Request $request)
+    {
+        // Validation of the request
+        $validatedData = $request->validate([
+            'title' => [ 'required', 'string' ],
+            'description' => [ 'nullable', 'string' ],
+            'publicity' => [ 'nullable', 'in:on' ]
+        ]);
+        // Creation of the course
+        $course = new CourseModel;
+        $course->title = $validatedData['title'];
+        if (array_key_exists('description', $validatedData)) {
+            $course->description = $validatedData['description'];
+        }
+        $course->is_public = array_key_exists('publicity', $validatedData);
+        $course->owner = auth()->user()->id;
+
+        if ($course->save()) {
+            return redirect()->to(route('course.home', [ 'id' => $course->id ]));
+        } else {
+            return back()->withErrors([ 'CREATE_FAIL' => 'An unexpected error has occurred and your course could not be saved.' ]);
+        }
+    }
+
     // Create a function for the settings page of the course
     public function settings(Request $request, $id)
     {

@@ -6,17 +6,27 @@ body {
 
     .flex-row {
         display: flex;
-        flex-direction: row;
+        flex-direction: row!important;
         align-items: baseline;
     }
 
     .flex-col {
         display: flex;
-        flex-direction: column;
+        flex-direction: column!important;
     }
 
     .max-content {
         width: max-content!important;
+    }
+
+    .middle {
+        margin: 0 auto;
+    }
+
+    .form-flex {
+        display: flex;
+        align-items: baseline;
+        flex-direction: row;
     }
 }
 
@@ -25,6 +35,10 @@ body {
     body {
         main {
             margin: 0 !important;
+        }
+
+        .form-flex {
+            flex-direction: column;
         }
     }
 }

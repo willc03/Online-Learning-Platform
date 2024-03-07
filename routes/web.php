@@ -41,6 +41,7 @@ Route::prefix('join')
     });
 
 Route::get('courses', [ Course::class, 'all' ])->name('courses');
+Route::post('course/new', [ Course::class, 'create' ])->name('course.create');
 Route::prefix('course/{id}')
     ->name('course.')
     ->middleware(['auth', 'course'])

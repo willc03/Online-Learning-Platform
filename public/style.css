@@ -724,6 +724,53 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   outline: none !important;
   padding: 15px;
 }
+form:not([id=logout-form]) .custom-toggle {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+form:not([id=logout-form]) .custom-toggle .toggle-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+form:not([id=logout-form]) .custom-toggle .toggle-input:checked + .toggle-label {
+  background-color: #CBD1D9;
+  border: 1px solid #6a7eb3;
+}
+form:not([id=logout-form]) .custom-toggle .toggle-input:checked + .toggle-label::before {
+  background-color: #6a7eb3;
+  transform: translateX(24px);
+}
+form:not([id=logout-form]) .custom-toggle .toggle-label {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #6a7eb3;
+  border-radius: 34px;
+  transition: background-color 0.4s;
+}
+form:not([id=logout-form]) .custom-toggle .toggle-label::before {
+  cursor: pointer;
+  content: "";
+  font-size: 0.8em;
+  vertical-align: center;
+  position: absolute;
+  height: calc(100% - 8px);
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: #CBD1D9;
+  border-radius: 50%;
+  transition: transform 0.4s;
+}
+form:not([id=logout-form]) .custom-toggle .toggle-label:focus {
+  box-shadow: 0 0 1px #6a7eb3;
+}
 
 #invite-box {
   border: 1px solid #6a7eb3;
@@ -953,6 +1000,38 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
   .courses .course-item {
     width: 45%;
     margin-bottom: 12px;
+  }
+}
+
+#course-code label {
+  margin-right: 10px;
+}
+
+#create-course {
+  background-color: #CBD1D9;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+}
+#create-course label {
+  width: calc(100% - 20px);
+  padding: 10px;
+}
+#create-course span:not(.foreground) {
+  display: inline-block;
+  word-wrap: break-word;
+  width: 25%;
+}
+#create-course input, #create-course textarea {
+  width: 75%;
+}
+#create-course legend {
+  background-color: #6a7eb3;
+  width: calc(100% - 20px);
+  padding: 10px;
+  color: white;
+}
+@media (max-width: 640px) {
+  #create-course span {
+    width: 100%;
   }
 }
 
