@@ -199,7 +199,7 @@ class Lesson extends Controller
                 break;
             case 'order':
                 $correctAnswers = array_map('strtolower', $correctAnswer);
-                $userAnswers = array_map('strtolower', Arr::wrap($validatedData['answer']));
+                $userAnswers = array_map('strtolower', Json::decode($validatedData['answer']));
                 $isAnswerCorrect = ( $correctAnswers === $userAnswers );
                 break;
             case 'match':
