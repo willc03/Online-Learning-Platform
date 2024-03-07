@@ -580,20 +580,31 @@ body main {
 }
 body .flex-row {
   display: flex;
-  flex-direction: row;
+  flex-direction: row !important;
   align-items: baseline;
 }
 body .flex-col {
   display: flex;
-  flex-direction: column;
+  flex-direction: column !important;
 }
 body .max-content {
   width: max-content !important;
+}
+body .middle {
+  margin: 0 auto;
+}
+body .form-flex {
+  display: flex;
+  align-items: baseline;
+  flex-direction: row;
 }
 
 @media (max-width: 640px) {
   body main {
     margin: 0 !important;
+  }
+  body .form-flex {
+    flex-direction: column;
   }
 }
 body footer {
@@ -601,7 +612,6 @@ body footer {
   height: 100px;
   background-color: #566899;
   color: #D9DCD6;
-  position: sticky;
   bottom: 0;
 }
 body footer .main-box {
@@ -682,6 +692,9 @@ form:not([id=logout-form]) {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
+}
+form:not([id=logout-form]) label.flex-row {
+  align-items: center;
 }
 form:not([id=logout-form]) label.required:after {
   content: "*";
@@ -906,6 +919,41 @@ form:not([id=logout-form]) input:focus, form:not([id=logout-form]) textarea:focu
 }
 .course-button-mini.no-buffer {
   margin-bottom: 0 !important;
+}
+
+.courses {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.courses .course-item {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  background-color: #e1e4ea;
+  padding: 10px;
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+  transition-property: box-shadow, transform;
+  transition-duration: 500ms;
+}
+.courses .course-item .title {
+  font-weight: bolder;
+  margin-bottom: 0;
+}
+.courses .course-item .course-button-mini {
+  font-weight: bolder;
+}
+.courses .course-item:hover {
+  transform: scale(1.05);
+  box-shadow: rgba(0, 0, 0, 0.6) 0px 15px 60px;
+}
+@media (max-width: 640px) {
+  .courses .course-item {
+    width: 45%;
+    margin-bottom: 12px;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -231,3 +231,49 @@
         margin-bottom: 0!important;
     }
 }
+
+.courses {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    .course-item {
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        width: 25%;
+        background-color: #e1e4ea;
+        padding: 10px;
+        text-align: center;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+        transition-property: box-shadow, transform;
+        transition-duration: 500ms;
+
+        .title {
+            font-weight: bolder;
+            margin-bottom: 0;
+        }
+
+        .course-button-mini {
+            font-weight: bolder;
+        }
+
+        &:hover {
+            transform: scale(1.05);
+            box-shadow: rgba(0, 0, 0, 0.6) 0px 15px 60px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .course-item {
+            width: 45%;
+            margin-bottom: 12px;
+        }
+    }
+}
+
+#course-code {
+    label {
+        margin-right: 10px;
+    }
+}

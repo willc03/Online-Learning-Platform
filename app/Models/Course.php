@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -45,4 +46,15 @@ class Course extends Model
     {
         return $this->hasMany(CourseFile::class);
     }
+
+    /**
+     * A custom accessor is defined to get the course owner's information
+     *
+     * @return User|null
+     */
+    public function getCourseOwnerAttribute(): ?User
+    {
+        return User::find($this->owner);
+    }
+
 }

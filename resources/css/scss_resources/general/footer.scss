@@ -6,7 +6,6 @@ body {
         height: 100px;
         background-color: nth($banner, 1);
         color: $white;
-        position: sticky;
         bottom: 0;
 
         .main-box {

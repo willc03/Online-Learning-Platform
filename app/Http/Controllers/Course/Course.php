@@ -13,11 +13,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 // 'as' used due to duplicate definition of key word 'Course'
 
 class Course extends Controller
 {
+    /**
+     * The 'all' function will be used to display the top-level courses page which can be accessed by either users
+     * or guests (although only users will be able to access the
+     *
+     * @return View
+     */
+    public function all()
+    {
+        return view('courses', [ 'courses' => CourseModel::all() ]);
+    }
+
     // Create a function for the home page route
     public function index(Request $request, $id)
     {

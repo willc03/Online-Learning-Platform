@@ -40,6 +40,7 @@ Route::prefix('join')
         Route::post('/accept', [Invite::class, 'accept'])->name('accept');
     });
 
+Route::get('courses', [ Course::class, 'all' ])->name('courses');
 Route::prefix('course/{id}')
     ->name('course.')
     ->middleware(['auth', 'course'])

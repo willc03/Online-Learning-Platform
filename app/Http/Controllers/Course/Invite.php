@@ -37,8 +37,19 @@ class Invite extends Controller
         }
 
         // Check the invite is valid
-        $invite = CourseInvite::where('invite_id', $invite_id)->first();
+        $invite = CourseInvite::where('invite_id', $invite_id);
+        if (!$invite->exists()) {
+            return back()->withErrors([ 'NO_RECORD' => 'An invite with that code could not be found. Try checking your code or entering another code.' ]);
+        } else {
+            $invite = $invite->first();
+        }
         $invalid_invite = $this->checkInviteValidity($invite);
+
+        // Check the course isn't public
+        $course = Course::whereId($invite->course_id);
+        if ($course->exists() && $course->firstOrFail()->is_public) {
+            return redirect()->to(route('courses'))->withErrors([ 'COURSE_PUBLIC' => 'Course invitations cannot be used on public courses. Please find the course on this page.' ]);
+        }
 
         // Check the user is not already a course member
         if ( !$invalid_invite && $this->userTakesCourse($invite->course_id, $request->user()->id) ) {
@@ -108,6 +119,23 @@ class Invite extends Controller
         // Check there is an ID in the request
         if ( !$invite_id = $request->id ) {
             return back();
+        }
+
+        // If the ID is a course ID and the course is public, accept the request immediately.
+        $course = Course::where('id', $request->id);
+        if ($course->exists() && $course->firstOrFail()->is_public) {
+            $validatedData = $request->validate([ 'id' => ['required', 'string', 'exists:courses,id'] ]);
+
+            $userCourseRecord = new UserCourse;
+            $userCourseRecord->course_id = $validatedData['id'];
+            $userCourseRecord->user_id = $request->user()->id;
+            $userCourseRecord->id = UserCourse::all()->count() + 1;
+
+            if ($userCourseRecord->save()) {
+                return redirect()->to(route('course.home', [ 'id' => $invite_id ]));
+            } else {
+                return back();
+            }
         }
 
         // Check the invite is valid

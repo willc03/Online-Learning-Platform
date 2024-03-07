@@ -49,6 +49,24 @@ class User extends Authenticatable
      */
     public function courses()
     {
-        return $this->hasMany(UserCourse::class)->orderBy('created_at');
+        return $this->belongsToMany(Course::class, 'user_courses', 'user_id', 'course_id');
     }
+
+    /*
+     * Define a one-to-many relationship between the user and courses they
+     * own
+     */
+    public function ownedCourses()
+    {
+        return $this->hasMany(Course::class, 'owner', 'id');
+    }
+
+    /*
+         * Define a function to get the courses the user is in AND owns.
+         */
+    public function getDisplayableCoursesAttribute()
+    {
+        return $this->ownedCourses->merge($this->courses)->unique('id');
+    }
+
 }
