@@ -1,13 +1,12 @@
 form:not([id="logout-form"]) {
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
 
     label.flex-row {
         align-items: center;
     }
 
-    label.required:after {
+    label.required:after, span.required:after {
         content: "*";
         color: red;
         padding-left: 2.5px;

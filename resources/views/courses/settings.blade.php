@@ -6,48 +6,54 @@
     <div id="course-details" class="flex-col">
         <form method="post" action="{{ route('course.settings.set', ['id' => $course->id]) }}">
             @csrf
-            <label class="flex-row">
-                <span>Course Title:</span>
-                <input name="title" type="text" value="{{ $course->title }}" required>
+            <legend>Edit course details</legend>
+            <label class="form-flex">
+                <span class="required">Course Title:</span>
+                <input name="title" type="text" value="{{ $course->title }}" placeholder="Enter your course's title here." required>
             </label>
-            <label class="flex-row">
+            <label class="form-flex">
                 <span>Course Description:</span>
-                <textarea name="description" style="resize: none">{{ $course->description }}</textarea>
+                <textarea name="description" placeholder="Enter your course's description here." style="resize: none">{{ $course->description }}</textarea>
             </label>
-            <label class="flex-row">
-                <span>Course Privacy:</span>
+            <label class="form-flex">
+                <span class="required">Course Privacy:</span>
                 <select name="publicity" required>
                     <option selected value="{{ $course->is_public }}">{{ $course->is_public ? "Public" : "Private" }}</option>
                     <option value="{{ !$course->is_public }}">{{ !$course->is_public ? "Public" : "Private" }}</option>
                 </select>
             </label>
-            <x-components.3d_button id="details-submit" class="course-button-mini max-content" fg-color="#43AA8B" bg-color="#245B4A" disabled>Set new details</x-components.3d_button>
+            <x-components.3d_button id="details-submit" class="course-button-mini max-content middle" fg-color="#43AA8B" bg-color="#245B4A" disabled>Set new details</x-components.3d_button>
         </form>
     </div>
     {{-- The file management section for the course will be displayed here, allowing users to upload or remove files as necessary --}}
     <h2>COURSE FILES</h2>
     <div id="course-files" class="flex-col">
         <h3>Upload new files</h3>
-        <form method="post" enctype="multipart/form-data" id="basic-file-upload">
+        <form method="post" enctype="multipart/form-data" id="basic-file-upload" class="flex-col">
             {{-- A basic file upload form will be used to allow for unique styling on different pages --}}
             @csrf
             @method('POST')
 
             <input type="hidden" name="id" id="course-id" value="{{ explode('/', preg_replace( "#^[^:/.]*[:/]+#i", "", url()->current()) )[2] }}">
 
-            <fieldset class="flex-col">
-                <div class="message" id="file-upload-message-box" style="display: none">
-                    <p id="file-upload-message"></p>
-                </div>
+            <legend>Upload new files</legend>
 
-                <label for="name">File name:</label>
-                <input type="text" name="name" id="file-upload-name" required>
+            <div class="message" id="file-upload-message-box" style="display: none">
+                <p id="file-upload-message"></p>
+            </div>
 
-                <label for="file">Upload a file:</label>
-                <input type="file" name="file" id="file-upload-slot" required>
+            <label class="form-flex">
+                <span class="required">File name:</span>
+                <input type="text" name="name" id="file-upload-name" placeholder="Enter your file's public name here." required>
+            </label>
 
-                <input type="submit">
-            </fieldset>
+            <label class="form-flex" style="border: none">
+                <span class="required">Upload a file:</span>
+                <input type="file" name="file" id="file-upload-slot" class="flex-col" required style="border: none">
+            </label>
+
+            <x-components.3d_button class="middle course-button-mini" fg-color="#43AA8B" bg-color="#245B4A" type="submit" id="submit-file">Submit</x-components.3d_button>
+
         </form>
         <h3>Manage files</h3>
         @if ($course->files->count() === 0)

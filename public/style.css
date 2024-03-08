@@ -199,33 +199,59 @@ span.small-text {
   text-align: center;
 }
 
-#new-invite-form fieldset.flex-col {
-  align-items: center;
+#new-invite-form {
+  background-color: #CBD1D9;
+}
+#new-invite-form label {
+  width: calc(100% - 20px);
+  padding: 10px;
+}
+#new-invite-form span:not(.foreground) {
+  display: inline-block;
+  word-wrap: break-word;
+  width: 25%;
+}
+#new-invite-form input, #new-invite-form textarea {
+  width: 75%;
 }
 #new-invite-form fieldset {
-  padding: 10px;
-  border: 1.5px solid #6a7eb3;
+  width: 80%;
+  border: 1px solid #6a7eb3;
   border-radius: 8px;
-  margin-bottom: 10px;
-  width: 80%;
 }
-#new-invite-form fieldset:not(.outer) {
-  width: 80%;
+#new-invite-form:not(#edit-section-form) {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+}
+#new-invite-form#edit-section-form {
+  border: 1px solid #6a7eb3;
+}
+#new-invite-form legend {
+  background-color: #6a7eb3;
+  width: calc(100% - 20px);
+  padding: 10px;
+  color: white;
+}
+#new-invite-form fieldset {
+  margin-bottom: 15px;
 }
 #new-invite-form fieldset legend {
-  padding: 0 5px;
+  border-radius: 8px;
 }
-#new-invite-form fieldset input {
-  width: max-content;
-  padding: 5px;
+@media (max-width: 640px) {
+  #new-invite-form span:not(.foreground) {
+    width: 100% !important;
+  }
+  #new-invite-form input, #new-invite-form textarea {
+    width: calc(100% - 30px);
+  }
 }
 
 @media (max-width: 640px) {
   .invite-table .table-row .table-col {
-    font-size: 2.5vw !important;
+    font-size: 0.8em !important;
   }
   .invite-table .table-row .table-col .three-d {
-    font-size: 2.5vw !important;
+    font-size: 0.8em !important;
     padding: 0 2px;
   }
   .invite-table .table-row .table-col .three-d span {
@@ -287,30 +313,52 @@ span.small-text {
   list-style-type: none;
 }
 
-#course-details form, #edit-section-form {
-  width: 100%;
+#course-details form, #edit-section-form, #basic-file-upload {
+  background-color: #CBD1D9;
 }
-#course-details form#edit-section-form, #edit-section-form#edit-section-form {
-  border: 1.5px solid #638ca7;
+#course-details form label, #edit-section-form label, #basic-file-upload label {
+  width: calc(100% - 20px);
   padding: 10px;
-  border-radius: 5px;
-  width: calc(100% - 24px);
-  margin-bottom: 10px;
 }
-#course-details form .flex-row, #edit-section-form .flex-row {
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 10px;
-}
-#course-details form .flex-row span, #edit-section-form .flex-row span {
+#course-details form span:not(.foreground), #edit-section-form span:not(.foreground), #basic-file-upload span:not(.foreground) {
+  display: inline-block;
+  word-wrap: break-word;
   width: 25%;
 }
-#course-details form .flex-row input, #course-details form .flex-row textarea, #course-details form .flex-row select, #edit-section-form .flex-row input, #edit-section-form .flex-row textarea, #edit-section-form .flex-row select {
+#course-details form input, #course-details form textarea, #edit-section-form input, #edit-section-form textarea, #basic-file-upload input, #basic-file-upload textarea {
   width: 75%;
 }
-#course-details form button.three-d#details-submit, #edit-section-form button.three-d#details-submit {
-  margin: 10px auto;
+#course-details form:not(#edit-section-form), #edit-section-form:not(#edit-section-form), #basic-file-upload:not(#edit-section-form) {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+}
+#course-details form#edit-section-form, #edit-section-form#edit-section-form, #basic-file-upload#edit-section-form {
+  border: 1px solid #6a7eb3;
+}
+#course-details form legend, #edit-section-form legend, #basic-file-upload legend {
+  background-color: #6a7eb3;
+  width: calc(100% - 20px);
+  padding: 10px;
+  color: white;
+}
+@media (max-width: 640px) {
+  #course-details form span:not(.foreground), #edit-section-form span:not(.foreground), #basic-file-upload span:not(.foreground) {
+    width: 100% !important;
+  }
+  #course-details form input, #course-details form textarea, #edit-section-form input, #edit-section-form textarea, #basic-file-upload input, #basic-file-upload textarea {
+    width: calc(100% - 30px);
+  }
+}
+
+#file-upload-slot {
+  width: 100%;
+}
+
+#file-upload-slot::file-selector-button {
+  width: 50%;
+  border-radius: 5px;
+  height: 50px;
+  border: 1px solid #6a7eb3;
+  background-color: #CBD1D9;
 }
 
 .section-edit-component {
@@ -469,16 +517,6 @@ span.small-text {
     width: 50% !important;
   }
 }
-#basic-file-upload {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid rgb(128, 128, 128);
-  border-radius: 8px;
-}
-#basic-file-upload fieldset {
-  border: none;
-}
-
 /*
  * All general-purpose SCSS files will be imported here
  */
@@ -595,7 +633,7 @@ body .middle {
 }
 body .form-flex {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   flex-direction: row;
 }
 
@@ -691,12 +729,11 @@ body footer .main-box .sign-up a:hover {
 form:not([id=logout-form]) {
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
 }
 form:not([id=logout-form]) label.flex-row {
   align-items: center;
 }
-form:not([id=logout-form]) label.required:after {
+form:not([id=logout-form]) label.required:after, form:not([id=logout-form]) span.required:after {
   content: "*";
   color: red;
   padding-left: 2.5px;
@@ -933,29 +970,59 @@ form:not([id=logout-form]) .custom-toggle .toggle-label:focus {
 #course-section-add-form {
   overflow: hidden;
   width: 75%;
-  margin: 0 auto;
+  background-color: #CBD1D9;
+}
+#course-section-add-form label {
+  width: calc(100% - 20px);
+  padding: 10px;
+}
+#course-section-add-form span:not(.foreground) {
+  display: inline-block;
+  word-wrap: break-word;
+  width: 25%;
+}
+#course-section-add-form input, #course-section-add-form textarea {
+  width: 70%;
 }
 #course-section-add-form fieldset {
-  border: 1.5px solid #6a7eb3;
+  width: 80%;
+  border: 1px solid #6a7eb3;
   border-radius: 8px;
 }
-#course-section-add-form fieldset legend {
-  width: max-content;
+#course-section-add-form:not(#edit-section-form) {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
 }
-#course-section-add-form fieldset .submit-buttons {
-  display: flex;
-  justify-content: space-evenly;
+#course-section-add-form#edit-section-form {
+  border: 1px solid #6a7eb3;
 }
-#course-section-add-form fieldset .submit-buttons button {
-  width: 45%;
-  height: 25px;
+#course-section-add-form legend {
+  background-color: #6a7eb3;
+  width: calc(100% - 20px);
+  padding: 10px;
+  color: white;
 }
-#course-section-add-form fieldset #new-section-description {
+#course-section-add-form #new-section-description {
   padding-bottom: 150px;
   margin-bottom: 20px;
   vertical-align: top;
   word-wrap: break-word;
   word-break: break-all;
+}
+#course-section-add-form .submit-buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+#course-section-add-form .submit-buttons button {
+  width: 45%;
+  height: 25px;
+}
+@media (max-width: 640px) {
+  #course-section-add-form span:not(.foreground) {
+    width: 100% !important;
+  }
+  #course-section-add-form input, #course-section-add-form textarea {
+    width: calc(100% - 30px);
+  }
 }
 
 .course-button-mini {

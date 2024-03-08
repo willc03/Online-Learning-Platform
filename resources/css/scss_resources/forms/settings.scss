@@ -1,31 +1,54 @@
-#course-details form, #edit-section-form {
-    width: 100%;
 
-    &#edit-section-form {
-        border: 1.5px solid #638ca7;
+#course-details form, #edit-section-form, #basic-file-upload {
+    label {
+        width: calc(100% - 20px);
         padding: 10px;
-        border-radius: 5px;
-        width: calc(100% - 24px);
-        margin-bottom: 10px;
     }
 
-    .flex-row {
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        margin-bottom: 10px;
+    span:not(.foreground) {
+        display: inline-block;
+        word-wrap: break-word;
+        width: 25%;
+    }
 
-        span {
-            width: 25%;
+    input, textarea {
+        width: 75%;
+    }
+
+    background-color: #CBD1D9;
+    &:not(#edit-section-form) {
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+    }
+    &#edit-section-form {
+        border: 1px solid nth($blue, 1);
+    }
+
+    legend {
+        background-color: #6a7eb3;
+        width: calc(100% - 20px);
+        padding: 10px;
+        color: white;
+    }
+
+    @media (max-width: 640px) {
+        span:not(.foreground) {
+            width: 100%!important;
         }
-
-        input, textarea, select {
-            width: 75%;
+        input, textarea {
+            width: calc(100% - 30px);
         }
     }
-    button.three-d#details-submit {
-        margin: 10px auto;
-    }
+}
+
+#file-upload-slot {
+    width: 100%;
+}
+#file-upload-slot::file-selector-button {
+    width: 50%;
+    border-radius: 5px;
+    height: 50px;
+    border: 1px solid nth($blue, 1);
+    background-color: nth($blue, 2);
 }
 
 .section-edit-component {

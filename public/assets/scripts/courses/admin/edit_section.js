@@ -51,6 +51,8 @@ $('.section .section-admin-panel #edit-button').each(function () {
                 height: $(sectionEditContainer).data('size') + 'px',
                 paddingTop: '10px',
                 paddingBottom: '10px'
+            }, 500, function() {
+                $(this).height('');
             });
         $(additionContainer)
             .data('is_open', false)
