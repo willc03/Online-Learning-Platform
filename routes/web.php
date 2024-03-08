@@ -72,6 +72,10 @@ Route::prefix('course/{id}')
                 Route::get('/start', [ Lesson::class, 'start' ])->name('start');
                 Route::post('/answer', [ Lesson::class, 'answer' ])->name('answer');
                 Route::post('/partial', [ Lesson::class, 'partial' ])->name('partial');
+                // Admin routes
+                Route::prefix('config')->name('configure.')->group(function () {
+                    Route::get('/', [ Lesson::class, 'config' ])->name('get');
+                })->middleware('course.owner');
             });
 
         Route::prefix('filestore')

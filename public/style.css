@@ -954,9 +954,8 @@ form:not([id=logout-form]) .custom-toggle .toggle-label:focus {
   color: #1f1f1f;
 }
 #course-sections .lesson h5, #course-sections .lesson p, #course-sections .lesson .three-d {
-  margin: 10px auto;
+  margin: 10px;
   text-align: center;
-  width: 50%;
 }
 #course-sections .lesson .three-d {
   height: 25px;

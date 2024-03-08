@@ -9,7 +9,6 @@ use App\Models\LessonItem;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Arr;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Psr\Container\ContainerExceptionInterface;
@@ -223,5 +222,12 @@ class Lesson extends Controller
         } else {
             return back()->withErrors(['WRONG' => 'This answer is incorrect! Not to worry, have another go!']);
         }
+    }
+
+    public function config($id, $lessonId) {
+        return view('lesson.config', [
+            'course' => Course::whereId($id)->firstOrFail(),
+            'lesson' => LessonModel::whereId($lessonId)->firstOrFail()
+        ]);
     }
 }
