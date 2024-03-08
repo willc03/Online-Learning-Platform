@@ -113,7 +113,7 @@ span.small-text {
   flex-direction: column;
   width: 100%;
   text-align: center;
-  border: 1px solid rgb(128, 128, 128);
+  border: 1px solid #6a7eb3;
   overflow: hidden;
   border-radius: 8px;
 }
@@ -121,22 +121,22 @@ span.small-text {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  background-color: rgb(200, 200, 200);
+  background-color: #CBD1D9;
   transition-property: background-color;
   transition-duration: 500ms;
 }
 .file-table .table-row.table-header {
-  background-color: rgb(150, 150, 150) !important;
+  background-color: #6a7eb3 !important;
   color: white;
 }
 .file-table .table-row:not(.table-header):hover {
-  background-color: rgb(185, 185, 185);
+  background-color: #b2b8c0;
 }
 .file-table .table-row .table-col {
   font-size: 1.25vw;
   word-wrap: anywhere;
   width: 25%;
-  border: 0.5px solid lightgray;
+  border: 0.5px solid #CBD1D9;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -244,7 +244,7 @@ span.small-text {
   flex-direction: column;
   width: 100%;
   text-align: center;
-  border: 1px solid rgb(128, 128, 128);
+  border: 1px solid #6a7eb3;
   overflow: hidden;
   border-radius: 8px;
 }
@@ -252,22 +252,22 @@ span.small-text {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  background-color: rgb(200, 200, 200);
+  background-color: #CBD1D9;
   transition-property: background-color;
   transition-duration: 500ms;
 }
 .user-table .table-row.table-header {
-  background-color: rgb(150, 150, 150) !important;
+  background-color: #6a7eb3 !important;
   color: white;
 }
 .user-table .table-row:not(.table-header):hover {
-  background-color: rgb(185, 185, 185);
+  background-color: #b2b8c0;
 }
 .user-table .table-row .table-col {
   font-size: 1.25vw;
   word-wrap: anywhere;
   width: 33.333%;
-  border: 0.5px solid lightgray;
+  border: 0.5px solid #CBD1D9;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -974,7 +974,7 @@ form:not([id=logout-form]) .custom-toggle .toggle-label:focus {
   flex-wrap: wrap;
 }
 .courses .course-item {
-  margin: auto;
+  margin: 10px auto;
   display: flex;
   flex-direction: column;
   width: 25%;

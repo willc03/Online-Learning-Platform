@@ -1,9 +1,11 @@
+@use "sass:color";
+
 .file-table {
     display: flex;
     flex-direction: column;
     width: 100%;
     text-align: center;
-    border: 1px solid rgb(128, 128, 128);
+    border: 1px solid nth($blue, 1);
     overflow: hidden;
     border-radius: 8px;
 
@@ -11,24 +13,24 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
-        background-color: rgb(200, 200, 200);
+        background-color: nth($blue, 2);
         transition-property: background-color;
         transition-duration: 500ms;
 
         &.table-header {
-            background-color: rgb(150, 150, 150)!important;
+            background-color: nth($blue, 1)!important;
             color: white;
         }
 
         &:not(.table-header):hover {
-            background-color: rgb(185, 185, 185);
+            background-color: color.adjust(nth($blue, 2), $red:-25, $green:-25, $blue:-25);
         }
 
         .table-col {
             font-size: 1.25vw;
             word-wrap: anywhere;
             width: 25%;
-            border: 0.5px solid lightgray;
+            border: 0.5px solid nth($blue, 2);
             display: flex;
             justify-content: center;
             align-items: center;
