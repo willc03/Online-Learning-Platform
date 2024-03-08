@@ -1,22 +1,24 @@
 <x-structure.wrapper title="Courses">
     {{-- Display the courses the user is currently taking first --}}
-    @if(auth()->user()->displayableCourses->count() > 0)
-        <h2>Your courses</h2>
-        <div class="courses">
-            @foreach(auth()->user()->displayableCourses as $course)
-                <div class="course-item">
-                    <p class="title">{{ $course->title }}</p>
-                    <span class="italicise small-text">By {{ $course->courseOwner->name }}</span>
-                    @if ($course->description)
-                        <p class="description">{{ $course->description }}</p>
-                    @else
-                        <br>
-                    @endif
-                    <x-components.3d_button fg-color="#43AA8B" bg-color="#245B4A" class="course-button-mini" onclick="location.href = '{{ url(route('course.home', [ 'id' => $course->id ])) }}'">Open course</x-components.3d_button>
-                </div>
-            @endforeach
-        </div>
-    @endif
+    @auth
+        @if(auth()->user()->displayableCourses->count() > 0)
+            <h2>Your courses</h2>
+            <div class="courses">
+                @foreach(auth()->user()->displayableCourses as $course)
+                    <div class="course-item">
+                        <p class="title">{{ $course->title }}</p>
+                        <span class="italicise small-text">By {{ $course->courseOwner->name }}</span>
+                        @if ($course->description)
+                            <p class="description">{{ $course->description }}</p>
+                        @else
+                            <br>
+                        @endif
+                        <x-components.3d_button fg-color="#43AA8B" bg-color="#245B4A" class="course-button-mini" onclick="location.href = '{{ url(route('course.home', [ 'id' => $course->id ])) }}'">Open course</x-components.3d_button>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    @endauth
 
     {{-- Display a box for the use to enter an invite id. --}}
     @auth
@@ -70,7 +72,7 @@
                         @else
                             <br>
                         @endif
-                        @if(auth()->user()->courses->contains('id', $course->id))
+                        @if(auth()->user() && auth()->user()->courses->contains('id', $course->id))
                             <x-components.3d_button fg-color="#43AA8B" bg-color="#245B4A" class="course-button-mini" onclick="location.href = '{{ url(route('course.home', [ 'id' => $course->id ])) }}'">Open course</x-components.3d_button>
                         @else
                             <x-components.3d_button fg-color="#43AA8B" bg-color="#245B4A" data-url="{{ url(route('join.accept', [ 'id' => $course->id ])) }}" class="join-btn course-button-mini">Join this course</x-components.3d_button>

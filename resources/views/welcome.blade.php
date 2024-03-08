@@ -1,26 +1,28 @@
 <x-structure.wrapper title="Home">
     {{-- Display the courses the user is currently taking first --}}
-    @if(auth()->user()->displayableCourses->count() > 0)
-        <h2>Your courses</h2>
-        <div class="courses">
-            @foreach(auth()->user()->displayableCourses as $course)
-                <div class="course-item">
-                    <p class="title">{{ $course->title }}</p>
-                    @if ($course->courseOwner) {{-- Check if courseOwner exists --}}
-                    <span class="italicise small-text">By {{ $course->courseOwner->name }}</span>
-                    @else
-                        <span class="italicise small-text">By Unknown</span> {{-- Show some default message --}}
-                    @endif
-                    @if ($course->description)
-                        <p class="description">{{ $course->description }}</p>
-                    @else
-                        <br>
-                    @endif
-                    <x-components.3d_button fg-color="#43AA8B" bg-color="#245B4A" class="course-button-mini" onclick="location.href = '{{ url(route('course.home', [ 'id' => $course->id ])) }}'">Open course</x-components.3d_button>
-                </div>
-            @endforeach
-        </div>
-    @endif
+    @auth
+        @if(auth()->user()->displayableCourses->count() > 0)
+            <h2>Your courses</h2>
+            <div class="courses">
+                @foreach(auth()->user()->displayableCourses as $course)
+                    <div class="course-item">
+                        <p class="title">{{ $course->title }}</p>
+                        @if ($course->courseOwner) {{-- Check if courseOwner exists --}}
+                        <span class="italicise small-text">By {{ $course->courseOwner->name }}</span>
+                        @else
+                            <span class="italicise small-text">By Unknown</span> {{-- Show some default message --}}
+                        @endif
+                        @if ($course->description)
+                            <p class="description">{{ $course->description }}</p>
+                        @else
+                            <br>
+                        @endif
+                        <x-components.3d_button fg-color="#43AA8B" bg-color="#245B4A" class="course-button-mini" onclick="location.href = '{{ url(route('course.home', [ 'id' => $course->id ])) }}'">Open course</x-components.3d_button>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    @endauth
 
 
     <h1>Welcome to {{ env('APP_NAME') }}</h1>
@@ -43,4 +45,6 @@
             <li>Robust security features built around the Laravel framework</li>
         </ul>
     </div>
+
+    <script src="{{ asset('assets/scripts/courses/course_create.js') }}"></script>
 </x-structure.wrapper>
