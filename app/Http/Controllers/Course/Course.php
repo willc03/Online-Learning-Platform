@@ -315,7 +315,7 @@ class Course extends Controller
                             $component->description = $validated_data['data']['description'];
                         }
                         $component->item_type = 'LESSON';
-                        $component->item_value = '{}';
+                        $component->item_value = [];
                         $component->position = SectionItem::where('section_id', $validated_data['data']['section-id'])->max('position') + 1;
                         $component->section_id = $validated_data['data']['section-id'];
                         $componentSaved = $component->save();
@@ -328,7 +328,10 @@ class Course extends Controller
                             }
                             $lesson->section_item_id = $component->id;
                             if ($lesson->save()) {
-                                $component->item_value = Json::encode(['lesson_id' => $lesson->id]);
+                                $component->item_value = [
+                                    'lesson_id' => $lesson->id,
+                                ];
+                                $component->save();
                                 return response('Lesson creation successful', 200);
                             } else {
                                 return response('Encountered an error!', 403);
