@@ -1,5 +1,12 @@
 <x-structure.wrapper title="Settings">
-    <x-components.3d_button class="course-button-mini max-content" fg-color="#43AA8B" bg-color="#245B4A" onclick="location.href = '{{ route('course.home', ['id' => $course->id]) }}'">Return to course home</x-components.3d_button>
+    <div class="flex-row">
+        <x-components.3d_button class="course-button-mini max-content" fg-color="#43AA8B" bg-color="#245B4A" onclick="location.href = '{{ route('course.home', ['id' => $course->id]) }}'">Return to course home</x-components.3d_button>
+        <form method="post" action="{{ route('course.settings.delete', [ 'id' => $course->id ]) }}" style="margin-left: 10px;">
+            @csrf
+            @method('DELETE')
+            <x-components.3d_button class="course-button-mini max-content" fg_color="#CA6565" bg_color="#A23636" >Delete course</x-components.3d_button>
+        </form>
+    </div>
     <h1>COURSE SETTINGS</h1>
     {{-- The user will be able to change basic details about the course here --}}
     <h2>COURSE DETAILS</h2>

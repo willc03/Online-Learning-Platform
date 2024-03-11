@@ -71,6 +71,16 @@ class Course extends Controller
         }
     }
 
+    public function delete(Request $request, $id)
+    {
+        $course = CourseModel::whereId($id)->firstOrFail();
+        if ($course->delete()) {
+            return redirect()->to(route('home'));
+        } else {
+            return redirect()->to(route('course.home', [ 'id' => $id ]))->withErrors([ 'DELETE_ERROR' => 'Could not delete the course, please try again!' ]);
+        }
+    }
+
     // Create a function for the settings page of the course
     public function settings(Request $request, $id)
     {

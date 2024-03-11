@@ -7,8 +7,10 @@ use App\Http\Controllers\Course\CourseFile;
 use App\Http\Controllers\Course\Invite;
 use App\Http\Controllers\Course\User;
 use App\Http\Controllers\Course\Lesson;
-use App\Http\Controllers\Question;
 use Illuminate\Support\Facades\Route;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +22,22 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/confirm-password', function () {
+    return view('password_confirm');
+})->name('password.confirm')->middleware('auth');
+Route::post('/confirm-password', function ( Request $request) {
+    $validatedData = $request->validate([
+        'password' => ['required', 'string']
+    ]);
+    if (! Hash::check($validatedData['password'], $request->user()->password)) {
+        return back()->withErrors([
+            'password' => ['The provided password does not match our records.']
+        ]);
+    }
+    $request->session()->passwordConfirmed();
+    return redirect()->intended();
+})->middleware('auth');
 
 // Register and login routes
 Route::get('/register', [RegistrationController::class, 'display']);
@@ -59,6 +77,7 @@ Route::prefix('course/{id}')
                     Route::delete('invite', [Invite::class, 'delete'])->name('invite.delete');
                     Route::delete('user/delete', [User::class, 'remove'])->name('user.delete');
                     Route::post('user/block', [User::class, 'block'])->name('user.block');
+                    Route::delete('', [ Course::class, 'delete' ])->name('delete')->middleware('password.confirm');
                 });
 
             Route::post('edit', [Course::class, 'contentEdit'])->name('edit');
