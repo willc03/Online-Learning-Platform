@@ -25,8 +25,8 @@
         <h2>Have an invitation code?</h2>
         <div class="invite">
             <form id="course-code" class="flex-row" action="{{ url('/join') }}" method="get">
-                <label>
-                    Enter the code here:
+                <label class="form-flex">
+                    <span style="margin-right: 5px">Enter the code here:</span>
                     <input type="text" name="id" required>
                 </label>
                 <x-components.3d_button role="button" fg-color="#43AA8B" bg-color="#245B4A" class="course-button-mini">Submit</x-components.3d_button>
@@ -43,7 +43,7 @@
                 @csrf
                 <legend>Create a new course</legend>
                 <label class="form-flex">
-                    <span>Course title:</span>
+                    <span class="required">Course title:</span>
                     <input name="title" type="text" required>
                 </label>
                 <label class="form-flex">
@@ -51,7 +51,7 @@
                     <textarea name="description" placeholder="Enter a description for your course here (optional)"></textarea>
                 </label>
                 <label class="form-flex">
-                    <span>Make your course public?</span>
+                    <span class="required">Make your course public?</span>
                     <x-components.toggle name="publicity" :checked="true" />
                 </label>
                 <x-components.3d_button fg-color="#43AA8B" bg-color="#245B4A" class="course-button-mini max-content middle">Create course</x-components.3d_button>
