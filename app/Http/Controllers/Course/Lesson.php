@@ -239,15 +239,29 @@ class Lesson extends Controller
     public function formRequest(Request $request, $id, $lessonId) {
         // Validation
         $validatedData = $request->validate([
-            'form-name' => ['required', 'string', 'in:text,question']
+            'form-name' => ['required', 'string', 'in:text,question,single-choice,multi-choice,fill-in-blanks,order,match,word-search,true-false',],
+            'form-type' => [ 'nullable', 'string' ]
         ]);
         // Get the course
         $course = Course::find($id);
         // Get the form
-        return match ($validatedData['form-name']) {
-            'question' => view('components.courses.lessons.component_forms.question', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
-            'text' => view('components.courses.lessons.component_forms.text', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
-            default => 400,
-        };
+        if (!(array_key_exists('form-type', $validatedData) && $validatedData['form-type'] == 'question')) {
+            return match ($validatedData['form-name']) {
+                'question' => view('components.courses.lessons.component_forms.question', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
+                'text' => view('components.courses.lessons.component_forms.text', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
+                default => 400,
+            };
+        } else {
+            return match ($validatedData['form-name']) {
+                'single-choice' => view('components.courses.lessons.question_forms.single_choice', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
+                'multi-choice' => view('components.courses.lessons.question_forms.multi_choice', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
+                'fill-in-blanks' => view('components.courses.lessons.question_forms.fill_blanks', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
+                'true-false' => view('components.courses.lessons.question_forms.true_false', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
+                'order' => view('components.courses.lessons.question_forms.order', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
+                'match' => view('components.courses.lessons.question_forms.match', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
+                'word-search' => view('components.courses.lessons.question_forms.word_search', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
+                default => 400,
+            };
+        }
     }
 }
