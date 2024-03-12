@@ -230,4 +230,24 @@ class Lesson extends Controller
             'lesson' => LessonModel::whereId($lessonId)->firstOrFail()
         ]);
     }
+
+    /**
+     * This function will be used to deliver forms to the user through AJAX requests
+     *
+     * @return Application|Factory|\Illuminate\Foundation\Application|\Illuminate\View\View|int|View
+     */
+    public function formRequest(Request $request, $id, $lessonId) {
+        // Validation
+        $validatedData = $request->validate([
+            'form-name' => ['required', 'string', 'in:text,question']
+        ]);
+        // Get the course
+        $course = Course::find($id);
+        // Get the form
+        return match ($validatedData['form-name']) {
+            'question' => view('components.courses.lessons.component_forms.question', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
+            'text' => view('components.courses.lessons.component_forms.text', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
+            default => 400,
+        };
+    }
 }

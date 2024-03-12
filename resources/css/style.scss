@@ -19,8 +19,9 @@
 @import "scss_resources/forms/login_and_register";
 @import "scss_resources/forms/settings";
 
-// Question forms
+// Other forms
 @import "scss_resources/forms/question";
+@import "scss_resources/forms/add_lesson_item";
 
 /*
  * All general-purpose SCSS files will be imported here
@@ -29,6 +30,7 @@
 @import "scss_resources/general/header";
 @import "scss_resources/general/main";
 @import "scss_resources/general/footer";
+@import "scss_resources/lesson";
 // Component-based general-purpose SCSS
 @import "scss_resources/general/messages";
 @import "scss_resources/general/forms";

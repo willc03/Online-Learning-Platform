@@ -517,6 +517,59 @@ span.small-text {
     width: 50% !important;
   }
 }
+#new-lesson-item {
+  background-color: #CBD1D9;
+}
+#new-lesson-item label {
+  width: calc(100% - 20px);
+  padding: 10px;
+}
+#new-lesson-item span:not(.foreground) {
+  display: inline-block;
+  word-wrap: break-word;
+  width: 25%;
+}
+#new-lesson-item input, #new-lesson-item textarea, #new-lesson-item select {
+  width: 75%;
+}
+#new-lesson-item fieldset {
+  width: 80%;
+  border: 1px solid #6a7eb3;
+  border-radius: 8px;
+}
+#new-lesson-item:not(#edit-section-form) {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+}
+#new-lesson-item#edit-section-form {
+  border: 1px solid #6a7eb3;
+}
+#new-lesson-item legend {
+  background-color: #6a7eb3;
+  width: calc(100% - 20px);
+  padding: 10px;
+  color: white;
+}
+#new-lesson-item fieldset {
+  margin-bottom: 15px;
+}
+#new-lesson-item fieldset legend {
+  border-radius: 8px;
+}
+#new-lesson-item .detail-container {
+  width: 100%;
+}
+@media (max-width: 640px) {
+  #new-lesson-item span:not(.foreground) {
+    width: 100% !important;
+  }
+  #new-lesson-item input, #new-lesson-item textarea, #new-lesson-item select {
+    width: calc(100% - 30px);
+  }
+  #new-lesson-item select {
+    margin-top: 5px;
+  }
+}
+
 /*
  * All general-purpose SCSS files will be imported here
  */
@@ -619,7 +672,7 @@ body main {
 body .flex-row {
   display: flex;
   flex-direction: row !important;
-  align-items: baseline;
+  align-items: center;
 }
 body .flex-col {
   display: flex;
@@ -706,6 +759,37 @@ body footer .main-box .sign-up a:hover {
   height: 65%;
   width: 55%;
   background-color: #a7aaa4;
+}
+
+.lesson-items .lesson-config {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+  margin-bottom: 15px;
+}
+.lesson-items .lesson-config h2 {
+  margin: 0;
+  padding: 10px;
+  width: 100%;
+  background-color: #6a7eb3;
+  color: #D9DCD6;
+}
+.lesson-items .lesson-config h3 {
+  margin: 0;
+  padding: 10px;
+  width: 100%;
+  background-color: #D9DCD6;
+}
+.lesson-items .lesson-config .admin-panel {
+  width: 100%;
+  background-color: #D9DCD6;
+  padding: 10px;
+}
+.lesson-items .lesson-config .admin-forms {
+  width: 100%;
+  background-color: #D9DCD6;
+  padding: 10px;
+}
+.lesson-items .lesson-config textarea {
+  height: 200px;
 }
 
 .message {

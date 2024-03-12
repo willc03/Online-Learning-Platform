@@ -1,0 +1,60 @@
+#new-lesson-item {
+    label {
+        width: calc(100% - 20px);
+        padding: 10px;
+    }
+
+    span:not(.foreground) {
+        display: inline-block;
+        word-wrap: break-word;
+        width: 25%;
+    }
+
+    input, textarea, select {
+        width: 75%;
+    }
+
+    fieldset {
+        width: 80%;
+        border: 1px solid nth($blue, 1);
+        border-radius: 8px;
+    }
+
+    background-color: #CBD1D9;
+    &:not(#edit-section-form) {
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+    }
+    &#edit-section-form {
+        border: 1px solid nth($blue, 1);
+    }
+
+    legend {
+        background-color: #6a7eb3;
+        width: calc(100% - 20px);
+        padding: 10px;
+        color: white;
+    }
+
+    fieldset {
+        margin-bottom: 15px;
+        legend {
+            border-radius: 8px;
+        }
+    }
+
+    .detail-container {
+        width: 100%;
+    }
+
+    @media (max-width: 640px) {
+        span:not(.foreground) {
+            width: 100%!important;
+        }
+        input, textarea, select {
+            width: calc(100% - 30px);
+        }
+        select {
+            margin-top: 5px;
+        }
+    }
+}

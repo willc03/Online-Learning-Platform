@@ -7,6 +7,7 @@ use App\Http\Controllers\Course\CourseFile;
 use App\Http\Controllers\Course\Invite;
 use App\Http\Controllers\Course\User;
 use App\Http\Controllers\Course\Lesson;
+use App\Http\Controllers\Course\LessonItem;
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Http\Request;
@@ -94,6 +95,8 @@ Route::prefix('course/{id}')
                 // Admin routes
                 Route::prefix('config')->name('configure.')->group(function () {
                     Route::get('/', [ Lesson::class, 'config' ])->name('get');
+                    Route::post('/add', [ LessonItem::class, 'create' ])->name('add');
+                    Route::get('/form-request', [ Lesson::class, 'formRequest' ])->name('form-request');
                 })->middleware('course.owner');
             });
 
