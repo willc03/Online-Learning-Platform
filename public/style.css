@@ -558,12 +558,38 @@ span.small-text {
 #new-lesson-item .detail-container {
   width: 100%;
 }
+#new-lesson-item input {
+  min-width: 0;
+}
+#new-lesson-item #add-btn {
+  margin-left: 10px;
+}
+#new-lesson-item .answer-row {
+  width: 70%;
+  background-color: #6a7eb3;
+  color: #D9DCD6;
+  text-align: center;
+  padding: 10px;
+  align-items: baseline;
+  border-radius: 8px;
+  margin-bottom: 5px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+#new-lesson-item #submit-btn {
+  margin-top: 10px;
+}
+#new-lesson-item .error {
+  padding: 5px;
+  border-radius: 8px;
+  background-color: #ffbdbd;
+  color: #c10000;
+}
 @media (max-width: 640px) {
   #new-lesson-item span:not(.foreground) {
     width: 100% !important;
   }
-  #new-lesson-item input, #new-lesson-item textarea, #new-lesson-item select {
-    width: calc(100% - 30px);
+  #new-lesson-item input:not([type=checkbox]), #new-lesson-item textarea, #new-lesson-item select, #new-lesson-item label div:not(.custom-toggle) {
+    width: 100% !important;
   }
   #new-lesson-item select {
     margin-top: 5px;

@@ -10,7 +10,7 @@
         width: 25%;
     }
 
-    input, textarea, select {
+    input:not([type='checkbox']), textarea, select, label div:not(.custom-toggle) {
         width: 75%;
     }
 
@@ -46,12 +46,42 @@
         width: 100%;
     }
 
+    input {
+        min-width: 0;
+    }
+    #add-btn {
+        margin-left: 10px;
+    }
+
+    .answer-row {
+        width: 70%;
+        background-color: nth($blue, 1);
+        color: $white;
+        text-align: center;
+        padding: 10px;
+        align-items: baseline;
+        border-radius: 8px;
+        margin-bottom: 5px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+
+    #submit-btn {
+        margin-top: 10px;
+    }
+
+    .error {
+        padding: 5px;
+        border-radius: 8px;
+        background-color: #ffbdbd;
+        color: #c10000;
+    }
+
     @media (max-width: 640px) {
         span:not(.foreground) {
             width: 100%!important;
         }
-        input, textarea, select {
-            width: calc(100% - 30px);
+        input:not([type='checkbox']), textarea, select, label div:not(.custom-toggle) {
+            width: 100%!important;
         }
         select {
             margin-top: 5px;
