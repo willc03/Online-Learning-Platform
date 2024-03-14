@@ -8,31 +8,37 @@
         h2 {
             margin: 0;
             padding: 10px;
-            width: 100%;
+            width: calc(100% - 20px);
             background-color: nth($blue, 1);
             color: $white;
         }
         h3 {
             margin: 0;
-            padding: 10px;
-            width: 100%;
-            background-color: $white;
-        }
-
-        .admin-panel {
-            width: 100%;
-            background-color: $white;
-            padding: 10px;
-        }
-
-        .admin-forms {
-            width: 100%;
-            background-color: $white;
-            padding: 10px;
         }
 
         textarea {
             height: 200px;
+        }
+
+        .container {
+            padding: 10px;
+            width: calc(100% - 20px);
+            background-color: $white;
+        }
+
+        .answer-field {
+
+            &.single-choice-field {
+                display: flex;
+                flex-wrap: wrap;
+                align-content: center;
+
+                button.three-d {
+                    width: 40%;
+                    margin: 5px auto;
+                    height: 35px;
+                }
+            }
         }
     }
 }

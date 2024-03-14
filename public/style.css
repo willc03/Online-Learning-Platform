@@ -794,28 +794,30 @@ body footer .main-box .sign-up a:hover {
 .lesson-items .lesson-config h2 {
   margin: 0;
   padding: 10px;
-  width: 100%;
+  width: calc(100% - 20px);
   background-color: #6a7eb3;
   color: #D9DCD6;
 }
 .lesson-items .lesson-config h3 {
   margin: 0;
-  padding: 10px;
-  width: 100%;
-  background-color: #D9DCD6;
-}
-.lesson-items .lesson-config .admin-panel {
-  width: 100%;
-  background-color: #D9DCD6;
-  padding: 10px;
-}
-.lesson-items .lesson-config .admin-forms {
-  width: 100%;
-  background-color: #D9DCD6;
-  padding: 10px;
 }
 .lesson-items .lesson-config textarea {
   height: 200px;
+}
+.lesson-items .lesson-config .container {
+  padding: 10px;
+  width: calc(100% - 20px);
+  background-color: #D9DCD6;
+}
+.lesson-items .lesson-config .answer-field.single-choice-field {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+}
+.lesson-items .lesson-config .answer-field.single-choice-field button.three-d {
+  width: 40%;
+  margin: 5px auto;
+  height: 35px;
 }
 
 .message {
