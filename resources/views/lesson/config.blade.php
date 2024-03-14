@@ -83,6 +83,23 @@
                                     </div>
                                 </div>
                                 @break
+                            @case('match')
+                                <div class="lesson-config question match flex-col" id="{{ $item->id }}">
+                                    <h2 class="title">{{ $item->item_title }}</h2>
+                                    <div class="container">
+                                        <h3>Match Question</h3>
+                                        @if($item->description) <p>{{ $item->description }}</p> @endif
+                                        <div class="answer-field match-field flex-col">
+                                            @foreach($item->item_value['items_to_match'] as $answer)
+                                                <div class="flex-row match-row">
+                                                    <x-components.3d_button class="answer-button" fg_color="#81d4fa" bg_color="#5a94af">{{ $answer[0] }}</x-components.3d_button>
+                                                    <x-components.3d_button class="answer-button" fg_color="#81d4fa" bg_color="#5a94af">{{ $answer[1] }}</x-components.3d_button>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                                @break
 
                         @endswitch
                         @break

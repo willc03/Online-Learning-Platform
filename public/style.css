@@ -831,6 +831,27 @@ body footer .main-box .sign-up a:hover {
     width: 100%;
   }
 }
+.lesson-items .lesson-config .answer-field.match-field {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+}
+.lesson-items .lesson-config .answer-field.match-field .match-row {
+  width: 100%;
+}
+.lesson-items .lesson-config .answer-field.match-field .match-row button.three-d {
+  width: 40%;
+  margin: 5px auto;
+  height: 35px;
+}
+@media (max-width: 640px) {
+  .lesson-items .lesson-config .answer-field.match-field .match-row button.three-d {
+    width: 100%;
+  }
+  .lesson-items .lesson-config .answer-field.match-field .match-row button.three-d.answer-button {
+    width: 40% !important;
+  }
+}
 
 .message {
   border-radius: 8px;

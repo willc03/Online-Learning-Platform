@@ -24,6 +24,7 @@ class LessonItem extends Controller
             'item-answers' => [ Rule::requiredIf(fn() => $request['item-type'] === 'question'), 'json' ],
             'item-allow-answer-changes' => [ Rule::excludeIf(fn() => !array_key_exists('item-sub-type', $request->toArray()) || (array_key_exists('item-sub-type', $request->toArray()) && !in_array($request['item-sub-type'], [ 'single-choice', 'true-false' ]) )) ],
             'item-true-or-false' => [ Rule::excludeIf(fn() => !array_key_exists('item-sub-type', $request->toArray()) || (array_key_exists('item-sub-type', $request->toArray()) && $request['item-sub-type'] != 'true-false')) ],
+            'item-randomise-sides' => [ Rule::excludeIf(fn() => !array_key_exists('item-sub-type', $request->toArray()) || (array_key_exists('item-sub-type', $request->toArray()) && $request['item-sub-type'] != 'match')) ]
         ]);
         // Convert certain elements in the array
         if (array_key_exists('item-answers',$validatedData)) {
@@ -79,6 +80,19 @@ class LessonItem extends Controller
                         'question_type' => "true_or_false",
                         'one_time_answer' => array_key_exists('item-allow-answer-changes', $validatedData),
                         'correct_answer' => array_key_exists('item-true-or-false', $validatedData)
+                    ];
+                    break;
+                case "match":
+                    // Set the correct answers
+                    $correctAnswers = [];
+                    foreach ( $validatedData['item-answers'] as $itemAnswer ) {
+                        $correctAnswers[] = [ $itemAnswer['match_one'], $itemAnswer['match_two'] ];
+                    }
+                    // Set the item value
+                    $lessonItem->item_value = [
+                        'question_type' => "match",
+                        'items_to_match' => $correctAnswers,
+                        'are_sides_random' => array_key_exists('item-randomise-sides', $validatedData)
                     ];
                     break;
                 default:

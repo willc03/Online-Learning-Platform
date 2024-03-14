@@ -44,6 +44,28 @@
                 }
             }
 
+            &.match-field {
+                display: flex;
+                flex-wrap: wrap;
+                align-content: center;
+
+                .match-row {
+                    width: 100%;
+                    button.three-d {
+                        width: 40%;
+                        margin: 5px auto;
+                        height: 35px;
+                        
+                        @media (max-width: 640px) {
+                            &.answer-button {
+                                width: 40%!important;
+                            }
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+
         }
     }
 }
