@@ -815,18 +815,18 @@ body footer .main-box .sign-up a:hover {
   width: calc(100% - 20px);
   background-color: #D9DCD6;
 }
-.lesson-items .lesson-config .answer-field.single-choice-field, .lesson-items .lesson-config .answer-field.multi-choice-field {
+.lesson-items .lesson-config .answer-field.single-choice-field, .lesson-items .lesson-config .answer-field.multi-choice-field, .lesson-items .lesson-config .answer-field.true-false-field {
   display: flex;
   flex-wrap: wrap;
   align-content: center;
 }
-.lesson-items .lesson-config .answer-field.single-choice-field button.three-d, .lesson-items .lesson-config .answer-field.multi-choice-field button.three-d {
+.lesson-items .lesson-config .answer-field.single-choice-field button.three-d, .lesson-items .lesson-config .answer-field.multi-choice-field button.three-d, .lesson-items .lesson-config .answer-field.true-false-field button.three-d {
   width: 40%;
   margin: 5px auto;
   height: 35px;
 }
 @media (max-width: 640px) {
-  .lesson-items .lesson-config .answer-field.single-choice-field button.three-d, .lesson-items .lesson-config .answer-field.multi-choice-field button.three-d {
+  .lesson-items .lesson-config .answer-field.single-choice-field button.three-d, .lesson-items .lesson-config .answer-field.multi-choice-field button.three-d, .lesson-items .lesson-config .answer-field.true-false-field button.three-d {
     width: 100%;
   }
 }

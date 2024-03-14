@@ -22,7 +22,8 @@ class LessonItem extends Controller
             'item-description' => [ 'nullable', 'string' ],
             'item-sub-type' => [ Rule::requiredIf(fn() => $request['item-type'] === 'question'), 'string', 'in:single-choice,multi-choice,fill-in-blanks,order,match,word-search,true-false' ],
             'item-answers' => [ Rule::requiredIf(fn() => $request['item-type'] === 'question'), 'json' ],
-            'item-allow-answer-changes' => [ Rule::excludeIf(fn() => !array_key_exists('item-sub-type', $request->toArray()) || (array_key_exists('item-sub-type', $request->toArray()) && $request['item-sub-type'] != 'single-choice')) ]
+            'item-allow-answer-changes' => [ Rule::excludeIf(fn() => !array_key_exists('item-sub-type', $request->toArray()) || (array_key_exists('item-sub-type', $request->toArray()) && !in_array($request['item-sub-type'], [ 'single-choice', 'true-false' ]) )) ],
+            'item-true-or-false' => [ Rule::excludeIf(fn() => !array_key_exists('item-sub-type', $request->toArray()) || (array_key_exists('item-sub-type', $request->toArray()) && $request['item-sub-type'] != 'true-false')) ],
         ]);
         // Convert certain elements in the array
         if (array_key_exists('item-answers',$validatedData)) {
@@ -71,6 +72,13 @@ class LessonItem extends Controller
                         'question_type' => 'multiple_choice',
                         'question_choices' => $choices,
                         'correct_answers' => $correctAnswers,
+                    ];
+                    break;
+                case "true-false":
+                    $lessonItem->item_value = [
+                        'question_type' => "true_or_false",
+                        'one_time_answer' => array_key_exists('item-allow-answer-changes', $validatedData),
+                        'correct_answer' => array_key_exists('item-true-or-false', $validatedData)
                     ];
                     break;
                 default:

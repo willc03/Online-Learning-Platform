@@ -54,6 +54,33 @@
                                 </div>
                                 @break
 
+                            @case('true_or_false')
+                                <div class="lesson-config question true-false flex-col" id="{{ $item->id }}">
+                                    <h2 class="title">{{ $item->item_title }}</h2>
+                                    <div class="container">
+                                        <h3>True or False Question</h3>
+                                        @if($item->description) <p>{{ $item->description }}</p> @endif
+                                        <div class="answer-field true-false-field">
+                                            {{-- Display the true button --}}
+                                            @if($item->item_value['correct_answer'])
+                                                <x-components.3d_button class="option-button selected" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A">True</x-components.3d_button>
+                                            @else
+                                                <x-components.3d_button class="option-button" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A" disabled>True</x-components.3d_button>
+                                            @endif
+                                            {{-- Display the false button --}}
+                                            @if($item->item_value['correct_answer'])
+                                                <x-components.3d_button class="option-button" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A" disabled>False</x-components.3d_button>
+                                            @else
+                                                <x-components.3d_button class="option-button selected" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A">False</x-components.3d_button>
+                                            @endif
+                                        </div>
+                                        @if($item->item_value['one_time_answer'])
+                                            <p><span class="italicise">This question allows users to change their answer before submitting.</span></p>
+                                        @endif
+                                    </div>
+                                </div>
+                                @break
+
                         @endswitch
                         @break
 

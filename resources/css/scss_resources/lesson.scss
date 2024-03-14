@@ -28,7 +28,7 @@
 
         .answer-field {
 
-            &.single-choice-field, &.multi-choice-field {
+            &.single-choice-field, &.multi-choice-field, &.true-false-field {
                 display: flex;
                 flex-wrap: wrap;
                 align-content: center;
