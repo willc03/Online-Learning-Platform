@@ -14,4 +14,8 @@ if(!one_time_answer) {
             $("#submit-question").prop("disabled", !answerValue);
         });
     });
+} else {
+    $(".option-button").on("click", function () {
+        $("#answer").val($(this).attr('value'));
+    });
 }
