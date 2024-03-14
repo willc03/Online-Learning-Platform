@@ -1,4 +1,7 @@
 body {
+    nav #logout-form {
+        margin-bottom: 0;
+    }
     main {
         padding: 20px;
         margin: 0 15%;
@@ -27,6 +30,10 @@ body {
         display: flex;
         align-items: center;
         flex-direction: row;
+    }
+
+    .var-width {
+        flex-grow: 1; /* Grow to take up remaining space */
     }
 }
 

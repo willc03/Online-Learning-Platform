@@ -529,7 +529,7 @@ span.small-text {
   word-wrap: break-word;
   width: 25%;
 }
-#new-lesson-item input, #new-lesson-item textarea, #new-lesson-item select {
+#new-lesson-item input:not([type=checkbox]), #new-lesson-item textarea, #new-lesson-item select, #new-lesson-item label div:not(.custom-toggle) {
   width: 75%;
 }
 #new-lesson-item fieldset {
@@ -691,6 +691,9 @@ body .wrapper nav.active a {
     font-size: medium !important;
   }
 }
+body nav #logout-form {
+  margin-bottom: 0;
+}
 body main {
   padding: 20px;
   margin: 0 15%;
@@ -714,6 +717,9 @@ body .form-flex {
   display: flex;
   align-items: center;
   flex-direction: row;
+}
+body .var-width {
+  flex-grow: 1; /* Grow to take up remaining space */
 }
 
 @media (max-width: 640px) {
