@@ -84,6 +84,9 @@
         input:not([type='checkbox']), textarea, select, label div:not(.custom-toggle) {
             width: 100%!important;
         }
+        #question-container input:not([type='checkbox']), #question-container textarea {
+            width: calc(100% - 30px)!important;
+        }
         select {
             margin-top: 5px;
         }

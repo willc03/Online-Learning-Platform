@@ -592,6 +592,9 @@ span.small-text {
   #new-lesson-item input:not([type=checkbox]), #new-lesson-item textarea, #new-lesson-item select, #new-lesson-item label div:not(.custom-toggle) {
     width: 100% !important;
   }
+  #new-lesson-item #question-container input:not([type=checkbox]), #new-lesson-item #question-container textarea {
+    width: calc(100% - 30px) !important;
+  }
   #new-lesson-item select {
     margin-top: 5px;
   }
