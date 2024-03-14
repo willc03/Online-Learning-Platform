@@ -583,6 +583,7 @@ span.small-text {
   border-radius: 8px;
   background-color: #ffbdbd;
   color: #c10000;
+  margin-left: 10px;
 }
 @media (max-width: 640px) {
   #new-lesson-item span:not(.foreground) {
@@ -715,7 +716,7 @@ body .middle {
 }
 body .form-flex {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: row;
 }
 body .var-width {

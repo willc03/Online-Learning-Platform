@@ -87,7 +87,7 @@ class LessonItem extends Controller
         } elseif ($validatedData['item-type'] == 'text') {
             $lessonItem->item_type = 'TEXT';
         }
-        $lessonItem->position = LessonItemModel::whereLessonId($lessonId)->count() + 1;
+        $lessonItem->position = LessonItemModel::whereLessonId($lessonId)->max('position') + 1;
         $lessonItem->lesson_id = $lessonId;
         // Save component
         if ($lessonItem->save()) {

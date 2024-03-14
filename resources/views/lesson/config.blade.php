@@ -29,6 +29,9 @@
                                             @endif
                                             @endforeach
                                         </div>
+                                        @if($item->item_value['one_time_answer'])
+                                            <p><span class="italicise">This question allows users to change their answer before submitting.</span></p>
+                                        @endif
                                     </div>
                                 </div>
                                 @break
