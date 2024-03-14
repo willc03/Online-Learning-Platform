@@ -31,7 +31,7 @@
     <fieldset class="middle">
         <legend>Match Pairs</legend>
         <div id="match-pairs">
-            <p><span class="italicise" style="width: 100%!important">There are no pairs to be matched.</span></p>
+            <p id="no-pair-msg"><span class="italicise" style="width: 100%!important">There are no pairs to be matched.</span></p>
         </div>
     </fieldset>
     <x-components.3d_button type="button" id="submit-btn" class="course-button-mini" fg-color="#43AA8B" bg-color="#245B4A">Create question</x-components.3d_button>
@@ -50,19 +50,33 @@
         const matchContainer = $("#match-pairs");
         let m1 = $("input[name='match-one']"), m2 = $("input[name='match-two']");
 
+        let answers = [];
+
         $(document).on('click', "#make-pair", function() {
             let v1 = $(m1).val(), v2 = $(m2).val();
             if (!v1 || !v2) {
                 return;
             }
-            let newAnswer = $(".template").clone().appendTo(matchContainer);
-            $(newAnswer)
-                .css('display', '')
-                .removeClass('template')
-                .find("p#one")
-                .text(v1);
-            $(newAnswer).find("p#two").text(v2);
+
+            // Check for duplicates
+            let pairExists = answers.some(pair => pair[0] === v1 && pair[1] === v2);
+            if (!pairExists) {
+                answers.push([v1, v2]);
+
+                let newAnswer = $(".template").clone().appendTo(matchContainer);
+                $(newAnswer)
+                    .css('display', '')
+                    .removeClass('template')
+                    .find("p#one")
+                    .text(v1);
+                $(newAnswer).find("p#two").text(v2);
+
+                $("p#no-pair-msg").remove();
+            } else {
+                alert("This match combination already exists.");
+            }
         });
+
 
         $(m1).add(m2).on("input", function() {
             let v1 = $(m1).val(), v2 = $(m2).val();
