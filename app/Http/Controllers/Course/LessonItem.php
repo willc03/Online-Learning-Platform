@@ -57,6 +57,22 @@ class LessonItem extends Controller
                         'one_time_answer' => array_key_exists('item-allow-answer-changes', $validatedData)
                     ];
                     break;
+                case "multi-choice":
+                    // Construct the array of answers
+                    $choices = [];
+                    $correctAnswers = [];
+                    foreach ( $validatedData['item-answers'] as $itemAnswer ) {
+                        $choices[] = $itemAnswer['answer']; // Array[] pushes to the end of the array
+                        if ($itemAnswer['isCorrect']) {
+                            $correctAnswers[] = $itemAnswer['answer'];
+                        }
+                    }
+                    $lessonItem->item_value = [
+                        'question_type' => 'multiple_choice',
+                        'question_choices' => $choices,
+                        'correct_answers' => $correctAnswers,
+                    ];
+                    break;
                 default:
                     return back()->withErrors([ 'INVALID-SUB-TYPE' => 'The selected sub-type is invalid.' ]);
             }

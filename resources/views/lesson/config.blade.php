@@ -32,6 +32,28 @@
                                     </div>
                                 </div>
                                 @break
+
+                            @case('multiple_choice')
+                                <div class="lesson-config question multiple-choice flex-col" id="{{ $item->id }}">
+                                    <h2 class="title">{{ $item->item_title }}</h2>
+                                    <div class="container">
+                                        <h3>Multiple Choice Question</h3>
+                                        @if($item->description)
+                                            <p>{{ $item->description }}</p>
+                                        @endif
+                                        <div class="answer-field multi-choice-field">
+                                            @foreach($item->item_value['question_choices'] as $option) {{-- $value is passed in from the question page --}}
+                                            @if (in_array($option, $item->item_value['correct_answers']))
+                                                <x-components.3d_button class="option-button selected" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A">{{ $option }}</x-components.3d_button>
+                                            @else
+                                                <x-components.3d_button class="option-button" value="{{ $option }}" fg_color="#D10023" bg_color="#840016">{{ $option }}</x-components.3d_button>
+                                            @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                                @break
+
                         @endswitch
                         @break
 
