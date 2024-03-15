@@ -1,4 +1,6 @@
 <x-structure.wrapper title="Configure Lesson">
+    <x-components.3d_button class="course-button-mini" fg_color="#43AA8B" bg_color="#245B4A" onclick="location.href = '{{ route('course.home', [ 'id' => $course->id, 'editing' => 'true' ]) }}'">Return to course</x-components.3d_button>
+    <x-components.3d_button class="course-button-mini" fg_color="#43AA8B" bg_color="#245B4A" onclick="location.href = '{{ route('course.home', [ 'id' => $course->id ]) }}'">Return to course (without admin mode)</x-components.3d_button>
     {{-- Display all the items on the lesson --}}
     <div class="lesson-items">
         @if($lesson->items->count() === 0)
