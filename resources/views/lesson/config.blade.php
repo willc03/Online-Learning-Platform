@@ -100,6 +100,41 @@
                                     </div>
                                 </div>
                                 @break
+                            @case('wordsearch')
+                                <div class="lesson-config question wordsearch flex-col" id="{{ $item->id }}">
+                                    <h2 class="title">{{ $item->item_title }}</h2>
+                                    <div class="container">
+                                        <h3>Word Search Question</h3>
+                                        @if($item->description) <p>{{ $item->description }}</p> @endif
+                                        <div class="answer-field wordsearch-field flex-col">
+                                            @php
+                                                $max = 0;
+												$words = [];
+												foreach($item->item_value['words'] as $wordSet) {
+													$words[] = $wordSet[0];
+													if (strlen($wordSet[0]) > $max) {
+														$max = strlen($wordSet[0]);
+													}
+												}
+                                                $puzzle = \WordSearch\Factory::create($words, $max + 5);
+                                            @endphp
+                                            <p>Example word search:</p>
+                                            <div class="wordsearch flex-col middle">
+                                                @foreach($puzzle->toArray() as $row)
+                                                    <div class="row flex-row">
+                                                        @foreach($row as $letter)
+                                                            <div class="letter">
+                                                                <p>{{ $letter }}</p>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <p><span class="italicise">Word searches are randomly generated upon loading.</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                @break
 
                         @endswitch
                         @break
@@ -140,6 +175,7 @@
     </div>
 </x-structure.wrapper>
 
+<script src="{{ asset("assets/scripts/courses/admin/config-wordsearch.js") }}"></script>
 <script>
     const formButton = $("#add-btn");
     const formBox = $("#new-lesson-item");

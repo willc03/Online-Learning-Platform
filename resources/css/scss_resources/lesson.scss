@@ -66,6 +66,41 @@
                 }
             }
 
+            &.wordsearch-field {
+                width: 100%;
+                .wordsearch {
+                    display: flex;
+                    flex-direction: column;
+                    width: 60%;
+                    .row {
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-evenly;
+                        margin: auto !important;
+                        user-select: none;
+                        -webkit-user-select: none;
+
+                        .letter {
+                            display: flex;
+                            align-items: center;
+                            transition-duration: 175ms;
+
+                            &:hover {
+                                background-color: #81d4fa;
+                            }
+
+                            &.wordsearch-selected {
+                                background-color: #5a94af!important;
+                            }
+
+                            p {
+                                margin: auto;
+                            }
+                        }
+                    }
+                }
+            }
+
         }
     }
 }

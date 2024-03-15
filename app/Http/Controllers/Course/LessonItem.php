@@ -95,6 +95,18 @@ class LessonItem extends Controller
                         'are_sides_random' => array_key_exists('item-randomise-sides', $validatedData)
                     ];
                     break;
+                case "word-search":
+                    // Set the correct answers
+                    $correctAnswers = [];
+                    foreach ( $validatedData['item-answers'] as $itemAnswer ) {
+                        $correctAnswers[] = [ $itemAnswer['word'], $itemAnswer['message'] ];
+                    }
+                    // Set the item value
+                    $lessonItem->item_value = [
+                        'question_type' => "wordsearch",
+                        'words' => $correctAnswers
+                    ];
+                    break;
                 default:
                     return back()->withErrors([ 'INVALID-SUB-TYPE' => 'The selected sub-type is invalid.' ]);
             }

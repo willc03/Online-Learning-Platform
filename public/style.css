@@ -855,6 +855,36 @@ body footer .main-box .sign-up a:hover {
     width: 40% !important;
   }
 }
+.lesson-items .lesson-config .answer-field.wordsearch-field {
+  width: 100%;
+}
+.lesson-items .lesson-config .answer-field.wordsearch-field .wordsearch {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+.lesson-items .lesson-config .answer-field.wordsearch-field .wordsearch .row {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  margin: auto !important;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.lesson-items .lesson-config .answer-field.wordsearch-field .wordsearch .row .letter {
+  display: flex;
+  align-items: center;
+  transition-duration: 175ms;
+}
+.lesson-items .lesson-config .answer-field.wordsearch-field .wordsearch .row .letter:hover {
+  background-color: #81d4fa;
+}
+.lesson-items .lesson-config .answer-field.wordsearch-field .wordsearch .row .letter.wordsearch-selected {
+  background-color: #5a94af !important;
+}
+.lesson-items .lesson-config .answer-field.wordsearch-field .wordsearch .row .letter p {
+  margin: auto;
+}
 
 .message {
   border-radius: 8px;
