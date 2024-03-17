@@ -1,4 +1,7 @@
+@php $varUUID = str_replace('-', '_', \Illuminate\Support\Str::uuid()->toString()); @endphp
+
 <fieldset class="middle">
+    <input type="hidden" name="unique_anchor" value="{{ $varUUID }}" />
     <legend>Multiple Choice Question</legend>
     <label class="form-flex">
         <span class="required">Question text:</span>
@@ -27,13 +30,13 @@
 
 <script>
     $(function() {
-        let answers = [];
+        let answers_{{ $varUUID }} = [];
         let answerInputBox = $("#answer-input");
         let answerContainer = $(".s-c-answers");
         $(document).on('click', '#add-btn', function() {
             if ($(answerInputBox).val()) {
                 // Check for duplicate answers
-                if ($.inArray( $(answerInputBox).val() , answers) !== -1 ) {
+                if ($.inArray( $(answerInputBox).val() , answers_{{ $varUUID }}) !== -1 ) {
                     alert("Cannot use duplicate answers! Please type another answer.");
                     return;
                 }
@@ -44,7 +47,7 @@
                     .removeClass('template')
                     .find("p")
                     .text($(answerInputBox).val());
-                answers.push($(answerInputBox).val());
+                answers_{{ $varUUID }}.push($(answerInputBox).val());
             }
         });
         $(document).on('click', '.answer-correct', function() {

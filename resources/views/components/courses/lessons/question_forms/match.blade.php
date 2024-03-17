@@ -1,4 +1,7 @@
+@php $varUUID = str_replace('-', '_', \Illuminate\Support\Str::uuid()->toString()); @endphp
+
 <fieldset class="middle">
+    <input type="hidden" name="unique_anchor" value="{{ $varUUID }}" />
     <input type="hidden" name="item-answers" value="-1">
     <legend>Item Match Question</legend>
     <label class="form-flex">
@@ -50,7 +53,7 @@
         const matchContainer = $("#match-pairs");
         let m1 = $("input[name='match-one']"), m2 = $("input[name='match-two']");
 
-        let answers = [];
+        let answers_{{ $varUUID }} = [];
 
         $(document).on('click', "#make-pair", function() {
             let v1 = $(m1).val(), v2 = $(m2).val();
@@ -59,9 +62,9 @@
             }
 
             // Check for duplicates
-            let pairExists = answers.some(pair => pair[0] === v1 && pair[1] === v2);
+            let pairExists = answers_{{ $varUUID }}.some(pair => pair[0] === v1 && pair[1] === v2);
             if (!pairExists) {
-                answers.push([v1, v2]);
+                answers_{{ $varUUID }}.push([v1, v2]);
 
                 let newAnswer = $(".template").clone().appendTo(matchContainer);
                 $(newAnswer)

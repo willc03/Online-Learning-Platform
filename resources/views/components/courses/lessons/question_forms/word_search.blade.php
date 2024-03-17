@@ -1,4 +1,7 @@
+@php $varUUID = str_replace('-', '_', \Illuminate\Support\Str::uuid()->toString()); @endphp
+
 <fieldset class="middle">
+    <input type="hidden" name="unique_anchor" value="{{ $varUUID }}" />
     <input type="hidden" name="item-answers" value="-1">
     <legend>Word Search Question</legend>
     <label class="form-flex">
