@@ -25,9 +25,9 @@
         <h2>Have an invitation code?</h2>
         <div class="invite">
             <form id="course-code" class="flex-row" action="{{ url('/join') }}" method="get">
-                <label class="form-flex">
+                <label class="form-flex var-width">
                     <span style="margin-right: 5px">Enter the code here:</span>
-                    <input type="text" name="id" required>
+                    <input type="text" name="id" class="var-width" required>
                 </label>
                 <x-components.3d_button role="button" fg-color="#43AA8B" bg-color="#245B4A" class="course-button-mini">Submit</x-components.3d_button>
             </form>
