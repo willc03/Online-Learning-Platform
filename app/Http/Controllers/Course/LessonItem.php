@@ -56,7 +56,7 @@ class LessonItem extends Controller
                         'question_type' => 'single_choice',
                         'question_choices' => $choices,
                         'correct_answer' => $correctAnswer,
-                        'one_time_answer' => array_key_exists('item-allow-answer-changes', $validatedData)
+                        'one_time_answer' => !array_key_exists('item-allow-answer-changes', $validatedData)
                     ];
                     break;
                 case "multi-choice":
@@ -78,7 +78,7 @@ class LessonItem extends Controller
                 case "true-false":
                     $lessonItem->item_value = [
                         'question_type' => "true_or_false",
-                        'one_time_answer' => array_key_exists('item-allow-answer-changes', $validatedData),
+                        'one_time_answer' => !array_key_exists('item-allow-answer-changes', $validatedData),
                         'correct_answer' => array_key_exists('item-true-or-false', $validatedData)
                     ];
                     break;

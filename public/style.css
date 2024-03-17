@@ -308,6 +308,14 @@ span.small-text {
   width: 40%;
   margin: auto;
 }
+@media (max-width: 640px) {
+  #login-form, #register-box, #login-box, #register-form {
+    width: 100%;
+  }
+  #login-form input, #register-box input, #login-box input, #register-form input {
+    width: calc(100% - 30px) !important;
+  }
+}
 
 #password-requirements ul {
   list-style-type: none;

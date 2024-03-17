@@ -1,6 +1,13 @@
 #login-form, #register-box, #login-box, #register-form {
     width: 40%;
     margin: auto;
+
+    @media (max-width: 640px) {
+        width: 100%;
+        input {
+            width: calc(100% - 30px)!important;
+        }
+    }
 }
 #password-requirements ul {
     list-style-type: none;
