@@ -101,6 +101,20 @@
                 }
             }
 
+            &.order-field {
+                button.three-d {
+                    cursor: move;
+                    width: 80%;
+                    margin: 10px auto;
+                    height: 35px;
+
+                    @media (max-width: 640px) {
+                        width: 100%;
+                        margin: 10px 0;
+                    }
+                }
+            }
+
         }
     }
 }

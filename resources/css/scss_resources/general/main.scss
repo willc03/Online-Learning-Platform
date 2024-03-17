@@ -35,6 +35,10 @@ body {
     .var-width {
         flex-grow: 1; /* Grow to take up remaining space */
     }
+
+    .move {
+        cursor: move;
+    }
 }
 
 // Device optimisations

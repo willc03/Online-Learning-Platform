@@ -733,6 +733,9 @@ body .form-flex {
 body .var-width {
   flex-grow: 1; /* Grow to take up remaining space */
 }
+body .move {
+  cursor: move;
+}
 
 @media (max-width: 640px) {
   body main {
@@ -892,6 +895,18 @@ body footer .main-box .sign-up a:hover {
 }
 .lesson-items .lesson-config .answer-field.wordsearch-field .wordsearch .row .letter p {
   margin: auto;
+}
+.lesson-items .lesson-config .answer-field.order-field button.three-d {
+  cursor: move;
+  width: 80%;
+  margin: 10px auto;
+  height: 35px;
+}
+@media (max-width: 640px) {
+  .lesson-items .lesson-config .answer-field.order-field button.three-d {
+    width: 100%;
+    margin: 10px 0;
+  }
 }
 
 .message {
