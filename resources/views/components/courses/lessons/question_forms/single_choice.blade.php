@@ -19,9 +19,13 @@
             <x-components.3d_button type="button" id="add-btn" class="course-button-mini" fg-color="#43AA8B" bg-color="#245B4A">Add answer</x-components.3d_button>
         </div>
     </label>
-    <div class="s-c-answers"></div>
+    <fieldset class="middle">
+        <legend>Added answers:</legend>
+        <p><span class="max-content italicise">There are no answers added currently.</span></p>
+        <div class="s-c-answers"></div>
+    </fieldset>
     <input type="hidden" name="item-answers">
-    <x-components.3d_button type="button" id="submit-btn" class="course-button-mini middle" fg-color="#43AA8B" bg-color="#245B4A">Create question</x-components.3d_button>
+    <x-components.3d_button type="button" id="submit-btn-single-choice" class="course-button-mini middle" fg-color="#43AA8B" bg-color="#245B4A">Create question</x-components.3d_button>
 </fieldset>
 
 <div class="template middle answer-row flex-row" style="display: none">
@@ -49,6 +53,7 @@
                     .find("p")
                         .text($(answerInputBox).val());
                 answers.push($(answerInputBox).val());
+                $("p span.italicise").remove();
             }
         });
         $(document).on('click', '.answer-correct', function() {
@@ -68,7 +73,7 @@
             foreground.stop(true, true).animate({ backgroundColor: "#43AA8B" }, 500).text("Correct");
         });
 
-        $(document).on('click', '#submit-btn', function() {
+        $(document).on('click', '#submit-btn-single-choice', function() {
             // Check if there is at least one correct answer element
             let hasCorrectAnswer = $(".answer-correct[data-correct='true']").length > 0;
             if (!hasCorrectAnswer) {

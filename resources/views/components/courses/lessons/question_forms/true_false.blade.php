@@ -17,12 +17,12 @@
         <x-components.toggle name="item-allow-answer-changes" />
     </label>
     <input type="hidden" name="item-answers" value="-1">
-    <x-components.3d_button type="button" id="submit-btn" class="course-button-mini middle" fg-color="#43AA8B" bg-color="#245B4A">Create question</x-components.3d_button>
+    <x-components.3d_button type="button" id="submit-btn-true=false" class="course-button-mini middle" fg-color="#43AA8B" bg-color="#245B4A">Create question</x-components.3d_button>
 </fieldset>
 
 <script>
     $(function() {
-        $(document).on('click', '#submit-btn', function() {
+        $(document).on('click', '#submit-btn-true-false', function() {
             // Check form elements are valid
             if ($("#new-lesson-item").valid() === false) {
                 return;

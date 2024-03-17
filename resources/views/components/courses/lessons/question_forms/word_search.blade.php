@@ -30,7 +30,7 @@
             <p id="no-pair-msg"><span class="italicise" style="width: 100%!important">There are no words submitted.</span></p>
         </div>
     </fieldset>
-    <x-components.3d_button type="button" id="submit-btn" class="course-button-mini" fg-color="#43AA8B" bg-color="#245B4A">Create question</x-components.3d_button>
+    <x-components.3d_button type="button" id="submit-btn-word-search" class="course-button-mini" fg-color="#43AA8B" bg-color="#245B4A">Create question</x-components.3d_button>
 </fieldset>
 
 <div class="template middle answer-row flex-row" style="display: none">
@@ -75,7 +75,7 @@
             }
         });
 
-        $(document).on('click', '#submit-btn', function() {
+        $(document).on('click', '#submit-btn-word-search', function() {
             // Check form elements are valid
             if ($("#new-lesson-item").valid() === false) {
                 return;

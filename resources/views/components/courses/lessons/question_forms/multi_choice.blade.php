@@ -17,7 +17,7 @@
     </label>
     <div class="s-c-answers"></div>
     <input type="hidden" name="item-answers">
-    <x-components.3d_button type="button" id="submit-btn" class="course-button-mini middle" fg-color="#43AA8B" bg-color="#245B4A">Create question</x-components.3d_button>
+    <x-components.3d_button type="button" id="submit-btn-multi-choice" class="course-button-mini middle" fg-color="#43AA8B" bg-color="#245B4A">Create question</x-components.3d_button>
 </fieldset>
 
 <div class="template middle answer-row flex-row" style="display: none">
@@ -58,7 +58,7 @@
             $(button).attr('data-correct', !correct);
         });
 
-        $(document).on('click', '#submit-btn', function() {
+        $(document).on('click', '#submit-btn-multi-choice', function() {
             // Check if there is at least one correct answer element
             let hasSufficientAnswers = $(".answer-correct[data-correct='true']").length < 2;
             if (hasSufficientAnswers) {
