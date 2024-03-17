@@ -31,7 +31,7 @@
                                             @endif
                                             @endforeach
                                         </div>
-                                        @if($item->item_value['one_time_answer'])
+                                        @if(!$item->item_value['one_time_answer'])
                                             <p><span class="italicise">This question allows users to change their answer before submitting.</span></p>
                                         @endif
                                     </div>
@@ -79,7 +79,7 @@
                                                 <x-components.3d_button class="option-button selected" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A">False</x-components.3d_button>
                                             @endif
                                         </div>
-                                        @if($item->item_value['one_time_answer'])
+                                        @if(!$item->item_value['one_time_answer'])
                                             <p><span class="italicise">This question allows users to change their answer before submitting.</span></p>
                                         @endif
                                     </div>
