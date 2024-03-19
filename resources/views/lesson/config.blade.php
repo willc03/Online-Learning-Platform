@@ -143,9 +143,13 @@
                                     <div class="container">
                                         <h3>Order Question</h3>
                                         @if($item->description) <p>{{ $item->description }}</p> @endif
-                                        <div class="answer-field order-field flex-col">
+                                        <div class="answer-field order-field @if ($item->item_value['direction'] == 'vertical') flex-col @else flex-row @endif">
                                             @foreach($item->item_value['correct_answer'] as $answer)
-                                                <x-components.3d_button class="answer-button" fg_color="#81d4fa" bg_color="#5a94af">{{ $answer }}</x-components.3d_button>
+                                                @if ($item->item_value['direction'] == 'horizontal')
+                                                    <x-components.3d_button class="answer-button max-content" fg_color="#81d4fa" bg_color="#5a94af">{{ $answer }}</x-components.3d_button>
+                                                @else
+                                                    <x-components.3d_button class="answer-button" fg_color="#81d4fa" bg_color="#5a94af">{{ $answer }}</x-components.3d_button>
+                                                @endif
                                             @endforeach
                                         </div>
                                     </div>
