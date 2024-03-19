@@ -23,4 +23,7 @@
 
 <x-components.3d_button id="submit-question" type="submit" bg_color="#88A236" fg_color="#B1CA65">Submit</x-components.3d_button>
 
+<script>
+    questionAxis = @if ($direction == 'horizontal') 'x' @else 'y' @endif ;
+</script>
 <script src="{{ asset("assets/scripts/question_scripts/order.js") }}"></script>
