@@ -127,8 +127,8 @@ class Lesson extends Controller
                 // Retrieve the question information
                 $questionInfo = $question->item_value;
                 // Check if the answer is correct
-                for ( $i = 0; $i < count($questionInfo['items_to_match']); $i++ ) {
-                    if ( count(array_intersect($questionInfo["items_to_match"][$i], $validatedData['answer'])) == count($validatedData['answer']) ) {
+                foreach ($questionInfo['items_to_match'] as $matchPair) {
+                    if ($matchPair[0] == $validatedData['answer'][0] && $matchPair[1] == $validatedData['answer'][1]) {
                         return 'true';
                     }
                 }
@@ -197,9 +197,20 @@ class Lesson extends Controller
                 $isAnswerCorrect = ( $correctAnswer == filter_var($validatedData['answer'], FILTER_VALIDATE_BOOLEAN) );
                 break;
             case 'order':
-                $correctAnswers = array_map('strtolower', $correctAnswer);
-                $userAnswers = array_map('strtolower', Json::decode($validatedData['answer']));
-                $isAnswerCorrect = ( $correctAnswers === $userAnswers );
+                $correctAnswers = $question->item_value['correct_answer'];
+                // Convert the answer into an array
+                $validatedData['answer'] = Json::decode($validatedData['answer']);
+                for ($i = 0; $i < count($correctAnswers); $i++) {
+                    $validatedData['answer'][$i] = rtrim($validatedData['answer'][$i], " \t\n\r\0\x0B");
+                }
+                // Check the answers
+                $isAnswerCorrect = true;
+                for ($i = 0; $i < count($validatedData['answer']); $i++) {
+                    if ($validatedData['answer'][$i] != $correctAnswers[$i]) {
+                        $isAnswerCorrect = false;
+                        break;
+                    }
+                }
                 break;
             case 'match':
             case 'wordsearch':
