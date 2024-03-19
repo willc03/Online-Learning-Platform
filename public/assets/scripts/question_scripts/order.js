@@ -10,11 +10,12 @@ function calculateAnswer() {
 
 $(function() {
     $("#question-list").sortable({
-        revert: true,
+        revert: false,
         cancel: false,
         placeholder: "three-d draggable-choice",
         scrollSensitivity: 100,
-        stop: calculateAnswer
+        stop: calculateAnswer,
+        axis: questionAxis
     });
     $("ul, li").disableSelection();
 
