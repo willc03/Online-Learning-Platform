@@ -1,4 +1,11 @@
 <x-structure.wrapper title="{{ $lesson->title }}">
+    <div class="progression">
+        <h3>Lesson Progress</h3>
+        <p class="progress-bar middle"><span class="percentage" style="width: calc({{ max(0, min(99, $percentage)) }}% - 10px);">{{ max(0, min(99, $percentage)) }}%</span></p>
+        <p class="exp">XP Points:<span class="exp-counter">{{ session()->get('lesson.xp') }}</span></p>
+        <p class="streak">Answer Streak Multiplier:<span class="streak-counter">{{ is_int(session()->get('lesson.streak')) ? session()->get('lesson.streak') . ".0" : session()->get('lesson.streak') }}x</span></p>
+    </div>
+
     @if($question->item_type == "TEXT")
         <div class="middle lesson-text-holder">
             <h2>{{ $question->item_title }}</h2>

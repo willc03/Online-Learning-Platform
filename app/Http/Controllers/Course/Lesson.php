@@ -45,8 +45,6 @@ class Lesson extends Controller
      *
      * @return RedirectResponse
      *
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function start ( string $id, string $lessonId )
     {
@@ -55,20 +53,14 @@ class Lesson extends Controller
             return redirect()->to(route('course.home', [ 'id' => $id ]))->withErrors([ 'LESSON_DOES_NOT_EXIST' => 'The requested lesson could not be found or does not exist!' ]);
         }
         // If the lesson exists, begin
-        if ( session()->has('lesson') && session()->get('lesson.id', null) !== $lesson->id ) {
-            return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => session()->get('lesson.id') ]))->withErrors([ 'ALREADY_IN_LESSON' => 'You cannot start another lesson when one is in progress!' ]);
-        } elseif ( session()->has('lesson') && session()->get('lesson.id', null) === $lesson->id ) {
-            return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]));
-        } else {
-            session()->put('lesson', [
-                'id' => $lesson->id,
-                'position' => -1,
-                'max_position' => $lesson->items->max('position'),
-                'streak' => 0,
-                'xp' => 0
-            ]);
-            return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]));
-        }
+        session()->put('lesson', [
+            'id' => $lesson->id,
+            'position' => 1,
+            'streak' => 1,
+            'xp' => 0,
+            'answered' => []
+        ]);
+        return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]));
     }
 
     /**
@@ -91,24 +83,24 @@ class Lesson extends Controller
         if ( !$lesson = $this->processLessonId($lessonId) ) {
             return redirect()->to(route('course.home', [ 'id' => $id ]))->withErrors([ 'LESSON_DOES_NOT_EXIST' => 'The requested lesson could not be found or does not exist!' ]);
         }
-        // If the lesson exists, do a quick check to ensure it is the correct lesson
-        if ( session()->has('lesson') && session()->get('lesson.id', null) !== $lesson->id ) {
-            return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]))->withErrors([ 'ALREADY_IN_LESSON' => 'You cannot start another lesson when one is in progress!' ]);
-        }
         /*
          * LESSON LOGIC TO GO HERE
          */
-        if ( session()->get('lesson.position', null) === -1 ) {
+        if ( session()->get('lesson.position', -1) === -1 ) {
             return view('lesson.start', [
                 'course' => $course,
                 'lesson' => $lesson
             ]);
         } else {
-            $question = LessonItem::where([ 'position' => session()->get('lesson.position') ]);
+            // Get the progression percentage
+            $lessonItemQuery = LessonItem::where([ 'lesson_id' => $lessonId ]);
+            $lessonItems = $lessonItemQuery->orderBy('position')->get();
+            $percentage = floor( (session()->get('lesson.position', 1) / count($lessonItems->toArray())) * 100 );
             return view('lesson.question', [
                 'course' => $course,
                 'lesson' => $lesson,
-                'question' => $question->firstOrFail()
+                'question' => $lessonItemQuery->wherePosition(session()->get('lesson.position', 1))->firstOrFail(),
+                'percentage' => $percentage
             ]);
         }
     }
@@ -157,25 +149,33 @@ class Lesson extends Controller
      * either the next question or the current one (if the answer is incorrect).
      *
      * @param Request $request
-     *
+     * @param $id
+     * @param $lessonId
      * @return RedirectResponse
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function answer ( Request $request, $id, $lessonId )
     {
-        // Send the user to the first question when they begin the lesson
-        if (session()->get('lesson.position') === -1) {
-            session()->put('lesson.position', 1);
-            return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]));
-        }
         // Create a flag for whether the answer is correct
         $isAnswerCorrect = false;
         // Ensure the necessary components are
         $validatedData = $request->validate([
-            'question_id' => ['required', 'exists:lesson_items,id'],
-            'answer' => [ Rule::excludeIf(fn() => LessonItem::findOrFail($request->question_id)->item_type == "TEXT"), 'required' ],
+            'question_id' => ['required', Rule::requiredIf(fn () => Rule::exists('lesson_items', 'id') || Rule::in('start')) ],
+            'answer' => [ Rule::excludeIf(fn() => $request['question_id'] === "start"), Rule::excludeIf(fn() => !LessonItem::whereId($request['question_id'])->exists() || LessonItem::findOrFail($request['question_id'])->item_type == "TEXT"), 'required' ],
         ]);
+        // Process the user to the first question if the id is start
+        if ($validatedData['question_id'] == 'start') {
+            session()->put('lesson.position', 1);
+            return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]));
+        }
         // Process logic with the lesson item
         $lessonItem = LessonItem::findOrFail($validatedData['question_id']);
+        // Process already-answered questions
+        if (in_array($lessonItem->id, session()->get('lesson.answered'))) {
+            return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]))->withErrors([ 'ALREADY_ANSWERED' => 'You cannot resubmit an answer to a completed question!' ]);
+        }
+        // Process new answers
         switch ($lessonItem->item_type)
         {
             case "TEXT":
@@ -231,8 +231,18 @@ class Lesson extends Controller
                 return back()->withErrors(['UNSUPPORTED_ITEM' => 'The item type is unsupported.']);
                 break;
         }
+        // If the item is a question, manage the streak.
+        if ($lessonItem->item_type == 'QUESTION') {
+            if ($isAnswerCorrect) {
+                session()->increment('lesson.xp', 100 * session()->get('lesson.streak', 1));
+                session()->increment('lesson.streak', 0.1);
+            } else {
+                session()->put('lesson.streak', 1);
+            }
+        }
         // Progress to the next item or return with an error.
         if ( $isAnswerCorrect ) {
+            session()->push('lesson.answered', $lessonItem->id);
             $nextPositionQuery = LessonItem::where([
                 ['lesson_id', '=', $lessonId],
                 ['position', '>', $lessonItem->position]
@@ -242,7 +252,7 @@ class Lesson extends Controller
                 return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]));
             } else { // There is no more content left, the lesson is done.
                 session()->forget('lesson');
-                return redirect()->to(url('lessondone'));
+                return complete($request, $id, $lessonId);
             }
         } else {
             return back()->withErrors(['WRONG' => 'This answer is incorrect! Not to worry, have another go!']);
@@ -259,6 +269,9 @@ class Lesson extends Controller
     /**
      * This function will be used to deliver forms to the user through AJAX requests
      *
+     * @param Request $request
+     * @param $id
+     * @param $lessonId
      * @return Application|Factory|\Illuminate\Foundation\Application|\Illuminate\View\View|int|View
      */
     public function formRequest(Request $request, $id, $lessonId) {
@@ -288,5 +301,13 @@ class Lesson extends Controller
                 default => 400,
             };
         }
+    }
+
+    /**
+     * This private function will process completed lessons as part of the answer route
+     */
+    private function complete(Request $request, string $id, string $lessonId)
+    {
+        
     }
 }

@@ -817,6 +817,34 @@ body footer .main-box .sign-up a:hover {
   background-color: #a7aaa4;
 }
 
+.progression {
+  background-color: #6a7eb3;
+  padding: 10px;
+  border-radius: 8px;
+}
+.progression h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-family: "Cabin Sketch", sans-serif;
+  font-size: 2em;
+  font-weight: normal;
+}
+.progression .progress-bar {
+  width: 80%;
+  background-color: #566a9f;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.progression .progress-bar .percentage {
+  display: inline-block;
+  border-radius: 15px;
+  background-color: #CBD1D9;
+  min-width: 5px;
+  padding-right: 3px;
+  padding-left: 6px;
+  text-align: right;
+}
+
 .lesson-text-holder {
   margin: auto;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;

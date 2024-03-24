@@ -1,5 +1,36 @@
 @use "sass:color";
 
+.progression {
+    background-color: nth($blue, 1);
+    padding: 10px;
+    border-radius: 8px;
+
+    h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-family: "Cabin Sketch", sans-serif;
+        font-size: 2em;
+        font-weight: normal;
+    }
+
+    .progress-bar {
+        width: 80%;
+        background-color: color.adjust(nth($blue, 1), $red: -20, $green: -20, $blue: -20);
+        border-radius: 15px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+        .percentage {
+            display: inline-block;
+            border-radius: 15px;
+            background-color: nth($blue, 2);
+            min-width: 5px;
+            padding-right: 3px;
+            padding-left: 6px;
+            text-align: right;
+        }
+    }
+}
+
 .lesson-text-holder {
     margin: auto;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;

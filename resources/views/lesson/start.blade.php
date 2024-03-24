@@ -23,6 +23,7 @@
                 <x-components.3d_button id="return-home" fg_color="#CA6565" bg_color="#A23636" onclick="location.href = '{{ url(route('course.home', [ 'id' => $course->id ])) }}'">Return to course home</x-components.3d_button>
                 <form method="post" action="{{ url(route('course.lesson.answer', [ 'id' => $course->id, 'lessonId' => $lesson->id ])) }}">
                     @csrf
+                    <input type="hidden" name="question_id" value="start" />
                     <x-components.3d_button id="accept" fg_color="#B1CA65" bg_color="#88A236">Begin lesson</x-components.3d_button>
                 </form>
             </div>
