@@ -817,6 +817,23 @@ body footer .main-box .sign-up a:hover {
   background-color: #a7aaa4;
 }
 
+.lesson-text-holder {
+  margin: auto;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+}
+.lesson-text-holder h2 {
+  margin: 0;
+  background-color: #6a7eb3;
+  padding: 10px;
+  color: #CBD1D9;
+}
+.lesson-text-holder div.main {
+  padding: 10px;
+}
+.lesson-text-holder div.main h3 {
+  margin: 10px;
+}
+
 .lesson-items .lesson-config {
   box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
   margin-bottom: 15px;
@@ -830,6 +847,7 @@ body footer .main-box .sign-up a:hover {
 }
 .lesson-items .lesson-config h3 {
   margin: 0;
+  padding: 10px;
 }
 .lesson-items .lesson-config textarea {
   height: 200px;

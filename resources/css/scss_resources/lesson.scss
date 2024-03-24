@@ -1,5 +1,22 @@
 @use "sass:color";
 
+.lesson-text-holder {
+    margin: auto;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+    h2 {
+        margin: 0;
+        background-color: nth($blue, 1);
+        padding: 10px;
+        color: nth($blue, 2);
+    }
+    div.main {
+        padding: 10px;
+        h3 {
+            margin: 10px;
+        }
+    }
+}
+
 .lesson-items {
     .lesson-config {
         box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
@@ -14,6 +31,7 @@
         }
         h3 {
             margin: 0;
+            padding: 10px;
         }
 
         textarea {

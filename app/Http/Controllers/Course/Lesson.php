@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Illuminate\Database\Eloquent\Casts\Json;
@@ -62,6 +63,7 @@ class Lesson extends Controller
             session()->put('lesson', [
                 'id' => $lesson->id,
                 'position' => -1,
+                'max_position' => $lesson->items->max('position'),
                 'streak' => 0,
                 'xp' => 0
             ]);
@@ -160,74 +162,86 @@ class Lesson extends Controller
      */
     public function answer ( Request $request, $id, $lessonId )
     {
-        if (session()->get('lesson.position') === -1) { // Go to the first question if they click begin
+        // Send the user to the first question when they begin the lesson
+        if (session()->get('lesson.position') === -1) {
             session()->put('lesson.position', 1);
             return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]));
         }
-
-        $validatedData = $request->validate([
-            'question_id' => 'required',
-            'answer' => 'required',
-        ]);
-
-        $question = LessonItem::findOrFail($validatedData['question_id']);
-        $questionType = $question->item_value['question_type'];
-
-        if ($questionType != 'multiple_choice' && $questionType != 'fill_in_blanks' && $questionType != 'match' && $questionType != 'wordsearch') {
-            $correctAnswer = $question->item_value['correct_answer'];
-        }
-
+        // Create a flag for whether the answer is correct
         $isAnswerCorrect = false;
+        // Ensure the necessary components are
+        $validatedData = $request->validate([
+            'question_id' => ['required', 'exists:lesson_items,id'],
+            'answer' => [ Rule::excludeIf(fn() => LessonItem::findOrFail($request->question_id)->item_type == "TEXT"), 'required' ],
+        ]);
+        // Process logic with the lesson item
+        $lessonItem = LessonItem::findOrFail($validatedData['question_id']);
+        switch ($lessonItem->item_type)
+        {
+            case "TEXT":
+                $isAnswerCorrect = true; // Always progress to the next answer
+                break;
+            case "QUESTION":
+                $questionType = $lessonItem->item_value['question_type'];
 
-        switch ( $questionType ) {
-            case 'single_choice':
-                $isAnswerCorrect = ( $correctAnswer == $validatedData['answer'] );
-                break;
-            case 'multiple_choice':
-                $correctAnswers = array_map('strval', $question->item_value['correct_answers']);
-                $matchedAnswers = count(array_intersect($correctAnswers, Json::decode($validatedData['answer'])));
-                $isAnswerCorrect = ($matchedAnswers == count($correctAnswers));
-                break;
-            case 'fill_in_blanks':
-                $correctAnswers = array_map('strtolower', $question->item_value['correct_answers']);
-                $userAnswers = array_map('strtolower', Json::decode($validatedData['answer']));
-                $isAnswerCorrect = ( $correctAnswers === $userAnswers );
-                break;
-            case 'true_or_false':
-                $isAnswerCorrect = ( $correctAnswer == filter_var($validatedData['answer'], FILTER_VALIDATE_BOOLEAN) );
-                break;
-            case 'order':
-                $correctAnswers = $question->item_value['correct_answer'];
-                // Convert the answer into an array
-                $validatedData['answer'] = Json::decode($validatedData['answer']);
-                for ($i = 0; $i < count($correctAnswers); $i++) {
-                    $validatedData['answer'][$i] = rtrim($validatedData['answer'][$i], " \t\n\r\0\x0B");
+                if ($questionType != 'multiple_choice' && $questionType != 'fill_in_blanks' && $questionType != 'match' && $questionType != 'wordsearch') {
+                    $correctAnswer = $lessonItem->item_value['correct_answer'];
                 }
-                // Check the answers
-                $isAnswerCorrect = true;
-                for ($i = 0; $i < count($validatedData['answer']); $i++) {
-                    if ($validatedData['answer'][$i] != $correctAnswers[$i]) {
-                        $isAnswerCorrect = false;
+
+                switch ( $questionType ) {
+                    case 'single_choice':
+                        $isAnswerCorrect = ( $correctAnswer == $validatedData['answer'] );
                         break;
-                    }
+                    case 'multiple_choice':
+                        $correctAnswers = array_map('strval', $lessonItem->item_value['correct_answers']);
+                        $matchedAnswers = count(array_intersect($correctAnswers, Json::decode($validatedData['answer'])));
+                        $isAnswerCorrect = ($matchedAnswers == count($correctAnswers));
+                        break;
+                    case 'fill_in_blanks':
+                        $correctAnswers = array_map('strtolower', $lessonItem->item_value['correct_answers']);
+                        $userAnswers = array_map('strtolower', Json::decode($validatedData['answer']));
+                        $isAnswerCorrect = ( $correctAnswers === $userAnswers );
+                        break;
+                    case 'true_or_false':
+                        $isAnswerCorrect = ( $correctAnswer == filter_var($validatedData['answer'], FILTER_VALIDATE_BOOLEAN) );
+                        break;
+                    case 'order':
+                        $correctAnswers = $lessonItem->item_value['correct_answer'];
+                        // Convert the answer into an array
+                        $validatedData['answer'] = Json::decode($validatedData['answer']);
+                        for ($i = 0; $i < count($correctAnswers); $i++) {
+                            $validatedData['answer'][$i] = rtrim($validatedData['answer'][$i], " \t\n\r\0\x0B");
+                        }
+                        // Check the answers
+                        $isAnswerCorrect = true;
+                        for ($i = 0; $i < count($validatedData['answer']); $i++) {
+                            if ($validatedData['answer'][$i] != $correctAnswers[$i]) {
+                                $isAnswerCorrect = false;
+                                break;
+                            }
+                        }
+                        break;
+                    case 'match':
+                    case 'wordsearch':
+                        $isAnswerCorrect = true;
+                        break;
                 }
                 break;
-            case 'match':
-            case 'wordsearch':
-                $isAnswerCorrect = true;
+            default:
+                return back()->withErrors(['UNSUPPORTED_ITEM' => 'The item type is unsupported.']);
                 break;
         }
-
+        // Progress to the next item or return with an error.
         if ( $isAnswerCorrect ) {
-            $nextPositionRequirements = [
+            $nextPositionQuery = LessonItem::where([
                 ['lesson_id', '=', $lessonId],
-                ['position', '>', session()->get('lesson.position', -1)]
-            ];
-            $nextPositionQuery = LessonItem::where($nextPositionRequirements);
+                ['position', '>', $lessonItem->position]
+            ]);
             if ($nextPositionQuery->count() > 0) { // There is another question or item
                 session()->put('lesson.position', $nextPositionQuery->min('position'));
                 return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]));
             } else { // There is no more content left, the lesson is done.
+                session()->forget('lesson');
                 return redirect()->to(url('lessondone'));
             }
         } else {
