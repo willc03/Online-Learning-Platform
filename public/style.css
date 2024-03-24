@@ -917,6 +917,15 @@ body footer .main-box .sign-up a:hover {
     margin: 10px 0;
   }
 }
+.lesson-items .lesson-config .answer-field.fill-blanks-field {
+  display: flex;
+  flex-wrap: wrap;
+}
+.lesson-items .lesson-config .answer-field.fill-blanks-field button.three-d {
+  width: 40%;
+  height: 35px;
+  margin: 10px auto;
+}
 
 .message {
   border-radius: 8px;

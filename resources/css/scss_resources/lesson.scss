@@ -115,6 +115,16 @@
                 }
             }
 
+            &.fill-blanks-field {
+                display: flex;
+                flex-wrap: wrap;
+                button.three-d {
+                    width: 40%;
+                    height: 35px;
+                    margin: 10px auto;
+                }
+            }
+
         }
     }
 }

@@ -48,8 +48,7 @@
     // Function to get the number of blanks
     function getBlankQuantity()
     {
-        console.log($("span.blank").length);
-        return $("span.blank").length;
+        return $("#new-lesson-item").find("span.blank").length;
     }
     function crossCheckAnswers(answerToCheck)
     {
@@ -61,7 +60,7 @@
         return true;
     }
     function getFirstBlankField() {
-        return $("span.blank").not(".filled").first()[0] || false;
+        return $("#new-lesson-item").find("span.blank").not(".filled").first()[0] || false;
     }
     function getElementDetails(element) {
         const $element = $(element);

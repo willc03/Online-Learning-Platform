@@ -155,7 +155,24 @@
                                     </div>
                                 </div>
                                 @break
-
+                            @case('fill_in_blanks')
+                                <div class="lesson-config question fill-blanks flex-col" id="{{ $item->id }}">
+                                    <h2 class="title">{!! str_replace("\\n", "<br>", (str_replace("%", '<span class=\'blank\'> </span>', $item->item_title))) !!}</h2>
+                                    <div class="container">
+                                        <h3>Fill in Blanks Question</h3>
+                                        @if($item->description) <p>{{ $item->description }}</p> @endif
+                                        <div class="answer-field fill-blanks-field">
+                                            @foreach($item->item_value['question_choices'] as $answer)
+                                                @if(in_array($answer, $item->item_value['correct_answers']))
+                                                    <x-components.3d_button id="{{ $item->id }}-{{ array_search($answer, $item->item_value['correct_answers']) }}" class="option-button correct" fg_color="#43AA8B" bg_color="#245B4A">{{ $answer }}</x-components.3d_button>
+                                                @else
+                                                    <x-components.3d_button class="option-button" fg_color="#D10023" bg_color="#840016">{{ $answer  }}</x-components.3d_button>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                                @break
                         @endswitch
                         @break
 
@@ -221,6 +238,56 @@
             },
             success: function(response) {
                 $(subFormBox).html(response);
+            }
+        });
+    });
+</script>
+<script>
+    function getElementDetails(element) {
+        const $element = $(element);
+        return {
+            width: $element.width(),
+            height: $element.height(),
+            x: $element.offset().left,
+            y: $element.offset().top,
+        };
+    }
+
+    $("div.lesson-config.fill-blanks").each(function() {
+        let container = $(this);
+        let blanks = $(container).find("span.blank");
+        let options = $(container).find("button.three-d");
+
+        $(options).each(function() {
+            if ($(this).attr('id')) {
+                let index = $(this).attr('id');
+                let blank = $(blanks).not('.filled')[0];
+                let fieldDetails = getElementDetails(blank);
+                $(this).css({
+                    width: fieldDetails.width,
+                    height: fieldDetails.height,
+                    left: fieldDetails.x + 1,
+                    top: fieldDetails.y - 6,
+                    position: 'absolute'
+                });
+                $(blank).css('borderWidth', 0).addClass("filled").attr("option", index);
+            }
+        })
+    });
+
+    // Window logic, to move the absolute form buttons when the window size is changed.
+    $(window).on("resize", function() {
+        $("span.blank").filter(".filled").each(function(_, field) {
+            const selectedOption = $(field).attr("option");
+            if (selectedOption) {
+                const optionElement = $("#" + selectedOption);
+                const fieldDetails = getElementDetails(field);
+                optionElement.css({
+                    width: fieldDetails.width,
+                    height: fieldDetails.height,
+                    left: fieldDetails.x + 1,
+                    top: fieldDetails.y - 6,
+                });
             }
         });
     });
