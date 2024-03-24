@@ -164,7 +164,7 @@
                                         <div class="answer-field fill-blanks-field">
                                             @foreach($item->item_value['question_choices'] as $answer)
                                                 @if(in_array($answer, $item->item_value['correct_answers']))
-                                                    <x-components.3d_button id="{{ $item->id }}-{{ array_search($answer, $item->item_value['correct_answers']) }}" class="option-button correct" fg_color="#43AA8B" bg_color="#245B4A">{{ $answer }}</x-components.3d_button>
+                                                    <x-components.3d_button id="{{ $item->id }}-{{ array_search($answer, $item->item_value['correct_answers']) }}" class="option-button selected correct" fg_color="#43AA8B" bg_color="#245B4A">{{ $answer }}</x-components.3d_button>
                                                 @else
                                                     <x-components.3d_button class="option-button" fg_color="#D10023" bg_color="#840016">{{ $answer  }}</x-components.3d_button>
                                                 @endif
