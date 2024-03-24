@@ -25,11 +25,15 @@ class LessonItem extends Controller
             'item-allow-answer-changes' => [ Rule::excludeIf(fn() => !array_key_exists('item-sub-type', $request->toArray()) || (array_key_exists('item-sub-type', $request->toArray()) && !in_array($request['item-sub-type'], [ 'single-choice', 'true-false' ]) )) ],
             'item-true-or-false' => [ Rule::excludeIf(fn() => !array_key_exists('item-sub-type', $request->toArray()) || (array_key_exists('item-sub-type', $request->toArray()) && $request['item-sub-type'] != 'true-false')) ],
             'item-randomise-sides' => [ Rule::excludeIf(fn() => !array_key_exists('item-sub-type', $request->toArray()) || (array_key_exists('item-sub-type', $request->toArray()) && $request['item-sub-type'] != 'match')) ],
-            'direction' => [ Rule::excludeIf(fn() => !array_key_exists('item-sub-type', $request->toArray()) || (array_key_exists('item-sub-type', $request->toArray()) && $request['item-sub-type'] != 'order')), 'required', 'string', 'in:vertical,horizontal' ]
+            'direction' => [ Rule::excludeIf(fn() => !array_key_exists('item-sub-type', $request->toArray()) || (array_key_exists('item-sub-type', $request->toArray()) && $request['item-sub-type'] != 'order')), 'required', 'string', 'in:vertical,horizontal' ],
+            'item-answer-slots' => [ Rule::excludeIf(fn() => !array_key_exists('item-sub-type', $request->toArray()) || (array_key_exists('item-sub-type', $request->toArray()) && $request['item-sub-type'] != 'fill-in-blanks')), 'required', 'json' ]
         ]);
         // Convert certain elements in the array
         if (array_key_exists('item-answers',$validatedData)) {
             $validatedData['item-answers'] = Json::decode($validatedData['item-answers']);
+        }
+        if (array_key_exists('item-answer-slots', $validatedData)) {
+            $validatedData['item-answer-slots'] = Json::decode($validatedData['item-answer-slots']);
         }
         // Create component
         $lessonItem = new LessonItemModel;
@@ -120,6 +124,19 @@ class LessonItem extends Controller
                         'direction' => $validatedData['direction'],
                         'answer_slots' => $correctAnswer,
                         'correct_answer' => $correctAnswer
+                    ];
+                    break;
+                case "fill-in-blanks":
+                    // Set the available answers
+                    $correctAnswers = [];
+                    foreach ($validatedData['item-answers'] as $answerSet) {
+                        $correctAnswers[] = $answerSet['answer'];
+                    }
+                    // Set the item value
+                    $lessonItem->item_value = [
+                        'question_type' => "fill_in_blanks",
+                        'question_choices' => $validatedData['item-answer-slots'],
+                        'correct_answers' => $correctAnswers
                     ];
                     break;
                 default:

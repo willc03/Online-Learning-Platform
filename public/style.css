@@ -381,17 +381,18 @@ span.small-text {
     margin-right: 20px;
   }
 }
-.question-title {
-  font-size: 20px;
-  line-height: 2;
-}
-.question-title span.blank {
+span.blank {
   vertical-align: middle;
   border: 2px solid black;
   border-radius: 8px;
   width: 25%;
   display: inline-block;
   height: 30px;
+}
+
+.question-title {
+  font-size: 20px;
+  line-height: 2;
 }
 
 .question-form fieldset.single-choice-field, .question-form fieldset.fill-blanks-field, .question-form fieldset.boolean-field, .question-form fieldset.order-field, .question-form fieldset.match-field, .question-form fieldset.wordsearch-field {
@@ -532,7 +533,7 @@ span.small-text {
   width: calc(100% - 20px);
   padding: 10px;
 }
-#new-lesson-item span:not(.foreground) {
+#new-lesson-item span:not(.foreground):not(.span-ignore) {
   display: inline-block;
   word-wrap: break-word;
   width: 25%;
@@ -592,6 +593,14 @@ span.small-text {
   background-color: #ffbdbd;
   color: #c10000;
   margin-left: 10px;
+}
+#new-lesson-item #answer-box {
+  display: flex;
+  flex-wrap: wrap;
+}
+#new-lesson-item #answer-box button.three-d {
+  margin: 10px auto;
+  width: 40%;
 }
 @media (max-width: 640px) {
   #new-lesson-item span:not(.foreground) {

@@ -4,7 +4,7 @@
         padding: 10px;
     }
 
-    span:not(.foreground) {
+    span:not(.foreground):not(.span-ignore) {
         display: inline-block;
         word-wrap: break-word;
         width: 25%;
@@ -75,6 +75,16 @@
         background-color: #ffbdbd;
         color: #c10000;
         margin-left: 10px;
+    }
+
+    #answer-box {
+        display: flex;
+        flex-wrap: wrap;
+
+        button.three-d {
+            margin: 10px auto;
+            width: 40%;
+        }
     }
 
     @media (max-width: 640px) {
