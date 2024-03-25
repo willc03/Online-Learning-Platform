@@ -24,11 +24,11 @@
                                         @endif
                                         <div class="answer-field single-choice-field">
                                             @foreach($item->item_value['question_choices'] as $option) {{-- $value is passed in from the question page --}}
-                                            @if ($option == $item->item_value['correct_answer'])
-                                                <x-components.3d_button class="option-button selected" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A">{{ $option }}</x-components.3d_button>
-                                            @else
-                                                <x-components.3d_button class="option-button" value="{{ $option }}" fg_color="#D10023" bg_color="#840016">{{ $option }}</x-components.3d_button>
-                                            @endif
+                                                @if ($option == $item->item_value['correct_answer'])
+                                                    <x-components.3d_button class="option-button selected" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A">{{ $option }}</x-components.3d_button>
+                                                @else
+                                                    <x-components.3d_button class="option-button" value="{{ $option }}" fg_color="#D10023" bg_color="#840016">{{ $option }}</x-components.3d_button>
+                                                @endif
                                             @endforeach
                                         </div>
                                         @if(!$item->item_value['one_time_answer'])
@@ -68,15 +68,15 @@
                                         <div class="answer-field true-false-field">
                                             {{-- Display the true button --}}
                                             @if($item->item_value['correct_answer'])
-                                                <x-components.3d_button class="option-button selected" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A">True</x-components.3d_button>
+                                                <x-components.3d_button class="option-button selected" fg_color="#43AA8B" bg_color="#245B4A">True</x-components.3d_button>
                                             @else
-                                                <x-components.3d_button class="option-button" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A" disabled>True</x-components.3d_button>
+                                                <x-components.3d_button class="option-button" fg_color="#43AA8B" bg_color="#245B4A" disabled>True</x-components.3d_button>
                                             @endif
                                             {{-- Display the false button --}}
                                             @if($item->item_value['correct_answer'])
-                                                <x-components.3d_button class="option-button" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A" disabled>False</x-components.3d_button>
+                                                <x-components.3d_button class="option-button" fg_color="#43AA8B" bg_color="#245B4A" disabled>False</x-components.3d_button>
                                             @else
-                                                <x-components.3d_button class="option-button selected" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A">False</x-components.3d_button>
+                                                <x-components.3d_button class="option-button selected" fg_color="#43AA8B" bg_color="#245B4A">False</x-components.3d_button>
                                             @endif
                                         </div>
                                         @if(!$item->item_value['one_time_answer'])
