@@ -82,6 +82,19 @@
                                             @if($section_item->description != null)
                                                 <p>{{ $section_item->description }}</p>
                                             @endif
+                                            @php
+                                                $highScore = 0;
+                                                foreach ($lesson_scores as $lesson_score) {
+                                                    if ($lesson_score['lessonId'] == $section_item->item_value['lesson_id']) {
+                                                        if ($lesson_score['score'] > $highScore) {
+															$highScore = $lesson_score['score'];
+                                                        }
+                                                    }
+                                                }
+                                            @endphp
+                                            @if( $highScore != 0 )
+                                                <p>HIGH SCORE: {{ $highScore }}</p>
+                                            @endif
                                             <div class="flex-row middle">
                                                 <x-components.3d_button class="course-button-mini" fg-color="#43AA8B" bg-color="#245B4A" onclick="location.href = '{{ route('course.lesson.start', [ 'id' => $course->id, 'lessonId' => $section_item->item_value['lesson_id']] ) }}'">BEGIN LESSON</x-components.3d_button>
                                                 @if($user_is_owner && $is_editing)

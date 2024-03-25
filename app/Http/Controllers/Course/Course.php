@@ -8,6 +8,7 @@ use App\Models\Lesson;
 use App\Models\Section;
 use App\Models\SectionItem;
 use App\Models\User;
+use App\Models\UserCompletedLesson;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -37,12 +38,29 @@ class Course extends Controller
         $course = CourseModel::find($id);
         // Cancel any lesson if the user returns home
         session()->pull('lesson');
+        // Get all high scores
+        $lessonHighScores = [];
+        $sections = $course->firstOrFail()->sections;
+        foreach ($sections as $section) {
+            foreach ($section->items as $item) {
+                if ($item->item_type == "LESSON") {
+                    $lesson = Lesson::whereId($item->item_value['lesson_id'])->firstOrFail();
+                    foreach (UserCompletedLesson::where([ 'lesson_id' => $lesson->id, 'user_id' => $request->user()->id ])->get() as $completedLesson) {
+                        $lessonHighScores[] = [
+                            'lessonId' => $lesson->id,
+                            'score' => $completedLesson->score
+                        ];
+                    }
+                }
+            }
+        }
         // Present the course home page to the user
         return view('courses.home', [
             'course' => $course,
             'owner' => User::find($course->owner),
             'user_is_owner' => ($request->user()->id === $course->owner),
-            'is_editing' => (($request->user()->id === $course->owner) && $request->has('editing') && $request->input('editing') === 'true')
+            'is_editing' => (($request->user()->id === $course->owner) && $request->has('editing') && $request->input('editing') === 'true'),
+            'lesson_scores' => $lessonHighScores
         ]);
     }
 
