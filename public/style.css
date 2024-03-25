@@ -982,6 +982,12 @@ body footer .main-box .sign-up a:hover {
   background-color: #ffbdbd;
   color: #c10000;
 }
+.message.success-message {
+  background-color: #9ff2a0;
+  color: #009900;
+  margin-bottom: 10px;
+  border: 1px solid #009900;
+}
 
 @media (max-width: 640px) {
   .message {

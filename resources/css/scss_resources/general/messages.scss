@@ -8,6 +8,13 @@
         background-color: #ffbdbd;
         color: #c10000;
     }
+
+    &.success-message {
+        background-color: #9ff2a0;
+        color: #009900;
+        margin-bottom: 10px;
+        border: 1px solid #009900;
+    }
 }
 
 // Device optimisations for messages.scss

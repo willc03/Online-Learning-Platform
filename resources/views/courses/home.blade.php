@@ -28,6 +28,10 @@
         <x-components.3d_button class="course-button-mini" id="reorder-sections-button" fg-color="#43AA8B" bg-color="#245B4A" data-active="false">Re-order sections</x-components.3d_button>
     @endif
 
+    {{-- Display lesson completion success message if in the session --}}
+    @if (session()->get('COMPLETED_LESSON', null))
+        <x-messages.success title="Congratulations!" description="You completed the lesson '{{ session()->get('LESSON_TITLE', 'N/A') }}' with a score of {{ session()->get('COMPLETED_LESSON', 'N/A') }}" />
+    @endif
 
     {{-- Display the course sections --}}
     <div id="course-sections" class="flex-col">
