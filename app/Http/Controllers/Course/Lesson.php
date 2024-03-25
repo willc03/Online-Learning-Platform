@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Lesson as LessonModel;
 use App\Models\LessonItem;
+use App\Models\UserCompletedLesson;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -55,7 +56,7 @@ class Lesson extends Controller
         // If the lesson exists, begin
         session()->put('lesson', [
             'id' => $lesson->id,
-            'position' => 1,
+            'position' => -1,
             'streak' => 1,
             'xp' => 0,
             'answered' => []
@@ -172,7 +173,7 @@ class Lesson extends Controller
         // Process logic with the lesson item
         $lessonItem = LessonItem::findOrFail($validatedData['question_id']);
         // Process already-answered questions
-        if (in_array($lessonItem->id, session()->get('lesson.answered'))) {
+        if (in_array($lessonItem->id, session()->get('lesson.answered', []))) {
             return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]))->withErrors([ 'ALREADY_ANSWERED' => 'You cannot resubmit an answer to a completed question!' ]);
         }
         // Process new answers
@@ -251,8 +252,7 @@ class Lesson extends Controller
                 session()->put('lesson.position', $nextPositionQuery->min('position'));
                 return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]));
             } else { // There is no more content left, the lesson is done.
-                session()->forget('lesson');
-                return complete($request, $id, $lessonId);
+                return $this->complete($request, $id, $lessonId);
             }
         } else {
             return back()->withErrors(['WRONG' => 'This answer is incorrect! Not to worry, have another go!']);
@@ -308,6 +308,25 @@ class Lesson extends Controller
      */
     private function complete(Request $request, string $id, string $lessonId)
     {
-        
+        // Calculate the maximum score
+        $total = 0; $multiplier = 1;
+        $n = LessonItem::whereLessonId($lessonId)->count();
+        for ($i = 0; $i < $n; $i++) {
+            $total += (100 * $multiplier);
+            $multiplier += 0.1;
+        }
+        // Create the database entry
+        $completedLessonRecord = new UserCompletedLesson;
+        $completedLessonRecord->lesson_id = $lessonId;
+        $completedLessonRecord->user_id = $request->user()->id;
+        $completedLessonRecord->score = session()->get('lesson.xp', -1);
+        // Attempt to save the record
+        if ($completedLessonRecord->save()) {
+            $score = session()->get('lesson.xp', 0);
+            session()->forget('lesson');
+            return redirect()->to(route('course.home', [ 'id' => $id ]))->with(['COMPLETED_LESSON' => $score, 'LESSON_TITLE' => LessonModel::whereId($lessonId)->firstOrFail()->title]);
+        } else {
+            return back()->withErrors([ 'RECORD_SAVE_ERROR' => 'Could not upload the lesson completion record to the database. Please try again.' ]);
+        }
     }
 }

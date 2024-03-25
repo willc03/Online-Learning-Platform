@@ -15,6 +15,9 @@ return new class extends Migration
             // Primary key
             $table->uuid('id')->primary();
 
+            // Other keys
+            $table->integer('score');
+
             // Timestamps
             $table->timestamps();
 
