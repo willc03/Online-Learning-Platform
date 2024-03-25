@@ -4,11 +4,11 @@
     background-color: nth($blue, 1);
     padding: 10px;
     border-radius: 8px;
+    font-family: "Cabin Sketch", sans-serif;
 
     h3 {
         margin-top: 0;
         margin-bottom: 10px;
-        font-family: "Cabin Sketch", sans-serif;
         font-size: 2em;
         font-weight: normal;
     }
@@ -27,6 +27,18 @@
             padding-right: 3px;
             padding-left: 6px;
             text-align: right;
+            box-shadow: inset 3px 3px 5px 0px rgb(227, 227, 227);;
+        }
+    }
+
+    p.exp, p.streak {
+        margin: 2% auto;
+        color: nth($blue, 2);
+        font-weight: bolder;
+        text-shadow: 2px 2px color.adjust(nth($blue, 1), $red: -20, $green: -20, $blue: -20);
+        span.exp-counter, span.streak-counter {
+            margin-left: 7px;
+            font-weight: normal;
         }
     }
 }

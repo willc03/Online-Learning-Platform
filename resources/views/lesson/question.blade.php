@@ -4,6 +4,7 @@
         <p class="progress-bar middle"><span class="percentage" style="width: calc({{ max(0, min(99, $percentage)) }}% - 10px);">{{ max(0, min(99, $percentage)) }}%</span></p>
         <p class="exp">XP Points:<span class="exp-counter">{{ session()->get('lesson.xp') }}</span></p>
         <p class="streak">Answer Streak Multiplier:<span class="streak-counter">{{ is_int(session()->get('lesson.streak')) ? session()->get('lesson.streak') . ".0" : session()->get('lesson.streak') }}x</span></p>
+        <x-components.3d_button class="max-content course-button-mini db-bs" fg_color="#D10023" bg_color="#840016">End lesson</x-components.3d_button>
     </div>
 
     @if($question->item_type == "TEXT")

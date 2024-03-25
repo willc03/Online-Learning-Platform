@@ -57,6 +57,9 @@ button.three-d, button.three-d > * {
   transition-property: transform, box-shadow;
   transition-duration: 300ms;
 }
+button.three-d.db-bs {
+  box-shadow: 0 5px 4px #566a9f;
+}
 button.three-d .foreground {
   position: relative;
   align-items: center;
@@ -821,11 +824,11 @@ body footer .main-box .sign-up a:hover {
   background-color: #6a7eb3;
   padding: 10px;
   border-radius: 8px;
+  font-family: "Cabin Sketch", sans-serif;
 }
 .progression h3 {
   margin-top: 0;
   margin-bottom: 10px;
-  font-family: "Cabin Sketch", sans-serif;
   font-size: 2em;
   font-weight: normal;
 }
@@ -843,6 +846,17 @@ body footer .main-box .sign-up a:hover {
   padding-right: 3px;
   padding-left: 6px;
   text-align: right;
+  box-shadow: inset 3px 3px 5px 0px rgb(227, 227, 227);
+}
+.progression p.exp, .progression p.streak {
+  margin: 2% auto;
+  color: #CBD1D9;
+  font-weight: bolder;
+  text-shadow: 2px 2px #566a9f;
+}
+.progression p.exp span.exp-counter, .progression p.exp span.streak-counter, .progression p.streak span.exp-counter, .progression p.streak span.streak-counter {
+  margin-left: 7px;
+  font-weight: normal;
 }
 
 .lesson-text-holder {

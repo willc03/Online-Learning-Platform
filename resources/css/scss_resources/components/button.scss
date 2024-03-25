@@ -17,6 +17,10 @@ button.three-d {
     position: relative;
     box-shadow: 0 5px 4px color.adjust($off-white, $red: -20, $green: -20, $blue: -20);
 
+    &.db-bs {
+        box-shadow: 0 5px 4px color.adjust(nth($blue, 1), $red: -20, $green: -20, $blue: -20);
+    }
+
     .foreground {
         // Base properties
         position: relative;
