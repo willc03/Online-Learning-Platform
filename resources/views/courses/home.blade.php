@@ -101,8 +101,11 @@
                                             @endif
                                             <div class="flex-row middle">
                                                 <x-components.3d_button class="course-button-mini" fg-color="#43AA8B" bg-color="#245B4A" onclick="location.href = '{{ route('course.lesson.start', [ 'id' => $course->id, 'lessonId' => $section_item->item_value['lesson_id']] ) }}'">BEGIN LESSON</x-components.3d_button>
-                                                @if($user_is_owner && $is_editing)
-                                                    <x-components.3d_button class="course-button-mini" fg-color="#43AA8B" bg-color="#245B4A" onclick="location.href = '{{ route('course.lesson.configure.get', [ 'id' => $course->id, 'lessonId' => $section_item->item_value['lesson_id']] ) }}'">CONFIGURE LESSON</x-components.3d_button>
+                                                @if($user_is_owner)
+                                                    <x-components.3d_button class="course-button-mini" fg-color="#43AA8B" bg-color="#245B4A" onclick="location.href = '{{ route('course.lesson.attempts', [ 'id' => $course->id, 'lessonId' => $section_item->item_value['lesson_id']] ) }}'">VIEW ATTEMPTS</x-components.3d_button>
+                                                    @if ($is_editing)
+                                                        <x-components.3d_button class="course-button-mini" fg-color="#43AA8B" bg-color="#245B4A" onclick="location.href = '{{ route('course.lesson.configure.get', [ 'id' => $course->id, 'lessonId' => $section_item->item_value['lesson_id']] ) }}'">CONFIGURE LESSON</x-components.3d_button>
+                                                    @endif
                                                 @endif
                                             </div>
                                         </div>

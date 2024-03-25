@@ -304,6 +304,81 @@ span.small-text {
   flex-direction: column;
 }
 
+.attempt-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  border: 1px solid #6a7eb3;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+.attempt-table .table-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: #CBD1D9;
+  transition-property: background-color;
+  transition-duration: 500ms;
+}
+.attempt-table .table-row.table-header {
+  background-color: #6a7eb3 !important;
+  color: white;
+}
+.attempt-table .table-row:not(.table-header):hover {
+  background-color: #b2b8c0;
+}
+.attempt-table .table-row .table-col {
+  font-size: 1em;
+  word-wrap: anywhere;
+  width: 25%;
+  border: 0.5px solid #CBD1D9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 10px;
+}
+.attempt-table .table-row .table-col .three-d {
+  font-size: 1vw !important;
+}
+.attempt-table .table-row .table-col .max-use-form, .attempt-table .table-row .table-col .expiry-date-form {
+  word-wrap: break-word;
+  width: 100%;
+  align-items: center;
+  overflow: hidden;
+}
+.attempt-table .table-row .table-col .max-use-form input, .attempt-table .table-row .table-col .expiry-date-form input {
+  font-size: 0.9vw !important;
+  padding: 5px;
+  width: 80%;
+  border: 1px solid gray;
+  border-radius: 5px;
+  background-color: lightgray;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .attempt-table .table-row .table-col {
+    font-size: 0.8em !important;
+  }
+  .attempt-table .table-row .table-col .three-d {
+    font-size: 0.8em !important;
+    padding: 0 2px;
+  }
+  .attempt-table .table-row .table-col .three-d span {
+    padding: 0 2px;
+    transform: translateY(-4px) translateX(-2px) !important;
+  }
+  .attempt-table .table-row .table-col .three-d span:hover {
+    transform: translateY(-6px) translateX(-2px) !important;
+  }
+  .attempt-table .table-row .table-col .three-d:active .foreground {
+    transform: translateY(-2px) translateX(-2px) !important;
+  }
+}
 /*
  * All specific-purpose SCSS files will be imported here
  */

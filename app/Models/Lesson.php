@@ -19,7 +19,7 @@ class Lesson extends Model
         return $this->hasMany(LessonItem::class, 'lesson_id', 'id')->orderBy('position');
     }
 
-    public function users_completed()
+    public function attempts()
     {
         return $this->hasMany(UserCompletedLesson::class)->orderBy('created_at');
     }

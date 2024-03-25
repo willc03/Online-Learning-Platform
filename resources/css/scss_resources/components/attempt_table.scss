@@ -1,0 +1,85 @@
+@use "sass:color";
+
+.attempt-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    border: 1px solid nth($blue, 1);
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 15px;
+
+    .table-row {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        background-color: nth($blue, 2);
+        transition-property: background-color;
+        transition-duration: 500ms;
+
+        &.table-header {
+            background-color: nth($blue, 1)!important;
+            color: white;
+        }
+
+        &:not(.table-header):hover {
+            background-color: color.adjust(nth($blue, 2), $red:-25, $green:-25, $blue:-25);
+        }
+
+        .table-col {
+            font-size: 1em;
+            word-wrap: anywhere;
+            width: 25%;
+            border: 0.5px solid nth($blue, 2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 10px;
+
+            .three-d {
+                font-size: 1vw!important;
+            }
+
+            .max-use-form, .expiry-date-form {
+                word-wrap: break-word;
+                width: 100%;
+                align-items: center;
+                overflow: hidden;
+
+                input {
+                    font-size: .9vw!important;
+                    padding: 5px;
+                    width: 80%;
+                    border: 1px solid gray;
+                    border-radius: 5px;
+                    background-color: lightgray;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 640px) {
+    .attempt-table .table-row .table-col {
+        font-size: 0.8em!important;
+
+        .three-d {
+            font-size: 0.8em!important;
+            padding: 0 2px;
+            span {
+                padding: 0 2px;
+                transform: translateY(-4px) translateX(-2px)!important;
+                &:hover {
+                    transform: translateY(-6px) translateX(-2px)!important;
+                }
+            }
+            &:active .foreground {
+                transform: translateY(-2px) translateX(-2px)!important;
+            }
+        }
+    }
+}

@@ -304,17 +304,37 @@ class Lesson extends Controller
     }
 
     /**
-     * This private function will process completed lessons as part of the answer route
+     * This public route will be used to display completed lesson attempts to the owner of a course
+     *
      */
-    private function complete(Request $request, string $id, string $lessonId)
+    public function attempts(string $id, string $lessonId)
     {
-        // Calculate the maximum score
+        // Calculate maximum score
         $total = 0; $multiplier = 1;
-        $n = LessonItem::whereLessonId($lessonId)->count();
+        $n = LessonItem::where([ 'lesson_id' => $lessonId, 'item_type' => 'QUESTION' ])->count();
         for ($i = 0; $i < $n; $i++) {
             $total += (100 * $multiplier);
             $multiplier += 0.1;
         }
+        // Get attempts
+        $attempts = UserCompletedLesson::whereLessonId($lessonId)->get();
+        // Display the view
+        return view('lesson.attempt', [ 'attempts' => $attempts, 'course' => Course::findOrFail($id), 'maxScore' => $total ]);
+    }
+
+    /**
+     * This private function will process completed lessons as part of the answer route
+     *
+     * @param Request $request
+     * @param string  $id
+     * @param string  $lessonId
+     *
+     * @return RedirectResponse
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    private function complete(Request $request, string $id, string $lessonId)
+    {
         // Create the database entry
         $completedLessonRecord = new UserCompletedLesson;
         $completedLessonRecord->lesson_id = $lessonId;
