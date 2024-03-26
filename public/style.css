@@ -1320,6 +1320,21 @@ form:not([id=logout-form]) .custom-toggle .toggle-label:focus {
 #course-sections .lesson .three-d {
   height: 25px;
 }
+#course-sections .lesson div.high-score {
+  display: flex;
+  background-color: #CBD1D9;
+  border-radius: 8px;
+  width: max-content;
+  margin-left: -10px;
+  margin-bottom: -5px;
+  font-size: 0.8em;
+  padding: 2px 5px;
+  color: #51659a;
+  box-shadow: -2px 2px 0px 0px #51659a;
+}
+#course-sections .lesson div.high-score span {
+  display: block;
+}
 @media (max-width: 640px) {
   #course-sections div.section div.collapse-section {
     width: auto !important;

@@ -96,9 +96,6 @@
                                                     }
                                                 }
                                             @endphp
-                                            @if( $highScore != 0 )
-                                                <p>HIGH SCORE: {{ $highScore }}</p>
-                                            @endif
                                             <div class="flex-row middle">
                                                 <x-components.3d_button class="course-button-mini" fg-color="#43AA8B" bg-color="#245B4A" onclick="location.href = '{{ route('course.lesson.start', [ 'id' => $course->id, 'lessonId' => $section_item->item_value['lesson_id']] ) }}'">BEGIN LESSON</x-components.3d_button>
                                                 @if($user_is_owner)
@@ -108,6 +105,12 @@
                                                     @endif
                                                 @endif
                                             </div>
+                                            @if( $highScore != 0 )
+                                                <div class="high-score flex-row">
+                                                    <span class="text">HIGH SCORE:   </span>
+                                                    <span class="number">{{ $highScore }}</span>
+                                                </div>
+                                            @endif
                                         </div>
                                     @else {{-- Display the soft error message if the lesson can't be found. --}}
                                         <div class="section-item lesson flex-col" id="{{ $section_item->id }}">
@@ -163,6 +166,7 @@
 
     {{-- Manage client-side JavaScript files --}}
     <script src="{{ asset("assets/scripts/courses/collapse_sections.js") }}"></script>
+    <script src="{{ asset("assets/scripts/courses/high_scores.js") }}"></script>
     @if ($is_editing) {{-- These scripts are used only for when editing course content --}}
         <script>
             courseId = '{{ $course->id }}';

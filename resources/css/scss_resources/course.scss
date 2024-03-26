@@ -177,6 +177,23 @@
         .three-d {
             height: 25px;
         }
+
+        div.high-score {
+            display: flex;
+            background-color: nth($blue, 2);
+            border-radius: 8px;
+            width: max-content;
+            margin-left: -10px;
+            margin-bottom: -5px;
+            font-size: 0.8em;
+            padding: 2px 5px;
+            color: color.adjust(nth($blue, 1), $red: -25, $green: -25, $blue: -25);
+            box-shadow: -2px 2px 0px 0px color.adjust(nth($blue, 1), $red: -25, $green: -25, $blue: -25);
+
+            span {
+                display: block;
+            }
+        }
     }
 
     @media (max-width: 640px) {
