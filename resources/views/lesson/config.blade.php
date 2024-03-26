@@ -178,7 +178,7 @@
 
                     @case("TEXT")
                         <div class="lesson-config text flex-col" id="{{ $item->id }}">
-                            <div class="display-case">
+                            <div class="container display-case">
                                 <h2>{{ $item->item_title }}</h2>
                                 @if($item->description)
                                     <h3>{{ $item->description }}</h3>
@@ -213,82 +213,6 @@
 </x-structure.wrapper>
 
 <script src="{{ asset("assets/scripts/courses/admin/config-wordsearch.js") }}"></script>
-<script>
-    const formButton = $("#add-btn");
-    const formBox = $("#new-lesson-item");
-    const subFormBox = $(".detail-container");
-    $(formButton).on('click', function() {
-        if ($(formBox).data('open')) { return; }
-        $(formBox)
-            .animate({ height: $(formBox).data('height') }, 500, function() { $(formBox).css('height', ''); })
-            .data('open', true)
-    });
-    $(formBox)
-        .data({
-            height: $(formBox).height(),
-            open: false
-        })
-        .css({ height: 0, overflow: 'hidden' });
-    $("#select-item-type").on('change', function () {
-        $(subFormBox).empty();
-        $.ajax({
-            url: "{{ route("course.lesson.configure.form-request", [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}",
-            data: {
-                'form-name': $("#select-item-type").val()
-            },
-            success: function(response) {
-                $(subFormBox).html(response);
-            }
-        });
-    });
-</script>
-<script>
-    function getElementDetails(element) {
-        const $element = $(element);
-        return {
-            width: $element.width(),
-            height: $element.height(),
-            x: $element.offset().left,
-            y: $element.offset().top,
-        };
-    }
-
-    $("div.lesson-config.fill-blanks").each(function() {
-        let container = $(this);
-        let blanks = $(container).find("span.blank");
-        let options = $(container).find("button.three-d");
-
-        $(options).each(function() {
-            if ($(this).attr('id')) {
-                let index = $(this).attr('id');
-                let blank = $(blanks).not('.filled')[0];
-                let fieldDetails = getElementDetails(blank);
-                $(this).css({
-                    width: fieldDetails.width,
-                    height: fieldDetails.height,
-                    left: fieldDetails.x + 1,
-                    top: fieldDetails.y - 6,
-                    position: 'absolute'
-                });
-                $(blank).css('borderWidth', 0).addClass("filled").attr("option", index);
-            }
-        })
-    });
-
-    // Window logic, to move the absolute form buttons when the window size is changed.
-    $(window).on("resize", function() {
-        $("span.blank").filter(".filled").each(function(_, field) {
-            const selectedOption = $(field).attr("option");
-            if (selectedOption) {
-                const optionElement = $("#" + selectedOption);
-                const fieldDetails = getElementDetails(field);
-                optionElement.css({
-                    width: fieldDetails.width,
-                    height: fieldDetails.height,
-                    left: fieldDetails.x + 1,
-                    top: fieldDetails.y - 6,
-                });
-            }
-        });
-    });
-</script>
+<script> formRequestRoute = "{{ route("course.lesson.configure.form-request", [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}"; </script>
+<script src="{{ asset("assets/scripts/courses/lessons/add_component.js") }}"></script>
+<script src="{{ asset("assets/scripts/courses/lessons/manage_bf_questions.js") }}"></script>
