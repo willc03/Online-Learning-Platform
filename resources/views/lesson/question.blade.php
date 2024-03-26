@@ -40,39 +40,39 @@
             @switch($question->item_value['question_type'])
 
                 @case("single_choice")
-                    <x-questions.single_choice :choices="$question->item_value['question_choices']"
+                    <x-courses.questions.single_choice :choices="$question->item_value['question_choices']"
                                                :one_time_answer="$question->item_value['one_time_answer']"
                                                :course="$course"
                                                :lesson="$lesson"/>
                     @break
 
                 @case("multiple_choice")
-                    <x-questions.multiple_choice :choices="$question->item_value['question_choices']"
+                    <x-courses.questions.multiple_choice :choices="$question->item_value['question_choices']"
                                                  :course="$course"
                                                  :lesson="$lesson"/>
                     @break
 
                 @case("fill_in_blanks")
-                    <x-questions.fill_in_blanks :choices="$question->item_value['question_choices']"
+                    <x-courses.questions.fill_in_blanks :choices="$question->item_value['question_choices']"
                                                 :course="$course"
                                                 :lesson="$lesson"/>
                     @break
 
                 @case("true_or_false")
-                    <x-questions.true_false :one-time-answer="$question->item_value['one_time_answer']"
+                    <x-courses.questions.true_false :one-time-answer="$question->item_value['one_time_answer']"
                                             :course="$course"
                                             :lesson="$lesson"/>
                     @break
 
                 @case("order")
-                    <x-questions.order :choices="$question->item_value['answer_slots']"
+                    <x-courses.questions.order :choices="$question->item_value['answer_slots']"
                                        :direction="$question->item_value['direction']"
                                        :course="$course"
                                        :lesson="$lesson"/>
                     @break
 
                 @case("match")
-                    <x-questions.match :choices="$question->item_value['items_to_match']"
+                    <x-courses.questions.match :choices="$question->item_value['items_to_match']"
                                        :is_random="$question->item_value['are_sides_random']"
                                        :course="$course"
                                        :lesson="$lesson"/>
@@ -92,7 +92,7 @@
                         }
                         $wordsearch = WordSearch\Factory::create($words, $maxLength + 5);
                     @endphp
-                    <x-questions.wordsearch :puzzle="$wordsearch"
+                    <x-courses.questions.wordsearch :puzzle="$wordsearch"
                                             :course="$course"
                                             :lesson="$lesson"/>
                     @break
