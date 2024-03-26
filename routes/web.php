@@ -92,6 +92,7 @@ Route::prefix('course/{id}')
                 Route::get('/start', [ Lesson::class, 'start' ])->name('start');
                 Route::post('/answer', [ Lesson::class, 'answer' ])->name('answer');
                 Route::post('/partial', [ Lesson::class, 'partial' ])->name('partial');
+                Route::post('/end', [ Lesson::class, 'end' ])->name('end');
                 // Admin routes
                 Route::get('/attempts', [ Lesson::class, 'attempts' ])->name('attempts')->middleware('course.owner');
                 Route::prefix('config')->name('configure.')->group(function () {

@@ -334,6 +334,7 @@ class Lesson extends Controller
      * @throws NotFoundExceptionInterface
      */
     private function complete(Request $request, string $id, string $lessonId)
+    public function end ( string $id, string $lessonId )
     {
         // Create the database entry
         $completedLessonRecord = new UserCompletedLesson;
@@ -347,6 +348,10 @@ class Lesson extends Controller
             return redirect()->to(route('course.home', [ 'id' => $id ]))->with(['COMPLETED_LESSON' => $score, 'LESSON_TITLE' => LessonModel::whereId($lessonId)->firstOrFail()->title]);
         } else {
             return back()->withErrors([ 'RECORD_SAVE_ERROR' => 'Could not upload the lesson completion record to the database. Please try again.' ]);
+        if ( session()->get('lesson.id', null) == $lessonId ) {
+            session()->pull('lesson');
+            return redirect()->to(route('course.home', ['id' => $id]));
         }
+        return back()->withErrors(['NO_LESSON' => 'Could not end the lesson, please try again.']);
     }
 }
