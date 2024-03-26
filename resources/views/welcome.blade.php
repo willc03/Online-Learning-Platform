@@ -3,6 +3,10 @@
     @if(session()->get('PASSWORD_CHANGED', null))
         <x-messages.success title="Password Changed" description="{{ session()->get('PASSWORD_CHANGED') }}" />
     @endif
+    {{-- Welcome back message --}}
+    @if(auth()->user())
+        <h2><span class="italicise">Welcome back, {{ strtok(auth()->user()->name, " ") }}!</span></h2>
+    @endif
     {{-- Display the courses the user is currently taking first --}}
     @auth
         @if(auth()->user()->displayableCourses->count() > 0)

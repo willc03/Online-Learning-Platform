@@ -1,5 +1,6 @@
 <x-structure.wrapper title="Account">
     <h1>Account Settings</h1>
+    <span class="italicise">Welcome back, {{ strtok(auth()->user()->name, " ") }}</span>
     <h2>Change Password</h2>
     <x-components.3d_button class="course-button-mini" fg-color="#43AA8B" bg-color="#245B4A" id="password-change-button">Change password</x-components.3d_button>
     <form method="post" action="{{ route('account.new-password') }}" class="form-flex" id="change-password">
