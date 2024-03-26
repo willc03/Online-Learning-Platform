@@ -1,0 +1,44 @@
+#change-password {
+    label {
+        width: calc(100% - 20px);
+        padding: 10px;
+    }
+
+    span:not(.foreground) {
+        display: inline-block;
+        word-wrap: break-word;
+        width: 25%;
+    }
+
+    input, textarea {
+        width: 75%;
+        @media (max-width: 640px) {
+            width: calc(100% - 40px)
+        }
+    }
+
+    background-color: #CBD1D9;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+
+    legend {
+        background-color: #6a7eb3;
+        width: calc(100% - 20px);
+        padding: 10px;
+        color: white;
+    }
+
+    #password-requirements {
+        border: 1px solid nth($blue, 1);
+        width: 75%;
+        margin-bottom: 10px;
+        @media (max-width: 640px) {
+            width: 95%
+        }
+    }
+
+    @media (max-width: 640px) {
+        span {
+            width: 100%;
+        }
+    }
+}

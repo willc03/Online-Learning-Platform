@@ -1476,4 +1476,47 @@ form:not([id=logout-form]) .custom-toggle .toggle-label:focus {
   }
 }
 
+#change-password {
+  background-color: #CBD1D9;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+}
+#change-password label {
+  width: calc(100% - 20px);
+  padding: 10px;
+}
+#change-password span:not(.foreground) {
+  display: inline-block;
+  word-wrap: break-word;
+  width: 25%;
+}
+#change-password input, #change-password textarea {
+  width: 75%;
+}
+@media (max-width: 640px) {
+  #change-password input, #change-password textarea {
+    width: calc(100% - 40px);
+  }
+}
+#change-password legend {
+  background-color: #6a7eb3;
+  width: calc(100% - 20px);
+  padding: 10px;
+  color: white;
+}
+#change-password #password-requirements {
+  border: 1px solid #6a7eb3;
+  width: 75%;
+  margin-bottom: 10px;
+}
+@media (max-width: 640px) {
+  #change-password #password-requirements {
+    width: 95%;
+  }
+}
+@media (max-width: 640px) {
+  #change-password span {
+    width: 100%;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */

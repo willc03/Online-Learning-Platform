@@ -1,5 +1,6 @@
 <?php
 
+use \App\Http\Controllers\Account;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Course\Course;
@@ -127,6 +128,18 @@ Route::prefix('course/{id}') // {id} mandates an id attribute in the URL
                 Route::post('upload', [ CourseFile::class, 'upload' ])->name('upload')->middleware('course.owner'); // Allow the course owner to upload files
                 Route::delete('remove', [ CourseFile::class, 'remove' ])->name('remove')->middleware('course.owner'); // Allow the user to delete files.
             });
+    });
+/*
+ * These routes will be used to provide the user with the facility
+ * to edit their account. At present, the user can only change th-
+ * eir password. This will be explained in the report.
+ */
+Route::prefix("account")
+    ->name("account.")
+    ->middleware('auth')
+    ->group(function() {
+        Route::get('/', [ Account::class, 'show' ])->name('show');
+        Route::post('/new-password', [Account::class, 'change_password'])->name('new-password');
     });
 
 // General pages (primarily static content)

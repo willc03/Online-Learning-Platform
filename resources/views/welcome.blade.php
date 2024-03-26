@@ -1,4 +1,8 @@
 <x-structure.wrapper title="Home">
+    {{-- Password success message --}}
+    @if(session()->get('PASSWORD_CHANGED', null))
+        <x-messages.success title="Password Changed" description="{{ session()->get('PASSWORD_CHANGED') }}" />
+    @endif
     {{-- Display the courses the user is currently taking first --}}
     @auth
         @if(auth()->user()->displayableCourses->count() > 0)
