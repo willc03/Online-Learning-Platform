@@ -37,7 +37,7 @@ class Lesson extends Controller
     {
         // Check the lesson exists and can be used
         if ( !$lesson = $this->processLessonId($lessonId) ) {
-            return redirect()->to(route('course.home', ['id' => $id]))->withErrors(['LESSON_DOES_NOT_EXIST' => 'The requested lesson could not be found or does not exist!']);
+            return redirect()->to(route('course.home', [ 'id' => $id ]))->withErrors([ 'LESSON_DOES_NOT_EXIST' => 'The requested lesson could not be found or does not exist!' ]);
         }
         // If the lesson exists, begin
         session()->put('lesson', [
@@ -47,7 +47,7 @@ class Lesson extends Controller
             'xp'       => 0,
             'answered' => [],
         ]);
-        return redirect()->to(route('course.lesson.main', ['id' => $id, 'lessonId' => $lessonId]));
+        return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]));
     }
 
     /**
@@ -59,7 +59,7 @@ class Lesson extends Controller
      */
     private function processLessonId ( string $lessonId )
     {
-        $lessonQuery = LessonModel::where(['id' => $lessonId]);
+        $lessonQuery = LessonModel::where([ 'id' => $lessonId ]);
         if ( !$lessonQuery->exists() ) {
             return false;
         } else {
@@ -85,7 +85,7 @@ class Lesson extends Controller
         $course = Course::findOrFail($id);
         // Now check the lesson exists and can be used
         if ( !$lesson = $this->processLessonId($lessonId) ) {
-            return redirect()->to(route('course.home', ['id' => $id]))->withErrors(['LESSON_DOES_NOT_EXIST' => 'The requested lesson could not be found or does not exist!']);
+            return redirect()->to(route('course.home', [ 'id' => $id ]))->withErrors([ 'LESSON_DOES_NOT_EXIST' => 'The requested lesson could not be found or does not exist!' ]);
         }
         /*
          * LESSON LOGIC TO GO HERE
@@ -97,7 +97,7 @@ class Lesson extends Controller
             ]);
         } else {
             // Get the progression percentage
-            $lessonItemQuery = LessonItem::where(['lesson_id' => $lessonId]);
+            $lessonItemQuery = LessonItem::where([ 'lesson_id' => $lessonId ]);
             $lessonItems = $lessonItemQuery->orderBy('position')->get();
             $percentage = floor(( session()->get('lesson.position', 1) / count($lessonItems->toArray()) ) * 100);
             return view('lesson.question', [
@@ -120,8 +120,8 @@ class Lesson extends Controller
     {
         // Set up some required information to process the answer
         $validatedData = $request->validate([
-            'question_id' => ['required'],
-            'answer'      => ['required'],
+            'question_id' => [ 'required' ],
+            'answer'      => [ 'required' ],
         ]);
 
         // Get the details on the question
@@ -173,19 +173,19 @@ class Lesson extends Controller
         $isAnswerCorrect = false;
         // Ensure the necessary components are
         $validatedData = $request->validate([
-            'question_id' => ['required', Rule::requiredIf(fn () => Rule::exists('lesson_items', 'id') || Rule::in('start'))],
-            'answer'      => [Rule::excludeIf(fn () => $request['question_id'] === "start"), Rule::excludeIf(fn () => !LessonItem::whereId($request['question_id'])->exists() || LessonItem::findOrFail($request['question_id'])->item_type == "TEXT"), 'required'],
+            'question_id' => [ 'required', Rule::requiredIf(fn () => Rule::exists('lesson_items', 'id') || Rule::in('start')) ],
+            'answer'      => [ Rule::excludeIf(fn () => $request['question_id'] === "start"), Rule::excludeIf(fn () => !LessonItem::whereId($request['question_id'])->exists() || LessonItem::findOrFail($request['question_id'])->item_type == "TEXT"), 'required' ],
         ]);
         // Process the user to the first question if the id is start
         if ( $validatedData['question_id'] == 'start' ) {
             session()->put('lesson.position', 1);
-            return redirect()->to(route('course.lesson.main', ['id' => $id, 'lessonId' => $lessonId]));
+            return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]));
         }
         // Process logic with the lesson item
         $lessonItem = LessonItem::findOrFail($validatedData['question_id']);
         // Process already-answered questions
         if ( in_array($lessonItem->id, session()->get('lesson.answered', [])) ) {
-            return redirect()->to(route('course.lesson.main', ['id' => $id, 'lessonId' => $lessonId]))->withErrors(['ALREADY_ANSWERED' => 'You cannot resubmit an answer to a completed question!']);
+            return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]))->withErrors([ 'ALREADY_ANSWERED' => 'You cannot resubmit an answer to a completed question!' ]);
         }
         // Process new answers
         switch ( $lessonItem->item_type ) {
@@ -239,7 +239,7 @@ class Lesson extends Controller
                 }
                 break;
             default:
-                return back()->withErrors(['UNSUPPORTED_ITEM' => 'The item type is unsupported.']);
+                return back()->withErrors([ 'UNSUPPORTED_ITEM' => 'The item type is unsupported.' ]);
                 break;
         }
         // If the item is a question, manage the streak.
@@ -255,17 +255,17 @@ class Lesson extends Controller
         if ( $isAnswerCorrect ) {
             session()->push('lesson.answered', $lessonItem->id);
             $nextPositionQuery = LessonItem::where([
-                ['lesson_id', '=', $lessonId],
-                ['position', '>', $lessonItem->position],
+                [ 'lesson_id', '=', $lessonId ],
+                [ 'position', '>', $lessonItem->position ],
             ]);
             if ( $nextPositionQuery->count() > 0 ) { // There is another question or item
                 session()->put('lesson.position', $nextPositionQuery->min('position'));
-                return redirect()->to(route('course.lesson.main', ['id' => $id, 'lessonId' => $lessonId]));
+                return redirect()->to(route('course.lesson.main', [ 'id' => $id, 'lessonId' => $lessonId ]));
             } else { // There is no more content left, the lesson is done.
                 return $this->complete($request, $id, $lessonId);
             }
         } else {
-            return back()->withErrors(['WRONG' => 'This answer is incorrect! Not to worry, have another go!']);
+            return back()->withErrors([ 'WRONG' => 'This answer is incorrect! Not to worry, have another go!' ]);
         }
     }
 
@@ -291,9 +291,9 @@ class Lesson extends Controller
         if ( $completedLessonRecord->save() ) {
             $score = session()->get('lesson.xp', 0);
             session()->forget('lesson');
-            return redirect()->to(route('course.home', ['id' => $id]))->with(['COMPLETED_LESSON' => $score, 'LESSON_TITLE' => LessonModel::whereId($lessonId)->firstOrFail()->title]);
+            return redirect()->to(route('course.home', [ 'id' => $id ]))->with([ 'COMPLETED_LESSON' => $score, 'LESSON_TITLE' => LessonModel::whereId($lessonId)->firstOrFail()->title ]);
         } else {
-            return back()->withErrors(['RECORD_SAVE_ERROR' => 'Could not upload the lesson completion record to the database. Please try again.']);
+            return back()->withErrors([ 'RECORD_SAVE_ERROR' => 'Could not upload the lesson completion record to the database. Please try again.' ]);
         }
     }
 
@@ -326,27 +326,27 @@ class Lesson extends Controller
     {
         // Validation
         $validatedData = $request->validate([
-            'form-name' => ['required', 'string', 'in:text,question,single-choice,multi-choice,fill-in-blanks,order,match,word-search,true-false',],
-            'form-type' => ['nullable', 'string'],
+            'form-name' => [ 'required', 'string', 'in:text,question,single-choice,multi-choice,fill-in-blanks,order,match,word-search,true-false', ],
+            'form-type' => [ 'nullable', 'string' ],
         ]);
         // Get the course
         $course = Course::find($id);
         // Get the form
         if ( !( array_key_exists('form-type', $validatedData) && $validatedData['form-type'] == 'question' ) ) {
             return match ( $validatedData['form-name'] ) {
-                'question' => view('components.courses.lessons.component_forms.question', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
-                'text'     => view('components.courses.lessons.component_forms.text', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
+                'question' => view('components.courses.lessons.component_forms.question', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'text'     => view('components.courses.lessons.component_forms.text', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
                 default    => 400,
             };
         } else {
             return match ( $validatedData['form-name'] ) {
-                'single-choice'  => view('components.courses.lessons.question_forms.single_choice', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
-                'multi-choice'   => view('components.courses.lessons.question_forms.multi_choice', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
-                'fill-in-blanks' => view('components.courses.lessons.question_forms.fill_blanks', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
-                'true-false'     => view('components.courses.lessons.question_forms.true_false', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
-                'order'          => view('components.courses.lessons.question_forms.order', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
-                'match'          => view('components.courses.lessons.question_forms.match', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
-                'word-search'    => view('components.courses.lessons.question_forms.word_search', ['course' => $course, 'lesson' => LessonModel::find($lessonId)]),
+                'single-choice'  => view('components.courses.lessons.question_forms.single_choice', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'multi-choice'   => view('components.courses.lessons.question_forms.multi_choice', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'fill-in-blanks' => view('components.courses.lessons.question_forms.fill_blanks', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'true-false'     => view('components.courses.lessons.question_forms.true_false', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'order'          => view('components.courses.lessons.question_forms.order', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'match'          => view('components.courses.lessons.question_forms.match', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'word-search'    => view('components.courses.lessons.question_forms.word_search', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
                 default          => 400,
             };
         }
@@ -365,7 +365,7 @@ class Lesson extends Controller
         // Calculate maximum score
         $total = 0;
         $multiplier = 1;
-        $n = LessonItem::where(['lesson_id' => $lessonId, 'item_type' => 'QUESTION'])->count();
+        $n = LessonItem::where([ 'lesson_id' => $lessonId, 'item_type' => 'QUESTION' ])->count();
         for ( $i = 0 ; $i < $n ; $i++ ) {
             $total += ( 100 * $multiplier );
             $multiplier += 0.1;
@@ -373,7 +373,7 @@ class Lesson extends Controller
         // Get attempts
         $attempts = UserCompletedLesson::whereLessonId($lessonId)->get();
         // Display the view
-        return view('lesson.attempt', ['attempts' => $attempts, 'course' => Course::findOrFail($id), 'maxScore' => $total]);
+        return view('lesson.attempt', [ 'attempts' => $attempts, 'course' => Course::findOrFail($id), 'maxScore' => $total ]);
     }
 
     /**
@@ -391,7 +391,11 @@ class Lesson extends Controller
     {
         if ( session()->get('lesson.id', null) == $lessonId ) {
             session()->pull('lesson');
-            return redirect()->to(route('course.home', ['id' => $id]));
+            return redirect()->to(route('course.home', [ 'id' => $id ]));
+        }
+        return back()->withErrors([ 'NO_LESSON' => 'Could not end the lesson, please try again.' ]);
+    }
+
     public function modify ( Request $request, string $id, string $lessonId )
     {
         // We assume the user owns the course here due to the route being protected by middleware.
@@ -427,7 +431,6 @@ class Lesson extends Controller
             default:
                 return response("The edit type is not supported.", 403);
         }
-        return back()->withErrors(['NO_LESSON' => 'Could not end the lesson, please try again.']);
     }
 
 }
