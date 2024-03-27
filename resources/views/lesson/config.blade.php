@@ -19,7 +19,9 @@
 
                             @case('single_choice')
                                 <div class="lesson-config question single-choice flex-col" id="{{ $item->id }}">
-                                    <h2 class="title">{{ $item->item_title }}</h2>
+                                    <h2 class="flex-row"><span class="title var-width">{{ $item->item_title }}</span>
+                                        <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                                    </h2>
                                     <div class="container">
                                         <h3>Single Choice Question</h3>
                                         @if($item->description)
@@ -44,7 +46,9 @@
 
                             @case('multiple_choice')
                                 <div class="lesson-config question multiple-choice flex-col" id="{{ $item->id }}">
-                                    <h2 class="title">{{ $item->item_title }}</h2>
+                                    <h2 class="flex-row"><span class="title var-width">{{ $item->item_title }}</span>
+                                        <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                                    </h2>
                                     <div class="container">
                                         <h3>Multiple Choice Question</h3>
                                         @if($item->description)
@@ -66,7 +70,9 @@
 
                             @case('true_or_false')
                                 <div class="lesson-config question true-false flex-col" id="{{ $item->id }}">
-                                    <h2 class="title">{{ $item->item_title }}</h2>
+                                    <h2 class="flex-row"><span class="title var-width">{{ $item->item_title }}</span>
+                                        <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                                    </h2>
                                     <div class="container">
                                         <h3>True or False Question</h3>
                                         @if($item->description)
@@ -94,7 +100,9 @@
                                 @break
                             @case('match')
                                 <div class="lesson-config question match flex-col" id="{{ $item->id }}">
-                                    <h2 class="title">{{ $item->item_title }}</h2>
+                                    <h2 class="flex-row"><span class="title var-width">{{ $item->item_title }}</span>
+                                        <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                                    </h2>
                                     <div class="container">
                                         <h3>Match Question</h3>
                                         @if($item->description)
@@ -113,7 +121,9 @@
                                 @break
                             @case('wordsearch')
                                 <div class="lesson-config question wordsearch flex-col" id="{{ $item->id }}">
-                                    <h2 class="title">{{ $item->item_title }}</h2>
+                                    <h2 class="flex-row"><span class="title var-width">{{ $item->item_title }}</span>
+                                        <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                                    </h2>
                                     <div class="container">
                                         <h3>Word Search Question</h3>
                                         @if($item->description)
@@ -150,7 +160,9 @@
                                 @break
                             @case('order')
                                 <div class="lesson-config question order flex-col" id="{{ $item->id }}">
-                                    <h2 class="title">{{ $item->item_title }}</h2>
+                                    <h2 class="flex-row"><span class="title var-width">{{ $item->item_title }}</span>
+                                        <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                                    </h2>
                                     <div class="container">
                                         <h3>Order Question</h3>
                                         @if($item->description)
@@ -170,7 +182,9 @@
                                 @break
                             @case('fill_in_blanks')
                                 <div class="lesson-config question fill-blanks flex-col" id="{{ $item->id }}">
-                                    <h2 class="title">{!! str_replace("\\n", "<br>", (str_replace("%", '<span class=\'blank\'> </span>', $item->item_title))) !!}</h2>
+                                    <h2 class="title flex-row"><span class="title var-width">{!! str_replace("\\n", "<br>", (str_replace("%", '<span class=\'blank\'> </span>', $item->item_title))) !!}</span>
+                                        <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                                    </h2>
                                     <div class="container">
                                         <h3>Fill in Blanks Question</h3>
                                         @if($item->description)
@@ -193,7 +207,9 @@
 
                     @case("TEXT")
                         <div class="lesson-config text flex-col" id="{{ $item->id }}">
-                            <h2>{{ $item->item_title }}</h2>
+                            <h2 class="flex-row"><span class="title var-width">{{ $item->item_title }}</span>
+                                <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                            </h2>
                             <div class="container display-case">
                                 @if($item->description)
                                     <h3>{{ $item->description }}</h3>
@@ -250,3 +266,4 @@
 <script src="{{ asset("assets/scripts/courses/lessons/add_component.js") }}"></script>
 <script src="{{ asset("assets/scripts/courses/lessons/manage_bf_questions.js") }}"></script>
 <script src="{{ asset("assets/scripts/courses/lessons/component-order.js") }}"></script>
+<script src="{{ asset("assets/scripts/courses/lessons/delete-component.js") }}"></script>

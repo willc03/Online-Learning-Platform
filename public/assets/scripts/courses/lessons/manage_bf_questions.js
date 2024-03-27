@@ -11,7 +11,7 @@ function getElementDetails(element) {
 $("div.lesson-config.fill-blanks").each(function() {
     let container = $(this);
     let blanks = $(container).find("span.blank");
-    let options = $(container).find("button.three-d");
+    let options = $(container).find("button.three-d:not(#delete-button)");
 
     $(options).each(function() {
         if ($(this).attr('id')) {

@@ -826,6 +826,9 @@ body .var-width {
 body .right-spacer {
   margin-right: 5px;
 }
+body .remove-bottom-spacer {
+  margin-bottom: 0 !important;
+}
 body .move {
   cursor: move;
 }
