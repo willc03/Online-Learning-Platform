@@ -31,18 +31,4 @@ $("div.lesson-config.fill-blanks").each(function() {
 });
 
 // Window logic, to move the absolute form buttons when the window size is changed.
-$(window).on("resize", function() {
-    $("span.blank").filter(".filled").each(function(_, field) {
-        const selectedOption = $(field).attr("option");
-        if (selectedOption) {
-            const optionElement = $("#" + selectedOption);
-            const fieldDetails = getElementDetails(field);
-            optionElement.css({
-                width: fieldDetails.width,
-                height: fieldDetails.height,
-                left: fieldDetails.x + 1,
-                top: fieldDetails.y - 6,
-            });
-        }
-    });
-});
+$(window).on("resize", resetBFButtons);

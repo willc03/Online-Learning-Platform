@@ -1,6 +1,9 @@
 <x-structure.wrapper title="Configure Lesson">
-    <x-components.3d_button class="course-button-mini" fg_color="#43AA8B" bg_color="#245B4A" onclick="location.href = '{{ route('course.home', [ 'id' => $course->id, 'editing' => 'true' ]) }}'">Return to course</x-components.3d_button>
-    <x-components.3d_button class="course-button-mini" fg_color="#43AA8B" bg_color="#245B4A" onclick="location.href = '{{ route('course.home', [ 'id' => $course->id ]) }}'">Return to course (without admin mode)</x-components.3d_button>
+    <div class="flex-row button-row">
+        <x-components.3d_button class="course-button-mini right-spacer" fg_color="#43AA8B" bg_color="#245B4A" onclick="location.href = '{{ route('course.home', [ 'id' => $course->id, 'editing' => 'true' ]) }}'">Return to course</x-components.3d_button>
+        <x-components.3d_button class="course-button-mini" fg_color="#43AA8B" bg_color="#245B4A" onclick="location.href = '{{ route('course.home', [ 'id' => $course->id ]) }}'">Return to course (without admin mode)</x-components.3d_button>
+    </div>
+    <x-components.3d_button id="re-order" class="course-button-mini" fg_color="#43AA8B" bg_color="#245B4A">Re-order components</x-components.3d_button>
     {{-- Display all the items on the lesson --}}
     <div class="lesson-items">
         @if($lesson->items->count() === 0)
@@ -23,7 +26,8 @@
                                             <p>{{ $item->description }}</p>
                                         @endif
                                         <div class="answer-field single-choice-field">
-                                            @foreach($item->item_value['question_choices'] as $option) {{-- $value is passed in from the question page --}}
+                                            @foreach($item->item_value['question_choices'] as $option)
+                                                {{-- $value is passed in from the question page --}}
                                                 @if ($option == $item->item_value['correct_answer'])
                                                     <x-components.3d_button class="option-button selected" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A">{{ $option }}</x-components.3d_button>
                                                 @else
@@ -47,12 +51,13 @@
                                             <p>{{ $item->description }}</p>
                                         @endif
                                         <div class="answer-field multi-choice-field">
-                                            @foreach($item->item_value['question_choices'] as $option) {{-- $value is passed in from the question page --}}
-                                            @if (in_array($option, $item->item_value['correct_answers']))
-                                                <x-components.3d_button class="option-button selected" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A">{{ $option }}</x-components.3d_button>
-                                            @else
-                                                <x-components.3d_button class="option-button" value="{{ $option }}" fg_color="#D10023" bg_color="#840016">{{ $option }}</x-components.3d_button>
-                                            @endif
+                                            @foreach($item->item_value['question_choices'] as $option)
+                                                {{-- $value is passed in from the question page --}}
+                                                @if (in_array($option, $item->item_value['correct_answers']))
+                                                    <x-components.3d_button class="option-button selected" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A">{{ $option }}</x-components.3d_button>
+                                                @else
+                                                    <x-components.3d_button class="option-button" value="{{ $option }}" fg_color="#D10023" bg_color="#840016">{{ $option }}</x-components.3d_button>
+                                                @endif
                                             @endforeach
                                         </div>
                                     </div>
@@ -64,7 +69,9 @@
                                     <h2 class="title">{{ $item->item_title }}</h2>
                                     <div class="container">
                                         <h3>True or False Question</h3>
-                                        @if($item->description) <p>{{ $item->description }}</p> @endif
+                                        @if($item->description)
+                                            <p>{{ $item->description }}</p>
+                                        @endif
                                         <div class="answer-field true-false-field">
                                             {{-- Display the true button --}}
                                             @if($item->item_value['correct_answer'])
@@ -90,7 +97,9 @@
                                     <h2 class="title">{{ $item->item_title }}</h2>
                                     <div class="container">
                                         <h3>Match Question</h3>
-                                        @if($item->description) <p>{{ $item->description }}</p> @endif
+                                        @if($item->description)
+                                            <p>{{ $item->description }}</p>
+                                        @endif
                                         <div class="answer-field match-field flex-col">
                                             @foreach($item->item_value['items_to_match'] as $answer)
                                                 <div class="flex-row match-row">
@@ -107,7 +116,9 @@
                                     <h2 class="title">{{ $item->item_title }}</h2>
                                     <div class="container">
                                         <h3>Word Search Question</h3>
-                                        @if($item->description) <p>{{ $item->description }}</p> @endif
+                                        @if($item->description)
+                                            <p>{{ $item->description }}</p>
+                                        @endif
                                         <div class="answer-field wordsearch-field flex-col">
                                             @php
                                                 $max = 0;
@@ -142,7 +153,9 @@
                                     <h2 class="title">{{ $item->item_title }}</h2>
                                     <div class="container">
                                         <h3>Order Question</h3>
-                                        @if($item->description) <p>{{ $item->description }}</p> @endif
+                                        @if($item->description)
+                                            <p>{{ $item->description }}</p>
+                                        @endif
                                         <div class="answer-field order-field @if ($item->item_value['direction'] == 'vertical') flex-col @else flex-row @endif">
                                             @foreach($item->item_value['correct_answer'] as $answer)
                                                 @if ($item->item_value['direction'] == 'horizontal')
@@ -160,7 +173,9 @@
                                     <h2 class="title">{!! str_replace("\\n", "<br>", (str_replace("%", '<span class=\'blank\'> </span>', $item->item_title))) !!}</h2>
                                     <div class="container">
                                         <h3>Fill in Blanks Question</h3>
-                                        @if($item->description) <p>{{ $item->description }}</p> @endif
+                                        @if($item->description)
+                                            <p>{{ $item->description }}</p>
+                                        @endif
                                         <div class="answer-field fill-blanks-field">
                                             @foreach($item->item_value['question_choices'] as $answer)
                                                 @if(in_array($answer, $item->item_value['correct_answers']))
@@ -212,7 +227,111 @@
     </div>
 </x-structure.wrapper>
 
+<script>
+    function resetBFButtons (draggedPosition)
+    {
+        $("span.blank").filter(".filled").each(function (_, field) {
+            const selectedOption = $(field).attr("option");
+            if ( selectedOption ) {
+                const optionElement = $("#" + selectedOption);
+                const fieldDetails = getElementDetails(field);
+                // Check if draggedPosition is provided, otherwise use default position
+                optionElement.css({
+                    width: fieldDetails.width, height: fieldDetails.height, left: fieldDetails.x + 1, top: fieldDetails.y - 6,
+                });
+            }
+        });
+    }
+
+    formRequestRoute = "{{ route("course.lesson.configure.form-request", [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}";
+    lessonEditRoute = "{{ route('course.lesson.configure.modify', [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}"
+</script>
 <script src="{{ asset("assets/scripts/courses/admin/config-wordsearch.js") }}"></script>
-<script> formRequestRoute = "{{ route("course.lesson.configure.form-request", [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}"; </script>
 <script src="{{ asset("assets/scripts/courses/lessons/add_component.js") }}"></script>
 <script src="{{ asset("assets/scripts/courses/lessons/manage_bf_questions.js") }}"></script>
+<script>
+    const reorderButton = $("#re-order");
+    const lessonItems = $(".lesson-items");
+    const lessonComponents = $(".lesson-config");
+    // Set defaults for lesson component sortable
+    $(lessonItems).sortable({
+        cursor: "move", disabled: true, start: function (_, ui) {
+            let item = $(ui.item);
+            $(item).find("button").css('opacity', '0')
+        }, stop: function (_, ui) {
+            resetBFButtons();
+            let item = $(ui.item);
+            $(item).find("button").css('opacity', '')
+        }, change: function () {
+            resetBFButtons();
+        }
+    });
+    // Set defaults for lesson components
+    $(lessonComponents).each(function () {
+        let container = $(this).find(".container");
+        $(container)
+            .data({ height: $(container).height(), paddingTop: $(container).css('paddingTop'), paddingBottom: $(container).css('paddingBottom') })
+            .css('overflow', 'hidden')
+    });
+    // Button click behaviour
+    $(reorderButton)
+        .data('active', false)
+        .on('click', function () {
+            if ( $(this).data('active') ) {
+                $(this).animate({ backgroundColor: "#245B4A" }, 500);
+                $(this).find('.foreground').animate({ backgroundColor: "#43AA8B" }, 500).text("Re-order components");
+                // Disable the sorter
+                $(lessonItems).sortable("option", "disabled", true);
+                $(lessonComponents).each(function () {
+                    let container = $(this).find(".container");
+                    // Make the fill blank buttons invisible
+                    if ( $(this).hasClass("fill-blanks") ) {
+                        $(this).find("button").css('opacity', '0');
+                    }
+                    // Re-open the section
+                    $(container).animate({ height: $(container).data("height"), paddingTop: $(container).data("paddingTop"), paddingBottom: $(container).data("paddingBottom") }, 500, function () {
+                        // Make the height variable once more
+                        $(container).css('height', '');
+                        resetBFButtons();
+                        // Make all buttons visible
+                        $(lessonItems).find("button").css('opacity', '100');
+                    });
+                });
+                // Submit the AJAX request containing the new order
+                // First, get the new order
+                setTimeout(function () {
+                    let data = [];
+                    let index = 1;
+                    $(".lesson-config").each(function () {
+                        data.push({ id: $(this).attr('id'), position: index++ });
+                    })
+                    $.ajax({
+                        url: lessonEditRoute, method: 'POST', headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }, data: {
+                            'edit-type': 'order', 'data': data
+                        }, success: function () {
+                            console.log("Successful edit.")
+                        }
+                    });
+                }, 100);
+            } else {
+                $(this).animate({ backgroundColor: "#88A236" }, 500);
+                $(this).find('.foreground').animate({ backgroundColor: "#B1CA65" }, 500).text("Save new order");
+                // Enable the sorter and close the sections
+                $(lessonComponents).each(function () {
+                    let container = $(this).find(".container");
+                    if ( $(this).hasClass("fill-blanks") ) {
+                        $(this).find("button").css('opacity', '0');
+                    }
+                    $(container).animate({ height: 0, paddingTop: 0, paddingBottom: 0 }, 500, function () {
+                        resetBFButtons();
+                        $(lessonItems).find("button").css('opacity', '');
+                    });
+                });
+                $(lessonItems).sortable("option", "disabled", false);
+            }
+            // Flip the active switch
+            $(this).data('active', !$(this).data('active'));
+        })
+</script>

@@ -802,6 +802,9 @@ body .flex-row {
   flex-direction: row !important;
   align-items: center;
 }
+body .button-row {
+  align-items: baseline;
+}
 body .flex-col {
   display: flex;
   flex-direction: column !important;
@@ -819,6 +822,9 @@ body .form-flex {
 }
 body .var-width {
   flex-grow: 1; /* Grow to take up remaining space */
+}
+body .right-spacer {
+  margin-right: 5px;
 }
 body .move {
   cursor: move;

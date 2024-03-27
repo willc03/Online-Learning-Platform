@@ -13,6 +13,10 @@ body {
         align-items: center;
     }
 
+    .button-row {
+        align-items: baseline;
+    }
+
     .flex-col {
         display: flex;
         flex-direction: column!important;
@@ -34,6 +38,10 @@ body {
 
     .var-width {
         flex-grow: 1; /* Grow to take up remaining space */
+    }
+
+    .right-spacer {
+        margin-right: 5px;
     }
 
     .move {

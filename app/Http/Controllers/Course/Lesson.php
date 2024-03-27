@@ -13,6 +13,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -391,6 +392,40 @@ class Lesson extends Controller
         if ( session()->get('lesson.id', null) == $lessonId ) {
             session()->pull('lesson');
             return redirect()->to(route('course.home', ['id' => $id]));
+    public function modify ( Request $request, string $id, string $lessonId )
+    {
+        // We assume the user owns the course here due to the route being protected by middleware.
+        $allowedEditTypes = [ 'order' ];
+        $course = Course::find($id);
+        $lesson = LessonModel::find($lessonId);
+        // Sanitise the request
+        $validatedData = $request->validate([
+            'edit-type' => [ 'required', 'string', 'in:' . implode(',', $allowedEditTypes) ],
+            'data'      => [ 'required' ],
+        ]);
+        // Process the request
+        switch ($validatedData['edit-type'])
+        {
+            case "order":
+                // Further validation
+                $validator = Validator::make($validatedData, [
+                    'data.*.id' => ['required', 'exists:lesson_items,id']
+                ]);
+                if ($validator->fails()) {
+                    return response("Validation failed.", 403);
+                }
+                // Make the changes
+                foreach($validatedData['data'] as $item) {
+                    $lessonItem = LessonItem::where([ 'id' => $item['id'] ])->firstOrFail();
+                    $lessonItem->position = $item['position'];
+                    if (!$lessonItem->save()) {
+                        return response("Couldn't save a record", 500);
+                    }
+                }
+                return response("Successfully changed all positions", 200);
+                break;
+            default:
+                return response("The edit type is not supported.", 403);
         }
         return back()->withErrors(['NO_LESSON' => 'Could not end the lesson, please try again.']);
     }
