@@ -193,8 +193,8 @@
 
                     @case("TEXT")
                         <div class="lesson-config text flex-col" id="{{ $item->id }}">
+                            <h2>{{ $item->item_title }}</h2>
                             <div class="container display-case">
-                                <h2>{{ $item->item_title }}</h2>
                                 @if($item->description)
                                     <h3>{{ $item->description }}</h3>
                                 @else
