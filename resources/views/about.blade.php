@@ -1,31 +1,4 @@
 <x-structure.wrapper title="About">
-    <style>
-        .requirements-container {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .requirements-container .requirements {
-            width: calc(50% - 20px);
-            padding: 10px;
-        }
-        ul {
-            list-style: none;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-        @media (max-width: 640px) {
-            .requirements-container {
-                flex-direction: column;
-            }
-            .requirements-container .requirements {
-                width: 100%;
-            }
-        }
-    </style>
-
     {{-- Title --}}
     <h1>About</h1>
     {{-- Introduction --}}

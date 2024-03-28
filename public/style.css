@@ -832,6 +832,30 @@ body .remove-bottom-spacer {
 body .move {
   cursor: move;
 }
+body .requirements-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+@media (max-width: 640px) {
+  body .requirements-container {
+    flex-direction: column;
+  }
+}
+body .requirements-container .requirements {
+  width: calc(50% - 20px);
+  padding: 10px;
+}
+@media (max-width: 640px) {
+  body .requirements-container .requirements .requirements {
+    width: 100%;
+  }
+}
+body .requirements-container ul {
+  list-style: none;
+}
+body .requirements-container ul li {
+  margin-bottom: 10px;
+}
 
 @media (max-width: 640px) {
   body main {
