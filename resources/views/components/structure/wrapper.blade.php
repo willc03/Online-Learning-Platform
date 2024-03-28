@@ -42,7 +42,8 @@
         </main>
     </div>
     <footer>
-        @guest {{-- Display a guest-only box to encourage the user to sign up --}}
+        @guest
+            {{-- Display a guest-only box to encourage the user to sign up --}}
             <div class="main-box">
                 <div class="description">
                     <p>Ready to start learning?</p>

@@ -1,4 +1,4 @@
-<input type="hidden" name="answer" id="answer"> {{-- Add a hidden attribute for the final submitted value --}}
+<input type="hidden" name="answer" id="answer" /> {{-- Add a hidden attribute for the final submitted value --}}
 <fieldset class="wordsearch-field"> {{-- Display the options to the user --}}
     <div class="wordsearch">
         @foreach($puzzle->toArray() as $row)

@@ -14,7 +14,7 @@
                 <x-components.3d_button id="return-home" fg_color="#CA6565" bg_color="#A23636" onclick="location.href = '{{ url(route('home')) }}'">Return to home</x-components.3d_button>
                 <form method="post" action="{{ url(route('join.accept')) }}">
                     @csrf
-                    <input type="hidden" name="id" value="{{ $_GET['id'] }}">
+                    <input type="hidden" name="id" value="{{ $_GET['id'] }}" />
                     <x-components.3d_button id="accept" fg_color="#B1CA65" bg_color="#88A236" onclick="location.href = '{{ url(route('home')) }}'">Accept</x-components.3d_button>
                 </form>
             </div>

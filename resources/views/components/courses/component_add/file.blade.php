@@ -1,12 +1,12 @@
 <form action="{{ route('course.edit', ['id' => $courseId]) }}" id="add-component-form" class="file" method="post">
     @csrf
-    <input type="hidden" name="component-type" value="file">
-    <input type="hidden" name="course-id" value="{{ $courseId }}">
-    <input type="hidden" name="section-id" value="{{ $sectionId }}">
+    <input type="hidden" name="component-type" value="file" />
+    <input type="hidden" name="course-id" value="{{ $courseId }}" />
+    <input type="hidden" name="section-id" value="{{ $sectionId }}" />
     <fieldset>
         <label>
             Title:
-            <input type="text" name="title" required>
+            <input type="text" name="title" required />
         </label>
         <br>
         <label>

@@ -2,15 +2,15 @@
 
 <fieldset class="middle">
     <input type="hidden" name="unique_anchor" value="{{ $varUUID }}" />
-    <input type="hidden" name="item-answers" value="-1">
+    <input type="hidden" name="item-answers" value="-1" />
     <legend>Word Search Question</legend>
     <label class="form-flex">
         <span class="required">Question text:</span>
-        <input type="text" name="item-title" required>
+        <input type="text" name="item-title" required />
     </label>
     <label class="form-flex">
         <span>Question description:</span>
-        <input type="text" name="item-description">
+        <input type="text" name="item-description" />
     </label>
 
     <fieldset class="middle">
@@ -18,7 +18,7 @@
         <p id="words-missing" class="error">Please ensure both the word and message fields are filled in.</p>
         <label class="form-flex">
             <span class="required">Word:</span>
-            <input type="text" name="word" placeholder="This will be displayed on the search grid.">
+            <input type="text" name="word" placeholder="This will be displayed on the search grid." />
         </label>
         <label class="form-flex">
             <span class="required">Message when found:</span>
@@ -42,16 +42,16 @@
 </div>
 
 <script>
-    $(function() {
+    $(function () {
         const errors = {
             wordsMissing: $("#words-missing")
         };
         const matchContainer = $("#word-display");
         let m1 = $("input[name='word']"), m2 = $("textarea[name='message']");
 
-        $(document).on('click', "#make-word", function() {
+        $(document).on('click', "#make-word", function () {
             let v1 = $(m1).val(), v2 = $(m2).val();
-            if (!v1 || !v2) {
+            if ( !v1 || !v2 ) {
                 return;
             }
 
@@ -68,28 +68,27 @@
         });
 
 
-        $(m1).add(m2).on("input", function() {
+        $(m1).add(m2).on("input", function () {
             let v1 = $(m1).val(), v2 = $(m2).val();
             console.log(v1, v2);
-            if (!v1 || !v2) {
+            if ( !v1 || !v2 ) {
                 errors.wordsMissing.css("display", "block");
             } else {
                 errors.wordsMissing.css("display", "none");
             }
         });
 
-        $(document).on('click', '#submit-btn-word-search', function() {
+        $(document).on('click', '#submit-btn-word-search', function () {
             // Check form elements are valid
-            if ($("#new-lesson-item").valid() === false) {
+            if ( $("#new-lesson-item").valid() === false ) {
                 return;
             }
             // Compile the answers
             let answers = [];
-            $(matchContainer).children().each(function() {
-                if (!($(this).find("p#one").text() === "" && $(this).find("p#two").text() === "")) {
+            $(matchContainer).children().each(function () {
+                if ( !($(this).find("p#one").text() === "" && $(this).find("p#two").text() === "") ) {
                     answers.push({
-                        word: $(this).find('p#one').text(),
-                        message: $(this).find('p#two').text()
+                        word: $(this).find('p#one').text(), message: $(this).find('p#two').text()
                     });
                 }
             });
@@ -101,8 +100,7 @@
 
         // Add rules for form validation
         $("#new-lesson-item").validate({
-            rules: { 'item-title': { required: true } },
-            messages: { 'item-title': { required: "Please enter the question title" } }
+            rules: { 'item-title': { required: true } }, messages: { 'item-title': { required: "Please enter the question title" } }
         });
     });
 </script>

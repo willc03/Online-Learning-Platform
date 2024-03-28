@@ -5,7 +5,7 @@
     <legend>Multiple Choice Question</legend>
     <label class="form-flex">
         <span class="required">Question text:</span>
-        <input type="text" name="item-title" required>
+        <input type="text" name="item-title" required />
     </label>
     <label class="form-flex">
         <span>Question description:</span>
@@ -14,12 +14,12 @@
     <label class="form-flex">
         <span class="required">Add answers:</span>
         <div class="flex-row answer-manager">
-            <input class="var-width" type="text" name="answer" id="answer-input">
+            <input class="var-width" type="text" name="answer" id="answer-input" />
             <x-components.3d_button type="button" id="add-btn" class="course-button-mini" fg-color="#43AA8B" bg-color="#245B4A">Add answer</x-components.3d_button>
         </div>
     </label>
     <div class="s-c-answers"></div>
-    <input type="hidden" name="item-answers">
+    <input type="hidden" name="item-answers" />
     <x-components.3d_button type="button" id="submit-btn-multi-choice" class="course-button-mini middle" fg-color="#43AA8B" bg-color="#245B4A">Create question</x-components.3d_button>
 </fieldset>
 
@@ -29,14 +29,14 @@
 </div>
 
 <script>
-    $(function() {
+    $(function () {
         let answers_{{ $varUUID }} = [];
         let answerInputBox = $("#answer-input");
         let answerContainer = $(".s-c-answers");
-        $(document).on('click', '#add-btn', function() {
-            if ($(answerInputBox).val()) {
+        $(document).on('click', '#add-btn', function () {
+            if ( $(answerInputBox).val() ) {
                 // Check for duplicate answers
-                if ($.inArray( $(answerInputBox).val() , answers_{{ $varUUID }}) !== -1 ) {
+                if ( $.inArray($(answerInputBox).val(), answers_{{ $varUUID }}) !== -1 ) {
                     alert("Cannot use duplicate answers! Please type another answer.");
                     return;
                 }
@@ -50,7 +50,7 @@
                 answers_{{ $varUUID }}.push($(answerInputBox).val());
             }
         });
-        $(document).on('click', '.answer-correct', function() {
+        $(document).on('click', '.answer-correct', function () {
             // Define components
             let button = $(this);
             let foreground = $(button).find(".foreground");
@@ -61,24 +61,23 @@
             $(button).attr('data-correct', !correct);
         });
 
-        $(document).on('click', '#submit-btn-multi-choice', function() {
+        $(document).on('click', '#submit-btn-multi-choice', function () {
             // Check if there is at least one correct answer element
             let hasSufficientAnswers = $(".answer-correct[data-correct='true']").length < 2;
-            if (hasSufficientAnswers) {
+            if ( hasSufficientAnswers ) {
                 alert("Please mark multiple answers as correct. If there is only one correct answer, create a single choice question.");
                 return;
             }
             // Check form elements are valid
-            if ($("#new-lesson-item").valid() === false) {
+            if ( $("#new-lesson-item").valid() === false ) {
                 alert("Please ensure the form is correctly filled out before submitting the question.");
                 return;
             }
             // Format the answer
             let answer = [];
-            $(answerContainer).children().each(function() {
+            $(answerContainer).children().each(function () {
                 answer.push({
-                    answer: $(this).find('p').text(),
-                    isCorrect: $(this).find('button').attr('data-correct') === "true"
+                    answer: $(this).find('p').text(), isCorrect: $(this).find('button').attr('data-correct') === "true"
                 })
             });
             $("input[name='item-answers']").attr('value', JSON.stringify(answer));
@@ -87,8 +86,7 @@
         });
         // Add rules for form validation
         $("#new-lesson-item").validate({
-            rules: { 'item-title': { required: true } },
-            messages: { 'item-title': { required: "Please enter the question title" } }
+            rules: { 'item-title': { required: true } }, messages: { 'item-title': { required: "Please enter the question title" } }
         });
     });
 </script>

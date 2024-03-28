@@ -27,7 +27,7 @@
             <form id="course-code" action="{{ url('/join') }}" method="get">
                 <label class="form-flex var-width">
                     <span style="margin-right: 5px">Enter the code here:</span>
-                    <input type="text" name="id" class="var-width" required>
+                    <input type="text" name="id" class="var-width" required />
                 </label>
                 <x-components.3d_button role="button" fg-color="#43AA8B" bg-color="#245B4A" class="course-button-mini max-content">Submit</x-components.3d_button>
             </form>
@@ -44,7 +44,7 @@
                 <legend>Create a new course</legend>
                 <label class="form-flex">
                     <span class="required">Course title:</span>
-                    <input name="title" type="text" required>
+                    <input name="title" type="text" required />
                 </label>
                 <label class="form-flex">
                     <span>Course description:</span>

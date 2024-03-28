@@ -19,12 +19,9 @@
     $("#q-type-selector").on('change', function () {
         $("#question-container").empty();
         $.ajax({
-            url: "{{ route("course.lesson.configure.form-request", [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}",
-            data: {
-                'form-name': $("#q-type-selector").val(),
-                'form-type': 'question',
-            },
-            success: function(response) {
+            url: "{{ route("course.lesson.configure.form-request", [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}", data: {
+                'form-name': $("#q-type-selector").val(), 'form-type': 'question',
+            }, success: function (response) {
                 $("#question-container").html(response);
             }
         });

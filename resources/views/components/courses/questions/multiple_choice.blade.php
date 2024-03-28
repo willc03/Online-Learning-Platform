@@ -1,15 +1,17 @@
-<input type="hidden" name="answer" id="answer"> {{-- Add a hidden attribute for the final submitted value --}}
+<input type="hidden" name="answer" id="answer" /> {{-- Add a hidden attribute for the final submitted value --}}
 <fieldset class="single-choice-field"> {{-- Display the options to the user --}}
     <legend>Click your answer(s):</legend>
     <style>
         .option-button.selected {
-            background-color: #0276aa!important;
+            background-color: #0276aa !important;
         }
+
         .option-button.selected .foreground {
             background-color: #48b1e1 !important;
         }
     </style>
-    @foreach($choices as $option) {{-- $value is passed in from the question page --}}
+    @foreach($choices as $option)
+        {{-- $value is passed in from the question page --}}
         <x-components.3d_button type="button" class="option-button" onclick="onSingleChoiceButtonClick(this)" value="{{ $option }}" fg_color="#81d4fa" bg_color="#5a94af">{{ $option }}</x-components.3d_button>
     @endforeach
 </fieldset>

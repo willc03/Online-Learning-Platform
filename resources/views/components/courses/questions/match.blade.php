@@ -1,30 +1,33 @@
-<input type="hidden" name="answer" id="answer"> {{-- Add a hidden attribute for the final submitted value --}}
+<input type="hidden" name="answer" id="answer" /> {{-- Add a hidden attribute for the final submitted value --}}
 <fieldset class="match-field"> {{-- Display the options to the user --}}
     <legend>Order these items correctly:</legend>
 
     <style>
         .three-d.selected {
-            background-color: #0276aa!important;
+            background-color: #0276aa !important;
         }
+
         .three-d.selected .foreground {
             background-color: #48b1e1 !important;
         }
 
         .three-d.incorrect {
-            background-color: #CA6565!important;
+            background-color: #CA6565 !important;
         }
+
         .three-d.incorrect .foreground {
-            background-color: #A23636!important;
+            background-color: #A23636 !important;
         }
 
         .three-d.correct {
-            filter: saturate(100%)!important;
-            background-color: #88A236!important;
+            filter: saturate(100%) !important;
+            background-color: #88A236 !important;
         }
+
         .three-d.correct .foreground {
-            filter: saturate(100%)!important;
-            background-color: #B1CA65!important;
-            transform: translateY(-2px) translateX(-10px)!important;
+            filter: saturate(100%) !important;
+            background-color: #B1CA65 !important;
+            transform: translateY(-2px) translateX(-10px) !important;
         }
     </style>
 

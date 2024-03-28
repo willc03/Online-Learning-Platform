@@ -1,8 +1,8 @@
 <form action="{{ route('course.edit', ['id' => $courseId]) }}" id="add-component-form" class="new-lesson" method="post">
     @csrf
-    <input type="hidden" name="component-type" value="lesson">
-    <input type="hidden" name="course-id" value="{{ $courseId }}">
-    <input type="hidden" name="section-id" value="{{ $sectionId }}">
+    <input type="hidden" name="component-type" value="lesson" />
+    <input type="hidden" name="course-id" value="{{ $courseId }}" />
+    <input type="hidden" name="section-id" value="{{ $sectionId }}" />
     <fieldset>
         <label class="flex-col">
             Lesson title:

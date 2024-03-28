@@ -15,8 +15,9 @@
                 @foreach(auth()->user()->displayableCourses as $course)
                     <div class="course-item">
                         <p class="title">{{ $course->title }}</p>
-                        @if ($course->courseOwner) {{-- Check if courseOwner exists --}}
-                        <span class="italicise small-text">By {{ $course->courseOwner->name }}</span>
+                        @if ($course->courseOwner)
+                            {{-- Check if courseOwner exists --}}
+                            <span class="italicise small-text">By {{ $course->courseOwner->name }}</span>
                         @else
                             <span class="italicise small-text">By Unknown</span> {{-- Show some default message --}}
                         @endif

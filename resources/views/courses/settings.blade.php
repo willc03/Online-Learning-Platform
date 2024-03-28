@@ -4,7 +4,7 @@
         <form method="post" action="{{ route('course.settings.delete', [ 'id' => $course->id ]) }}" style="margin-left: 10px;">
             @csrf
             @method('DELETE')
-            <x-components.3d_button class="course-button-mini max-content" fg_color="#CA6565" bg_color="#A23636" >Delete course</x-components.3d_button>
+            <x-components.3d_button class="course-button-mini max-content" fg_color="#CA6565" bg_color="#A23636">Delete course</x-components.3d_button>
         </form>
     </div>
     <h1>COURSE SETTINGS</h1>
@@ -16,7 +16,7 @@
             <legend>Edit course details</legend>
             <label class="form-flex">
                 <span class="required">Course Title:</span>
-                <input name="title" type="text" value="{{ $course->title }}" placeholder="Enter your course's title here." required>
+                <input name="title" type="text" value="{{ $course->title }}" placeholder="Enter your course's title here." required />
             </label>
             <label class="form-flex">
                 <span>Course Description:</span>
@@ -41,7 +41,7 @@
             @csrf
             @method('POST')
 
-            <input type="hidden" name="id" id="course-id" value="{{ explode('/', preg_replace( "#^[^:/.]*[:/]+#i", "", url()->current()) )[2] }}">
+            <input type="hidden" name="id" id="course-id" value="{{ explode('/', preg_replace( "#^[^:/.]*[:/]+#i", "", url()->current()) )[2] }}" />
 
             <legend>Upload new files</legend>
 
@@ -51,12 +51,12 @@
 
             <label class="form-flex">
                 <span class="required">File name:</span>
-                <input type="text" name="name" id="file-upload-name" placeholder="Enter your file's public name here." required>
+                <input type="text" name="name" id="file-upload-name" placeholder="Enter your file's public name here." required />
             </label>
 
             <label class="form-flex" style="border: none">
                 <span class="required">Upload a file:</span>
-                <input type="file" name="file" id="file-upload-slot" class="flex-col" required style="border: none">
+                <input type="file" name="file" id="file-upload-slot" class="flex-col" required style="border: none" />
             </label>
 
             <x-components.3d_button class="middle course-button-mini" fg-color="#43AA8B" bg-color="#245B4A" type="submit" id="submit-file">Submit</x-components.3d_button>
@@ -179,7 +179,8 @@
                             </div>
                         </div>
                         <div class="table-col">
-                            <x-components.3d_button id="invite-delete" class="course-button-mini" fg_color="#CA6565" bg_color="#A23636">Delete</x-components.3d_button><br>
+                            <x-components.3d_button id="invite-delete" class="course-button-mini" fg_color="#CA6565" bg_color="#A23636">Delete</x-components.3d_button>
+                            <br>
                             <x-components.3d_button class="course-button-mini no-buffer invite-link-copy" fg-color="#43AA8B" bg-color="#245B4A" data-link="{{ route('join.show', ['id' => $invite->invite_id]) }}">Copy link</x-components.3d_button>
                         </div>
                     </div>
@@ -215,7 +216,8 @@
                             <p>{{ $courseUser->created_at }}</p>
                         </div>
                         <div class="table-col">
-                            <x-components.3d_button id="user-delete" class="course-button-mini max-content" fg_color="#CA6565" bg_color="#A23636">Remove user</x-components.3d_button><br>
+                            <x-components.3d_button id="user-delete" class="course-button-mini max-content" fg_color="#CA6565" bg_color="#A23636">Remove user</x-components.3d_button>
+                            <br>
                             <x-components.3d_button id="user-block" class="course-button-mini max-content no-buffer" fg_color="#CA6565" bg_color="#A23636" data-active="{{ var_export($courseUser->blocked, true) }}">{{ var_export($courseUser->blocked, true) ? "Unblock from course" : "Block from course" }}</x-components.3d_button>
                         </div>
                     </div>
@@ -225,13 +227,13 @@
     </div>
 
     {{-- Scripts --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
     <script src="{{ asset("assets/scripts/courses/admin/settings/core_edit.js") }}"></script>
     <script>
-		upload_url = "{{ route('course.file.upload', ['id' => $course->id]) }}";
-		fileRemoveRoute = "{{ route("course.file.remove", ['id' => $course->id]) }}";
-		inviteModifyRoute = "{{ route("course.settings.invite", ['id' => $course->id]) }}";
+        upload_url = "{{ route('course.file.upload', ['id' => $course->id]) }}";
+        fileRemoveRoute = "{{ route("course.file.remove", ['id' => $course->id]) }}";
+        inviteModifyRoute = "{{ route("course.settings.invite", ['id' => $course->id]) }}";
         inviteRemoveRoute = "{{ route("course.settings.invite.delete", [ 'id' => $course->id ]) }}";
         userRemoveRoute = "{{ route('course.settings.user.delete', [ 'id' => $course->id ]) }}";
         userBlockRoute = "{{ route('course.settings.user.block', [ 'id' => $course->id ]) }}";

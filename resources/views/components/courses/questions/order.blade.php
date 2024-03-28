@@ -1,4 +1,4 @@
-<input type="hidden" name="answer" id="answer"> {{-- Add a hidden attribute for the final submitted value --}}
+<input type="hidden" name="answer" id="answer" /> {{-- Add a hidden attribute for the final submitted value --}}
 <fieldset class="order-field @if($direction == "vertical") vertical @endif"> {{-- Display the options to the user --}}
     <legend>Order these items correctly:</legend>
     @shuffle($choices)
@@ -10,8 +10,9 @@
                     display: flex;
                     justify-content: space-around;
                 }
+
                 #question-list button {
-                    width: calc({{ 100/count($choices) }}% - 2%)!important;
+                    width: calc({{ 100/count($choices) }}% - 2%) !important;
                 }
             </style>
         @endif
@@ -24,6 +25,7 @@
 <x-components.3d_button id="submit-question" type="submit" bg_color="#88A236" fg_color="#B1CA65">Submit</x-components.3d_button>
 
 <script>
-    questionAxis = @if ($direction == 'horizontal') 'x' @else 'y' @endif ;
+    questionAxis = @if ($direction == 'horizontal') 'x'
+    @else 'y' @endif ;
 </script>
 <script src="{{ asset("assets/scripts/question_scripts/order.js") }}"></script>

@@ -42,98 +42,96 @@
     let {{ $varUUID }}_answerLogicalContainer = [];
     let {{ $varUUID }}_identification = 0;
     // Easing function
-    $.easing.easeOutCubic = function(x, t, b, c, d) { // Define the cubic easing function
+    $.easing.easeOutCubic = function (x, t, b, c, d) { // Define the cubic easing function
         return c * ((t = t / d - 1) * t * t + 1) + b;
     };
+
     // Function to get the number of blanks
-    function getBlankQuantity()
+    function getBlankQuantity ()
     {
         return $("#new-lesson-item").find("span.blank").length;
     }
-    function crossCheckAnswers(answerToCheck)
+
+    function crossCheckAnswers (answerToCheck)
     {
-        for (let i = 0; i < {{ $varUUID }}_answerLogicalContainer.length; i++) {
-            if ({{ $varUUID }}_answerLogicalContainer[i] == answerToCheck) {
+        for ( let i = 0; i < {{ $varUUID }}_answerLogicalContainer.length; i++ ) {
+            if ( {{ $varUUID }}_answerLogicalContainer[i] == answerToCheck ) {
                 return false;
             }
         }
         return true;
     }
-    function getFirstBlankField() {
+
+    function getFirstBlankField ()
+    {
         return $("#new-lesson-item").find("span.blank").not(".filled").first()[0] || false;
     }
-    function getElementDetails(element) {
+
+    function getElementDetails (element)
+    {
         const $element = $(element);
         return {
-            width: $element.width(),
-            height: $element.height(),
-            x: $element.offset().left,
-            y: $element.offset().top,
+            width: $element.width(), height: $element.height(), x: $element.offset().left, y: $element.offset().top,
         };
     }
-    function onOptionButtonClicked(event)
+
+    function onOptionButtonClicked (event)
     {
         const button = $(event.currentTarget); // Way of retrieving the clicked button in jQuery
         const buttonDetails = getElementDetails(button);
 
-        if (button.hasClass("block-transitions")) { // A check for whether the button is a currently selected option
+        if ( button.hasClass("block-transitions") ) { // A check for whether the button is a currently selected option
             const filledField = $(".blank[option='" + button.attr("id") + "']");
             filledField.removeClass("filled").attr("option", null);
-            button.removeClass("block-transitions").animate({ opacity: 0 }, 100, "easeOutCubic", function() {
-                setTimeout(function() {
+            button.removeClass("block-transitions").animate({ opacity: 0 }, 100, "easeOutCubic", function () {
+                setTimeout(function () {
                     button.css({ position: "", width: "", height: "", left: "", top: "", zIndex: "" })
                         .animate({ opacity: 100 }, 100);
                 }, 300, "easeOutCubic");
             });
         } else { // Move the button to the first available option, if available
             const blankField = getFirstBlankField();
-            if (!blankField) return;
+            if ( !blankField ) {
+                return;
+            }
 
             const fieldDetails = getElementDetails(blankField);
 
             $(blankField).addClass("filled").attr("option", button.attr("id"));
 
             $(button).addClass("block-transitions").css({
-                position: "absolute",
-                width: buttonDetails.width,
-                height: buttonDetails.height,
-                left: buttonDetails.x,
-                top: buttonDetails.y - 4,
-                zIndex: 2,
+                position: "absolute", width: buttonDetails.width, height: buttonDetails.height, left: buttonDetails.x, top: buttonDetails.y - 4, zIndex: 2,
             }).animate({
-                width: fieldDetails.width,
-                height: fieldDetails.height,
-                left: fieldDetails.x + 1,
-                top: fieldDetails.y - 4,
+                width: fieldDetails.width, height: fieldDetails.height, left: fieldDetails.x + 1, top: fieldDetails.y - 4,
             }, 500, "easeOutCubic");
         }
     }
+
     // Hide the first template button
     $("#template").css('display', 'none');
     // Handle input changes for the item title.
-    $("input[name='item-title']").on('input', function() {
+    $("input[name='item-title']").on('input', function () {
         let text = $(this).val();
         // Remake the question holder in the specification paragraph
         $("#blank-fill-question-container").html(text.replace(/\n/g, "<br>").replace(/%/g, "<span class='blank'></span>"));
         // Remove the existing option buttons
         $(".fill-blank-button:not(#template)").remove();
         // Re-add all the options
-        for (let i = 0; i < {{ $varUUID }}_answerLogicalContainer.length; i++)
-        {
+        for ( let i = 0; i < {{ $varUUID }}_answerLogicalContainer.length; i++ ) {
             let newAnswer = $("#template").clone().appendTo({{ $varUUID }}_answerContainer);
             $(newAnswer).attr('id', {{ $varUUID }}_identification).css('display', 'block');
             {{ $varUUID }}_identification++;
             $(newAnswer).find('span').text({{ $varUUID }}_answerLogicalContainer[i]);
-            $(newAnswer).on('click', function(event) {
+            $(newAnswer).on('click', function (event) {
                 onOptionButtonClicked.call($(this), event);
             })
         }
         // Change the visibility of the error message
-        $("#insufficient-answers").css('display', ( getBlankQuantity() > {{ $varUUID }}_answerLogicalContainer.length ? "block" : "none" ));
+        $("#insufficient-answers").css('display', (getBlankQuantity() > {{ $varUUID }}_answerLogicalContainer.length ? "block" : "none"));
     });
     // Handle the addition of options
-    $("#add-option").on('click', function() {
-        if (!crossCheckAnswers($("input[name='blank-option-add']").val())) {
+    $("#add-option").on('click', function () {
+        if ( !crossCheckAnswers($("input[name='blank-option-add']").val()) ) {
             return alert("You cannot include exact duplicates as answers!");
         }
         let newAnswer = $("#template").clone().appendTo({{ $varUUID }}_answerContainer);
@@ -141,14 +139,14 @@
         {{ $varUUID }}_identification++;
         $(newAnswer).find('span').text($("input[name='blank-option-add']").val());
         {{ $varUUID }}_answerLogicalContainer.push($("input[name='blank-option-add']").val());
-        $(newAnswer).on('click', function(event) {
+        $(newAnswer).on('click', function (event) {
             onOptionButtonClicked.call($(this), event);
         })
         // Change the visibility of the error message
-        $("#insufficient-answers").css('display', ( getBlankQuantity() > {{ $varUUID }}_answerLogicalContainer.length ? "block" : "none" ));
+        $("#insufficient-answers").css('display', (getBlankQuantity() > {{ $varUUID }}_answerLogicalContainer.length ? "block" : "none"));
     });
     // Handle answer resets
-    $("#reset-answers").on('click', function() {
+    $("#reset-answers").on('click', function () {
         {{ $varUUID }}_answerLogicalContainer = [];
         $(".fill-blank-button:not(#template)").remove();
         $("#insufficient-answers").css('display', "block");
@@ -156,34 +154,34 @@
     });
     // Handle the clicking of options to fill blanks
     // Handle question creation requests
-    $("#submit-btn-fill-blanks").on('click', function() {
+    $("#submit-btn-fill-blanks").on('click', function () {
         // Validate the form
-        if (!$("#new-lesson-item").valid()) {
+        if ( !$("#new-lesson-item").valid() ) {
             return;
         }
         // Check there is at least one blank
-        if (getBlankQuantity() < 1) {
+        if ( getBlankQuantity() < 1 ) {
             return alert("Please ensure there is at least one blank to be filled in.");
         }
         // Check to ensure there are enough answers
-        if ({{ $varUUID }}_answerLogicalContainer.length < getBlankQuantity()) {
+        if ( {{ $varUUID }}_answerLogicalContainer.length < getBlankQuantity() ) {
             return alert("There are insufficient answers. Please add more answers.");
         }
         // Check the blanks are filled
-        if ($("span.blank.filled").length < getBlankQuantity()) {
+        if ( $("span.blank.filled").length < getBlankQuantity() ) {
             return alert("Please ensure all blank spaces are filled in.");
         }
         // Calculate the answer
         let answerArray = [];
         let index = 0;
-        $("span.blank.filled").each(function() {
+        $("span.blank.filled").each(function () {
             let button = $(".fill-blank-button[id='" + $(this).attr('option') + "']");
             answerArray.push({ position: index++, answer: $(button).find('.foreground').text() });
         });
         $("input[name='item-answers']").val(JSON.stringify(answerArray));
         // Select ALL possible answers
         let possibleAnswers = [];
-        $(".fill-blank-button:not(#template)").each(function() {
+        $(".fill-blank-button:not(#template)").each(function () {
             possibleAnswers.push($(this).find(".foreground").text());
         })
         $("input[name='item-answer-slots']").val(JSON.stringify(possibleAnswers));
@@ -192,21 +190,17 @@
     })
     // Form validation
     $("#new-lesson-item").validate({
-        rules: { 'item-title': { required: true } },
-        messages: { 'item-title': { required: "Please enter the question title" } }
+        rules: { 'item-title': { required: true } }, messages: { 'item-title': { required: "Please enter the question title" } }
     });
     // Window logic, to move the absolute form buttons when the window size is changed.
-    $(window).on("resize", function() {
-        $("span.blank").filter(".filled").each(function(_, field) {
+    $(window).on("resize", function () {
+        $("span.blank").filter(".filled").each(function (_, field) {
             const selectedOption = $(field).attr("option");
-            if (selectedOption) {
+            if ( selectedOption ) {
                 const optionElement = $("#" + selectedOption);
                 const fieldDetails = getElementDetails(field);
                 optionElement.css({
-                    width: fieldDetails.width,
-                    height: fieldDetails.height,
-                    left: fieldDetails.x + 1,
-                    top: fieldDetails.y + 3,
+                    width: fieldDetails.width, height: fieldDetails.height, left: fieldDetails.x + 1, top: fieldDetails.y + 3,
                 });
             }
         });

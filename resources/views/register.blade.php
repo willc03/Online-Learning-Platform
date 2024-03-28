@@ -23,11 +23,11 @@
 
             {{-- First name --}}
             <label class="required" for="firstname">First name:</label>
-            <input type="text" name="firstname" required>
+            <input type="text" name="firstname" required />
 
             {{-- Last name --}}
             <label class="required" for="lastname">Last name:</label>
-            <input type="text" name="lastname" required>
+            <input type="text" name="lastname" required />
 
             {{-- User name --}}
             <label class="required" for="username">Username:</label>
@@ -35,15 +35,15 @@
 
             {{-- Email --}}
             <label class="required" for="email">Email:</label>
-            <input type="email" name="email" required>
+            <input type="email" name="email" required />
 
             {{-- Password --}}
             <label class="required" for="password">Password:</label>
-            <input type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" id="password" autocomplete="new-password" required>
+            <input type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" id="password" autocomplete="new-password" required />
 
             {{-- Password confirmation--}}
             <label class="required" for="password_confirmation">Confirm Password:</label>
-            <input type="password" name="password_confirmation" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" id="password_confirmation" autocomplete="new-password" required>
+            <input type="password" name="password_confirmation" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$" id="password_confirmation" autocomplete="new-password" required />
 
             {{-- Password requirements --}}
             <div id="password-requirements">
@@ -58,7 +58,7 @@
             </div>
 
             {{-- Submit --}}
-            <input type="submit" value="Sign up">
+            <input type="submit" value="Sign up" />
         </form>
     </div>
 

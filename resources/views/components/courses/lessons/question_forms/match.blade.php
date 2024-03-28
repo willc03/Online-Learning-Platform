@@ -2,15 +2,15 @@
 
 <fieldset class="middle">
     <input type="hidden" name="unique_anchor" value="{{ $varUUID }}" />
-    <input type="hidden" name="item-answers" value="-1">
+    <input type="hidden" name="item-answers" value="-1" />
     <legend>Item Match Question</legend>
     <label class="form-flex">
         <span class="required">Question text:</span>
-        <input type="text" name="item-title" required>
+        <input type="text" name="item-title" required />
     </label>
     <label class="form-flex">
         <span>Question description:</span>
-        <input type="text" name="item-description">
+        <input type="text" name="item-description" />
     </label>
     <label class="form-flex">
         <span class="required">Randomise presentation order:</span>
@@ -22,11 +22,11 @@
         <p id="match-missing" class="error">Please ensure both match fields have entries.</p>
         <label class="form-flex">
             <span class="required">Match one:</span>
-            <input type="text" name="match-one">
+            <input type="text" name="match-one" />
         </label>
         <label class="form-flex">
             <span class="required">Match two:</span>
-            <input type="text" name="match-two">
+            <input type="text" name="match-two" />
         </label>
         <x-components.3d_button id="make-pair" type="button" class="course-button-mini max-content" fg_color="#43AA8B" bg_color="#245B4A">Add match pair</x-components.3d_button>
     </fieldset>
@@ -46,7 +46,7 @@
 </div>
 
 <script>
-    $(function() {
+    $(function () {
         const errors = {
             matchMissing: $("#match-missing")
         };
@@ -55,16 +55,16 @@
 
         let answers_{{ $varUUID }} = [];
 
-        $(document).on('click', "#make-pair", function() {
+        $(document).on('click', "#make-pair", function () {
             let v1 = $(m1).val(), v2 = $(m2).val();
-            if (!v1 || !v2) {
+            if ( !v1 || !v2 ) {
                 return;
             }
 
             // Check for duplicates
             let pairExists = answers_{{ $varUUID }}.some(pair => pair[0] === v1 && pair[1] === v2);
-            if (!pairExists) {
-                answers_{{ $varUUID }}.push([v1, v2]);
+            if ( !pairExists ) {
+                answers_{{ $varUUID }}.push([ v1, v2 ]);
 
                 let newAnswer = $(".template").clone().appendTo(matchContainer);
                 $(newAnswer)
@@ -81,27 +81,26 @@
         });
 
 
-        $(m1).add(m2).on("input", function() {
+        $(m1).add(m2).on("input", function () {
             let v1 = $(m1).val(), v2 = $(m2).val();
-            if (!v1 || !v2) {
+            if ( !v1 || !v2 ) {
                 errors.matchMissing.css("display", "block");
             } else {
                 errors.matchMissing.css("display", "none");
             }
         });
 
-        $(document).on('click', '#submit-btn-match', function() {
+        $(document).on('click', '#submit-btn-match', function () {
             // Check form elements are valid
-            if ($("#new-lesson-item").valid() === false) {
+            if ( $("#new-lesson-item").valid() === false ) {
                 return;
             }
             // Compile the answers
             let answers = [];
-            $(matchContainer).children().each(function() {
-                if (!($(this).find("p#one").text() === "" && $(this).find("p#two").text() === "")) {
+            $(matchContainer).children().each(function () {
+                if ( !($(this).find("p#one").text() === "" && $(this).find("p#two").text() === "") ) {
                     answers.push({
-                        match_one: $(this).find('p#one').text(),
-                        match_two: $(this).find('p#two').text()
+                        match_one: $(this).find('p#one').text(), match_two: $(this).find('p#two').text()
                     });
                 }
             });
@@ -113,8 +112,7 @@
 
         // Add rules for form validation
         $("#new-lesson-item").validate({
-            rules: { 'item-title': { required: true } },
-            messages: { 'item-title': { required: "Please enter the question title" } }
+            rules: { 'item-title': { required: true } }, messages: { 'item-title': { required: "Please enter the question title" } }
         });
     });
 </script>

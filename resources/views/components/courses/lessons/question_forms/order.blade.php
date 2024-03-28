@@ -8,7 +8,7 @@
     {{-- Question --}}
     <label class="form-flex">
         <span class="required">Question text:</span>
-        <input type="text" name="item-title" required>
+        <input type="text" name="item-title" required />
     </label>
     {{-- Question description (optional) --}}
     <label class="form-flex">
@@ -47,16 +47,18 @@
 </div>
 
 <script>
-    $(function() {
+    $(function () {
         let answers_{{ $varUUID }} = []
         let answerInputBox = $("#item-input");
         let answerContainer = $(".order-items");
-        $(document).on('click', '#add-btn-order', function() {
-            if ($("input[name='unique_anchor']").val() !== "{{ $varUUID }}") { return; }
-            if ($(answerInputBox).val()) {
+        $(document).on('click', '#add-btn-order', function () {
+            if ( $("input[name='unique_anchor']").val() !== "{{ $varUUID }}" ) {
+                return;
+            }
+            if ( $(answerInputBox).val() ) {
                 // Check for duplicate answers
-                console.log($.inArray( $(answerInputBox).val() , answers_{{ $varUUID }}));
-                if ($.inArray( $(answerInputBox).val() , answers_{{ $varUUID }}) !== -1 ) {
+                console.log($.inArray($(answerInputBox).val(), answers_{{ $varUUID }}));
+                if ( $.inArray($(answerInputBox).val(), answers_{{ $varUUID }}) !== -1 ) {
                     alert("Cannot add exact duplicates. Please try again.");
                     return;
                 }
@@ -72,29 +74,33 @@
             }
         });
 
-        $(answerContainer).sortable({ placeholder: "answer-row middle", axis: "y"});
+        $(answerContainer).sortable({ placeholder: "answer-row middle", axis: "y" });
 
-        $(document).on('input', "select[name='direction']", function() {
-            if ($("input[name='unique_anchor']").val() !== "{{ $varUUID }}") { return; }
+        $(document).on('input', "select[name='direction']", function () {
+            if ( $("input[name='unique_anchor']").val() !== "{{ $varUUID }}" ) {
+                return;
+            }
             $(answerContainer).removeClass($("select[name='direction']").val() === "vertical" ? "flex-row" : "flex-col").addClass($("select[name='direction']").val() === "vertical" ? "flex-col" : "flex-row");
             $(answerContainer).sortable({ axis: $("select[name='direction']").val() === "vertical" ? "y" : "x" });
         })
 
-        $(document).on('click', '#submit-btn-order', function() {
-            if ($("input[name='unique_anchor']").val() !== "{{ $varUUID }}") { return; }
+        $(document).on('click', '#submit-btn-order', function () {
+            if ( $("input[name='unique_anchor']").val() !== "{{ $varUUID }}" ) {
+                return;
+            }
             // Ensure there are at least two answers
-            if ($(answerContainer).children().length < 2) {
+            if ( $(answerContainer).children().length < 2 ) {
                 alert("Please ensure the question has at least two answers to order.");
                 return;
             }
             // Check form elements are valid
-            if ($("#new-lesson-item").valid() === false) {
+            if ( $("#new-lesson-item").valid() === false ) {
                 alert("Please ensure the form is correctly filled out before submitting the question.");
                 return;
             }
             // Format the answer
             let answer = [];
-            $(answerContainer).children().each(function() {
+            $(answerContainer).children().each(function () {
                 console.log($(this));
                 answer.push({
                     answer: $(this).find('p').text(),
@@ -106,8 +112,7 @@
         });
         // Add rules for form validation
         $("#new-lesson-item").validate({
-            rules: { 'item-title': { required: true } },
-            messages: { 'item-title': { required: "Please enter the question title" } }
+            rules: { 'item-title': { required: true } }, messages: { 'item-title': { required: "Please enter the question title" } }
         });
     });
 </script>

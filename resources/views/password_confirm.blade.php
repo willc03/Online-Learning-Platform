@@ -5,7 +5,7 @@
         <div class="button-box">
             <form method="post">
                 @csrf
-                <input type="password" name="password" autocomplete="current-password" required>
+                <input type="password" name="password" autocomplete="current-password" required />
                 <x-components.3d_button fg_color="#B1CA65" bg_color="#88A236">Confirm</x-components.3d_button>
             </form>
         </div>

@@ -4,7 +4,7 @@
 
     <label for="title" class="form-flex">
         <span class="required">Section title:</span>
-        <input type="text" name="title" required>
+        <input type="text" name="title" required />
     </label>
 
     <label for="description" class="form-flex">
