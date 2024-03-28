@@ -144,6 +144,8 @@ Route::prefix("account")
     });
 
 // General pages (primarily static content)
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::group([], function() {
+    Route::view('/', 'welcome')->name('home');
+    Route::redirect('/home', '/'); // Redirect any /home requests to the home page.
+    Route::view('/about', 'about')->name('about');
+});

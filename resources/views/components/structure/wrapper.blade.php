@@ -23,7 +23,7 @@
         </header>
         <nav id="navigation">
             <a href="{{ route('home') }}">Home</a>
-            <a href="{{ url('/about') }}">About</a>
+            <a href="{{ route('about') }}">About</a>
             <a href="{{ route('courses') }}">Courses</a>
             @auth
                 <form method="post" action="{{ route('logout') }}" id="logout-form"> {{-- A form is required to send a post request --}}

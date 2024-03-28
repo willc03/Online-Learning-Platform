@@ -38,7 +38,7 @@
     <div id="purpose">
         <h2>What is the purpose of {{ env('APP_NAME') }}?</h2>
         <p>The purpose of this project is to provide an easy-to-use and lightweight solution for online learning.</p>
-        <p>The designed platform is intended to be easily usable by users of all ages, from primary school students to adult education.</p>
+        <p>The designed platform is intended to be easily usable by users of all ages, from primary school students to adult education, and aims to blend aspects of a Virtual Learning Environment (VLE) and online assessment.</p>
     </div>
     <div id="features">
         <h2>What is supported?</h2>
@@ -52,6 +52,7 @@
             <li>Toggleable administration view to avoid clustered course pages when not needed</li>
             <li>Robust security features built around the Laravel framework</li>
         </ul>
+        <p>See more about this project on the <a href="{{ route('about') }}">about page</a>.</p>
     </div>
 
     <script src="{{ asset('assets/scripts/courses/course_create.js') }}"></script>
