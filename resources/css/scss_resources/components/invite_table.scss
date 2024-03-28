@@ -19,12 +19,12 @@
         transition-duration: 500ms;
 
         &.table-header {
-            background-color: nth($blue, 1)!important;
+            background-color: nth($blue, 1) !important;
             color: white;
         }
 
         &:not(.table-header):hover {
-            background-color: color.adjust(nth($blue, 2), $red:-25, $green:-25, $blue:-25);
+            background-color: color.adjust(nth($blue, 2), $red: -25, $green: -25, $blue: -25);
         }
 
         .table-col {
@@ -40,7 +40,7 @@
             padding: 10px;
 
             .three-d {
-                font-size: 1vw!important;
+                font-size: 1vw !important;
             }
 
             .max-use-form, .expiry-date-form {
@@ -50,7 +50,7 @@
                 overflow: hidden;
 
                 input {
-                    font-size: .9vw!important;
+                    font-size: .9vw !important;
                     padding: 5px;
                     width: 80%;
                     border: 1px solid gray;
@@ -86,9 +86,11 @@
     }
 
     background-color: #CBD1D9;
+
     &:not(#edit-section-form) {
         box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
     }
+
     &#edit-section-form {
         border: 1px solid nth($blue, 1);
     }
@@ -102,6 +104,7 @@
 
     fieldset {
         margin-bottom: 15px;
+
         legend {
             border-radius: 8px;
         }
@@ -109,7 +112,7 @@
 
     @media (max-width: 640px) {
         span:not(.foreground) {
-            width: 100%!important;
+            width: 100% !important;
         }
         input, textarea {
             width: calc(100% - 30px);
@@ -119,20 +122,23 @@
 
 @media (max-width: 640px) {
     .invite-table .table-row .table-col {
-        font-size: 0.8em!important;
+        font-size: 0.8em !important;
 
         .three-d {
-            font-size: 0.8em!important;
+            font-size: 0.8em !important;
             padding: 0 2px;
+
             span {
                 padding: 0 2px;
-                transform: translateY(-4px) translateX(-2px)!important;
+                transform: translateY(-4px) translateX(-2px) !important;
+
                 &:hover {
-                    transform: translateY(-6px) translateX(-2px)!important;
+                    transform: translateY(-6px) translateX(-2px) !important;
                 }
             }
+
             &:active .foreground {
-                transform: translateY(-2px) translateX(-2px)!important;
+                transform: translateY(-2px) translateX(-2px) !important;
             }
         }
     }

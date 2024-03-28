@@ -18,12 +18,12 @@
         transition-duration: 500ms;
 
         &.table-header {
-            background-color: nth($blue, 1)!important;
+            background-color: nth($blue, 1) !important;
             color: white;
         }
 
         &:not(.table-header):hover {
-            background-color: color.adjust(nth($blue, 2), $red:-25, $green:-25, $blue:-25);
+            background-color: color.adjust(nth($blue, 2), $red: -25, $green: -25, $blue: -25);
         }
 
         .table-col {

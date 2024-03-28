@@ -36,6 +36,7 @@
         color: nth($blue, 2);
         font-weight: bolder;
         text-shadow: 2px 2px color.adjust(nth($blue, 1), $red: -20, $green: -20, $blue: -20);
+
         span.exp-counter, span.streak-counter {
             margin-left: 7px;
             font-weight: normal;
@@ -46,14 +47,17 @@
 .lesson-text-holder {
     margin: auto;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
+
     h2 {
         margin: 0;
         background-color: nth($blue, 1);
         padding: 10px;
         color: nth($blue, 2);
     }
+
     div.main {
         padding: 10px;
+
         h3 {
             margin: 10px;
         }
@@ -72,6 +76,7 @@
             background-color: nth($blue, 1);
             color: $white;
         }
+
         h3 {
             margin: 0;
             padding: 10px;
@@ -112,6 +117,7 @@
 
                 .match-row {
                     width: 100%;
+
                     button.three-d {
                         width: 40%;
                         margin: 5px auto;
@@ -119,7 +125,7 @@
 
                         @media (max-width: 640px) {
                             &.answer-button {
-                                width: 40%!important;
+                                width: 40% !important;
                             }
                             width: 100%;
                         }
@@ -129,10 +135,12 @@
 
             &.wordsearch-field {
                 width: 100%;
+
                 .wordsearch {
                     display: flex;
                     flex-direction: column;
                     width: 60%;
+
                     .row {
                         width: 100%;
                         display: flex;
@@ -151,7 +159,7 @@
                             }
 
                             &.wordsearch-selected {
-                                background-color: #5a94af!important;
+                                background-color: #5a94af !important;
                             }
 
                             p {
@@ -179,6 +187,7 @@
             &.fill-blanks-field {
                 display: flex;
                 flex-wrap: wrap;
+
                 button.three-d {
                     width: 40%;
                     height: 35px;

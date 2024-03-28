@@ -15,6 +15,7 @@ form:not([id="logout-form"]) {
     textarea {
         resize: none;
     }
+
     input, textarea {
         border: 1px nth($blue, 1) solid;
         padding: 5px 15px;
@@ -49,9 +50,11 @@ form:not([id="logout-form"]) {
             opacity: 0;
             width: 0;
             height: 0;
+
             &:checked + .toggle-label {
                 background-color: nth($blue, 2);
                 border: 1px solid nth($blue, 1);
+
                 &::before {
                     background-color: nth($blue, 1);
                     transform: translateX(24px);

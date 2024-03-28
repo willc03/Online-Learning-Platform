@@ -2,7 +2,7 @@
 
 button.three-d {
     // Transition properties
-    &, &>* {
+    &, & > * {
         transition-property: transform, box-shadow;
         transition-duration: 300ms;
     }
@@ -37,8 +37,9 @@ button.three-d {
     // Selected state properties
     &.selected {
         box-shadow: 0 2px 4px 0 color.adjust($off-white, $red: -40, $green: -40, $blue: -40);
+
         .foreground {
-            transform: translateY(-2px) translateX(-10px)!important;
+            transform: translateY(-2px) translateX(-10px) !important;
         }
     }
 
@@ -47,6 +48,7 @@ button.three-d {
         .foreground {
             filter: saturate(0%);
         }
+
         filter: saturate(0%);
         cursor: default;
     }
@@ -54,12 +56,15 @@ button.three-d {
     // Pseudo-classes
     &:not([disabled]):hover {
         box-shadow: 0 5px 6px 2px color.adjust($off-white, $red: -40, $green: -40, $blue: -40);
+
         .foreground {
             transform: translateY(-6px) translateX(-10px);
         }
     }
+
     &:not([disabled]):active { // This is after otherwise it causes odd effects
         box-shadow: 0 2px 4px 0 color.adjust($off-white, $red: -40, $green: -40, $blue: -40);
+
         .foreground {
             transform: translateY(-2px) translateX(-10px);
         }

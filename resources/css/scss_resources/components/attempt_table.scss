@@ -19,12 +19,12 @@
         transition-duration: 500ms;
 
         &.table-header {
-            background-color: nth($blue, 1)!important;
+            background-color: nth($blue, 1) !important;
             color: white;
         }
 
         &:not(.table-header):hover {
-            background-color: color.adjust(nth($blue, 2), $red:-25, $green:-25, $blue:-25);
+            background-color: color.adjust(nth($blue, 2), $red: -25, $green: -25, $blue: -25);
         }
 
         .table-col {
@@ -40,7 +40,7 @@
             padding: 10px;
 
             .three-d {
-                font-size: 1vw!important;
+                font-size: 1vw !important;
             }
 
             .max-use-form, .expiry-date-form {
@@ -50,7 +50,7 @@
                 overflow: hidden;
 
                 input {
-                    font-size: .9vw!important;
+                    font-size: .9vw !important;
                     padding: 5px;
                     width: 80%;
                     border: 1px solid gray;
@@ -65,20 +65,23 @@
 
 @media (max-width: 640px) {
     .attempt-table .table-row .table-col {
-        font-size: 0.8em!important;
+        font-size: 0.8em !important;
 
         .three-d {
-            font-size: 0.8em!important;
+            font-size: 0.8em !important;
             padding: 0 2px;
+
             span {
                 padding: 0 2px;
-                transform: translateY(-4px) translateX(-2px)!important;
+                transform: translateY(-4px) translateX(-2px) !important;
+
                 &:hover {
-                    transform: translateY(-6px) translateX(-2px)!important;
+                    transform: translateY(-6px) translateX(-2px) !important;
                 }
             }
+
             &:active .foreground {
-                transform: translateY(-2px) translateX(-2px)!important;
+                transform: translateY(-2px) translateX(-2px) !important;
             }
         }
     }

@@ -16,9 +16,11 @@
     }
 
     background-color: #CBD1D9;
+
     &:not(#edit-section-form) {
         box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
     }
+
     &#edit-section-form {
         border: 1px solid nth($blue, 1);
     }
@@ -32,7 +34,7 @@
 
     @media (max-width: 640px) {
         span:not(.foreground) {
-            width: 100%!important;
+            width: 100% !important;
         }
         input, textarea {
             width: calc(100% - 30px);
@@ -43,6 +45,7 @@
 #file-upload-slot {
     width: 100%;
 }
+
 #file-upload-slot::file-selector-button {
     width: 50%;
     border-radius: 5px;

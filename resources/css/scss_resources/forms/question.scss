@@ -25,15 +25,18 @@ span.blank {
             justify-content: space-around;
             flex-wrap: wrap;
             padding-top: 30px;
+
             ul, ol {
                 width: 60%;
                 list-style-type: none;
                 padding-left: 0;
+
                 button {
                     height: 50px;
                     margin-bottom: 21px;
                 }
             }
+
             &.vertical > * {
                 display: flex;
                 flex-direction: column;
@@ -46,6 +49,7 @@ span.blank {
             width: 45%;
             justify-content: space-around;
             align-items: center;
+
             .three-d {
                 width: 80%;
                 margin-bottom: 21px;
@@ -56,6 +60,7 @@ span.blank {
             display: flex;
             flex-direction: column;
             width: 100%;
+
             .row {
                 width: 100%;
                 display: flex;
@@ -74,7 +79,7 @@ span.blank {
                     }
 
                     &.wordsearch-selected {
-                        background-color: #5a94af!important;
+                        background-color: #5a94af !important;
                     }
 
                     p {
@@ -89,11 +94,14 @@ span.blank {
         &.option-button {
             width: 45%;
         }
+
         &.draggable-choice {
             width: 100%;
         }
+
         height: 50px;
         margin-bottom: 21px;
+
         &:not(.ui-sortable-helper) {
             margin-left: auto;
             margin-right: auto;
@@ -168,6 +176,6 @@ span.blank {
     }
 
     .question-form #cover-box .content {
-        width: 50%!important;
+        width: 50% !important;
     }
 }

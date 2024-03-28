@@ -25,9 +25,11 @@
         height: 25px;
         margin-top: 10px;
     }
+
     #return-home {
         width: 50%;
     }
+
     #accept {
         width: 100%;
     }
@@ -118,9 +120,11 @@
 
         div.section-admin-panel {
             padding: 5px;
+
             h4 {
                 margin: 10px 0;
             }
+
             .three-d {
                 margin-top: 5px;
             }
@@ -150,6 +154,7 @@
 
             div#submission {
                 justify-content: center;
+
                 button.three-d {
                     margin: 0 5px;
                 }
@@ -229,9 +234,11 @@
     }
 
     background-color: #CBD1D9;
+
     &:not(#edit-section-form) {
         box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
     }
+
     &#edit-section-form {
         border: 1px solid nth($blue, 1);
     }
@@ -263,7 +270,7 @@
 
     @media (max-width: 640px) {
         span:not(.foreground) {
-            width: 100%!important;
+            width: 100% !important;
         }
         input, textarea {
             width: calc(100% - 30px);
@@ -278,8 +285,9 @@
     &:last-of-type {
         margin-bottom: 10px;
     }
+
     &.no-buffer {
-        margin-bottom: 0!important;
+        margin-bottom: 0 !important;
     }
 }
 

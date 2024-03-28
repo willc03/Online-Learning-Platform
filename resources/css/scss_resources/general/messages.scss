@@ -19,9 +19,10 @@
 
 // Device optimisations for messages.scss
 @media (max-width: 640px) {
-    .message{
-        padding: 10px 0!important;
-        &* {
+    .message {
+        padding: 10px 0 !important;
+
+        & * {
             text-align: center;
         }
     }

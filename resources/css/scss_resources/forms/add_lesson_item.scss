@@ -21,9 +21,11 @@
     }
 
     background-color: #CBD1D9;
+
     &:not(#edit-section-form) {
         box-shadow: rgba(0, 0, 0, 0.4) 0px 15px 60px;
     }
+
     &#edit-section-form {
         border: 1px solid nth($blue, 1);
     }
@@ -37,6 +39,7 @@
 
     fieldset {
         margin-bottom: 15px;
+
         legend {
             border-radius: 8px;
         }
@@ -49,6 +52,7 @@
     input {
         min-width: 0;
     }
+
     #add-btn {
         margin-left: 10px;
     }
@@ -89,13 +93,13 @@
 
     @media (max-width: 640px) {
         span:not(.foreground) {
-            width: 100%!important;
+            width: 100% !important;
         }
         input:not([type='checkbox']), textarea, select, label div:not(.custom-toggle) {
-            width: 100%!important;
+            width: 100% !important;
         }
         #question-container input:not([type='checkbox']), #question-container textarea {
-            width: calc(100% - 30px)!important;
+            width: calc(100% - 30px) !important;
         }
         select {
             margin-top: 5px;

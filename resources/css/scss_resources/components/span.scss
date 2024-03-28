@@ -2,6 +2,7 @@ span {
     &.blank {
         transition-property: opacity;
         transition-duration: 500ms;
+
         &.filled {
             opacity: 0;
         }

@@ -5,10 +5,11 @@
     @media (max-width: 640px) {
         width: 100%;
         input {
-            width: calc(100% - 30px)!important;
+            width: calc(100% - 30px) !important;
         }
     }
 }
+
 #password-requirements ul {
     list-style-type: none;
 }

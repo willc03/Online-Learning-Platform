@@ -2,6 +2,7 @@ body {
     nav #logout-form {
         margin-bottom: 0;
     }
+
     main {
         padding: 20px;
         margin: 0 15%;
@@ -9,7 +10,7 @@ body {
 
     .flex-row {
         display: flex;
-        flex-direction: row!important;
+        flex-direction: row !important;
         align-items: center;
     }
 
@@ -19,11 +20,11 @@ body {
 
     .flex-col {
         display: flex;
-        flex-direction: column!important;
+        flex-direction: column !important;
     }
 
     .max-content {
-        width: max-content!important;
+        width: max-content !important;
     }
 
     .middle {
@@ -45,7 +46,7 @@ body {
     }
 
     .remove-bottom-spacer {
-        margin-bottom: 0!important;
+        margin-bottom: 0 !important;
     }
 
     .move {
@@ -60,6 +61,7 @@ body {
         @media (max-width: 640px) {
             flex-direction: column;
         }
+
         .requirements {
             width: calc(50% - 20px);
             padding: 10px;
@@ -70,8 +72,10 @@ body {
                 }
             }
         }
+
         ul {
             list-style: none;
+
             li {
                 margin-bottom: 10px;
             }

@@ -1115,7 +1115,7 @@ body footer .main-box .sign-up a:hover {
   .message {
     padding: 10px 0 !important;
   }
-  .message* {
+  .message * {
     text-align: center;
   }
 }
