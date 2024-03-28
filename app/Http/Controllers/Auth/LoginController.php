@@ -4,72 +4,68 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
+
     /**
-     * This function will be used to display the login form created as a Blade view.
+     * This public method facilitates the public GET route 'login', which will present
+     * the login form to the user.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+     * @return View The view to be send to the user
      */
-    public function display()
+    public function display ()
     {
-        return view('login');
+        return view('login'); // Present the login view to the user.
     }
 
     /**
-     * This function is designed to validate and process login requests via the POST
+     * This method is designed to validate and process login requests via the POST
      * method. This will ensure the user is properly authenticated against the database
      * and will provide detailed errors if the login request is not successful.
      *
-     * @param Request $request
-     * @return RedirectResponse
+     * @param Request $request The HTTP request provided by Laravel
+     *
+     * @return RedirectResponse The redirect where the user will be sent following authentication attempts
      */
-    public function login(Request $request): RedirectResponse
+    public function login ( Request $request ) : RedirectResponse
     {
         // Validation is performed on the data before any other processing is carried out
-        try {
-            $validated_data = $request->validate([
-                'email' => ['required', 'email'],
-                'password' => ['required'],
-                'remember' => ['nullable']
-            ]);
-        } catch (ValidationException) {
-            return back()->with('validation_error', true); // Redirect to the original page if validation is unsuccessful
-        }
+        $validatedData = $request->validate([
+            'email'    => [ 'required', 'email' ],
+            'password' => [ 'required' ],
+            'remember' => [ 'nullable' ],
+        ]);
         // Check if the email is found in the database
-        try {
-            User::where('email', '=', $validated_data['email'])->firstOrFail();
-        } catch (ModelNotFoundException) {
-            return back()->withErrors(['email' => 'null']); // Redirect if the email isn't in the database
+        if ( !User::where([ 'email' => $validatedData['email'] ])->exists() ) {
+            return back()->withErrors([ 'EMAIL_NOT_FOUND' => "The email entered could not be found in our records." ]); // Redirect if the email isn't in the database.
         }
         // Manage remembering users for long periods using 'remember me' box
-        $remember = array_key_exists('remember', $validated_data);
-        if ($remember) {
-            unset($validated_data['remember']);
+        if ( $remember = array_key_exists('remember', $validatedData) ) {
+            unset($validatedData['remember']); // Remove the entry for the validated data as this will cause conflicts when Auth::attempt is called.
         }
         // Attempt to log in
-        if (Auth::attempt($validated_data, $remember)) {
-            $request->session()->regenerate(); // Regenerate the session token for security
-            return redirect()->route('home');
+        if ( Auth::attempt($validatedData, $remember) ) { // This function will automatically authenticate the user if successful.
+            $request->session()->regenerate();            // Regenerate the session token for security
+            return redirect()->route('home');             // Send the user to the home page (they can view their courses through this)
         }
         // Redirect the user to the home page with a password invalid error
-        return redirect()->to('/login/')->withErrors(['password' => 'invalid']);
+        return redirect()->to('/login/')->withErrors([ 'INVALID_PASSWORD' => 'The password entered does not match our records. Please try again.' ]);
     }
 
     /**
      * This function is designed to process POST requests to allow the user to end their current
      * authentication session. For security, the session is invalidated and the tokens regenerated.
      *
-     * @param Request $request
-     * @return RedirectResponse
+     * @param Request $request The HTTP request provided by Laravel
+     *
+     * @return RedirectResponse Where the user is sent following the logout process
      */
-    public function logout(Request $request)
+    public function logout ( Request $request )
     {
         // Log the user out
         Auth::logout();
@@ -79,4 +75,5 @@ class LoginController extends Controller
         // Redirect the user to the home page
         return redirect()->route('home');
     }
+
 }

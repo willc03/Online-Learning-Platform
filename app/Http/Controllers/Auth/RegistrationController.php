@@ -5,21 +5,22 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
-use Illuminate\Validation\ValidationException;
 
 class RegistrationController extends Controller
 {
+
     /**
-     * This function will present the user with the registration form.
+     * This public route will present the user with the registration form.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+     * @return View The view to return to the user
      */
-    public function display()
+    public function display ()
     {
         return view('register');
     }
@@ -29,30 +30,26 @@ class RegistrationController extends Controller
      * and log them in if successful. The Laravel validation methods provide detailed errors if the
      * request is rejected due to validation errors.
      *
-     * @param Request $request
-     * @return RedirectResponse
+     * @param Request $request The HTTP request provided by Laravel
+     *
+     * @return RedirectResponse A response to send the user to the relevant page following validation
      */
-    public function create(Request $request): RedirectResponse
+    public function create ( Request $request ) : RedirectResponse
     {
-        try {
-            // Validate the content contained within the request
-            $validated_data = $request->validate([
-                'firstname' => ['required', 'string', 'max:255'],
-                'lastname' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class], // Make sure the email hasn't been taken
-                'password' => ['required', 'confirmed', Password::defaults()] // Make sure the password conforms to the defined rules & the confirmation of the password is correct
-            ]);
-        } catch (ValidationException $exception) {
-            // Redirect if unsuccessful
-            return back()->with(['validation_error' => true])->withErrors($exception->errors());
-        }
+        // Validate the content contained within the request
+        $validatedData = $request->validate([
+            'firstname' => [ 'required', 'string', 'max:255' ],
+            'lastname'  => [ 'required', 'string', 'max:255' ],
+            'email'     => [ 'required', 'string', 'email', 'max:255', 'unique:' . User::class ],  // Make sure the email hasn't been taken
+            'password'  => [ 'required', 'confirmed', Password::defaults() ],                      // Make sure the password conforms to the defined rules & the confirmation of the password is correct
+        ]);
         // Convert the email to lower case
-        $validated_data['email'] = strtolower($validated_data['email']);
+        $validatedData['email'] = strtolower($validatedData['email']);
         // Create the new user
         $new_user = User::create([
-            'name' => $validated_data['firstname'] . ' ' . $validated_data['lastname'], // Concatenate the first and last names
-            'email' => $validated_data['email'],
-            'password' => Hash::make($validated_data['password'])
+            'name'     => $validatedData['firstname'] . ' ' . $validatedData['lastname'], // Concatenate the first and last names
+            'email'    => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
         ]);
         // Timestamp the new creation as an event
         event(new Registered($new_user));
@@ -60,6 +57,6 @@ class RegistrationController extends Controller
         Auth::login($new_user);
         // Redirect the user to the home page
         return redirect()->route('home');
-
     }
+
 }
