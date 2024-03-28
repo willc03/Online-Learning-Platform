@@ -2,17 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\View\View;
 
 class Account extends Controller
 {
+
+    /**
+     * The show route is a basic view that allows the user to view their account page.
+     *
+     * @return View
+     */
     public function show()
     {
         return view("account");
     }
 
+    /**
+     * This route processes a POST request that allows the user to change their password.
+     *
+     * @param Request $request The HTTP request provided by Laravel
+     *
+     * @return RedirectResponse The response that redirects the user based on success or failure of the processing.
+     */
     public function change_password(Request $request)
     {
         // Get the user, we can assume it is gettable due to the 'auth' middleware
@@ -28,7 +43,7 @@ class Account extends Controller
         }
         // Update the password
         $user->password = Hash::make($validatedData['new-password']);
-        // Save
+        // Save the user's new password
         if ($user->save()) {
             return redirect()->to(route('home'))->with(['PASSWORD_CHANGED' => "Your password was successfully updated."]);
         } else {
