@@ -512,7 +512,7 @@ class Course extends Controller
                 }
             case "section_edit":
                 // Further validation
-                $interiorValidation = Validator::make($validatedData, [
+                $interiorValidation = Validator::make($request->toArray(), [
                     'title'       => [ 'required', 'string' ],
                     'description' => [ 'nullable', 'string' ],
                     'section_id'  => [ 'required', 'string', 'exists:sections,id' ],
