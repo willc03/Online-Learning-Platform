@@ -3,14 +3,6 @@
     @if (session('middleware_auth'))
         <x-messages.error title="Authentication Required" description="You must be logged in to access this page!" />
     @endif
-    {{-- All error messages will be handled first --}}
-    @if (session('validation_error'))
-        <x-messages.error title="Validation Error" description="The information submitted did not match the requirements!" />
-    @elseif ($errors->get('email'))
-        <x-messages.error title="Login Error" description="The e-mail address entered is not registered with us, please try again." />
-    @elseif ($errors->get('password'))
-        <x-messages.error title="Login Error" description="The password entered is incorrect, please try again." />
-    @endif
     {{-- Now that error messages have been handled, the rest of the page can be rendered --}}
     <div class="message right-float clearfix" id="register-box">
         <h3>Don't have an account?</h3>
@@ -24,10 +16,10 @@
         <form method="post" action="{{ url('/login/') }}">
             @csrf {{-- The CSRF tag blocks CSRF attacks by including a unique code that has to be read by the server --}}
 
-            {{-- Email --}}
-            <label class="form-flex" for="email">
-                <span class="required">Email:</span>
-                <input class="var-width" type="email" name="email" placeholder="e.g. john.doe@example.com" autocomplete="username" required />
+            {{-- Username --}}
+            <label class="form-flex" for="username">
+                <span class="required">Username:</span>
+                <input class="var-width" type="text" name="username" placeholder="e.g. john.doe" autocomplete="username" required />
             </label>
 
             {{-- Password --}}

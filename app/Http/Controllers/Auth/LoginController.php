@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class LoginController extends Controller
 {
@@ -36,13 +37,13 @@ class LoginController extends Controller
     {
         // Validation is performed on the data before any other processing is carried out
         $validatedData = $request->validate([
-            'email'    => [ 'required', 'email' ],
+            'username'    => [ 'required', 'string' ],
             'password' => [ 'required' ],
             'remember' => [ 'nullable' ],
         ]);
-        // Check if the email is found in the database
-        if ( !User::where([ 'email' => $validatedData['email'] ])->exists() ) {
-            return back()->withErrors([ 'EMAIL_NOT_FOUND' => "The email entered could not be found in our records." ]); // Redirect if the email isn't in the database.
+        // Check if the username is found in the database
+        if ( !User::where([ 'username' => $validatedData['username'] ])->exists() ) {
+            return back()->withErrors([ 'USERNAME_NOT_FOUND' => "The username entered could not be found in our records." ]); // Redirect if the username isn't in the database.
         }
         // Manage remembering users for long periods using 'remember me' box
         if ( $remember = array_key_exists('remember', $validatedData) ) {

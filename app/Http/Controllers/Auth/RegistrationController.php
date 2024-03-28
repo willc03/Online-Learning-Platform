@@ -41,6 +41,7 @@ class RegistrationController extends Controller
             'firstname' => [ 'required', 'string', 'max:255' ],
             'lastname'  => [ 'required', 'string', 'max:255' ],
             'email'     => [ 'required', 'string', 'email', 'max:255', 'unique:' . User::class ],  // Make sure the email hasn't been taken
+            'username'  => [ 'required', 'string', 'min:4', 'max:20', 'unique:' . User::class ],            // Make sure the username isn't taken
             'password'  => [ 'required', 'confirmed', Password::defaults() ],                      // Make sure the password conforms to the defined rules & the confirmation of the password is correct
         ]);
         // Convert the email to lower case
@@ -48,6 +49,7 @@ class RegistrationController extends Controller
         // Create the new user
         $new_user = User::create([
             'name'     => $validatedData['firstname'] . ' ' . $validatedData['lastname'], // Concatenate the first and last names
+            'username' => $validatedData['username'],
             'email'    => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
         ]);

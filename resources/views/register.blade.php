@@ -29,6 +29,10 @@
             <label class="required" for="lastname">Last name:</label>
             <input type="text" name="lastname" required>
 
+            {{-- User name --}}
+            <label class="required" for="username">Username:</label>
+            <input type="text" name="username" required maxlength="20" minlength="4" />
+
             {{-- Email --}}
             <label class="required" for="email">Email:</label>
             <input type="email" name="email" required>
