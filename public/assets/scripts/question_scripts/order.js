@@ -1,21 +1,17 @@
 const buttons = $(".option-button");
 
-function calculateAnswer() {
+function calculateAnswer ()
+{
     let answer = [];
-    $("#question-list button").each(function(index, element) {
+    $("#question-list button").each(function (index, element) {
         answer.push(element.innerText);
     })
     $("#answer").prop("value", JSON.stringify(answer));
 }
 
-$(function() {
+$(function () {
     $("#question-list").sortable({
-        revert: false,
-        cancel: false,
-        placeholder: "three-d draggable-choice",
-        scrollSensitivity: 100,
-        stop: calculateAnswer,
-        axis: questionAxis
+        revert: false, cancel: false, placeholder: "three-d draggable-choice", scrollSensitivity: 100, stop: calculateAnswer, axis: questionAxis
     });
     $("ul, li").disableSelection();
 

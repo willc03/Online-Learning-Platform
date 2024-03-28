@@ -9,13 +9,9 @@ $(".section select[name='type']").change(function () {
     $(formContainer).empty();
     // Make the AJAX request to re-populate the form
     $.ajax({
-        url: formRoute,
-        data: {
-            form_type: selectedFormType,
-            course_id: courseId,
-            section_id: $(section).attr('id')
-        },
-        success: function (data) {
+        url: formRoute, data: {
+            form_type: selectedFormType, course_id: courseId, section_id: $(section).attr('id')
+        }, success: function (data) {
             $(formContainer).html(data).css('display', '');
             $(submissionContainer).css('display', '');
         }
@@ -31,10 +27,7 @@ $('.section .section-add-component').each(function () {
         .data('size', $(additionContainer).height())
         .data('is_open', false)
         .css({
-            height: 0,
-            borderWidth: 0,
-            paddingTop: 0,
-            paddingBottom: 0
+            height: 0, borderWidth: 0, paddingTop: 0, paddingBottom: 0
         });
 });
 
@@ -47,23 +40,18 @@ $('.section .section-admin-panel #add-component-button').each(function () {
     let sectionEditContainer = $(section).find('.section-edit-component');
     // Button click behaviour
     $(button).on('click', function () {
-        if ($(additionContainer).data('is_open') === true) {
+        if ( $(additionContainer).data('is_open') === true ) {
             return;
         }
         $(sectionEditContainer) // Close the edit container
             .data('is_open', false)
             .animate({
-                height: 0,
-                paddingTop: 0,
-                paddingBottom: 0
+                height: 0, paddingTop: 0, paddingBottom: 0
             });
         $(additionContainer)
             .data('is_open', true)
             .animate({
-                height: $(additionContainer).data('size') + 'px',
-                borderWidth: '1.5px',
-                paddingTop: '10px',
-                paddingBottom: '10px'
+                height: $(additionContainer).data('size') + 'px', borderWidth: '1.5px', paddingTop: '10px', paddingBottom: '10px'
             }, 500, function () {
                 $(additionContainer).css('height', '');
             });
@@ -80,16 +68,13 @@ $('.section #submission #cancel').each(function () {
     let submissionContainer = $(section).find('#submission');
     // Button click behaviour
     $(button).on('click', function () {
-        if ($(additionContainer).data('is_open') === false) {
+        if ( $(additionContainer).data('is_open') === false ) {
             return;
         }
         $(additionContainer)
             .data('is_open', false)
             .animate({
-                height: 0,
-                paddingTop: 0,
-                paddingBottom: 0,
-                borderWidth: 0
+                height: 0, paddingTop: 0, paddingBottom: 0, borderWidth: 0
             }, 500, function () {
                 $(formContainer).empty().css('display', 'none');
                 $(submissionContainer).css('display', 'none');
@@ -104,14 +89,8 @@ $('.section #submission #submit').on('click', function () {
     let additionForm = $(section).find('#add-component-form');
     // Submission behaviour
     $.ajax({
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        url: ajaxRoute,
-        method: "POST",
-        data: {
-            edit_type: 'section_item_add',
-            course_id: courseId,
-            data: JSON.stringify($(additionForm).serializeArray()),
-            success: function () {
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }, url: ajaxRoute, method: "POST", data: {
+            edit_type: 'section_item_add', course_id: courseId, data: JSON.stringify($(additionForm).serializeArray()), success: function () {
                 setTimeout(function () {
                     location.reload();
                 }, 100);

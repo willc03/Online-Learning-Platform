@@ -18,9 +18,9 @@ $(".lesson-config h2 button.three-d#delete-button")
                     let mainContainer = $(button).closest('.lesson-config');
                     $(mainContainer).css('overflow', 'hidden').animate({
                         height: 0, padding: 0
-                    }, 500, function() {
+                    }, 500, function () {
                         $(mainContainer).remove();
-                        if ($('.lesson-config').length === 0) {
+                        if ( $('.lesson-config').length === 0 ) {
                             location.href = location.href;
                         }
                     });

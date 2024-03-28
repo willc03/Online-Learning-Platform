@@ -1,5 +1,5 @@
 const buttons = $(".option-button");
-if(!one_time_answer) {
+if ( !one_time_answer ) {
     buttons.prop("type", "button");
 
     $(document).ready(function () {

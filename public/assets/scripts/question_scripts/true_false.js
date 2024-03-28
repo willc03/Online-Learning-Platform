@@ -1,5 +1,5 @@
 const buttons = $(".option-button");
-if (!one_time_answer) {
+if ( !one_time_answer ) {
     buttons.prop("type", "button");
 
     $(document).ready(function () {
@@ -16,8 +16,8 @@ if (!one_time_answer) {
     });
 } else {
     let pressed = false;
-    $("form").on('submit', function(e) {
-        if (!pressed) {
+    $("form").on('submit', function (e) {
+        if ( !pressed ) {
             e.preventDefault();
         }
     });
@@ -27,7 +27,7 @@ if (!one_time_answer) {
         $("#answer").attr('value', answerValue);
         console.log($(this).attr('value'));
         pressed = true;
-        setTimeout(function() {
+        setTimeout(function () {
             $("form").submit();
         }, 100); // Adjust the delay time as needed
     });

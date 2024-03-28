@@ -7,10 +7,7 @@ $('.section .section-edit-component').each(function () {
         .data('size', $(editContainer).height())
         .data('is_open', false)
         .css({
-            height: 0,
-            borderWidth: 0,
-            paddingTop: 0,
-            paddingBottom: 0
+            height: 0, borderWidth: 0, paddingTop: 0, paddingBottom: 0
         });
     // Set up for form submission
     {
@@ -42,25 +39,20 @@ $('.section .section-admin-panel #edit-button').each(function () {
     let sectionEditContainer = $(section).find('.section-edit-component');
     // Button click behaviour
     $(button).on('click', function () {
-        if ($(sectionEditContainer).data('is_open') === true) {
+        if ( $(sectionEditContainer).data('is_open') === true ) {
             return;
         }
         $(sectionEditContainer) // Close the addition container
             .data('is_open', true)
             .animate({
-                height: $(sectionEditContainer).data('size') + 'px',
-                paddingTop: '10px',
-                paddingBottom: '10px'
-            }, 500, function() {
+                height: $(sectionEditContainer).data('size') + 'px', paddingTop: '10px', paddingBottom: '10px'
+            }, 500, function () {
                 $(this).height('');
             });
         $(additionContainer)
             .data('is_open', false)
             .animate({
-                height: 0,
-                paddingTop: 0,
-                paddingBottom: 0,
-                borderWidth: 0
+                height: 0, paddingTop: 0, paddingBottom: 0, borderWidth: 0
             }, 500);
     });
 });

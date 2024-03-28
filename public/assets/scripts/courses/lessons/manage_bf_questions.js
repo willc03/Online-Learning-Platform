@@ -1,29 +1,23 @@
-function getElementDetails(element) {
+function getElementDetails (element)
+{
     const $element = $(element);
     return {
-        width: $element.width(),
-        height: $element.height(),
-        x: $element.offset().left,
-        y: $element.offset().top,
+        width: $element.width(), height: $element.height(), x: $element.offset().left, y: $element.offset().top,
     };
 }
 
-$("div.lesson-config.fill-blanks").each(function() {
+$("div.lesson-config.fill-blanks").each(function () {
     let container = $(this);
     let blanks = $(container).find("span.blank");
     let options = $(container).find("button.three-d:not(#delete-button)");
 
-    $(options).each(function() {
-        if ($(this).attr('id')) {
+    $(options).each(function () {
+        if ( $(this).attr('id') ) {
             let index = $(this).attr('id');
             let blank = $(blanks).not('.filled')[0];
             let fieldDetails = getElementDetails(blank);
             $(this).css({
-                width: fieldDetails.width,
-                height: fieldDetails.height,
-                left: fieldDetails.x + 1,
-                top: fieldDetails.y - 6,
-                position: 'absolute'
+                width: fieldDetails.width, height: fieldDetails.height, left: fieldDetails.x + 1, top: fieldDetails.y - 6, position: 'absolute'
             });
             $(blank).css('borderWidth', 0).addClass("filled").attr("option", index);
         }

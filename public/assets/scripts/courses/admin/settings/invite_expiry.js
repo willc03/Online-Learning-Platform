@@ -26,32 +26,19 @@ $(expirySectionToggles).each(function () {
     let inviteId = $(row).attr('id');
     $(button).on("click", function () {
         $.ajax({
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            method: "POST",
-            url: inviteModifyRoute,
-            data: {
-                inviteId: inviteId,
-                modificationType: 'expiryDate',
-                newDate: $(input).val()
-            },
-            success: function () {
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }, method: "POST", url: inviteModifyRoute, data: {
+                inviteId: inviteId, modificationType: 'expiryDate', newDate: $(input).val()
+            }, success: function () {
                 location.reload();
             }
         });
     });
 
-    $(remDateBtn).on("click", function() {
+    $(remDateBtn).on("click", function () {
         $.ajax({
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            method: "POST",
-            url: inviteModifyRoute,
-            data: {
-                inviteId: inviteId,
-                modificationType: 'expiryDate',
-                newDate: "01/01/1970 23:59",
-                remove: 1,
-            },
-            success: function () {
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }, method: "POST", url: inviteModifyRoute, data: {
+                inviteId: inviteId, modificationType: 'expiryDate', newDate: "01/01/1970 23:59", remove: 1,
+            }, success: function () {
                 location.reload();
             }
         });
@@ -59,19 +46,17 @@ $(expirySectionToggles).each(function () {
 
     let currentDate = new Date();
     $(input).datetimepicker({
-        minDate: 0,
-        defaultTime: "23:59",
-        formatDate: "d/m/Y",
-        formatTime: "H:i",
-        format: "d/m/Y H:i",
-        onChangeDateTime: function (currTime) {
-            if ( stringToDate($(input).val()).getTime() < currentDate.getTime() ) return $(button).prop("disabled", true);
+        minDate: 0, defaultTime: "23:59", formatDate: "d/m/Y", formatTime: "H:i", format: "d/m/Y H:i", onChangeDateTime: function (currTime) {
+            if ( stringToDate($(input).val()).getTime() < currentDate.getTime() ) {
+                return $(button).prop("disabled", true);
+            }
             $(button).prop("disabled", ($(input).val() === $(input).attr("data-initial")))
         }
     });
 });
 
-function stringToDate (dateString) {
+function stringToDate (dateString)
+{
     var parts = dateString.split(/[\/\s:]/); // Split the string by "/", " ", and ":"
     var day = parseInt(parts[0], 10);
     var month = parseInt(parts[1], 10) - 1; // Months are 0-indexed in JavaScript

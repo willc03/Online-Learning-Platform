@@ -4,8 +4,9 @@
 */
 const inputs = document.querySelectorAll("input");
 
-function validateInputField(input) {
-    if (input.checkValidity()) {
+function validateInputField (input)
+{
+    if ( input.checkValidity() ) {
         input.classList.remove("invalid-element");
     } else {
         input.classList.add("invalid-element");
@@ -14,7 +15,7 @@ function validateInputField(input) {
 
 inputs.forEach((input) => {
     input.addEventListener("input", () => {
-        if (input.checkValidity()) {
+        if ( input.checkValidity() ) {
             validateInputField(input);
         }
     });
