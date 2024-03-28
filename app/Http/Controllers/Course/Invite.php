@@ -9,12 +9,10 @@ use App\Models\UserCourse;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -23,36 +21,32 @@ class Invite extends Controller
 {
 
     /**
-     * This function executes logic to present the user with a screen for accepting invites or returning to home based on database results.
+     * This function executes logic to present the user with a screen for accepting invites or returning
+     * to home based on database results.
      *
-     * @param Request $request
+     * @param Request $request The HTTP request provided by Laravel
      *
-     * @return Application|Factory|View|\Illuminate\Foundation\Application|RedirectResponse
+     * @return View|RedirectResponse The view to show the user (if successful) or the redirection
      */
     public function show ( Request $request )
     {
-        // Check there is a valid invite
-        if ( !$invite_id = $request->id ) {
-            return redirect()->to(route('home'))->withErrors([ 'errorMessage' => 'The invitation link is invalid, please try again or ask for another invitation link.' ]);
-        }
+        // Validate the request
+        $validatedData = $request->validate([
+            'id' => [ 'required', 'string', 'exists:course_invites,id' ],
+        ]);
 
         // Check the invite is valid
-        $invite = CourseInvite::where('invite_id', $invite_id);
-        if (!$invite->exists()) {
-            return back()->withErrors([ 'NO_RECORD' => 'An invite with that code could not be found. Try checking your code or entering another code.' ]);
-        } else {
-            $invite = $invite->first();
-        }
-        $invalid_invite = $this->checkInviteValidity($invite);
+        $invite = CourseInvite::where('invite_id', $validatedData['id'])->firstOrFail();
+        $inviteValidity = $this->validateInvite($invite);
 
         // Check the course isn't public
         $course = Course::whereId($invite->course_id);
-        if ($course->exists() && $course->firstOrFail()->is_public) {
+        if ( $course->exists() && $course->firstOrFail()->is_public ) {
             return redirect()->to(route('courses'))->withErrors([ 'COURSE_PUBLIC' => 'Course invitations cannot be used on public courses. Please find the course on this page.' ]);
         }
 
         // Check the user is not already a course member
-        if ( !$invalid_invite && $this->userTakesCourse($invite->course_id, $request->user()->id) ) {
+        if ( !$inviteValidity && $this->userTakesCourse($invite->course_id, $request->user()->id) ) {
             return redirect()->to(route('course.home', [ 'id' => $invite->course->id ]))->withErrors([ 'COURSE_MEMBER' => 'You cannot join a course you already take!' ]);
         }
 
@@ -62,47 +56,46 @@ class Invite extends Controller
         }
 
         // Return the correct view
-        return $invalid_invite ? view('courses.invite', $invalid_invite) : view('courses.invite', [ 'success' => true, 'content' => $invite->course ]);
+        return $inviteValidity ? view('courses.invite', $inviteValidity) : view('courses.invite', [ 'success' => true, 'content' => $invite->course ]);
     }
 
     /**
      * This function will validate the invite against a number of database factors.
      *
-     * @param CourseInvite|null $invite
+     * @param CourseInvite|null $invite The course invite model instance (if one is passed in)
      *
-     * @return false|array
+     * @return false|array Information that can be used to take paths in certain routes
      */
-    private function checkInviteValidity ( ?CourseInvite $invite )
+    private function validateInvite ( ?CourseInvite $invite )
     {
-        if ( !$invite ) {
+        if ( !$invite ) { // Check there is an invite that exists.
             return [ 'success' => false, 'errorMessage' => 'No record of this invitation could be found. Please try again or ask for another invitation.' ];
         }
 
-        if ( !$invite->is_active ) {
+        if ( !$invite->is_active ) { // Check the invite is active.
             return [ 'success' => false, 'errorMessage' => 'This invite is inactive. Please try again or ask for another invitation.' ];
         }
 
-        if ( $invite->expiry_date < now() && $invite->expiry_date != null ) {
+        if ( $invite->expiry_date < now() && $invite->expiry_date != null ) { // Check the invite is in date
             return [ 'success' => false, 'errorMessage' => 'This invite has expired. Please ask for another invitation.' ];
         }
 
-        if ( $invite->uses >= $invite->max_uses && $invite->max_uses != null ) {
+        if ( $invite->uses >= $invite->max_uses && $invite->max_uses != null ) { // Check the invite has not exceeded its maximum uses.
             return [ 'success' => false, 'errorMessage' => 'This invite has reached its maximum number of uses. Please ask for another invite.' ];
         }
 
-        return false;
+        return false; // Return false as a fail-safe
     }
-    //
 
     /**
      * This function accepts a course ID and user ID to deduce whether they are already a member of a course.
      *
-     * @param $courseId
-     * @param $userId
+     * @param string $courseId The course's id (UUID)
+     * @param int    $userId   The user's id (int)
      *
      * @return bool
      */
-    private function userTakesCourse ( $courseId, $userId )
+    private function userTakesCourse ( string $courseId, int $userId )
     {
         return UserCourse::where([ 'course_id' => $courseId, 'user_id' => $userId ])->exists();
     }
@@ -110,9 +103,9 @@ class Invite extends Controller
     /**
      * This function accepts POST requests such that users can accept invites to join a course.
      *
-     * @param Request $request
+     * @param Request $request The HTTP request provided by Laravel
      *
-     * @return Application|Factory|View|\Illuminate\Foundation\Application|RedirectResponse
+     * @return View|RedirectResponse The view or redirect to show the user
      */
     public function accept ( Request $request )
     {
@@ -123,24 +116,24 @@ class Invite extends Controller
 
         // If the ID is a course ID and the course is public, accept the request immediately.
         $course = Course::where('id', $request->id);
-        if ($course->exists() && $course->firstOrFail()->is_public) {
-            $validatedData = $request->validate([ 'id' => ['required', 'string', 'exists:courses,id'] ]);
+        if ( $course->exists() && $course->firstOrFail()->is_public ) {
+            $validatedData = $request->validate([ 'id' => [ 'required', 'string', 'exists:courses,id' ] ]);
 
             $userCourseRecord = new UserCourse;
             $userCourseRecord->course_id = $validatedData['id'];
             $userCourseRecord->user_id = $request->user()->id;
             $userCourseRecord->id = UserCourse::all()->count() + 1;
 
-            if ($userCourseRecord->save()) {
-                return redirect()->to(route('course.home', [ 'id' => $invite_id ]));
+            if ( $userCourseRecord->save() ) {
+                return redirect()->to(route('course.home', [ 'id' => $invite_id ])); // Send the user to the accepted course's home page.
             } else {
-                return back();
+                return back()->withErrors([ 'RECORD_SAVE_ERROR' => 'The system could not add you to the course. Please try again!' ]); // Return the user back with an error message
             }
         }
 
         // Check the invite is valid
         $invite = CourseInvite::where('invite_id', $invite_id)->first();
-        $invalid_invite = $this->checkInviteValidity($invite);
+        $invalid_invite = $this->validateInvite($invite);
 
         // Check the user is not already a course member
         if ( !$invalid_invite && $this->userTakesCourse($invite->course_id, $request->user()->id) ) {
@@ -152,7 +145,7 @@ class Invite extends Controller
             return view('courses.invite', $invalid_invite);
         } else {
             // Increase the number of uses
-            $invite->uses++;
+            $invite->increment('uses', 1);
 
             // Add the user to the course
             $userCourseRecord = new UserCourse;
@@ -161,37 +154,31 @@ class Invite extends Controller
             $userCourseRecord->id = UserCourse::all()->count() + 1;
             $userCourseRecord->save();
 
-            // Save the record
-            $invite->save();
-
             // Redirect the user to the course
             return redirect()->to(url('/course/' . $invite->course_id));
         }
     }
 
     /**
-     * This function will be used to process invite modifications
+     * This route processes invite modification requests, allowing the user to change aspects such as
+     * the active state, expiry date, and maximum uses.
      *
-     * @param Request $request
-     * @param String  $id
+     * @param Request $request The HTTP request provided by Laravel
+     * @param string  $id      The course's id (UUID)
      *
      * @return Application|ResponseFactory|\Illuminate\Foundation\Application|Response
      */
     public function modify ( Request $request, string $id )
     {
+        // We can assume the user is able to edit the course as the route is protected by middleware
         // Initial validation
         $validatedData = $request->validate([
-            'inviteId' => [ 'required', 'string', 'exists:course_invites,invite_id' ],
-            'modificationType' => [ 'required', 'string', 'in:activeState,maxUses,expiryDate' ],
-            'newMax' => [ 'nullable', 'numeric' ],
-            'newDate' => [ 'nullable', 'date_format:d/m/Y H:i' ],
-            'remove' => [ 'nullable', 'integer' ]
+            'inviteId'         => [ 'required', 'string', 'exists:course_invites,invite_id' ],   // Make sure the invite exists
+            'modificationType' => [ 'required', 'string', 'in:activeState,maxUses,expiryDate' ], // Only allow the set modification types
+            'newMax'           => [ 'nullable', 'numeric' ],                                     // Accept the new maximum date
+            'newDate'          => [ 'nullable', 'date_format:d/m/Y H:i' ],                       // Accept the new date
+            'remove'           => [ 'nullable', 'integer' ],                                     // A flag on whether to remove the date or max uses.
         ]);
-        // Course edit ability check
-        $course = Course::where([ 'id' => $id ])->firstOrFail();
-        if ( !Gate::allows('course-edit', $course) ) {
-            return response("You do not have permission to edit invites for this course!", 403);
-        }
         // Get the invite
         $invite = CourseInvite::where([ 'invite_id' => $validatedData['inviteId'] ])->firstOrFail();
         // Switch case for execution logic
@@ -208,7 +195,7 @@ class Invite extends Controller
                 // Validation
                 $maxUseValidation = Validator::make($validatedData, [
                     'newMax' => [ Rule::requiredIf(!array_key_exists('remove', $validatedData)), Rule::excludeIf(array_key_exists('remove', $validatedData)), 'numeric', 'min:' . $invite->uses ?? 0 ],
-                    'remove' => [ 'nullable', 'integer' ]
+                    'remove' => [ 'nullable', 'integer' ],
                 ]);
                 if ( $maxUseValidation->fails() ) {
                     return response($maxUseValidation->errors(), 400);
@@ -225,7 +212,7 @@ class Invite extends Controller
                 // Expiry date validation
                 $expiryDateValidation = Validator::make($validatedData, [
                     'newDate' => [ Rule::requiredIf(!array_key_exists('remove', $validatedData)), Rule::excludeIf(array_key_exists('remove', $validatedData)), 'required', 'date_format:d/m/Y H:i' ],
-                    'remove' => [ 'nullable', 'integer' ]
+                    'remove'  => [ 'nullable', 'integer' ],
                 ]);
                 if ( $expiryDateValidation->fails() ) {
                     return response("Validation failed.", 400);
@@ -247,26 +234,22 @@ class Invite extends Controller
     }
 
     /**
-     * A route to allow users to delete invites.
+     * A DELETE route that allows invites to be deleted by course owners.
      *
-     * @param Request $request
-     * @param string  $id
+     * @param Request $request The HTTP request provided by Laravel.
+     * @param string  $id      The course's id (UUID)
      *
-     * @return Application|ResponseFactory|\Illuminate\Foundation\Application|Response
+     * @return Response The response to inform the client on success.
      */
-    public function delete(Request $request, string $id)
+    public function delete ( Request $request, string $id )
     {
+        // We can assume the user can delete invites as the route is protected
         // Validation of uploaded data
         $validatedData = $request->validate([
-            'inviteId' => [ 'required', 'string', 'exists:course_invites,invite_id' ]
+            'inviteId' => [ 'required', 'string', 'exists:course_invites,invite_id' ],
         ]);
-        // Gate checking
-        $course = Course::where('id', $id)->firstOrFail();
-        if (!Gate::allows('course-edit', $course)) {
-            return response('You do not have permission to delete course invites.', 403);
-        }
         // Delete the invite if the user has permission
-        $invite = CourseInvite::where(['invite_id' => $validatedData['inviteId']])->firstOrFail();
+        $invite = CourseInvite::where([ 'invite_id' => $validatedData['inviteId'] ])->firstOrFail();
         if ( $invite->delete() ) {
             return response("Invite successfully deleted", 200);
         } else {
@@ -275,30 +258,26 @@ class Invite extends Controller
     }
 
     /**
-     * A route to allow users to create new invites
+     * A route to allow course owners to create new invites (if the course is private)
      *
-     * @param Request $request
-     * @param string  $id
+     * @param Request $request The HTTP request provided by Laravel
+     * @param string  $id      The course's id (UUID)
      *
-     * @return Application|ResponseFactory|\Illuminate\Foundation\Application|RedirectResponse|Response
+     * @return RedirectResponse The redirect based on whether the request is successful
      */
-    public function create(Request $request, string $id)
+    public function create ( Request $request, string $id )
     {
+        // We can assume the user is the course owner
         // Validation of uploaded data
         $validatedData = $request->validate([
-            'active' => [ 'nullable', 'string', 'in:on' ],
+            'active'        => [ 'nullable', 'string', 'in:on' ],
             'unlimitedUses' => [ 'nullable', 'string', 'in:on' ],
-            'allowedUses' => [ Rule::excludeIf(fn () => $request->unlimitedUses !== null), 'nullable', 'integer', 'min:1', Rule::requiredIf(fn () => $request->unlimitedUses === null) ],
-            'neverExpire' => [ 'nullable', 'string', 'in:on' ],
-            'expiryDate' => [ Rule::excludeIf(fn () => $request->neverExpire !== null), 'nullable', 'date_format:d/m/Y H:i', Rule::requiredIf(fn () => $request->neverExpire === null) ]
+            'allowedUses'   => [ Rule::excludeIf(fn () => $request->unlimitedUses !== null), 'nullable', 'integer', 'min:1', Rule::requiredIf(fn () => $request->unlimitedUses === null) ],
+            'neverExpire'   => [ 'nullable', 'string', 'in:on' ],
+            'expiryDate'    => [ Rule::excludeIf(fn () => $request->neverExpire !== null), 'nullable', 'date_format:d/m/Y H:i', Rule::requiredIf(fn () => $request->neverExpire === null) ],
         ]);
-        if (array_key_exists('expiryDate', $validatedData)) {
+        if ( array_key_exists('expiryDate', $validatedData) ) {
             $validatedData['expiryDate'] = Carbon::createFromFormat('d/m/Y H:i', $validatedData['expiryDate']);
-        }
-        // Gate checking
-        $course = Course::where('id', $id)->firstOrFail();
-        if (!Gate::allows('course-edit', $course)) {
-            return response('You do not have permission to create course invites.', 403);
         }
         // Create the invite
         $invite = new CourseInvite;
@@ -309,10 +288,11 @@ class Invite extends Controller
         $invite->invite_id = Str::orderedUuid();
         $invite->id = CourseInvite::all()->count() + 1;
         // Save the invite
-        if ($invite->save()) {
+        if ( $invite->save() ) {
             return redirect()->to(route('course.settings.get', [ 'id' => $id ]));
         } else {
-            return back()->withErrors(['SAVE_ERROR' => "Could not save the new invitation."]);
+            return back()->withErrors([ 'SAVE_ERROR' => "Could not save the new invitation." ]);
         }
     }
+
 }

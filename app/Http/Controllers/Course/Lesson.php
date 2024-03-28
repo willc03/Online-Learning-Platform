@@ -13,6 +13,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Psr\Container\ContainerExceptionInterface;
@@ -22,10 +24,8 @@ class Lesson extends Controller
 {
 
     /**
-     * Create a route function to allow the user to begin a lesson.
-     * For security and consistency reasons, sessions will be utilised
-     * in this controller to ensure the user cannot manipulate the lesson
-     * on the client.
+     * Create a route function to allow the user to begin a lesson For security and consistency reasons, sessions
+     * will be utilised in this controller to ensure the user cannot manipulate the lesson on the client.
      *
      * @param string $id       The course id field.
      * @param string $lessonId The lesson id field.
@@ -68,13 +68,12 @@ class Lesson extends Controller
     }
 
     /**
-     * Create a route to display the content of the lesson to
-     * the user.
+     * Create a route to display the content of the lesson to the user.
      *
      * @param string $id       The course id field.
      * @param string $lessonId The lesson id field.
      *
-     * @return Application|Factory|View|\Illuminate\Foundation\Application|RedirectResponse Returns a view or a redirect
+     * @return View|RedirectResponse Returns a view or a redirect depending on logic within
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -383,7 +382,7 @@ class Lesson extends Controller
      * @param string $id       The course id field.
      * @param string $lessonId The lesson id field.
      *
-     * @return RedirectResponse
+     * @return RedirectResponse Returns back if there are errors or the course home if successful
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -396,6 +395,16 @@ class Lesson extends Controller
         return back()->withErrors([ 'NO_LESSON' => 'Could not end the lesson, please try again.' ]);
     }
 
+    /**
+     * The modify route only has one use at the time of writing. The order is able to be modified,
+     * and the route has been structured in a way such that it is easily extendable if needed.
+     *
+     * @param Request $request  The HTTP request provided by Laravel
+     * @param string  $id       The course's id (UUID)
+     * @param string  $lessonId The lesson's id (UUID)
+     *
+     * @return Response The response sent via AJAX for client processing.
+     */
     public function modify ( Request $request, string $id, string $lessonId )
     {
         // We assume the user owns the course here due to the route being protected by middleware.

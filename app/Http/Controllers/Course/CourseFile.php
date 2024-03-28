@@ -4,21 +4,34 @@ namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
-use App\Models\UserCourse;
 use App\Models\CourseFile as CourseFileModel;
+use App\Models\UserCourse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class CourseFile extends Controller
 {
-    public function serve(Request $request, $id, $fileId)
+
+    /**
+     * The 'serve' route is intended to deliver a viewable version of a file. This way of
+     * implementing the file system allows for files to remain private and for error messages
+     * to be delivered if the user does not have permission or the file does not exist.
+     *
+     * @param Request $request The HTTP request provided by Laravel
+     * @param string  $id      The course's id (UUID)
+     * @param string  $fileId  The file's id (UUID)
+     *
+     * @return Response|BinaryFileResponse Either an error response or a file response.
+     */
+    public function serve ( Request $request, string $id, string $fileId )
     {
         // Check course permission
         $course = Course::findOrFail($id);
-        if (!UserCourse::where(['course_id' => $id, 'user_id' => $request->user()->id])->exists() && $request->user()->id !== $course->owner) {
+        if ( !UserCourse::where([ 'course_id' => $id, 'user_id' => $request->user()->id ])->exists() && $request->user()->id !== $course->owner ) {
             return response('You do not have access to files for ' . $id, 403);
         }
 
@@ -27,28 +40,34 @@ class CourseFile extends Controller
         $disk = Storage::disk('private');
 
         // Check the file exists
-        if (!$disk->exists($file->path)) {
+        if ( !$disk->exists($file->path) ) {
             return response("The specified file does not exist.", 404);
         }
 
         // Return the file
-        return response()->file(storage_path('app/courses/' . $file->path), ['Content-Type' => mime_content_type(storage_path('app/courses/' . $file->path))]);
+        return response()->file(storage_path('app/courses/' . $file->path), [ 'Content-Type' => mime_content_type(storage_path('app/courses/' . $file->path)) ]);
     }
 
-    public function download(Request $request, $id, $fileId)
+    /**
+     * The download route is used to allow the user to request files to be downloaded. The response
+     * provided by Laravel's download() response forces the user's browser to process a download
+     * payload (if the user allows the download, that is).
+     *
+     * @param Request $request The HTTP request provided by Laravel
+     * @param string  $id      The course's id (UUID)
+     * @param string  $fileId  The file's id (UUID)
+     *
+     * @return Response|BinaryFileResponse An error response or a file download force response
+     */
+    public function download ( Request $request, string $id, string $fileId )
     {
-        // Check course permission
-        $course = Course::findOrFail($id);
-        if (!UserCourse::where(['course_id' => $id, 'user_id' => $request->user()->id])->exists() && $request->user()->id !== $course->owner) {
-            return response('You do not have access to files for ' . $id, 403);
-        }
-
+        // We can assume the user has file access permission due to the course middleware being used on the route.
         // Get the file
         $file = CourseFileModel::findOrFail($fileId);
         $disk = Storage::disk('private');
 
         // Check the file exists
-        if (!$disk->exists($file->path)) {
+        if ( !$disk->exists($file->path) ) {
             return response("The specified file does not exist.", 404);
         }
 
@@ -57,30 +76,26 @@ class CourseFile extends Controller
     }
 
     /**
-     * The public function upload_file is designed to process file uploads,
-     * delivering  them to the  correct course folder  and returning the
-     * necessary path to the file.
+     * The upload public route is designed to process file uploads, delivering them to the correct course
+     * folder and returning the necessary path to the file.
      *
-     * @param Request $request
-     * @param $id
-     * @return array
+     * @param Request $request The HTTP request provided by Laravel
+     * @param string  $id      The course's id (UUID)
+     *
+     * @return array An array containing whether the upload was successful, an/or an error code/message.
      */
-    public function upload(Request $request, $id)
+    public function upload ( Request $request, string $id )
     {
+        // We can assume the user has permission to upload files due to the route being protected.
         // Validate the file upload form
         try {
             $validated_data = $request->validate([
-                'name' => ['required', 'string'],
-                'file' => ['required', 'file'],
-                'id' => ['required', 'string', 'exists:courses', 'in:'.$id]
+                'name' => [ 'required', 'string' ],
+                'file' => [ 'required', 'file' ],
+                'id'   => [ 'required', 'string', 'exists:courses', 'in:' . $id ],
             ]);
-        } catch (ValidationException $error) {
-            return [false, $error->getMessage()];
-        }
-        // Check if the user has permission to edit files
-        $course = Course::where('id', $validated_data['id'])->firstOrFail();
-        if (!Gate::allows('file-upload', $course)) {
-            return [false, '403'];
+        } catch ( ValidationException $error ) {
+            return [ false, $error->getMessage() ];
         }
         // If the user has permission, upload the file
         $file = $request->file('file');
@@ -91,28 +106,30 @@ class CourseFile extends Controller
         $file->path = $generated_path;
         $file->course_id = $validated_data['id'];
         $file->save();
-        // Redirect the user
-        return [true];
+        // Return a 200
+        return [ true, 200 ];
     }
 
     /**
-     * This function will be used to ensure users can remove files from their course's file folder
+     * The remove route is designed to allow course owners to delete files from
+     * their course. We assume the user has access to this route due to it being
+     * protected by the 'course.owner' middleware.
+     *
+     * @param Request $request The HTTP request provided by Laravel
+     * @param string  $id      The course's id (UUID)
+     *
+     * @return Response The response sent to the user's browser
      */
-    public function remove(Request $request, $id)
+    public function remove ( Request $request, string $id )
     {
         // Validate the uploaded data
         $request->validate([
-           'fileId' => ['required', 'string', 'exists:course_files,id']
+            'fileId' => [ 'required', 'string', 'exists:course_files,id' ],
         ]);
-        // Get the course and check the gate
-        $course = Course::where('id', $id)->firstOrFail();
-        if (!Gate::allows('course-edit', $course)) {
-            return response('You do not have permission to delete course files.', 403);
-        }
-        // Delete the file if the user has permission
+        // Delete the file (or rather, attempt to)
         $file = CourseFileModel::where('id', $request->fileId)->firstOrFail();
         $disk = Storage::disk('private');
-        if (!$disk->exists($file->path)) {
+        if ( !$disk->exists($file->path) ) {
             return response("The requested file could not be found.", 404);
         }
         // If the file exists, begin a database transaction.
@@ -130,4 +147,5 @@ class CourseFile extends Controller
             return response("Encountered an error: " . $exception->getMessage(), 500); // Respond with the error message in a 500 error.
         }
     }
+
 }

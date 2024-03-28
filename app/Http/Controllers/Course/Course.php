@@ -10,30 +10,41 @@ use App\Models\SectionItem;
 use App\Models\User;
 use App\Models\UserCompletedLesson;
 use Illuminate\Database\Eloquent\Casts\Json;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 // 'as' used due to duplicate definition of key word 'Course'
 
 class Course extends Controller
 {
+
     /**
-     * The 'all' function will be used to display the top-level courses page which can be accessed by either users
-     * or guests (although only users will be able to access the
+     * The 'all' public route will be used to display the top-level courses page which can
+     * be accessed by either user or guests (although only users will be able to access the
+     * courses themselves.)
      *
-     * @return View
+     * @return View The view to be displayed to the user
      */
-    public function all()
+    public function all ()
     {
         return view('courses', [ 'courses' => CourseModel::all() ]);
     }
 
-    // Create a function for the home page route
-    public function index(Request $request, $id)
+    /**
+     * The index public route is used to display to the user the 'home' page for a course, where
+     * all the blended VLE/assessment content is displayed. Data is passed in to allow information
+     * such as user high scores to be displayed
+     *
+     * @param Request $request The HTTP request provided by Laravel
+     * @param string  $id      The course's id which is passed in by Laravel automatically
+     *
+     * @return View The final view delivered to the user.
+     */
+    public function index ( Request $request, string $id )
     {
         // Get the course id (the existence is processed through the custom Course middleware)
         $course = CourseModel::find($id);
@@ -42,14 +53,15 @@ class Course extends Controller
         // Get all high scores
         $lessonHighScores = [];
         $sections = $course->firstOrFail()->sections;
-        foreach ($sections as $section) {
-            foreach ($section->items as $item) {
-                if ($item->item_type == "LESSON") {
+        foreach ( $sections as $section ) { // As lessons were not able to be implemented via a direct database relation, lesson high scores are retrieved via loop.
+            foreach ( $section->items as $item ) {
+                if ( $item->item_type == "LESSON" ) {
                     $lesson = Lesson::whereId($item->item_value['lesson_id'])->firstOrFail();
-                    foreach (UserCompletedLesson::where([ 'lesson_id' => $lesson->id, 'user_id' => $request->user()->id ])->get() as $completedLesson) {
+                    $completedLessonRecordsQuery = UserCompletedLesson::where([ 'lesson_id' => $lesson->id, 'user_id' => $request->user()->id ]);
+                    if ( $completedLessonRecordsQuery->exists() ) { // Check the user has a high score before adding to the database
                         $lessonHighScores[] = [
                             'lessonId' => $lesson->id,
-                            'score' => $completedLesson->score
+                            'score'    => $completedLessonRecordsQuery->get()->max('score'), // Loops can be saved by using SQL to get the highest score.
                         ];
                     }
                 }
@@ -57,141 +69,164 @@ class Course extends Controller
         }
         // Present the course home page to the user
         return view('courses.home', [
-            'course' => $course,
-            'owner' => User::find($course->owner),
-            'user_is_owner' => ($request->user()->id === $course->owner),
-            'is_editing' => (($request->user()->id === $course->owner) && $request->has('editing') && $request->input('editing') === 'true'),
-            'lesson_scores' => $lessonHighScores
+            'course'        => $course,
+            'owner'         => User::find($course->owner),
+            'user_is_owner' => ( $request->user()->id === $course->owner ),
+            'is_editing'    => ( ( $request->user()->id === $course->owner ) && $request->has('editing') && $request->input('editing') === 'true' ),
+            'lesson_scores' => $lessonHighScores,
         ]);
     }
 
-    // Create a function to create a course
-    public function create(Request $request)
+    /**
+     * This public route will allow the user to create their own course. Minimal details
+     * are required here as the user will add content to their course separately after
+     * creation.
+     *
+     * @param Request $request The HTTP request provided by Laravel
+     *
+     * @return RedirectResponse The view the user is redirected to after creation or if validation is unsuccessful
+     */
+    public function create ( Request $request )
     {
         // Validation of the request
         $validatedData = $request->validate([
-            'title' => [ 'required', 'string' ],
+            'title'       => [ 'required', 'string' ],
             'description' => [ 'nullable', 'string' ],
-            'publicity' => [ 'nullable', 'in:on' ]
+            'publicity'   => [ 'nullable', 'in:on' ],
         ]);
         // Creation of the course
         $course = new CourseModel;
         $course->title = $validatedData['title'];
-        if (array_key_exists('description', $validatedData)) {
+        if ( array_key_exists('description', $validatedData) ) { // Only add the description if it exists (Eloquent will substitute 'null' if this isn't the case
             $course->description = $validatedData['description'];
         }
         $course->is_public = array_key_exists('publicity', $validatedData);
         $course->owner = auth()->user()->id;
 
-        if ($course->save()) {
+        if ( $course->save() ) { // Produce a different result based on whether course creation was successful.
             return redirect()->to(route('course.home', [ 'id' => $course->id ]));
         } else {
             return back()->withErrors([ 'CREATE_FAIL' => 'An unexpected error has occurred and your course could not be saved.' ]);
         }
     }
 
-    public function delete(Request $request, $id)
+    /**
+     * The modify route will process POST requests and allow users to
+     * make edits to their courses.
+     *
+     * @param Request $request The HTTP request provided by Laravel
+     * @param string  $id      The course's id
+     *
+     * @return RedirectResponse The redirection provided to the user after or during processing.
+     */
+    public function modify ( Request $request, string $id )
     {
-        $course = CourseModel::whereId($id)->firstOrFail();
-        if ($course->delete()) {
-            return redirect()->to(route('home'));
+        // We can assume the user is the owner due to the middleware 'course.owner' being applied to this route.
+        $course = CourseModel::find($id);
+        // Request validation
+        $request->validate([
+            'title'       => [ 'required', 'string' ],
+            'description' => [ 'nullable', 'string' ],
+            'publicity'   => [ 'nullable', 'boolean' ],
+        ]);
+        // Make the requested edits
+        $course->title = $request->title;
+        $course->description = $request->description ?? null;
+        $course->is_public = $request->publicity ?? 0;
+        // Save the new course details and produce a redirection based on the
+        if ( $course->save() ) {
+            return redirect()->to(route('course.settings.get', [ 'id' => $id ]));
         } else {
-            return redirect()->to(route('course.home', [ 'id' => $id ]))->withErrors([ 'DELETE_ERROR' => 'Could not delete the course, please try again!' ]);
+            return back(500)->withErrors([ 'SAVE_ERROR' => "Your edits could not be applied. Please try again." ]);
         }
     }
 
-    // Create a function for the settings page of the course
-    public function settings(Request $request, $id)
+    /**
+     * This page will present the user with the course settings page. No defensive check
+     * for course ownership is needed here as the route is subject to the 'course.owner'
+     * middleware.
+     *
+     * @param Request $request The HTTP request provided by Laravel
+     * @param string  $id      The course's id (UUID)
+     *
+     * @return View The view presented to the user
+     */
+    public function settings ( Request $request, string $id )
     {
         // Get the course from the ID
         $course = CourseModel::findOrFail($id);
         // Return the view to the user
-        return view('courses.settings', ['course' => $course]); // This will be replaced later when the page is defined.
+        return view('courses.settings', [ 'course' => $course ]); // This will be replaced later when the page is defined.
     }
 
-    // Create a function for changing the course settings
-    public function modify(Request $request, $id)
-    {
-        // Request validation
-        $request->validate([
-            'title' => ['required', 'string'],
-            'description' => ['nullable', 'string'],
-            'publicity' => ['nullable', 'boolean']
-        ]);
-        // User validation
-        $course = CourseModel::find($id);
-        if (!Gate::allows('course-edit', $course)) {
-            return back(403);
-        }
-        // Make edits
-        $course->title = $request->title;
-        $course->description = $request->description ?? null;
-        $course->is_public = $request->publicity ?? 0;
-        // Save
-        if ($course->save()) {
-            return $this->settings($request, $id);
-        } else {
-            return back(500);
-        }
-    }
-
-    // Add a function to allow AJAX requests to get forms
-    public function formRequest(Request $request, $id)
+    /**
+     * This route will be used to allow the user to request specific forms. In this case,
+     * AJAX is used to load the delivered views into the viewport.
+     *
+     * @param Request $request The HTTP request provided by Laravel
+     * @param string  $id      The course's id (UUID)
+     *
+     * @return View|Response The view or invalid response delivered to the user
+     */
+    public function formRequest ( Request $request, string $id )
     {
         // Validation
-        $validated_data = $request->validate([
-            'form_type' => ['required', 'string', 'in:text,lesson,file,image'],
-            'section_id' => ['required', 'string', 'exists:sections,id'],
-            'course_id' => ['required', 'string', 'exists:courses,id']
+        $validatedData = $request->validate([
+            'form_type'  => [ 'required', 'string', 'in:text,lesson,file,image' ],
+            'section_id' => [ 'required', 'string', 'exists:sections,id' ],
+            'course_id'  => [ 'required', 'string', 'exists:courses,id' ],
         ]);
         // Get the course
         $course = CourseModel::find($id);
-        // Ensure the user has access
-        if (!Gate::allows('course-edit', $course)) {
-            return response("You don't have permission to edit this course!", 403);
-        }
         // Get the form
-        return match ($validated_data['form_type']) {
-            'text' => view('components.courses.component_add.text', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]),
-            'lesson' => view('components.courses.component_add.lesson', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id']]),
-            'file' => view('components.courses.component_add.file', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id'], 'course' => $course]),
-            'image' => view('components.courses.component_add.image', ['courseId' => $course->id, 'sectionId' => $validated_data['section_id'], 'course' => $course]),
-            default => 400,
+        return match ( $validatedData['form_type'] ) {
+            'text'   => view('components.courses.component_add.text', [ 'courseId' => $course->id, 'sectionId' => $validatedData['section_id'] ]),
+            'lesson' => view('components.courses.component_add.lesson', [ 'courseId' => $course->id, 'sectionId' => $validatedData['section_id'] ]),
+            'file'   => view('components.courses.component_add.file', [ 'courseId' => $course->id, 'sectionId' => $validatedData['section_id'], 'course' => $course ]),
+            'image'  => view('components.courses.component_add.image', [ 'courseId' => $course->id, 'sectionId' => $validatedData['section_id'], 'course' => $course ]),
+            default  => 400,
         };
 
     }
 
-    // Add a function to allow AJAX requests to edit
-    public function contentEdit(Request $request, $id) {
+    /**
+     * This route will accept POST requests to allow the user to edit certain aspects of the course. In
+     * this case, the editable content is: section order, adding new sections, deleting sections, arranging
+     * the content within sections, adding section components, removing components within a section, moving
+     * a component to the previous/next section, and finally, editing the core details of a section.
+     *
+     * @param Request $request The HTTP request provided by Laravel
+     * @param string  $id      The course's id (UUID)
+     *
+     * @return Response|RedirectResponse The AJAX response or redirect (depending on the edit type)
+     */
+    public function contentEdit ( Request $request, string $id )
+    {
         // Run validation
-        $validated_data = $request->validate([
-            'course_id' => ['string', 'required', 'exists:courses,id', 'in:'.$id],
-            'edit_type' => ['string', 'required'],
-            'data' => ['nullable', 'json'],
-            'section_id' => ['nullable', 'exists:sections,id']
+        $validatedData = $request->validate([
+            'course_id'  => [ 'string', 'required', 'exists:courses,id', 'in:' . $id ],
+            'edit_type'  => [ 'string', 'required' ],
+            'data'       => [ 'nullable', 'json' ],
+            'section_id' => [ 'nullable', 'exists:sections,id' ],
         ]);
-        if (key_exists('data', $validated_data)) {
-            $validated_data['data'] = Json::decode($validated_data['data']);
+        if ( key_exists('data', $validatedData) ) {
+            $validatedData['data'] = Json::decode($validatedData['data']);
         }
         // Get course
-        $course = CourseModel::find($validated_data['course_id']);
-        // Ensure gate permissions met
-        if (!Gate::allows('course-edit', $course)) {
-            return response("You don't have permission to edit this course!", 403);
-        }
+        $course = CourseModel::find($validatedData['course_id']);
         // Make edits based on type
-        switch ( $validated_data['edit_type'] ) {
-            case "section_order":
+        switch ( $validatedData['edit_type'] ) {
+            case "section_order": // Re-order all the components within the course.
                 // Further validation
-                $interior_validation = Validator::make($validated_data, [
-                    'data' => ['required', 'array'],
-                    'data.*' => ['required', 'array'],
-                    'data.*.0' => ['required', 'integer'],
-                    'data.*.1' => ['required', 'string', 'exists:sections,id']
+                $interiorValidation = Validator::make($validatedData, [
+                    'data'     => [ 'required', 'array' ],
+                    'data.*'   => [ 'required', 'array' ],
+                    'data.*.0' => [ 'required', 'integer' ],
+                    'data.*.1' => [ 'required', 'string', 'exists:sections,id' ],
                 ]);
 
                 // Ensure validation is successful
-                if ($interior_validation->fails()) {
+                if ( $interiorValidation->fails() ) {
                     return response("Validation failed!", 403);
                 }
 
@@ -213,46 +248,47 @@ class Course extends Controller
                     return response("Could not update the positions! " . $exception->getMessage(), 500);
                 }
                 break;
-            case "new_section":
+            case "new_section": // Adding new section to the course
                 // Further validation
-                $interior_validation = Validator::make($validated_data, [
-                    'data' => ['required', 'array'],
-                    'data.0' => ['required', 'array'],
-                    'data.0.name' => ['required', 'string', 'in:title'],
-                    'data.0.value' => ['required', 'string'],
-                    'data.1' => ['nullable', 'array'],
-                    'data.1.name' => ['nullable', 'string', 'in:description'],
-                    'data.1.value' => ['nullable', 'string']
+                $interiorValidation = Validator::make($validatedData, [
+                    'data'         => [ 'required', 'array' ],
+                    'data.0'       => [ 'required', 'array' ],
+                    'data.0.name'  => [ 'required', 'string', 'in:title' ],
+                    'data.0.value' => [ 'required', 'string' ],
+                    'data.1'       => [ 'nullable', 'array' ],
+                    'data.1.name'  => [ 'nullable', 'string', 'in:description' ],
+                    'data.1.value' => [ 'nullable', 'string' ],
                 ]);
 
                 // Ensure validation is successful
-                if ($interior_validation->fails()) {
+                if ( $interiorValidation->fails() ) {
                     return response('Validation failed', 403);
                 }
 
+                // Create the new course and set the details
                 $newSection = new Section;
-                $newSection->title = $validated_data['data'][0]['value'];
-
-                if (isset($validated_data['data'][1]['name'])) {
-                    $newSection->description = $validated_data['data'][1]['value'] ?? null;
+                $newSection->title = $validatedData['data'][0]['value'];
+                if ( isset($validatedData['data'][1]['name']) ) {
+                    $newSection->description = $validatedData['data'][1]['value'] ?? null;
                 }
-
                 $newSection->course_id = $course->id;
                 $newSection->position = $course->sections->max('position') + 1;
-
-                $newSection->save();
-
-                return response(['SUCCESS', $newSection->id], 200);
+                // Attempt to save the new course section
+                if ( $newSection->save() ) {
+                    return response([ 'SUCCESS', $newSection->id ], 200);
+                } else {
+                    return response("Unsuccessfully created the new section. Please try again", 500);
+                }
                 break;
             case "delete_section":
                 // Further validation
-                $interior_validation = Validator::make($validated_data, [
-                    'data' => ['required', 'array'],
-                    'data.section_id' => ['required', 'string', 'exists:sections,id']
+                $interiorValidation = Validator::make($validatedData, [
+                    'data'            => [ 'required', 'array' ],
+                    'data.section_id' => [ 'required', 'string', 'exists:sections,id' ],
                 ]);
 
                 // Ensure validation is successful
-                if ($interior_validation->fails()) {
+                if ( $interiorValidation->fails() ) {
                     return response("Validation failed!", 403);
                 }
 
@@ -276,17 +312,17 @@ class Course extends Controller
                 break;
             case "section_interior_order":
                 // Further validation
-                $interior_validation = Validator::make($validated_data, [
-                    'data' => ['required', 'array'],
-                    'data.*' => ['required', 'array'],
-                    'data.*.0' => ['required', 'numeric'],
-                    'data.*.1' => ['required', 'string', 'exists:section_items,id'],
-                    'section_id' => ['required', 'string', 'exists:sections,id']
+                $interiorValidation = Validator::make($validatedData, [
+                    'data'       => [ 'required', 'array' ],
+                    'data.*'     => [ 'required', 'array' ],
+                    'data.*.0'   => [ 'required', 'numeric' ],
+                    'data.*.1'   => [ 'required', 'string', 'exists:section_items,id' ],
+                    'section_id' => [ 'required', 'string', 'exists:sections,id' ],
                 ]);
 
                 // Ensure validation is successful
-                if ( $interior_validation->fails() ) {
-                    return $interior_validation->errors();
+                if ( $interiorValidation->fails() ) {
+                    return $interiorValidation->errors();
                 }
 
                 // Commence updates using a database TRANSACTION
@@ -305,67 +341,69 @@ class Course extends Controller
                 break;
             case "section_item_add":
                 // Re-organise the data field
-                $validated_data['data'] = array_column($validated_data['data'], 'value', 'name');
+                $validatedData['data'] = array_column($validatedData['data'], 'value', 'name');
                 // Further validation
-                $interior_validation = Validator::make($validated_data, [
-                    'data' => ['required', 'array'],
-                    'data.component-type' => ['required', 'string', 'in:text,lesson,image,file'],
-                    'data.section-id' => ['required', 'string', 'exists:sections,id']
+                $interiorValidation = Validator::make($validatedData, [
+                    'data'                => [ 'required', 'array' ],
+                    'data.component-type' => [ 'required', 'string', 'in:text,lesson,image,file' ],
+                    'data.section-id'     => [ 'required', 'string', 'exists:sections,id' ],
                 ]);
-                if ($interior_validation->fails()) {
+                if ( $interiorValidation->fails() ) {
                     return response('Validation failed', 403);
                 }
                 // Interior case for component addition types
-                switch($validated_data['data']['component-type']) {
+                switch ( $validatedData['data']['component-type'] ) {
                     case "text":
                         // Validation for text
-                        $textValidation = Validator::make($validated_data, [
-                            'data.content' => ['required', 'string']
+                        $textValidation = Validator::make($validatedData, [
+                            'data.content' => [ 'required', 'string' ],
                         ]);
-                        if ($textValidation->fails()) {
+                        if ( $textValidation->fails() ) {
                             return response('Validation failed', 403);
                         }
                         // Create the component if successful
                         $component = new SectionItem;
-                        $component->title = $validated_data['data']['content'];
+                        $component->title = $validatedData['data']['content'];
                         $component->item_type = 'TEXT';
                         $component->item_value = '{}';
-                        $component->position = SectionItem::where('section_id', $validated_data['data']['section-id'])->max('position') + 1;
-                        $component->section_id = $validated_data['data']['section-id'];
-
-                        $component->save();
-                        return response('Text creation successful', 200);
+                        $component->position = SectionItem::where('section_id', $validatedData['data']['section-id'])->max('position') + 1;
+                        $component->section_id = $validatedData['data']['section-id'];
+                        // Attempt to save the component
+                        if ( $component->save() ) {
+                            return response('Text creation successful', 200);
+                        } else {
+                            return response("Text creation NOT successful", 500);
+                        }
                         break;
                     case "lesson":
                         // Validation for lesson
-                        $lessonValidation = Validator::make($validated_data, [
-                            'data.title' => ['required', 'string'],
-                            'data.description' => ['nullable', 'string']
+                        $lessonValidation = Validator::make($validatedData, [
+                            'data.title'       => [ 'required', 'string' ],
+                            'data.description' => [ 'nullable', 'string' ],
                         ]);
-                        if ($lessonValidation->fails()) {
+                        if ( $lessonValidation->fails() ) {
                             return response('Validation failed', 403);
                         }
                         // Create the component if successful
-                            // Create the component
+                        // Create the component
                         $component = new SectionItem;
-                        $component->title = $validated_data['data']['title'];
-                        if ($validated_data['data']['description'] != null) {
-                            $component->description = $validated_data['data']['description'];
+                        $component->title = $validatedData['data']['title'];
+                        if ( $validatedData['data']['description'] != null ) {
+                            $component->description = $validatedData['data']['description'];
                         }
                         $component->item_type = 'LESSON';
                         $component->item_value = [];
-                        $component->position = SectionItem::where('section_id', $validated_data['data']['section-id'])->max('position') + 1;
-                        $component->section_id = $validated_data['data']['section-id'];
-                        $componentSaved = $component->save();
-                        if ($componentSaved) {
+                        $component->position = SectionItem::where('section_id', $validatedData['data']['section-id'])->max('position') + 1;
+                        $component->section_id = $validatedData['data']['section-id'];
+                        if ( $component->save() ) {
                             // Create a lesson
                             $lesson = new Lesson;
-                            $lesson->title = $validated_data['data']['title'];
-                            if ($validated_data['data']['description'] != null) {
-                                $lesson->description = $validated_data['data']['description'];
+                            $lesson->title = $validatedData['data']['title'];
+                            if ( $validatedData['data']['description'] != null ) {
+                                $lesson->description = $validatedData['data']['description'];
                             }
                             $lesson->section_item_id = $component->id;
-                            if ($lesson->save()) {
+                            if ( $lesson->save() ) {
                                 $component->item_value = [
                                     'lesson_id' => $lesson->id,
                                 ];
@@ -379,23 +417,23 @@ class Course extends Controller
                         break;
                     case "file":
                         // Validation for file
-                        $fileValidation = Validator::make($validated_data, [
-                            'data' => ['required', 'array'],
-                            'data.file' => ['required', 'string', 'exists:course_files,id'],
-                            'data.title' => ['required', 'string']
+                        $fileValidation = Validator::make($validatedData, [
+                            'data'       => [ 'required', 'array' ],
+                            'data.file'  => [ 'required', 'string', 'exists:course_files,id' ],
+                            'data.title' => [ 'required', 'string' ],
                         ]);
-                        if ($fileValidation->fails()) {
+                        if ( $fileValidation->fails() ) {
                             return response($fileValidation->errors(), 400);
                         }
                         // Create the new component
                         $component = new SectionItem;
-                        $component->title = $validated_data['data']['title'];
+                        $component->title = $validatedData['data']['title'];
                         $component->item_type = "FILE";
-                        $component->item_value = ['fileId' => $validated_data['data']['file']];
-                        $component->position = SectionItem::where('section_id', $validated_data['data']['section-id'])->max('position') + 1;
-                        $component->section_id = $validated_data['data']['section-id'];
+                        $component->item_value = [ 'fileId' => $validatedData['data']['file'] ];
+                        $component->position = SectionItem::where('section_id', $validatedData['data']['section-id'])->max('position') + 1;
+                        $component->section_id = $validatedData['data']['section-id'];
 
-                        if ($component->save()) {
+                        if ( $component->save() ) {
                             return response("File component saved", 200);
                         } else {
                             return response("Couldn't make file component", 500);
@@ -403,41 +441,41 @@ class Course extends Controller
                         break;
                     case "image":
                         // Validation for image
-                        $imageValidation = Validator::make($validated_data, [
-                            'data' => ['required', 'array'],
-                            'data.image' => ['required', 'string', 'exists:course_files,id'],
-                            'data.alt' => ['nullable', 'string']
+                        $imageValidation = Validator::make($validatedData, [
+                            'data'       => [ 'required', 'array' ],
+                            'data.image' => [ 'required', 'string', 'exists:course_files,id' ],
+                            'data.alt'   => [ 'nullable', 'string' ],
                         ]);
-                        if ($imageValidation->fails()) {
+                        if ( $imageValidation->fails() ) {
                             return response("Validation for image addition failed.", 403);
                         }
                         // Add the image component
                         $component = new SectionItem;
                         $component->title = "IMAGE_TITLE_NOT_SHOWN";
                         $component->item_type = "IMAGE";
-                        $component->item_value = ['fileId' => $validated_data['data']['image'], 'alt' => $validated_data['data']['alt'] ?? 0];
-                        $component->position = SectionItem::where('section_id', $validated_data['data']['section-id'])->max('position') + 1;
-                        $component->section_id = $validated_data['data']['section-id'];
+                        $component->item_value = [ 'fileId' => $validatedData['data']['image'], 'alt' => $validatedData['data']['alt'] ?? 0 ];
+                        $component->position = SectionItem::where('section_id', $validatedData['data']['section-id'])->max('position') + 1;
+                        $component->section_id = $validatedData['data']['section-id'];
 
-                        if ($component->save()) {
+                        if ( $component->save() ) {
                             return response("Image course component saved successfully", 200);
                         } else {
                             return response("Unable to make image component", 500);
                         }
                         break;
                 }
+                break;
             case "section_item_delete":
                 // Further validation
-                $interior_validation = Validator::make($validated_data, [
-                    'data' => ['required', 'array'],
-                    'data.item_id' => ['required', 'string', 'exists:section_items,id']
+                $interiorValidation = Validator::make($validatedData, [
+                    'data'         => [ 'required', 'array' ],
+                    'data.item_id' => [ 'required', 'string', 'exists:section_items,id' ],
                 ]);
-                if ($interior_validation->fails()) {
-                    return response($interior_validation->errors(), 403);
+                if ( $interiorValidation->fails() ) {
+                    return response($interiorValidation->errors(), 403);
                 }
                 // Delete the item if validation is successful
-                $didDelete = SectionItem::where('id', $validated_data['data']['item_id'])->delete();
-                if ($didDelete) {
+                if ( SectionItem::where('id', $validatedData['data']['item_id'])->delete() ) {
                     return response("Section removal successful", 200);
                 } else {
                     return response("Couldn't delete the section", 500);
@@ -445,52 +483,62 @@ class Course extends Controller
                 break;
             case "section_item_move":
                 // Further validation
-                $interior_validation = Validator::make($validated_data, [
-                    'data' => ['required', 'array'],
-                    'data.item_id' => ['required', 'string', 'exists:section_items,id'],
-                    'data.direction' => ['required', 'string']
+                $interiorValidation = Validator::make($validatedData, [
+                    'data'           => [ 'required', 'array' ],
+                    'data.item_id'   => [ 'required', 'string', 'exists:section_items,id' ],
+                    'data.direction' => [ 'required', 'string' ],
                 ]);
-                if ($interior_validation->fails()) {
-                    return response($interior_validation->errors(), 400);
+                if ( $interiorValidation->fails() ) {
+                    return response($interiorValidation->errors(), 400);
                 }
                 // Move the item if validation is successful
-                $item = SectionItem::where('id', $validated_data['data']['item_id'])->firstOrFail();
+                $item = SectionItem::where('id', $validatedData['data']['item_id'])->firstOrFail();
                 $section = Section::where('id', $item->section_id)->firstOrFail();
-                if ($validated_data['data']['direction'] === 'down') {
+                if ( $validatedData['data']['direction'] === 'down' ) {
                     $newSectionId = Section::where('position', '>', $section->position)->min('position');
                 } else {
                     $newSectionId = Section::where('position', '<', $section->position)->max('position');
                 }
                 $newSection = Section::where('position', $newSectionId)->firstOrFail();
-                $item->section_id = $newSection->id;
-                $item->position = $newSection->items->max('position') + 1;
-
-                if ($item->save()) {
+                $updateSuccess = $item->update([
+                    'section_id' => $newSection->id,
+                    'position'   => $newSection->items->max('position') + 1,
+                ]);
+                // Attempt to move the new item
+                if ( $updateSuccess ) {
                     return response("Move successful", 200);
+                } else {
+                    return response("Move unsuccessful", 500);
                 }
-                return response("TESTING", 400);
             case "section_edit":
                 // Further validation
-                $request->validate([
-                    'title' => ['required', 'string'],
-                    'description' => ['nullable', 'string'],
-                    'section_id' => ['required', 'string', 'exists:sections,id'],
-                    'course_id' => ['required', 'string', 'exists:courses,id']
+                $interiorValidation = Validator::make($validatedData, [
+                    'title'       => [ 'required', 'string' ],
+                    'description' => [ 'nullable', 'string' ],
+                    'section_id'  => [ 'required', 'string', 'exists:sections,id' ],
+                    'course_id'   => [ 'required', 'string', 'exists:courses,id' ],
                 ]);
+                if ( $interiorValidation->fails() ) { // Redirect them BACK if there are validation errors
+                    return back()->withErrors($interiorValidation->errors());
+                }
                 // Get the section
                 $section = Section::where('id', $request->section_id)->firstOrFail();
                 // Make the changes necessary
-                $section->title = $request->title;
-                $section->description = $request->description ?? null;
+                $sectionUpdated = $section->update([
+                    'title'       => $request->title,
+                    'description' => $request->description ?? null,
+                ]);
                 // Save the changes
-                if ($section->save()) {
+                if ( $sectionUpdated ) {
                     return redirect()->to(url()->previous() . '#' . $section->id);
                 } else {
-                    return back()->withErrors(['SAVE_FAILED' => 'Could not save the new section details']);
+                    return back()->withErrors([ 'SAVE_FAILED' => 'Could not save the new section details.' ]);
                 }
+                break;
+            default:
+                return response("Could not make the requested edit type", 403);
         }
-        // Returns
-        return response("Generic content edit success.", 200);
+        return response("Could not make the requested edit type", 403);
     }
 
     /**
@@ -499,7 +547,7 @@ class Course extends Controller
      * @param Request $request The HTTP request provided by laravel
      * @param string  $id      The course's id (UUID)
      *
-     * @return RedirectResponse
+     * @return RedirectResponse The route to redirect to during or after execution (depending on errors)
      */
     public function delete ( Request $request, string $id )
     {
