@@ -4,12 +4,16 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use LaravelIdea\Helper\App\Models\_IH_Course_C;
 
 class User extends Authenticatable
 {
+
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -21,7 +25,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'username'
+        'username',
     ];
 
     /**
@@ -41,33 +45,39 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-        'name' => 'encrypted',
-        'email' => 'encrypted'
+        'password'          => 'hashed',
+        'name'              => 'encrypted',
+        'email'             => 'encrypted',
     ];
 
-    /*
+    /**
      * Define a one-to-many relationship between the user and their courses
      * (one user can take many courses)
+     *
+     * @return BelongsToMany The relation is returned and applied to the Model.
      */
-    public function courses()
+    public function courses ()
     {
         return $this->belongsToMany(Course::class, 'user_courses', 'user_id', 'course_id');
     }
 
-    /*
+    /**
      * Define a one-to-many relationship between the user and courses they
-     * own
+     * own.
+     *
+     * @return HasMany The relation is returned and applied to the Model.
      */
-    public function ownedCourses()
+    public function ownedCourses ()
     {
         return $this->hasMany(Course::class, 'owner', 'id');
     }
 
-    /*
-         * Define a function to get the courses the user is in AND owns.
-         */
-    public function getDisplayableCoursesAttribute()
+    /**
+     * Define a function to get the courses the user is in AND owns.
+     *
+     * @return Course[]|_IH_Course_C|mixed
+     */
+    public function getDisplayableCoursesAttribute ()
     {
         return $this->ownedCourses->merge($this->courses)->unique('id');
     }
