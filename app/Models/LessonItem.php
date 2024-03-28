@@ -18,6 +18,10 @@ class LessonItem extends Model
         'item_value' => 'array',
     ];
 
+    protected $fillable = [
+        'position'
+    ];
+
     /*
      * Create a relationship to link the lesson items and its lesson
      * (many lesson items can belong to a single lesson)

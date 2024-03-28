@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\UserCourse;
 use App\Models\CourseFile as CourseFileModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -114,13 +115,19 @@ class CourseFile extends Controller
         if (!$disk->exists($file->path)) {
             return response("The requested file could not be found.", 404);
         }
-        if (!$disk->delete($file->path)) {
-            return response("The requested file could not be deleted.", 500);
-        } else {
-            if (!$file->delete()) {
-                return response("The file record could not be removed from the system.", 500);
+        // If the file exists, begin a database transaction.
+        DB::beginTransaction();
+        try {
+            if ( !$disk->delete($file->path) ) { // Check if the file can be deleted
+                throw new \Exception("The requested file could not be deleted.");
+            } else {
+                $file->delete(); // Try to delete the record.
             }
+            DB::commit();                                               // Commit if there are no errors
+            return response("The file was successfully deleted.", 200); // Success message
+        } catch ( \Exception $exception ) {
+            DB::rollBack();                                                            // Roll back on any errors
+            return response("Encountered an error: " . $exception->getMessage(), 500); // Respond with the error message in a 500 error.
         }
-        return response("The file was successfully deleted.", 200);
     }
 }

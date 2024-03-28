@@ -18,6 +18,11 @@ class SectionItem extends Model
         'item_value' => 'array',
     ];
 
+    protected $fillable = [
+        'position',
+        'section_id'
+    ];
+
     /*
      * Create a many-to-one relationship between the item and its owner
      */

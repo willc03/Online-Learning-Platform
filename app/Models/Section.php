@@ -11,6 +11,12 @@ class Section extends Model
     use HasFactory;
     use HasUuids;
 
+    protected $fillable = [
+        'position',
+        'title',
+        'description'
+    ];
+
     /*
      * Create a many-to-one relationship between the section and its course
      * (many sections can belong to a course)

@@ -12,6 +12,7 @@ use App\Models\UserCompletedLesson;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -194,14 +195,22 @@ class Course extends Controller
                     return response("Validation failed!", 403);
                 }
 
-                $course_sections = $course->sections;
-                foreach ($course_sections as $section) {
-                    foreach ($validated_data['data'] as $data) {
-                        if ($data[1] == $section->id) {
-                            $section->position = $data[0];
-                            $section->save();
+                // Use a DATABASE TRANSACTION due to mass editing and the possibility of failure.
+                $courseSections = $course->sections;
+                DB::beginTransaction(); // Begin the transaction
+                try {
+                    foreach ( $courseSections as $section ) { // Update the position of each section
+                        foreach ( $validatedData['data'] as $data ) {
+                            if ( $data[1] == $section->id ) {
+                                $section->update([ 'position' => $data[0] ]);
+                            }
                         }
                     }
+                    DB::commit(); // Commit the changes if successful
+                    return response("Successfully updated the positions", 200);
+                } catch ( \Exception $exception ) {
+                    DB::rollBack(); // If there is an error of any kind, roll back the database changes to protect integrity.
+                    return response("Could not update the positions! " . $exception->getMessage(), 500);
                 }
                 break;
             case "new_section":
@@ -247,15 +256,23 @@ class Course extends Controller
                     return response("Validation failed!", 403);
                 }
 
-                $section = Section::find($validated_data['data']['section_id']);
-                foreach ($section->items as $item) { // Lessons must be manually deleted as a direct relationship couldn't be established
-                    if ($item->item_type == "LESSON" && $lesson = Lesson::where('section_item_id', $section->id)) {
-                        $lesson->delete();
+                // Database TRANSACTION is used due to possible failure
+                DB::beginTransaction(); // Begin the transaction
+                try {
+                    $section = Section::find($validatedData['data']['section_id']);
+                    foreach ( $section->items as $item ) { // Lessons must be manually deleted as a direct relationship couldn't be established
+                        if ( $item->item_type == "LESSON" && $lesson = Lesson::where('section_item_id', $section->id) ) {
+                            $lesson->delete();
+                        }
                     }
-                }
-                $section->delete();
 
-                return "SUCCESS";
+                    $section->delete(); // Delete the section
+                    DB::commit();       // Commit the changes if there are no errors
+                    return response("Section successfully deleted", 200);
+                } catch ( \Exception $exception ) {
+                    DB::rollBack(); // Roll back any changes upon the detection of ANY error
+                    return response("Could not delete the section! " . $exception->getMessage(), 500);
+                }
                 break;
             case "section_interior_order":
                 // Further validation
@@ -272,16 +289,19 @@ class Course extends Controller
                     return $interior_validation->errors();
                 }
 
-                // Commence updates
-                foreach ($validated_data['data'] as $item) {
-                    $section_item = SectionItem::where(['section_id' => $validated_data['section_id'], 'id' => $item[1]])->firstOrFail();
-                    echo $section_item->position . '\n';
-                    $section_item->position = $item[0];
-                    $section_item->save();
-                    echo $section_item->position . '\n';
+                // Commence updates using a database TRANSACTION
+                DB::beginTransaction();
+                try {
+                    foreach ( $validatedData['data'] as $item ) {
+                        $section_item = SectionItem::where([ 'section_id' => $validatedData['section_id'], 'id' => $item[1] ])->firstOrFail();
+                        $section_item->update([ 'position' => $item[0] ]);
+                    }
+                    DB::commit(); // Commit the changes if they were successful
+                    return response("Successfully updated interior order", 200);
+                } catch ( \Exception $exception ) {
+                    DB::rollBack(); // Rollback the changes if there is an error
+                    return response("Could not update the interior order! " . $exception->getMessage(), 500);
                 }
-
-                return response(200, 200);
                 break;
             case "section_item_add":
                 // Re-organise the data field
@@ -472,4 +492,40 @@ class Course extends Controller
         // Returns
         return response("Generic content edit success.", 200);
     }
+
+    /**
+     * This DELETE route will allow the user to delete their course (after confirming their password).
+     *
+     * @param Request $request The HTTP request provided by laravel
+     * @param string  $id      The course's id (UUID)
+     *
+     * @return RedirectResponse
+     */
+    public function delete ( Request $request, string $id )
+    {
+        $course = CourseModel::whereId($id)->firstOrFail();
+        // Lessons are independent of courses, so delete them first
+        DB::beginTransaction();
+        try {
+            foreach ( $course->sections as $section ) {
+                foreach ( $section->items as $item ) {
+                    if ( $item->item_type == 'LESSON' ) {
+                        $lesson = Lesson::whereId($item->item_value['lesson_id'])->firstOrFail();
+                        $lesson->delete();
+                    }
+                }
+            }
+            DB::commit();
+        } catch ( \Exception $exception ) {
+            DB::rollBack();
+            return back()->withErrors([ 'LESSON_DELETE_ERROR' => 'Could not delete all the course lessons. Please try again.' ]);
+        }
+        // Delete the course after lessons are done
+        if ( $course->delete() ) {
+            return redirect()->to(route('home'));
+        } else {
+            return redirect()->to(route('course.home', [ 'id' => $id ]))->withErrors([ 'DELETE_ERROR' => 'Could not delete the course, please try again!' ]);
+        }
+    }
+
 }

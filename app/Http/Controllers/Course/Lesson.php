@@ -417,16 +417,21 @@ class Lesson extends Controller
                 if ( $validator->fails() ) {
                     return response("Validation failed.", 403);
                 }
-                // Make the changes
-                foreach($validatedData['data'] as $item) {
-                    $lessonItem = LessonItem::where([ 'id' => $item['id'] ])->firstOrFail();
-                    $lessonItem->position = $item['position'];
-                    if (!$lessonItem->save()) {
-                        return response("Couldn't save a record", 500);
+                // Make the changes using a database transaction
+                DB::beginTransaction();
+                try {
+                    foreach ( $validatedData['data'] as $item ) {
+                        $lessonItem = LessonItem::where([ 'id' => $item['id'] ])->firstOrFail();
+                        $lessonItem->update([
+                            'position' => $item['position'],
+                        ]);
                     }
+                    DB::commit();
+                    return response("Successfully changed all positions", 200);
+                } catch ( \Exception $exception ) {
+                    DB::rollBack();
+                    return response("Could not update positions! " . $exception->getMessage(), 200);
                 }
-                return response("Successfully changed all positions", 200);
-                break;
                 break;
             default:
                 return response("The edit type is not supported.", 403);
