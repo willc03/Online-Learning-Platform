@@ -399,7 +399,7 @@ class Lesson extends Controller
     public function modify ( Request $request, string $id, string $lessonId )
     {
         // We assume the user owns the course here due to the route being protected by middleware.
-        $allowedEditTypes = [ 'order', 'component-delete' ];
+        $allowedEditTypes = [ 'order' ];
         $course = Course::find($id);
         $lesson = LessonModel::find($lessonId);
         // Sanitise the request
@@ -408,14 +408,13 @@ class Lesson extends Controller
             'data'      => [ 'required' ],
         ]);
         // Process the request
-        switch ($validatedData['edit-type'])
-        {
+        switch ( $validatedData['edit-type'] ) {
             case "order":
                 // Further validation
                 $validator = Validator::make($validatedData, [
-                    'data.*.id' => ['required', 'exists:lesson_items,id']
+                    'data.*.id' => [ 'required', 'exists:lesson_items,id' ],
                 ]);
-                if ($validator->fails()) {
+                if ( $validator->fails() ) {
                     return response("Validation failed.", 403);
                 }
                 // Make the changes
@@ -428,20 +427,6 @@ class Lesson extends Controller
                 }
                 return response("Successfully changed all positions", 200);
                 break;
-            case "component-delete":
-                // Further validation
-                $validator = Validator::make($validatedData, [
-                    'data' => [ 'required', 'string', 'exists:lesson_items,id' ]
-                ]);
-                if ($validator->fails()) {
-                    return response("Validation failed.", 403);
-                }
-                // Remove the component
-                $lessonItem = LessonItem::whereId($validatedData['data'])->firstOrFail();
-                if (!$lessonItem->delete()) {
-                    return response("Could not delete the record.", 500);
-                }
-                return response("Successfully removed the record.", 200);
                 break;
             default:
                 return response("The edit type is not supported.", 403);

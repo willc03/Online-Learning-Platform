@@ -116,6 +116,7 @@ Route::prefix('course/{id}') // {id} mandates an id attribute in the URL
                     Route::get('/', [ Lesson::class, 'config' ])->name('get'); // Show the lesson config page
                     Route::post('/add', [ LessonItem::class, 'create' ])->name('add'); // Process requests to add a component
                     Route::post('/modify', [ Lesson::class, 'modify' ])->name('modify'); // Process requests to change the lesson.
+                    Route::delete('modify', [ LessonItem::class, 'delete' ])->name('modify.delete'); // Process requests to delete lesson components
                     Route::get('/form-request', [ Lesson::class, 'formRequest' ])->name('form-request'); // Display certain page aspects to the user (such as question/component forms after type selection)
                 })->middleware('course.owner'); // Require the user to be the course owner to access any grouped routes.
             });

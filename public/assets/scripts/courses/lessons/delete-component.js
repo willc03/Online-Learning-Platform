@@ -10,7 +10,7 @@ $(".lesson-config h2 button.three-d#delete-button")
             let button = $(this);
             // If the confirmation state is active, send the deletion request
             $.ajax({
-                url: lessonEditRoute, method: 'POST', headers: {
+                url: lessonItemDeleteRoute, method: 'DELETE', headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, data: {
                     'edit-type': 'component-delete', 'data': $(button).data('id')

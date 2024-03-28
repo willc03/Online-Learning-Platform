@@ -260,7 +260,8 @@
     }
 
     formRequestRoute = "{{ route("course.lesson.configure.form-request", [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}";
-    lessonEditRoute = "{{ route('course.lesson.configure.modify', [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}"
+    lessonEditRoute = "{{ route('course.lesson.configure.modify', [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}";
+    lessonItemDeleteRoute = "{{ route('course.lesson.configure.modify.delete', [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}";
 </script>
 <script src="{{ asset("assets/scripts/courses/admin/config-wordsearch.js") }}"></script>
 <script src="{{ asset("assets/scripts/courses/lessons/add_component.js") }}"></script>

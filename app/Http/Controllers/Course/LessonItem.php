@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
+use App\Models\Lesson as LessonModel;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 
@@ -155,13 +157,19 @@ class LessonItem extends Controller
         }
     }
 
-    public function modify(string $id, string $lessonId)
+    public function delete(Request $request, string $id, string $lessonId)
     {
-
-    }
-
-    public function delete(string $id, string $lessonId)
-    {
-
+        // We assume the user owns the course here due to the route being protected by middleware.
+        // Sanitise the request
+        $validatedData = $request->validate([
+            'edit-type' => [ 'required', 'string', 'in:component-delete' ],
+            'data' => [ 'required', 'string', 'exists:lesson_items,id' ],
+        ]);
+        // Remove the component
+        $lessonItem = LessonItemModel::whereId($validatedData['data'])->firstOrFail();
+        if ( !$lessonItem->delete() ) {
+            return response("Could not delete the record.", 500);
+        }
+        return response("Successfully removed the record.", 200);
     }
 }
