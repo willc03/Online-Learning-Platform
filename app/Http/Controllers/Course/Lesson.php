@@ -15,6 +15,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Psr\Container\ContainerExceptionInterface;
@@ -24,7 +25,7 @@ class Lesson extends Controller
 {
 
     /**
-     * Create a route function to allow the user to begin a lesson For security and consistency reasons, sessions
+     * Create a route function to allow the user to begin a lesson. For security and consistency reasons, sessions
      * will be utilised in this controller to ensure the user cannot manipulate the lesson on the client.
      *
      * @param string $id       The course id field.
@@ -302,10 +303,16 @@ class Lesson extends Controller
      * @param string $id       The course id field.
      * @param string $lessonId The lesson id field.
      *
-     * @return Application|Factory|View|\Illuminate\Foundation\Application|\Illuminate\View\View
+     * @return View|RedirectResponse
      */
     public function config ( string $id, string $lessonId )
     {
+        // Course permission check
+        $course = Course::find($id);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return redirect()->to(route('course.home', [ 'id' => $course->id ]))->withErrors([ 'NO_EDIT_PERMISSION' => "You cannot complete this action as you do not own this course." ]);
+        }
+        // Return the config page if successful
         return view('lesson.config', [
             'course' => Course::whereId($id)->firstOrFail(),
             'lesson' => LessonModel::whereId($lessonId)->firstOrFail(),
@@ -357,10 +364,15 @@ class Lesson extends Controller
      * @param string $id       The course id field.
      * @param string $lessonId The lesson id field.
      *
-     * @return Application|Factory|View|\Illuminate\Foundation\Application|\Illuminate\View\View Returns a view containing the attempts (if any)
+     * @return View|RedirectResponse Returns a view containing the attempts (if any)
      */
     public function attempts ( string $id, string $lessonId )
     {
+        // Course permission check
+        $course = Course::find($id);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return redirect()->to(route('course.home', [ 'id' => $course->id ]))->withErrors([ 'NO_EDIT_PERMISSION' => "You cannot complete this action as you do not own this course." ]);
+        }
         // Calculate maximum score
         $total = 0;
         $multiplier = 1;
@@ -407,7 +419,12 @@ class Lesson extends Controller
      */
     public function modify ( Request $request, string $id, string $lessonId )
     {
-        // We assume the user owns the course here due to the route being protected by middleware.
+        // Course permission check
+        $course = Course::find($id);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return response("You cannot complete this action as you do not own this course.", 403);
+        }
+        //
         $allowedEditTypes = [ 'order' ];
         $course = Course::find($id);
         $lesson = LessonModel::find($lessonId);

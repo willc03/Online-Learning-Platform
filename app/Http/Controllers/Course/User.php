@@ -24,6 +24,11 @@ class User extends Controller
      */
     public function remove ( Request $request, string $id )
     {
+        // Course permission check
+        $course = Course::find($id);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return response("You cannot complete this action as you do not own this course.", 403);
+        }
         // Validation checks
         try {
             $validatedData = $request->validate([
@@ -63,6 +68,11 @@ class User extends Controller
      */
     public function block ( Request $request, string $id )
     {
+        // Course permission check
+        $course = Course::find($id);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return response("You cannot complete this action as you do not own this course.", 403);
+        }
         // Validation checks
         try {
             $validatedData = $request->validate([

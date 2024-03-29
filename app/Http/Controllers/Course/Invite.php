@@ -13,6 +13,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -170,7 +171,11 @@ class Invite extends Controller
      */
     public function modify ( Request $request, string $id )
     {
-        // We can assume the user is able to edit the course as the route is protected by middleware
+        // Course permission checks
+        $course = Course::find($id);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return response("You cannot complete this action as you do not own this course.", 403);
+        }
         // Initial validation
         $validatedData = $request->validate([
             'inviteId'         => [ 'required', 'string', 'exists:course_invites,invite_id' ],   // Make sure the invite exists
@@ -243,7 +248,11 @@ class Invite extends Controller
      */
     public function delete ( Request $request, string $id )
     {
-        // We can assume the user can delete invites as the route is protected
+        // Course permission check
+        $course = Course::find($id);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return response("You cannot complete this action as you do not own this course.", 403);
+        }
         // Validation of uploaded data
         $validatedData = $request->validate([
             'inviteId' => [ 'required', 'string', 'exists:course_invites,invite_id' ],
@@ -267,7 +276,11 @@ class Invite extends Controller
      */
     public function create ( Request $request, string $id )
     {
-        // We can assume the user is the course owner
+        // Course permission check
+        $course = Course::find($id);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return redirect()->to(route('course.home', [ 'id' => $course->id ]))->withErrors([ 'NO_EDIT_PERMISSION' => "You cannot complete this action as you do not own this course." ]);
+        }
         // Validation of uploaded data
         $validatedData = $request->validate([
             'active'        => [ 'nullable', 'string', 'in:on' ],

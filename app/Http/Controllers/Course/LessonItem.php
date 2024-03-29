@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\LessonItem as LessonItemModel;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class LessonItem extends Controller
@@ -30,6 +32,11 @@ class LessonItem extends Controller
      */
     public function create ( Request $request, string $id, string $lessonId )
     {
+        // Course permission check
+        $course = Course::find($id);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return redirect()->to(route('course.home', [ 'id' => $course->id ]))->withErrors([ 'NO_EDIT_PERMISSION' => "You cannot complete this action as you do not own this course." ]);
+        }
         // Exterior validation must first occur to ensure the content is in the correct format
         $validatedData = $request->validate([
             'item-type'                 => [ 'required', 'string', 'in:' . implode(',', $this->allowedItemTypes) ],
@@ -182,7 +189,11 @@ class LessonItem extends Controller
      */
     public function delete ( Request $request, string $id, string $lessonId )
     {
-        // We assume the user owns the course here due to the route being protected by middleware.
+        // Course permission check
+        $course = Course::find($id);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return response("You cannot complete this action as you do not own this course.", 403);
+        }
         // Sanitise the request
         $validatedData = $request->validate([
             'edit-type' => [ 'required', 'string', 'in:component-delete' ],

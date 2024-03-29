@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
@@ -123,6 +124,9 @@ class Course extends Controller
     {
         // We can assume the user is the owner due to the middleware 'course.owner' being applied to this route.
         $course = CourseModel::find($id);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return redirect()->to(route('course.home', [ 'id' => $course->id ]))->withErrors([ 'NO_EDIT_PERMISSION' => "You cannot complete this action as you do not own this course." ]);
+        }
         // Request validation
         $request->validate([
             'title'       => [ 'required', 'string' ],
@@ -149,12 +153,15 @@ class Course extends Controller
      * @param Request $request The HTTP request provided by Laravel
      * @param string  $id      The course's id (UUID)
      *
-     * @return View The view presented to the user
+     * @return RedirectResponse|View The view presented to the user
      */
     public function settings ( Request $request, string $id )
     {
         // Get the course from the ID
         $course = CourseModel::findOrFail($id);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return redirect()->to(route('course.home', [ 'id' => $course->id ]))->withErrors([ 'NO_EDIT_PERMISSION' => "You cannot complete this action as you do not own this course." ]);
+        }
         // Return the view to the user
         return view('courses.settings', [ 'course' => $course ]); // This will be replaced later when the page is defined.
     }
@@ -177,7 +184,7 @@ class Course extends Controller
             'course_id'  => [ 'required', 'string', 'exists:courses,id' ],
         ]);
         // Get the course
-        $course = CourseModel::find($id);
+        $course = CourseModel::find($id); // This route is not proactively defended as the user cannot actually do much with the forms themselves (and the middleware already protects it)
         // Get the form
         return match ( $validatedData['form_type'] ) {
             'text'   => view('components.courses.component_add.text', [ 'courseId' => $course->id, 'sectionId' => $validatedData['section_id'] ]),
@@ -214,6 +221,9 @@ class Course extends Controller
         }
         // Get course
         $course = CourseModel::find($validatedData['course_id']);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return redirect()->to(route('course.home', [ 'id' => $course->id ]))->withErrors([ 'NO_EDIT_PERMISSION' => "You cannot complete this action as you do not own this course." ]);
+        }
         // Make edits based on type
         switch ( $validatedData['edit_type'] ) {
             case "section_order": // Re-order all the components within the course.
@@ -551,7 +561,10 @@ class Course extends Controller
      */
     public function delete ( Request $request, string $id )
     {
-        $course = CourseModel::whereId($id)->firstOrFail();
+        $course = CourseModel::find($id);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return redirect()->to(route('course.home', [ 'id' => $course->id ]))->withErrors([ 'NO_EDIT_PERMISSION' => "You cannot complete this action as you do not own this course." ]);
+        }
         // Lessons are independent of courses, so delete them first
         DB::beginTransaction();
         try {

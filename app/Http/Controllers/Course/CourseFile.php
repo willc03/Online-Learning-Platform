@@ -9,6 +9,7 @@ use App\Models\UserCourse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -97,6 +98,11 @@ class CourseFile extends Controller
         } catch ( ValidationException $error ) {
             return [ false, $error->getMessage() ];
         }
+        // Course permission checks
+        $course = Course::find($id);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return [ false, "You cannot complete this action as you do not own this course." ];
+        }
         // If the user has permission, upload the file
         $file = $request->file('file');
         $generated_path = $file->storeAs($validated_data['id'], $file->getClientOriginalName(), 'private');
@@ -126,6 +132,11 @@ class CourseFile extends Controller
         $request->validate([
             'fileId' => [ 'required', 'string', 'exists:course_files,id' ],
         ]);
+        // Course permission checks
+        $course = Course::find($id);
+        if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
+            return response("You cannot complete this action as you do not own this course.", 403);
+        }
         // Delete the file (or rather, attempt to)
         $file = CourseFileModel::where('id', $request->fileId)->firstOrFail();
         $disk = Storage::disk('private');
