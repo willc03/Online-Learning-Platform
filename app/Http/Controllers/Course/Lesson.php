@@ -40,6 +40,10 @@ class Lesson extends Controller
         if ( !$lesson = $this->processLessonId($lessonId) ) {
             return redirect()->to(route('course.home', [ 'id' => $id ]))->withErrors([ 'LESSON_DOES_NOT_EXIST' => 'The requested lesson could not be found or does not exist!' ]);
         }
+        // Check that the lesson actually has some content
+        if ( $lesson->items->count() === 0 ) {
+            return redirect()->to(route('course.home', [ 'id' => $id ]))->withErrors([ 'NO_CONTENT' => "There is no content in this lesson! Please contact the course owner to update the lesson." ]);
+        }
         // If the lesson exists, begin
         session()->put('lesson', [
             'id'       => $lesson->id,
