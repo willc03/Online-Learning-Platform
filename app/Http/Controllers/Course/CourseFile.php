@@ -87,7 +87,6 @@ class CourseFile extends Controller
      */
     public function upload ( Request $request, string $id )
     {
-        // We can assume the user has permission to upload files due to the route being protected.
         // Validate the file upload form
         try {
             $validated_data = $request->validate([
@@ -118,8 +117,7 @@ class CourseFile extends Controller
 
     /**
      * The remove route is designed to allow course owners to delete files from
-     * their course. We assume the user has access to this route due to it being
-     * protected by the 'course.owner' middleware.
+     * their course.
      *
      * @param Request $request The HTTP request provided by Laravel
      * @param string  $id      The course's id (UUID)

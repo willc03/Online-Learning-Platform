@@ -21,8 +21,7 @@ class LessonItem extends Controller
     private array $allowedItemTypes = [ 'question', 'text' ];
 
     /**
-     * A route to allow the user to submit requests to create a LessonItem. The user is assumed
-     * to be the course owner as the route is protected by middleware.
+     * A route to allow the user to submit requests to create a LessonItem.
      *
      * @param Request $request  The HTTP request provided by Laravel.
      * @param string  $id       The course's id (UUID)
@@ -178,8 +177,7 @@ class LessonItem extends Controller
     }
 
     /**
-     * A route to allow AJAX requests that will delete a LessonItem from a Lesson. The user
-     * is assumed to be the owner due to the route being protected by middleware.
+     * A route to allow AJAX requests that will delete a LessonItem from a Lesson.
      *
      * @param Request $request  The HTTP request provided by Laravel.
      * @param string  $id       The course's id (UUID)

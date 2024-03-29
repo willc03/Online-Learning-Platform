@@ -14,8 +14,7 @@ class User extends Controller
 {
 
     /**
-     * This function allows a course owner to remove user's from their course. We assume
-     * the user is the course owner as the route is protected by 'course.owner' middleware.
+     * This function allows a course owner to remove user's from their course.
      *
      * @param Request $request The HTTP request provided by Laravel
      * @param string  $id      The course's id (UUID)

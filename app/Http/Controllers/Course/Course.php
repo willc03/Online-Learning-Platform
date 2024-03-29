@@ -122,7 +122,7 @@ class Course extends Controller
      */
     public function modify ( Request $request, string $id )
     {
-        // We can assume the user is the owner due to the middleware 'course.owner' being applied to this route.
+        // Course permission check
         $course = CourseModel::find($id);
         if ( !Gate::allows('course-edit', $course) ) { // Protectively ensure the user can make edits if a new route is defined.
             return redirect()->to(route('course.home', [ 'id' => $course->id ]))->withErrors([ 'NO_EDIT_PERMISSION' => "You cannot complete this action as you do not own this course." ]);
