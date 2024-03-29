@@ -37,6 +37,8 @@ $('.section .section-admin-panel #edit-button').each(function () {
     let section = $(this).closest('.section');
     let additionContainer = $(section).find('.section-add-component');
     let sectionEditContainer = $(section).find('.section-edit-component');
+    let formContainer = $(section).find('#form_container');
+    let submissionContainer = $(section).find('#submission');
     // Button click behaviour
     $(button).on('click', function () {
         if ( $(sectionEditContainer).data('is_open') === true ) {
@@ -53,6 +55,9 @@ $('.section .section-admin-panel #edit-button').each(function () {
             .data('is_open', false)
             .animate({
                 height: 0, paddingTop: 0, paddingBottom: 0, borderWidth: 0
-            }, 500);
+            }, 500, function() {
+               $(formContainer).empty().css('display', 'none');
+               $(submissionContainer).css('display', 'none');
+            });
     });
 });

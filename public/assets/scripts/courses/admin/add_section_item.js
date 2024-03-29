@@ -48,6 +48,8 @@ $('.section .section-admin-panel #add-component-button').each(function () {
             .animate({
                 height: 0, paddingTop: 0, paddingBottom: 0
             });
+        $(additionContainer).find("select option").attr('selected', null);
+        $(additionContainer).find("select option:first-of-type").attr('selected', true);
         $(additionContainer)
             .data('is_open', true)
             .animate({
