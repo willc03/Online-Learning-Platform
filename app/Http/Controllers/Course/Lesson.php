@@ -330,9 +330,10 @@ class Lesson extends Controller
      */
     public function formRequest ( Request $request, string $id, string $lessonId )
     {
+        $formTypes = [ 'text', 'question', 'single-choice', 'multi-choice', 'fill-in-blanks', 'order', 'match', 'word-search', 'true-false' ];
         // Validation
         $validatedData = $request->validate([
-            'form-name' => [ 'required', 'string', 'in:text,question,single-choice,multi-choice,fill-in-blanks,order,match,word-search,true-false', ],
+            'form-name' => [ 'required', 'string', 'in:' . implode(',', $formTypes), ],
             'form-type' => [ 'nullable', 'string' ],
         ]);
         // Get the course

@@ -128,15 +128,15 @@ class Course extends Controller
             return redirect()->to(route('course.home', [ 'id' => $course->id ]))->withErrors([ 'NO_EDIT_PERMISSION' => "You cannot complete this action as you do not own this course." ]);
         }
         // Request validation
-        $request->validate([
+        $validatedData = $request->validate([
             'title'       => [ 'required', 'string' ],
             'description' => [ 'nullable', 'string' ],
             'publicity'   => [ 'nullable', 'boolean' ],
         ]);
         // Make the requested edits
-        $course->title = $request->title;
-        $course->description = $request->description ?? null;
-        $course->is_public = $request->publicity ?? 0;
+        $course->title = $validatedData['title'];
+        $course->description = $validatedData['description'] ?? null;
+        $course->is_public = $validatedData['publicity'] ?? 0;
         // Save the new course details and produce a redirection based on the
         if ( $course->save() ) {
             return redirect()->to(route('course.settings.get', [ 'id' => $id ]));
