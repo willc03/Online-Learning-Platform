@@ -1,6 +1,6 @@
-@php $varUUID = str_replace('-', '_', \Illuminate\Support\Str::uuid()->toString()); @endphp
+@php $varUUID = 'X' . str_replace('-', '_', \Illuminate\Support\Str::uuid()->toString()); @endphp
 
-<fieldset class="middle">
+<fieldset class="middle" id="{{ $varUUID }}">
     <input type="hidden" name="unique_anchor" value="{{ $varUUID }}" />
     <input type="hidden" name="item-answers" />
     {{-- Heading --}}
@@ -44,20 +44,19 @@
 
 <div class="template middle answer-row flex-row move" style="display: none;">
     <p class="var-width answer-text"></p>
+    <x-components.3d_button type="button" class="course-button-mini remove-bottom-spacer max-content self-center" id="delete-button" fg-color="#D10023" bg-color="#840016"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
 </div>
 
 <script>
     $(function () {
         let answers_{{ $varUUID }} = []
-        let answerInputBox = $("#item-input");
-        let answerContainer = $(".order-items");
-        $(document).on('click', '#add-btn-order', function () {
-            if ( $("input[name='unique_anchor']").val() !== "{{ $varUUID }}" ) {
-                return;
-            }
-            if ( $(answerInputBox).val() ) {
+        let answerInputBox = $("#{{ $varUUID }} #item-input");
+        let answerContainer = $("#{{ $varUUID }} .order-items");
+        $(document).on('click', '#{{ $varUUID }} #add-btn-order', function () {
+            let answerText = $(answerInputBox).val();
+            if ( answerText ) {
                 // Check for duplicate answers
-                console.log($.inArray($(answerInputBox).val(), answers_{{ $varUUID }}));
+                console.log($.inArray(answerText, answers_{{ $varUUID }}));
                 if ( $.inArray($(answerInputBox).val(), answers_{{ $varUUID }}) !== -1 ) {
                     alert("Cannot add exact duplicates. Please try again.");
                     return;
@@ -69,25 +68,28 @@
                     .removeClass('template')
                     .find("p")
                     .text($(answerInputBox).val());
-                answers_{{ $varUUID }}.push($(answerInputBox).val());
-                $("p span.italicise").remove();
+                answers_{{ $varUUID }}.push(answerText);
+                $(newAnswer).find("#delete-button").on('click', function() {
+                    for (let i = 0; i < answers_{{ $varUUID }}.length; i++) {
+                        if (answers_{{ $varUUID }}[i] === answerText) {
+                            answers_{{ $varUUID }}.splice(i, 1);
+                            $(newAnswer).remove();
+                        }
+                    }
+                    $("p span.italicise").css('display', $(answerContainer).children().length > 0 ? 'none' : 'block');
+                });
+                $("p span.italicise").css('display', $(answerContainer).children().length > 0 ? 'none' : 'block');
             }
         });
 
         $(answerContainer).sortable({ placeholder: "answer-row middle", axis: "y" });
 
-        $(document).on('input', "select[name='direction']", function () {
-            if ( $("input[name='unique_anchor']").val() !== "{{ $varUUID }}" ) {
-                return;
-            }
-            $(answerContainer).removeClass($("select[name='direction']").val() === "vertical" ? "flex-row" : "flex-col").addClass($("select[name='direction']").val() === "vertical" ? "flex-col" : "flex-row");
-            $(answerContainer).sortable({ axis: $("select[name='direction']").val() === "vertical" ? "y" : "x" });
+        $(document).on('input', "#{{ $varUUID }} select[name='direction']", function () {
+            $(answerContainer).removeClass($("#{{ $varUUID }} select[name='direction']").val() === "vertical" ? "flex-row" : "flex-col").addClass($("#{{ $varUUID }} select[name='direction']").val() === "vertical" ? "flex-col" : "flex-row");
+            $(answerContainer).sortable({ axis: $("#{{ $varUUID }} select[name='direction']").val() === "vertical" ? "y" : "x" });
         })
 
-        $(document).on('click', '#submit-btn-order', function () {
-            if ( $("input[name='unique_anchor']").val() !== "{{ $varUUID }}" ) {
-                return;
-            }
+        $(document).on('click', '#{{ $varUUID }} #submit-btn-order', function () {
             // Ensure there are at least two answers
             if ( $(answerContainer).children().length < 2 ) {
                 alert("Please ensure the question has at least two answers to order.");

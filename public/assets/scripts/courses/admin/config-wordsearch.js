@@ -10,10 +10,12 @@ $(function () {
     let initialDirection = null;
 
     // Functions
-    function resizeWordsearch ()
-    {
-        $(letters).height($(letters).width());
+    function resizeWordsearch() {
+        letters.each(function() {
+            $(this).height($(this).width());
+        });
     }
+
 
     function getDirection (currentLetter)
     { // This function will find out whether the selection is a row or column
@@ -79,7 +81,9 @@ $(function () {
     $(letters).on("mousedown", highlightLetter);
 
     // General scripting
-    $(letters).width((100 / $(".row").length) + "%");
+    $(".wordsearch").each(function() {
+        $(this).find(".letter").width((100 / $(this).find(".row").length) + "%");
+    })
 
     // Initial function calls
     resizeWordsearch();

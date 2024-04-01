@@ -1,6 +1,6 @@
-@php $varUUID = str_replace('-', '_', \Illuminate\Support\Str::uuid()->toString()); @endphp
+@php $varUUID = 'X' . str_replace('-', '_', \Illuminate\Support\Str::uuid()->toString()); @endphp
 
-<fieldset class="middle">
+<fieldset class="middle" id="{{ $varUUID }}">
     <input type="hidden" name="unique_anchor" value="{{ $varUUID }}" />
     <input type="hidden" name="item-answers" value="-1" />
     <legend>Item Match Question</legend>
@@ -43,19 +43,20 @@
 <div class="template middle answer-row flex-row" style="display: none">
     <p class="var-width answer-text" id="one"></p>
     <p class="var-width answer-text" id="two"></p>
+    <x-components.3d_button type="button" class="course-button-mini remove-bottom-spacer max-content self-center" id="delete-button" fg-color="#D10023" bg-color="#840016"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
 </div>
 
 <script>
     $(function () {
         const errors = {
-            matchMissing: $("#match-missing")
+            matchMissing: $("#{{ $varUUID }} #match-missing")
         };
         const matchContainer = $("#match-pairs");
-        let m1 = $("input[name='match-one']"), m2 = $("input[name='match-two']");
+        let m1 = $("#{{ $varUUID }} input[name='match-one']"), m2 = $("#{{ $varUUID }} input[name='match-two']");
 
         let answers_{{ $varUUID }} = [];
 
-        $(document).on('click', "#make-pair", function () {
+        $(document).on('click', "#{{ $varUUID }} #make-pair", function () {
             let v1 = $(m1).val(), v2 = $(m2).val();
             if ( !v1 || !v2 ) {
                 return;
@@ -74,7 +75,16 @@
                     .text(v1);
                 $(newAnswer).find("p#two").text(v2);
 
-                $("p#no-pair-msg").remove();
+                $(newAnswer).find("#delete-button").on('click', function() {
+                    for (let i = 0; i < answers_{{ $varUUID }}.length; i++) {
+                        if (answers_{{ $varUUID }}[i][0] === v1 && answers_{{ $varUUID }}[i][1] === v2) {
+                            answers_{{ $varUUID }}.splice(i, 1);
+                            $(newAnswer).remove();
+                        }
+                    }
+                    $("p#no-pair-msg").css('display', $(matchContainer).children().length > 0 ? 'none' : 'block');
+                });
+                $("p#no-pair-msg").css('display', $(matchContainer).children().length > 0 ? 'none' : 'block');
             } else {
                 alert("This match combination already exists.");
             }
@@ -90,7 +100,7 @@
             }
         });
 
-        $(document).on('click', '#submit-btn-match', function () {
+        $(document).on('click', '#{{ $varUUID }} #submit-btn-match', function () {
             // Check form elements are valid
             if ( $("#new-lesson-item").valid() === false ) {
                 return;
@@ -104,7 +114,7 @@
                     });
                 }
             });
-            $("input[name='item-answers']").attr('value', JSON.stringify(answers));
+            $("#{{ $varUUID }} input[name='item-answers']").attr('value', JSON.stringify(answers));
             // Submit the form if all conditions are met
             $('#new-lesson-item').submit();
         });

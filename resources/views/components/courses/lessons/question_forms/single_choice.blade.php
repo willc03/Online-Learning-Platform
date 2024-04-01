@@ -1,6 +1,6 @@
-@php $varUUID = str_replace('-', '_', \Illuminate\Support\Str::uuid()->toString()); @endphp
+@php $varUUID = 'X' . str_replace('-', '_', \Illuminate\Support\Str::uuid()->toString()); @endphp
 
-<fieldset class="middle">
+<fieldset class="middle" id="{{ $varUUID }}">
     <input type="hidden" name="unique_anchor" value="{{ $varUUID }}" />
     <legend>Single Choice Question</legend>
     <label class="form-flex">
@@ -32,19 +32,23 @@
 </fieldset>
 
 <div class="template middle answer-row flex-row" style="display: none">
-    <p class="var-width answer-text"></p>
-    <x-components.3d_button type="button" class="course-button-mini answer-correct" fg-color="#D10023" bg-color="#840016" data-correct="false">Incorrect</x-components.3d_button>
+    <div class="var-width flex-row right-spacer">
+        <p class="var-width answer-text"></p>
+        <x-components.3d_button type="button" class="course-button-mini answer-correct remove-bottom-spacer right-spacer" fg-color="#D10023" bg-color="#840016" data-correct="false">Incorrect</x-components.3d_button>
+        <x-components.3d_button type="button" class="course-button-mini remove-bottom-spacer max-content" id="delete-button" fg-color="#D10023" bg-color="#840016"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+    </div>
 </div>
 
 <script>
     $(function () {
         let answers_{{ $varUUID }} = []
-        let answerInputBox = $("#answer-input");
-        let answerContainer = $(".s-c-answers");
-        $(document).on('click', '#add-btn', function () {
-            if ( $(answerInputBox).val() ) {
+        let answerInputBox = $("#{{ $varUUID }} #answer-input");
+        let answerContainer = $("#{{ $varUUID }} .s-c-answers");
+        $(document).on('click', '#{{ $varUUID }} #add-btn', function () {
+            let answerText = $(answerInputBox).val();
+            if ( answerText ) {
                 // Check for duplicate answers
-                if ( $.inArray($(answerInputBox).val(), answers_{{ $varUUID }}) !== -1 ) {
+                if ( $.inArray(answerText, answers_{{ $varUUID }}) !== -1 ) {
                     alert("Cannot use duplicate answers! Please type another answer.");
                     return;
                 }
@@ -55,11 +59,21 @@
                     .removeClass('template')
                     .find("p")
                     .text($(answerInputBox).val());
-                answers_{{ $varUUID }}.push($(answerInputBox).val());
-                $("p span.italicise").remove();
+                answers_{{ $varUUID }}.push(answerText);
+                $(newAnswer).find("#delete-button").on('click', function() {
+                    for (let i = 0; i < answers_{{ $varUUID }}.length; i++) {
+                        if (answers_{{ $varUUID }}[i] === answerText) {
+                            answers_{{ $varUUID }}.splice(i, 1);
+                            $(newAnswer).remove();
+                        }
+                    }
+                    $("p span.italicise").css('display', $(answerContainer).children().length > 0 ? 'none' : 'block');
+                });
+                $("p span.italicise").css('display', $(answerContainer).children().length > 0 ? 'none' : 'block');
+
             }
         });
-        $(document).on('click', '.answer-correct', function () {
+        $(document).on('click', '#{{ $varUUID }} .answer-correct', function () {
             // Define components
             let button = $(this);
             let foreground = $(button).find(".foreground");
@@ -76,7 +90,7 @@
             foreground.stop(true, true).animate({ backgroundColor: "#43AA8B" }, 500).text("Correct");
         });
 
-        $(document).on('click', '#submit-btn-single-choice', function () {
+        $(document).on('click', '#{{ $varUUID }} #submit-btn-single-choice', function () {
             // Check if there is at least one correct answer element
             let hasCorrectAnswer = $(".answer-correct[data-correct='true']").length > 0;
             if ( !hasCorrectAnswer ) {

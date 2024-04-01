@@ -1,6 +1,6 @@
-@php $varUUID = str_replace('-', '_', \Illuminate\Support\Str::uuid()->toString()); @endphp
+@php $varUUID = 'X' . str_replace('-', '_', \Illuminate\Support\Str::uuid()->toString()); @endphp
 
-<fieldset class="middle">
+<fieldset class="middle" id="{{ $varUUID }}">
     <input type="hidden" name="unique_anchor" value="{{ $varUUID }}" />
     <input type="hidden" name="item-answers" value="-1" />
     <legend>Word Search Question</legend>
@@ -39,17 +39,18 @@
 <div class="template middle answer-row flex-row" style="display: none">
     <p class="var-width answer-text" id="one"></p>
     <p class="var-width answer-text" id="two"></p>
+    <x-components.3d_button type="button" class="course-button-mini remove-bottom-spacer max-content self-center" id="delete-button" fg-color="#D10023" bg-color="#840016"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
 </div>
 
 <script>
     $(function () {
         const errors = {
-            wordsMissing: $("#words-missing")
+            wordsMissing: $("#{{ $varUUID }} #words-missing")
         };
-        const matchContainer = $("#word-display");
-        let m1 = $("input[name='word']"), m2 = $("textarea[name='message']");
+        const matchContainer = $("#{{ $varUUID }} #word-display");
+        let m1 = $("#{{ $varUUID }} input[name='word']"), m2 = $("#{{ $varUUID }} textarea[name='message']");
 
-        $(document).on('click', "#make-word", function () {
+        $(document).on('click', "#{{ $varUUID }} #make-word", function () {
             let v1 = $(m1).val(), v2 = $(m2).val();
             if ( !v1 || !v2 ) {
                 return;
@@ -64,13 +65,16 @@
                 .text(v1);
             $(newAnswer).find("p#two").text(v2);
 
-            $("p#no-pair-msg").remove();
+            $(newAnswer).find("#delete-button").on('click', function() {
+                $(newAnswer).remove();
+                $("p#no-pair-msg").css('display', $(matchContainer).children().length > 0 ? 'none' : 'block');
+            });
+            $("p#no-pair-msg").css('display', $(matchContainer).children().length > 0 ? 'none' : 'block');
         });
 
 
         $(m1).add(m2).on("input", function () {
             let v1 = $(m1).val(), v2 = $(m2).val();
-            console.log(v1, v2);
             if ( !v1 || !v2 ) {
                 errors.wordsMissing.css("display", "block");
             } else {
@@ -78,7 +82,7 @@
             }
         });
 
-        $(document).on('click', '#submit-btn-word-search', function () {
+        $(document).on('click', '#{{ $varUUID }} #submit-btn-word-search', function () {
             // Check form elements are valid
             if ( $("#new-lesson-item").valid() === false ) {
                 return;
@@ -92,7 +96,7 @@
                     });
                 }
             });
-            $("input[name='item-answers']").attr('value', JSON.stringify(answers));
+            $("#{{ $varUUID }} input[name='item-answers']").attr('value', JSON.stringify(answers));
             // Submit the form if all conditions are met
             $('#new-lesson-item').submit();
         });

@@ -1,6 +1,6 @@
-@php $varUUID = str_replace('-', '_', \Illuminate\Support\Str::uuid()->toString()); @endphp
+@php $varUUID = 'X' . str_replace('-', '_', \Illuminate\Support\Str::uuid()->toString()); @endphp
 
-<fieldset class="middle">
+<fieldset class="middle" id="{{ $varUUID }}">
     <input type="hidden" name="unique_anchor" value="{{ $varUUID }}" />
     <legend>True or False Question</legend>
     <label class="form-flex">
@@ -25,7 +25,7 @@
 
 <script>
     $(function () {
-        $(document).on('click', '#submit-btn-true-false', function () {
+        $(document).on('click', '#{{ $varUUID }} #submit-btn-true-false', function () {
             // Check form elements are valid
             if ( !$("#new-lesson-item").valid() ) {
                 return;
