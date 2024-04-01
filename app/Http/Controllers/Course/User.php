@@ -100,4 +100,23 @@ class User extends Controller
         }
     }
 
+    public function leave(Request $request, $id)
+    {
+        // We assume the course exists as it is a requirement for the route
+        $course = Course::find($id);
+        // Attempt to find the user course record
+        //  - We assume the user is authenticated due to the 'auth' middleware
+        $userCourseRecord = UserCourse::where([ 'course_id' => $id, 'user_id' => $request->user()->id ]);
+        // Attempt to leave
+        if ($userCourseRecord->exists()) {
+            if ($userCourseRecord->delete()) {
+                return redirect()->to(route('home'))->with(['LEAVE_SUCCESS' => 'You have successfully left ' . $course->title . '.']);
+            } else {
+                return back()->withErrors([ 'DELETE_ERROR' => 'Could not delete your account from this course. Please try again later.' ]);
+            }
+        } else {
+            return back()->withErrors([ 'NO_RECORD' => 'Could not find a record of your account on this course. Please try again later.' ]);
+        }
+    }
+
 }

@@ -13,6 +13,14 @@
         </div>
     @endif
 
+    {{-- Let non-owner users leave the course --}}
+    @unless($user_is_owner)
+        <form method="post" action="{{ route('course.leave', [ 'id' => $course->id ]) }}">
+            @csrf
+            @method('DELETE')
+            <x-components.3d_button class="course-button-mini max-content" fg_color="#D10023" bg_color="#840016">Leave course</x-components.3d_button>
+        </form>
+    @endunless
 
     {{-- Course details --}}
     <h1>{{ $course->title }}</h1>

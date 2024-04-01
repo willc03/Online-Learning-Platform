@@ -7,6 +7,10 @@
     @if(session()->get('ACCOUNT_DELETED', null))
         <x-messages.success title="Account Deleted" description="{{ session()->get('ACCOUNT_DELETED') }}" />
     @endif
+    {{-- Account leave message --}}
+    @if(session()->get('LEAVE_SUCCESS', null))
+        <x-messages.success title="Left Course" description="{{ session()->get('LEAVE_SUCCESS') }}" />
+    @endif
     {{-- Welcome back message --}}
     @if(auth()->user())
         <h2><span class="italicise">Welcome back, {{ strtok(auth()->user()->name, " ") }}!</span></h2>

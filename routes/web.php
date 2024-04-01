@@ -80,7 +80,8 @@ Route::prefix('course/{id}') // {id} mandates an id attribute in the URL
 ->middleware([ 'auth', 'course' ]) // Make sure the user is logged in and they can access the course
 ->group(function () {
     // Course home page
-    Route::get('/', [ Course::class, 'index' ])->name('home');
+    Route::get('/', [ Course::class, 'index' ])->name('home');          // Allow the user to see the home page.
+    Route::delete('leave', [ User::class, 'leave' ])->name('leave');    // Allow the user to leave the course.
     // Course owner pages
     //  - Allows the owner to access restricted pages and edit aspects of the course
     Route::middleware('course.owner')->group(function () { // Group all owner methods for checks before route access using 'course.owner' middleware
