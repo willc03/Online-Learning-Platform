@@ -4,7 +4,7 @@
         <form method="post" action="{{ route('course.settings.delete', [ 'id' => $course->id ]) }}" style="margin-left: 10px;">
             @csrf
             @method('DELETE')
-            <x-components.3d_button class="course-button-mini max-content" fg_color="#CA6565" bg_color="#A23636">Delete course</x-components.3d_button>
+            <x-components.3d_button class="course-button-mini max-content" fg_color="#D10023" bg_color="#840016">Delete course</x-components.3d_button>
         </form>
     </div>
     <h1>COURSE SETTINGS</h1>

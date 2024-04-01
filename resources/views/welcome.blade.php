@@ -3,6 +3,10 @@
     @if(session()->get('PASSWORD_CHANGED', null))
         <x-messages.success title="Password Changed" description="{{ session()->get('PASSWORD_CHANGED') }}" />
     @endif
+    {{-- Account deleted message --}}
+    @if(session()->get('ACCOUNT_DELETED', null))
+        <x-messages.success title="Account Deleted" description="{{ session()->get('ACCOUNT_DELETED') }}" />
+    @endif
     {{-- Welcome back message --}}
     @if(auth()->user())
         <h2><span class="italicise">Welcome back, {{ strtok(auth()->user()->name, " ") }}!</span></h2>

@@ -104,6 +104,7 @@ Route::prefix('course/{id}') // {id} mandates an id attribute in the URL
     //  - Lessons are within the course group as they are specific to the course
     Route::prefix('lesson/{lessonId}') // {lessonId} mandates a lesson id in the URL
     ->name('lesson.')                  // Prefix all route names
+    ->middleware('web')
     ->group(function () {
         Route::get('', [ Lesson::class, 'display' ])->name('main');                                           // Display the required content to the user (using sessions for data)
         Route::get('/start', [ Lesson::class, 'start' ])->name('start');                                      // Set the session details for starting lesson (see controller method)
@@ -142,6 +143,7 @@ Route::prefix("account")
     ->group(function () {
         Route::get('/', [ Account::class, 'show' ])->name('show');
         Route::post('/new-password', [ Account::class, 'change_password' ])->name('new-password');
+        Route::delete('/delete', [ Account::class, 'delete' ])->name('delete')->middleware('password.confirm');
     });
 
 // General pages (primarily static content)
