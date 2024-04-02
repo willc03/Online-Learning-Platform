@@ -20,7 +20,7 @@ class Account extends Controller
      */
     public function show()
     {
-        return view("account");
+        return view("public.account");
     }
 
     /**

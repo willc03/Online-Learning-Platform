@@ -473,7 +473,7 @@ span.blank {
   line-height: 2;
 }
 
-.question-form fieldset.single-choice-field, .question-form fieldset.fill-blanks-field, .question-form fieldset.boolean-field, .question-form fieldset.order-field, .question-form fieldset.match-field, .question-form fieldset.wordsearch-field {
+.question-form fieldset.single-choice-field, .question-form fieldset.multi-choice-field, .question-form fieldset.fill-blanks-field, .question-form fieldset.boolean-field, .question-form fieldset.order-field, .question-form fieldset.match-field, .question-form fieldset.wordsearch-field {
   border: 1px solid black;
   border-radius: 8px;
   display: flex;
@@ -481,16 +481,16 @@ span.blank {
   flex-wrap: wrap;
   padding-top: 30px;
 }
-.question-form fieldset.single-choice-field ul, .question-form fieldset.single-choice-field ol, .question-form fieldset.fill-blanks-field ul, .question-form fieldset.fill-blanks-field ol, .question-form fieldset.boolean-field ul, .question-form fieldset.boolean-field ol, .question-form fieldset.order-field ul, .question-form fieldset.order-field ol, .question-form fieldset.match-field ul, .question-form fieldset.match-field ol, .question-form fieldset.wordsearch-field ul, .question-form fieldset.wordsearch-field ol {
+.question-form fieldset.single-choice-field ul, .question-form fieldset.single-choice-field ol, .question-form fieldset.multi-choice-field ul, .question-form fieldset.multi-choice-field ol, .question-form fieldset.fill-blanks-field ul, .question-form fieldset.fill-blanks-field ol, .question-form fieldset.boolean-field ul, .question-form fieldset.boolean-field ol, .question-form fieldset.order-field ul, .question-form fieldset.order-field ol, .question-form fieldset.match-field ul, .question-form fieldset.match-field ol, .question-form fieldset.wordsearch-field ul, .question-form fieldset.wordsearch-field ol {
   width: 60%;
   list-style-type: none;
   padding-left: 0;
 }
-.question-form fieldset.single-choice-field ul button, .question-form fieldset.single-choice-field ol button, .question-form fieldset.fill-blanks-field ul button, .question-form fieldset.fill-blanks-field ol button, .question-form fieldset.boolean-field ul button, .question-form fieldset.boolean-field ol button, .question-form fieldset.order-field ul button, .question-form fieldset.order-field ol button, .question-form fieldset.match-field ul button, .question-form fieldset.match-field ol button, .question-form fieldset.wordsearch-field ul button, .question-form fieldset.wordsearch-field ol button {
+.question-form fieldset.single-choice-field ul button, .question-form fieldset.single-choice-field ol button, .question-form fieldset.multi-choice-field ul button, .question-form fieldset.multi-choice-field ol button, .question-form fieldset.fill-blanks-field ul button, .question-form fieldset.fill-blanks-field ol button, .question-form fieldset.boolean-field ul button, .question-form fieldset.boolean-field ol button, .question-form fieldset.order-field ul button, .question-form fieldset.order-field ol button, .question-form fieldset.match-field ul button, .question-form fieldset.match-field ol button, .question-form fieldset.wordsearch-field ul button, .question-form fieldset.wordsearch-field ol button {
   height: 50px;
   margin-bottom: 21px;
 }
-.question-form fieldset.single-choice-field.vertical > *, .question-form fieldset.fill-blanks-field.vertical > *, .question-form fieldset.boolean-field.vertical > *, .question-form fieldset.order-field.vertical > *, .question-form fieldset.match-field.vertical > *, .question-form fieldset.wordsearch-field.vertical > * {
+.question-form fieldset.single-choice-field.vertical > *, .question-form fieldset.multi-choice-field.vertical > *, .question-form fieldset.fill-blanks-field.vertical > *, .question-form fieldset.boolean-field.vertical > *, .question-form fieldset.order-field.vertical > *, .question-form fieldset.match-field.vertical > *, .question-form fieldset.wordsearch-field.vertical > * {
   display: flex;
   flex-direction: column;
 }

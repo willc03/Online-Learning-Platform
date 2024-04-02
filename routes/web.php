@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Route;
  * which authorisation is required because it would delete all data therein).
  */
 Route::get('/confirm-password', function () { // Allow the user to enter their password
-    return view('password_confirm');
+    return view('static.password_confirm');
 })->name('password.confirm')->middleware('auth');
 Route::post('/confirm-password', function ( Request $request ) { // Process confirmation requests
     $validatedData = $request->validate([
@@ -149,7 +149,7 @@ Route::prefix("account")
 
 // General pages (primarily static content)
 Route::group([], function () {
-    Route::view('/', 'welcome')->name('home');
+    Route::view('/', 'static.welcome')->name('home');
     Route::redirect('/home', '/'); // Redirect any /home requests to the home page.
-    Route::view('/about', 'about')->name('about');
+    Route::view('/about', 'static.about')->name('about');
 });

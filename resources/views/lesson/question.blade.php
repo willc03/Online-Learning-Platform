@@ -6,7 +6,7 @@
         <p class="streak">Answer Streak Multiplier:<span class="streak-counter">{{ is_int(session()->get('lesson.streak')) ? session()->get('lesson.streak') . ".0" : session()->get('lesson.streak') }}x</span></p>
         <form method="post" action="{{ route("course.lesson.end", [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}">
             @csrf
-            <x-components.3d_button class="max-content course-button-mini db-bs" fg_color="#D10023" bg_color="#840016">End lesson</x-components.3d_button>
+            <x-ui.interactive-button class="max-content course-button-mini db-bs" fg_color="#D10023" bg_color="#840016">End lesson</x-ui.interactive-button>
         </form>
     </div>
 
@@ -21,7 +21,7 @@
                 <form method="post" action="{{ route('course.lesson.answer', [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}">
                     @csrf
                     <input type="hidden" id="question_id" name="question_id" value="{{ $question->id }}" />
-                    <x-components.3d_button id="submit-question" class="course-button-mini max-content middle" type="submit" bg_color="#88A236" fg_color="#B1CA65">{{ session('lesson.position') == session('lesson.max_position') ? "Finish lesson" : "Next" }}</x-components.3d_button>
+                    <x-ui.interactive-button id="submit-question" class="course-button-mini max-content middle" type="submit" bg_color="#88A236" fg_color="#B1CA65">{{ session('lesson.position') == session('lesson.max_position') ? "Finish lesson" : "Next" }}</x-ui.interactive-button>
                 </form>
             </div>
         </div>
@@ -30,7 +30,7 @@
         <h3 class="question-title">{!! str_replace("\\n", "<br>", (str_replace("%", '<span class=\'blank\'> </span>', $question->item_title))) !!}</h3> {{-- The exclaimation marks stop the content from being escaped --}}
         {{-- Show an error message if the answer is wrong --}}
         @if(session('error') && session('error') == 'wrong-answer')
-            <x-messages.error title="Incorrect Answer" description="Don't worry, have another go!" />
+            <x-message.error title="Incorrect Answer" description="Don't worry, have another go!" />
             <br>
         @endif
         {{-- Make the question a submittable form --}}
@@ -42,42 +42,27 @@
             @switch($question->item_value['question_type'])
 
                 @case("single_choice")
-                    <x-courses.questions.single_choice :choices="$question->item_value['question_choices']"
-                                                       :one_time_answer="$question->item_value['one_time_answer']"
-                                                       :course="$course"
-                                                       :lesson="$lesson" />
+                    @include("lesson.question.single-choice")
                     @break
 
                 @case("multiple_choice")
-                    <x-courses.questions.multiple_choice :choices="$question->item_value['question_choices']"
-                                                         :course="$course"
-                                                         :lesson="$lesson" />
+                    @include("lesson.question.multiple-choice")
                     @break
 
                 @case("fill_in_blanks")
-                    <x-courses.questions.fill_in_blanks :choices="$question->item_value['question_choices']"
-                                                        :course="$course"
-                                                        :lesson="$lesson" />
+                    @include("lesson.question.fill-blanks")
                     @break
 
                 @case("true_or_false")
-                    <x-courses.questions.true_false :one-time-answer="$question->item_value['one_time_answer']"
-                                                    :course="$course"
-                                                    :lesson="$lesson" />
+                    @include("lesson.question.true-false")
                     @break
 
                 @case("order")
-                    <x-courses.questions.order :choices="$question->item_value['answer_slots']"
-                                               :direction="$question->item_value['direction']"
-                                               :course="$course"
-                                               :lesson="$lesson" />
+                    @include("lesson.question.order")
                     @break
 
                 @case("match")
-                    <x-courses.questions.match :choices="$question->item_value['items_to_match']"
-                                               :is_random="$question->item_value['are_sides_random']"
-                                               :course="$course"
-                                               :lesson="$lesson" />
+                    @include("lesson.question.match")
                     @break
 
                 @case("wordsearch")
@@ -94,9 +79,7 @@
                         }
                         $wordsearch = WordSearch\Factory::create($words, $maxLength + 5);
                     @endphp
-                    <x-courses.questions.wordsearch :puzzle="$wordsearch"
-                                                    :course="$course"
-                                                    :lesson="$lesson" />
+                    @include("lesson.question.word-search", [ 'puzzle' => $wordsearch ])
                     @break
 
             @endswitch

@@ -10,7 +10,7 @@
         }
     </style>
     @if($errors->any())
-        <x-messages.error title="Unexpected Error" description="" :passed_errors="$errors->all()" />
+        <x-message.error title="Unexpected Error" description="" :passed_errors="$errors->all()" />
     @endif
     <div class="centre">
         <h1>{{ $course->title }}</h1>
@@ -20,11 +20,11 @@
                 <p>{{ $lesson->description }}</p>
             @endif
             <div class="button-box">
-                <x-components.3d_button id="return-home" fg_color="#CA6565" bg_color="#A23636" onclick="location.href = '{{ url(route('course.home', [ 'id' => $course->id ])) }}'">Return to course home</x-components.3d_button>
+                <x-ui.interactive-button id="return-home" fg_color="#CA6565" bg_color="#A23636" onclick="location.href = '{{ url(route('course.home', [ 'id' => $course->id ])) }}'">Return to course home</x-ui.interactive-button>
                 <form method="post" action="{{ url(route('course.lesson.answer', [ 'id' => $course->id, 'lessonId' => $lesson->id ])) }}">
                     @csrf
                     <input type="hidden" name="question_id" value="start" />
-                    <x-components.3d_button id="accept" fg_color="#B1CA65" bg_color="#88A236">Begin lesson</x-components.3d_button>
+                    <x-ui.interactive-button id="accept" fg_color="#B1CA65" bg_color="#88A236">Begin lesson</x-ui.interactive-button>
                 </form>
             </div>
         </div>

@@ -345,19 +345,19 @@ class Lesson extends Controller
         // Get the form
         if ( !( array_key_exists('form-type', $validatedData) && $validatedData['form-type'] == 'question' ) ) {
             return match ( $validatedData['form-name'] ) {
-                'question' => view('components.courses.lessons.component_forms.question', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
-                'text'     => view('components.courses.lessons.component_forms.text', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'question' => view('components.form.lesson.type.question', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'text'     => view('components.form.lesson.type.text', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
                 default    => 400,
             };
         } else {
             return match ( $validatedData['form-name'] ) {
-                'single-choice'  => view('components.courses.lessons.question_forms.single_choice', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
-                'multi-choice'   => view('components.courses.lessons.question_forms.multi_choice', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
-                'fill-in-blanks' => view('components.courses.lessons.question_forms.fill_blanks', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
-                'true-false'     => view('components.courses.lessons.question_forms.true_false', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
-                'order'          => view('components.courses.lessons.question_forms.order', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
-                'match'          => view('components.courses.lessons.question_forms.match', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
-                'word-search'    => view('components.courses.lessons.question_forms.word_search', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'single-choice'  => view('components.form.lesson.question.single-choice', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'multi-choice'   => view('components.form.lesson.question.multi-choice', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'fill-in-blanks' => view('components.form.lesson.question.fill-blanks', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'true-false'     => view('components.form.lesson.question.true-false', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'order'          => view('components.form.lesson.question.order', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'match'          => view('components.form.lesson.question.match', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
+                'word-search'    => view('components.form.lesson.question.word-search', [ 'course' => $course, 'lesson' => LessonModel::find($lessonId) ]),
                 default          => 400,
             };
         }

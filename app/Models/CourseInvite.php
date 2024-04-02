@@ -14,6 +14,15 @@ class CourseInvite extends Model
     use HasUuids;
 
     /**
+     * Allow dates to be converted to the intended format automatically
+     *
+     * @var string[]
+     */
+    protected $casts = [
+        'expiry_date' => 'datetime:Y-m-d H:i'
+    ];
+
+    /**
      * Create a many-to-one relationship between the invite and the course
      * (many invites can belong to one course)
      *

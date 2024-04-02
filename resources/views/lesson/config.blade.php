@@ -1,9 +1,9 @@
 <x-structure.wrapper title="Configure Lesson">
     <div class="flex-row button-row">
-        <x-components.3d_button class="course-button-mini right-spacer" fg_color="#43AA8B" bg_color="#245B4A" onclick="location.href = '{{ route('course.home', [ 'id' => $course->id, 'editing' => 'true' ]) }}'">Return to course</x-components.3d_button>
-        <x-components.3d_button class="course-button-mini" fg_color="#43AA8B" bg_color="#245B4A" onclick="location.href = '{{ route('course.home', [ 'id' => $course->id ]) }}'">Return to course (without admin mode)</x-components.3d_button>
+        <x-ui.interactive-button class="course-button-mini right-spacer" fg_color="#43AA8B" bg_color="#245B4A" onclick="location.href = '{{ route('course.home', [ 'id' => $course->id, 'editing' => 'true' ]) }}'">Return to course</x-ui.interactive-button>
+        <x-ui.interactive-button class="course-button-mini" fg_color="#43AA8B" bg_color="#245B4A" onclick="location.href = '{{ route('course.home', [ 'id' => $course->id ]) }}'">Return to course (without admin mode)</x-ui.interactive-button>
     </div>
-    <x-components.3d_button id="re-order" class="course-button-mini" fg_color="#43AA8B" bg_color="#245B4A">Re-order components</x-components.3d_button>
+    <x-ui.interactive-button id="re-order" class="course-button-mini" fg_color="#43AA8B" bg_color="#245B4A">Re-order components</x-ui.interactive-button>
     {{-- Display all the items on the lesson --}}
     <div class="lesson-items">
         @if($lesson->items->count() === 0)
@@ -20,7 +20,7 @@
                             @case('single_choice')
                                 <div class="lesson-config question single-choice flex-col" id="{{ $item->id }}">
                                     <h2 class="flex-row"><span class="title var-width">{{ $item->item_title }}</span>
-                                        <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                                        <x-ui.interactive-button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-ui.interactive-button>
                                     </h2>
                                     <div class="container">
                                         <h3>Single Choice Question</h3>
@@ -31,9 +31,9 @@
                                             @foreach($item->item_value['question_choices'] as $option)
                                                 {{-- $value is passed in from the question page --}}
                                                 @if ($option == $item->item_value['correct_answer'])
-                                                    <x-components.3d_button class="option-button selected" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A">{{ $option }}</x-components.3d_button>
+                                                    <x-ui.interactive-button class="option-button selected" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A">{{ $option }}</x-ui.interactive-button>
                                                 @else
-                                                    <x-components.3d_button class="option-button" value="{{ $option }}" fg_color="#D10023" bg_color="#840016">{{ $option }}</x-components.3d_button>
+                                                    <x-ui.interactive-button class="option-button" value="{{ $option }}" fg_color="#D10023" bg_color="#840016">{{ $option }}</x-ui.interactive-button>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -47,7 +47,7 @@
                             @case('multiple_choice')
                                 <div class="lesson-config question multiple-choice flex-col" id="{{ $item->id }}">
                                     <h2 class="flex-row"><span class="title var-width">{{ $item->item_title }}</span>
-                                        <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                                        <x-ui.interactive-button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-ui.interactive-button>
                                     </h2>
                                     <div class="container">
                                         <h3>Multiple Choice Question</h3>
@@ -58,9 +58,9 @@
                                             @foreach($item->item_value['question_choices'] as $option)
                                                 {{-- $value is passed in from the question page --}}
                                                 @if (in_array($option, $item->item_value['correct_answers']))
-                                                    <x-components.3d_button class="option-button selected" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A">{{ $option }}</x-components.3d_button>
+                                                    <x-ui.interactive-button class="option-button selected" value="{{ $option }}" fg_color="#43AA8B" bg_color="#245B4A">{{ $option }}</x-ui.interactive-button>
                                                 @else
-                                                    <x-components.3d_button class="option-button" value="{{ $option }}" fg_color="#D10023" bg_color="#840016">{{ $option }}</x-components.3d_button>
+                                                    <x-ui.interactive-button class="option-button" value="{{ $option }}" fg_color="#D10023" bg_color="#840016">{{ $option }}</x-ui.interactive-button>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -71,7 +71,7 @@
                             @case('true_or_false')
                                 <div class="lesson-config question true-false flex-col" id="{{ $item->id }}">
                                     <h2 class="flex-row"><span class="title var-width">{{ $item->item_title }}</span>
-                                        <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                                        <x-ui.interactive-button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-ui.interactive-button>
                                     </h2>
                                     <div class="container">
                                         <h3>True or False Question</h3>
@@ -81,15 +81,15 @@
                                         <div class="answer-field true-false-field">
                                             {{-- Display the true button --}}
                                             @if($item->item_value['correct_answer'])
-                                                <x-components.3d_button class="option-button selected" fg_color="#43AA8B" bg_color="#245B4A">True</x-components.3d_button>
+                                                <x-ui.interactive-button class="option-button selected" fg_color="#43AA8B" bg_color="#245B4A">True</x-ui.interactive-button>
                                             @else
-                                                <x-components.3d_button class="option-button" fg_color="#43AA8B" bg_color="#245B4A" disabled>True</x-components.3d_button>
+                                                <x-ui.interactive-button class="option-button" fg_color="#43AA8B" bg_color="#245B4A" disabled>True</x-ui.interactive-button>
                                             @endif
                                             {{-- Display the false button --}}
                                             @if($item->item_value['correct_answer'])
-                                                <x-components.3d_button class="option-button" fg_color="#43AA8B" bg_color="#245B4A" disabled>False</x-components.3d_button>
+                                                <x-ui.interactive-button class="option-button" fg_color="#43AA8B" bg_color="#245B4A" disabled>False</x-ui.interactive-button>
                                             @else
-                                                <x-components.3d_button class="option-button selected" fg_color="#43AA8B" bg_color="#245B4A">False</x-components.3d_button>
+                                                <x-ui.interactive-button class="option-button selected" fg_color="#43AA8B" bg_color="#245B4A">False</x-ui.interactive-button>
                                             @endif
                                         </div>
                                         @if(!$item->item_value['one_time_answer'])
@@ -101,7 +101,7 @@
                             @case('match')
                                 <div class="lesson-config question match flex-col" id="{{ $item->id }}">
                                     <h2 class="flex-row"><span class="title var-width">{{ $item->item_title }}</span>
-                                        <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                                        <x-ui.interactive-button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-ui.interactive-button>
                                     </h2>
                                     <div class="container">
                                         <h3>Match Question</h3>
@@ -111,8 +111,8 @@
                                         <div class="answer-field match-field flex-col">
                                             @foreach($item->item_value['items_to_match'] as $answer)
                                                 <div class="flex-row match-row">
-                                                    <x-components.3d_button class="answer-button" fg_color="#81d4fa" bg_color="#5a94af">{{ $answer[0] }}</x-components.3d_button>
-                                                    <x-components.3d_button class="answer-button" fg_color="#81d4fa" bg_color="#5a94af">{{ $answer[1] }}</x-components.3d_button>
+                                                    <x-ui.interactive-button class="answer-button" fg_color="#81d4fa" bg_color="#5a94af">{{ $answer[0] }}</x-ui.interactive-button>
+                                                    <x-ui.interactive-button class="answer-button" fg_color="#81d4fa" bg_color="#5a94af">{{ $answer[1] }}</x-ui.interactive-button>
                                                 </div>
                                             @endforeach
                                         </div>
@@ -122,7 +122,7 @@
                             @case('wordsearch')
                                 <div class="lesson-config question wordsearch flex-col" id="{{ $item->id }}">
                                     <h2 class="flex-row"><span class="title var-width">{{ $item->item_title }}</span>
-                                        <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                                        <x-ui.interactive-button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-ui.interactive-button>
                                     </h2>
                                     <div class="container">
                                         <h3>Word Search Question</h3>
@@ -161,7 +161,7 @@
                             @case('order')
                                 <div class="lesson-config question order flex-col" id="{{ $item->id }}">
                                     <h2 class="flex-row"><span class="title var-width">{{ $item->item_title }}</span>
-                                        <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                                        <x-ui.interactive-button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-ui.interactive-button>
                                     </h2>
                                     <div class="container">
                                         <h3>Order Question</h3>
@@ -171,9 +171,9 @@
                                         <div class="answer-field order-field @if ($item->item_value['direction'] == 'vertical') flex-col @else flex-row @endif">
                                             @foreach($item->item_value['correct_answer'] as $answer)
                                                 @if ($item->item_value['direction'] == 'horizontal')
-                                                    <x-components.3d_button class="answer-button max-content" fg_color="#81d4fa" bg_color="#5a94af">{{ $answer }}</x-components.3d_button>
+                                                    <x-ui.interactive-button class="answer-button max-content" fg_color="#81d4fa" bg_color="#5a94af">{{ $answer }}</x-ui.interactive-button>
                                                 @else
-                                                    <x-components.3d_button class="answer-button" fg_color="#81d4fa" bg_color="#5a94af">{{ $answer }}</x-components.3d_button>
+                                                    <x-ui.interactive-button class="answer-button" fg_color="#81d4fa" bg_color="#5a94af">{{ $answer }}</x-ui.interactive-button>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -183,7 +183,7 @@
                             @case('fill_in_blanks')
                                 <div class="lesson-config question fill-blanks flex-col" id="{{ $item->id }}">
                                     <h2 class="title flex-row"><span class="title var-width">{!! str_replace("\\n", "<br>", (str_replace("%", '<span class=\'blank\'> </span>', $item->item_title))) !!}</span>
-                                        <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                                        <x-ui.interactive-button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-ui.interactive-button>
                                     </h2>
                                     <div class="container">
                                         <h3>Fill in Blanks Question</h3>
@@ -193,9 +193,9 @@
                                         <div class="answer-field fill-blanks-field">
                                             @foreach($item->item_value['question_choices'] as $answer)
                                                 @if(in_array($answer, $item->item_value['correct_answers']))
-                                                    <x-components.3d_button id="{{ $item->id }}-{{ array_search($answer, $item->item_value['correct_answers']) }}" class="option-button selected correct" fg_color="#43AA8B" bg_color="#245B4A">{{ $answer }}</x-components.3d_button>
+                                                    <x-ui.interactive-button id="{{ $item->id }}-{{ array_search($answer, $item->item_value['correct_answers']) }}" class="option-button selected correct" fg_color="#43AA8B" bg_color="#245B4A">{{ $answer }}</x-ui.interactive-button>
                                                 @else
-                                                    <x-components.3d_button class="option-button" fg_color="#D10023" bg_color="#840016">{{ $answer  }}</x-components.3d_button>
+                                                    <x-ui.interactive-button class="option-button" fg_color="#D10023" bg_color="#840016">{{ $answer  }}</x-ui.interactive-button>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -208,7 +208,7 @@
                     @case("TEXT")
                         <div class="lesson-config text flex-col" id="{{ $item->id }}">
                             <h2 class="flex-row"><span class="title var-width">{{ $item->item_title }}</span>
-                                <x-components.3d_button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-components.3d_button>
+                                <x-ui.interactive-button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-ui.interactive-button>
                             </h2>
                             <div class="container display-case">
                                 @if($item->description)
@@ -226,7 +226,7 @@
     </div>
     {{-- Allow for the addition of new components to the lesson --}}
     <div class="new-item">
-        <x-components.3d_button id="add-btn" class="course-button-mini" fg-color="#43AA8B" bg-color="#245B4A">Add new item</x-components.3d_button>
+        <x-ui.interactive-button id="add-btn" class="course-button-mini" fg-color="#43AA8B" bg-color="#245B4A">Add new item</x-ui.interactive-button>
         <form id="new-lesson-item" method="post" action="{{ route('course.lesson.configure.add', [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}" class="flex-col">
             @csrf
             <legend>New lesson item</legend>

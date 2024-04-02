@@ -1,5 +1,5 @@
 <x-structure.wrapper title="View Attempts">
-    <x-components.3d_button class="course-button-mini max-content" fg-color="#43AA8B" bg-color="#245B4A" onclick="location.href = '{{ route('course.home', ['id' => $course->id]) }}'">Return to course home</x-components.3d_button>
+    <x-ui.interactive-button class="course-button-mini max-content" fg-color="#43AA8B" bg-color="#245B4A" onclick="location.href = '{{ route('course.home', ['id' => $course->id]) }}'">Return to course home</x-ui.interactive-button>
     @if (count($attempts) == 0)
         <p>There are no user attempts for this lesson.</p>
     @else

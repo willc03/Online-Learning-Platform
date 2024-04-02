@@ -54,13 +54,11 @@ class CourseFile extends Controller
      * provided by Laravel's download() response forces the user's browser to process a download
      * payload (if the user allows the download, that is).
      *
-     * @param Request $request The HTTP request provided by Laravel
-     * @param string  $id      The course's id (UUID)
      * @param string  $fileId  The file's id (UUID)
      *
      * @return Response|BinaryFileResponse An error response or a file download force response
      */
-    public function download ( Request $request, string $id, string $fileId )
+    public function download ( string $fileId )
     {
         // We can assume the user has file access permission due to the course middleware being used on the route.
         // Get the file

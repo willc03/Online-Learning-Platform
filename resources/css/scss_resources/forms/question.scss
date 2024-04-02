@@ -17,7 +17,7 @@ span.blank {
 .question-form {
 
     fieldset {
-        &.single-choice-field, &.fill-blanks-field, &.boolean-field, &.order-field, &.match-field, &.wordsearch-field {
+        &.single-choice-field, &.multi-choice-field, &.fill-blanks-field, &.boolean-field, &.order-field, &.match-field, &.wordsearch-field {
             // Base properties
             border: 1px solid black;
             border-radius: 8px;

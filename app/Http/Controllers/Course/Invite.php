@@ -57,7 +57,7 @@ class Invite extends Controller
         }
 
         // Return the correct view
-        return $inviteValidity ? view('courses.invite', $inviteValidity) : view('courses.invite', [ 'success' => true, 'content' => $invite->course ]);
+        return $inviteValidity ? view('course.invite', $inviteValidity) : view('course.invite', [ 'success' => true, 'content' => $invite->course ]);
     }
 
     /**
@@ -143,7 +143,7 @@ class Invite extends Controller
 
         // Redirect the user accordingly
         if ( $invalid_invite ) {
-            return view('courses.invite', $invalid_invite);
+            return view('course.invite', $invalid_invite);
         } else {
             // Increase the number of uses
             $invite->increment('uses', 1);

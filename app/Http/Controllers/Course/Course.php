@@ -32,7 +32,7 @@ class Course extends Controller
      */
     public function all ()
     {
-        return view('courses', [ 'courses' => CourseModel::all() ]);
+        return view('public.courses', [ 'courses' => CourseModel::all() ]);
     }
 
     /**
@@ -69,7 +69,7 @@ class Course extends Controller
             }
         }
         // Present the course home page to the user
-        return view('courses.home', [
+        return view('course.home', [
             'course'        => $course,
             'owner'         => User::find($course->owner),
             'user_is_owner' => ( $request->user()->id === $course->owner ),
@@ -163,7 +163,7 @@ class Course extends Controller
             return redirect()->to(route('course.home', [ 'id' => $course->id ]))->withErrors([ 'NO_EDIT_PERMISSION' => "You cannot complete this action as you do not own this course." ]);
         }
         // Return the view to the user
-        return view('courses.settings', [ 'course' => $course ]); // This will be replaced later when the page is defined.
+        return view('course.settings', [ 'course' => $course ]); // This will be replaced later when the page is defined.
     }
 
     /**
@@ -187,10 +187,10 @@ class Course extends Controller
         $course = CourseModel::find($id); // This route is not proactively defended as the user cannot actually do much with the forms themselves (and the middleware already protects it)
         // Get the form
         return match ( $validatedData['form_type'] ) {
-            'text'   => view('components.courses.component_add.text', [ 'courseId' => $course->id, 'sectionId' => $validatedData['section_id'] ]),
-            'lesson' => view('components.courses.component_add.lesson', [ 'courseId' => $course->id, 'sectionId' => $validatedData['section_id'] ]),
-            'file'   => view('components.courses.component_add.file', [ 'courseId' => $course->id, 'sectionId' => $validatedData['section_id'], 'course' => $course ]),
-            'image'  => view('components.courses.component_add.image', [ 'courseId' => $course->id, 'sectionId' => $validatedData['section_id'], 'course' => $course ]),
+            'text'   => view('components.form.course.text', [ 'courseId' => $course->id, 'sectionId' => $validatedData['section_id'] ]),
+            'lesson' => view('components.form.course.lesson', [ 'courseId' => $course->id, 'sectionId' => $validatedData['section_id'] ]),
+            'file'   => view('components.form.course.file', [ 'courseId' => $course->id, 'sectionId' => $validatedData['section_id'], 'course' => $course ]),
+            'image'  => view('components.form.course.image', [ 'courseId' => $course->id, 'sectionId' => $validatedData['section_id'], 'course' => $course ]),
             default  => 400,
         };
 
