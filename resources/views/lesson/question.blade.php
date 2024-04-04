@@ -33,9 +33,12 @@
             <x-message.error title="Incorrect Answer" description="Don't worry, have another go!" />
             <br>
         @endif
+        {{-- Show the description, if one is available --}}
+        @if($question->description)
+            <p>{{ $question->description }}</p>
+        @endif
         {{-- Make the question a submittable form --}}
-        <form method="post" action="{{ route('course.lesson.answer', [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}"
-              class="question-form">
+        <form method="post" action="{{ route('course.lesson.answer', [ 'id' => $course->id, 'lessonId' => $lesson->id ]) }}" class="question-form">
             @csrf
             <input type="hidden" id="question_id" name="question_id" value="{{ $question->id }}" />
             {{-- Produce different results based on the question type --}}
