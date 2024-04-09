@@ -83,8 +83,14 @@
         </div>
     @else
         @auth
-            <h2></h2>
+            <h2>No Available Courses</h2>
             <p>There are no available public courses that you can join at this time.</p>
+        @else
+            <h2>No public courses available</h2>
+            <p>
+                There are no public courses currently available to join. You may join a course
+                by using an invitation code after <a href="{{ route('login') }}">logging in</a>.
+            </p>
         @endauth
     @endif
 

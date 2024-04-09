@@ -136,7 +136,7 @@ Route::prefix('course/{id}') // {id} mandates an id attribute in the URL
 /*
  * These routes will be used to provide the user with the facility
  * to edit their account. At present, the user can only change th-
- * eir password. This will be explained in the report.
+ * eir password and delete their account.
  */
 Route::prefix("account")
     ->name("account.")
