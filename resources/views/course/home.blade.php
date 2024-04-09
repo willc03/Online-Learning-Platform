@@ -177,7 +177,7 @@
                                         @if ($is_editing)
                                             <x-course.component-settings :num-sections="$course->sections->count()" :current-pos="$course_section->position" :max-pos="$course->sections->max('position')" :min-pos="$course->sections->min('position')" />
                                         @endif
-                                        <p style="margin-top: 2px;">{{ $section_item->title }}</p>
+                                        <p style="margin-top: 2px; word-wrap: break-word">{!! str_replace("\r\n", "<br>", $section_item->item_value['text']) !!}</p>
                                     </div>
                                     @break
 

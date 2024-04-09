@@ -373,9 +373,9 @@ class Course extends Controller
                         }
                         // Create the component if successful
                         $component = new SectionItem;
-                        $component->title = $validatedData['data']['content'];
+                        $component->title = 'TEXT_ELEMENT';
                         $component->item_type = 'TEXT';
-                        $component->item_value = '{}';
+                        $component->item_value = ['text' => $validatedData['data']['content']];
                         $component->position = SectionItem::where('section_id', $validatedData['data']['section-id'])->max('position') + 1;
                         $component->section_id = $validatedData['data']['section-id'];
                         // Attempt to save the component
