@@ -44,6 +44,9 @@
     {{-- Display the course sections --}}
     <div id="course-sections" class="flex-col">
 
+        @if($course->sections->count() == 0)
+            <p>There is no content in this course! Check back soon, the course owner may add something here!</p>
+        @endif
 
         @foreach($course->sections as $course_section)
             <div class="section" id="{{ $course_section->id }}">
