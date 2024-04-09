@@ -11,7 +11,7 @@
     </div>
 
     @if($question->item_type == "TEXT")
-        <div class="middle lesson-text-holder">
+        <div class="middle lesson-text-holder" style="margin-top: 15px">
             <h2>{{ $question->item_title }}</h2>
             <div class="main">
                 @if($question->description)

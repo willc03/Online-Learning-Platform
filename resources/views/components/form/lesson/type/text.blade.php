@@ -8,5 +8,5 @@
         <span>Subtext (optional):</span>
         <textarea name="item-description"></textarea>
     </label>
-    <x-components.3d_button id="add-btn" class="course-button-mini middle" fg-color="#43AA8B" bg-color="#245B4A">Submit new item</x-components.3d_button>
+    <x-ui.interactive-button id="add-btn" class="course-button-mini middle" fg-color="#43AA8B" bg-color="#245B4A">Submit new item</x-ui.interactive-button>
 </fieldset>
