@@ -254,7 +254,7 @@ class Course extends Controller
                     DB::commit(); // Commit the changes if successful
                     return response("Successfully updated the positions", 200);
                 } catch ( \Exception $exception ) {
-                    DB::rollBack(); // If there is an error of any kind, roll back the database changes to protect integrity.
+                    DB::rollBack(); // If there is an error, roll back the database changes to protect integrity.
                     return response("Could not update the positions! " . $exception->getMessage(), 500);
                 }
                 break;
