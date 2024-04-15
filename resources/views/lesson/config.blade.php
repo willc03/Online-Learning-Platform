@@ -207,12 +207,13 @@
 
                     @case("TEXT")
                         <div class="lesson-config text flex-col" id="{{ $item->id }}">
-                            <h2 class="flex-row"><span class="title var-width">{{ $item->item_title }}</span>
+                            <h2 class="flex-row"><span class="title var-width">Text component</span>
                                 <x-ui.interactive-button class="course-button-mini remove-bottom-spacer" id="delete-button" fg_color="#CA6565" bg_color="#A23636"><img width="20px" height="20px" src="https://learn.test/assets/images/trash-can.svg"></x-ui.interactive-button>
                             </h2>
                             <div class="container display-case">
+                                <h3>{{ $item->item_title }}</h3>
                                 @if($item->description)
-                                    <h3>{{ $item->description }}</h3>
+                                    <p>{{ $item->description }}</p>
                                 @else
                                     <h3>This text item has no subtext.</h3>
                                 @endif

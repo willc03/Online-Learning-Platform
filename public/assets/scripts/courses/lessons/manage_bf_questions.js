@@ -24,5 +24,4 @@ $("div.lesson-config.fill-blanks").each(function () {
     })
 });
 
-// Window logic, to move the absolute form buttons when the window size is changed.
-$(window).on("resize", resetBFButtons);
+setInterval(resetBFButtons, 10);

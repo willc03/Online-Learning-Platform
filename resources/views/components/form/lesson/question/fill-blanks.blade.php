@@ -193,17 +193,17 @@
         rules: { 'item-title': { required: true } }, messages: { 'item-title': { required: "Please enter the question title" } }
     });
     // Window logic, to move the absolute form buttons when the window size is changed.
-    $(window).on("resize", function () {
+    setInterval(function () {
         $("span.blank").filter(".filled").each(function (_, field) {
             const selectedOption = $(field).attr("option");
             if ( selectedOption ) {
                 const optionElement = $("#" + selectedOption);
                 const fieldDetails = getElementDetails(field);
                 optionElement.css({
-                    width: fieldDetails.width, height: fieldDetails.height, left: fieldDetails.x + 1, top: fieldDetails.y + 3,
+                    width: fieldDetails.width, height: fieldDetails.height, left: fieldDetails.x + 1, top: fieldDetails.y,
                 });
             }
         });
-    });
+    }, 10);
 </script>
 <script src="{{ asset("assets/scripts/question_scripts/fill_in_blanks.js") }}"></script>
