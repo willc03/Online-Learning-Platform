@@ -39,7 +39,7 @@
         <div class="order-items"></div>
     </fieldset>
     {{-- Create question button --}}
-    <x-ui.interactive-button> type="button" id="submit-btn-order" class="course-button-mini middle" fg-color="#43AA8B" bg-color="#245B4A">Create question</x-ui.interactive-button>
+    <x-ui.interactive-button type="button" id="submit-btn-order" class="course-button-mini middle" fg-color="#43AA8B" bg-color="#245B4A">Create question</x-ui.interactive-button>
 </fieldset>
 
 <div class="template middle answer-row flex-row move" style="display: none;">

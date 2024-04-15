@@ -8,7 +8,7 @@
             <form method="post">
                 @csrf
                 <input type="password" name="password" autocomplete="current-password" required />
-                <x-ui.checkbox fg_color="#B1CA65" bg_color="#88A236" class="course-button-mini">Confirm</x-ui.checkbox>
+                <x-ui.interactive-button fg_color="#B1CA65" bg_color="#88A236" class="course-button-mini">Confirm</x-ui.interactive-button>
             </form>
         </div>
     </div>
