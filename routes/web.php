@@ -56,7 +56,6 @@ Route::group([], function () {
 });
 
 /*
- * These routes will be used to allow the user to confirm their password before
  * These routes will be used to allow the user to access course pages, files,
  * and if they are the admin on the course, it will also facilitate CRUD
  * functionality across various aspects of the course.

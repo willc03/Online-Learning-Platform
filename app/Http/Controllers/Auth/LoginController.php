@@ -42,7 +42,7 @@ class LoginController extends Controller
         ]);
         // Check if the username is found in the database
         if ( !User::where([ 'username' => $validatedData['username'] ])->exists() ) {
-            return back()->withErrors([ 'USERNAME_NOT_FOUND' => "The username entered could not be found in our records." ]); // Redirect if the username isn't in the database.
+            return redirect()->to(route('login'))->withErrors([ 'USERNAME_NOT_FOUND' => "The username entered could not be found in our records." ]); // Redirect if the username isn't in the database.
         }
         // Manage remembering users for long periods using 'remember me' box
         if ( $remember = array_key_exists('remember', $validatedData) ) {

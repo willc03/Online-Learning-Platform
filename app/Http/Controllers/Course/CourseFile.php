@@ -54,20 +54,21 @@ class CourseFile extends Controller
      * provided by Laravel's download() response forces the user's browser to process a download
      * payload (if the user allows the download, that is).
      *
-     * @param string  $fileId  The file's id (UUID)
+     * @param string $id     The course's id
+     * @param string $fileId The file's id (UUID)
      *
      * @return Response|BinaryFileResponse An error response or a file download force response
      */
-    public function download ( string $fileId )
+    public function download ( string $id, string $fileId )
     {
         // We can assume the user has file access permission due to the course middleware being used on the route.
         // Get the file
-        $file = CourseFileModel::findOrFail($fileId);
+        $file = CourseFileModel::where('id', $fileId)->firstOrFail();
         $disk = Storage::disk('private');
 
         // Check the file exists
         if ( !$disk->exists($file->path) ) {
-            return response("The specified file does not exist.", 404);
+            return response("The specified file does not exist.", 403);
         }
 
         // Return the file

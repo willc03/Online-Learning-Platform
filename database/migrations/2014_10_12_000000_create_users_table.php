@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->id();
             // User details
             $table->string('name');                     // User's name, concatenated in the controller.
-            $table->string('email')->unique();          // Ensure emails are not repeatable.
+            $table->longText('email');                    // Ensure emails are not repeatable.
             $table->string('username', '20')->unique(); // Ensures usernames are not repeatable.
             $table->string('password');                 // Password, hashed.
             $table->rememberToken();                    // Allow user to stay logged in for prolonged periods.
